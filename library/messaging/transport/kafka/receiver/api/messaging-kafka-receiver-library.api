@@ -1,0 +1,90 @@
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaIncomingMessageKt {
+	public static final fun toInboxMessage (Lorg/apache/kafka/clients/consumer/ConsumerRecord;)Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory : io/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory {
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Companion;
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Deserializers;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Pool;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Fetch;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Deserializers;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Pool;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Fetch;Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAutoCommit ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit;
+	public final fun getAutoOffsetReset ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;
+	public final fun getBootstrapServers ()Ljava/util/List;
+	public final fun getClientId ()Ljava/lang/String;
+	public final fun getDeserializers ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Deserializers;
+	public final fun getFetch ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Fetch;
+	public final fun getGroupId ()Ljava/lang/String;
+	public final fun getHeartbeatInterval-S3sPUdA ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;
+	public final fun getPool ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Pool;
+	public final fun getProperties ()Ljava/util/Map;
+	public final fun toProperties ()Ljava/util/Properties;
+}
+
+public abstract class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit {
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit$No : io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit$No;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit$Yes : io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoCommit {
+	public fun <init> (Ljava/time/Duration;)V
+	public final fun getInterval ()Ljava/time/Duration;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset : java/lang/Enum {
+	public static final field EARLIEST Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;
+	public static final field LATEST Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;
+	public static fun values ()[Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$AutoOffsetReset;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Companion {
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Deserializers {
+	public fun <init> (Lorg/apache/kafka/common/serialization/Deserializer;)V
+	public final fun getKey ()Lorg/apache/kafka/common/serialization/Deserializer;
+	public final fun getValue ()Lorg/apache/kafka/common/serialization/Deserializer;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Fetch {
+	public synthetic fun <init> (Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;Ljava/lang/Integer;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getMaxWait-S3sPUdA ()Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;
+	public final fun getMinSize ()Ljava/lang/Integer;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds {
+	public static final synthetic fun box-impl (J)Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Milliseconds;
+	public static fun constructor-impl (J)J
+	public static fun constructor-impl (Ljava/time/Duration;)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties$Pool {
+	public fun <init> ()V
+	public fun <init> (Ljava/time/Duration;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getMaxRecords ()Ljava/lang/Integer;
+	public final fun getTimeout ()Ljava/time/Duration;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactoryKt {
+	public static final fun kafkaMessageReceiverFactory (Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties;)Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory;
+	public static final fun kafkaMessageReceiverFactoryProps (Ljava/util/List;Ljava/lang/String;Lorg/apache/kafka/common/serialization/Deserializer;)Lio/github/ustudiocompany/uframework/messaging/receiver/KafkaMessageReceiverFactory$Properties;
+}
+

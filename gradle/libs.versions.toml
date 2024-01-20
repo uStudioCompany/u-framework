@@ -1,0 +1,54 @@
+[versions]
+# Kotlin
+coroutines = "1.7.2"
+
+#Libs
+airflux-functional = "v0.0.1-alpha.11"
+
+#Messaging
+kafka = "3.5.0"
+
+#Logging
+logback = "1.4.12"
+logstash = "6.6"
+slf4j = "2.0.7"
+
+#Test
+kotest = "5.6.1"
+mockito = "5.4.0"
+mockito-kotlin = "5.1.0"
+testcontainers = "1.18.3"
+
+[libraries]
+#Kotlin
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
+
+#Libs
+airflux-functional-core = { module = "com.github.airflux.airflux-functional:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
+
+#Messaging
+kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
+
+#Logging
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
+logstash-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+
+#Test
+airflux-functional-test = { module = "com.github.airflux.airflux-functional:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
+kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version = "2.0.2" }
+kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-kafka = { module = "org.testcontainers:kafka", version.ref = "testcontainers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+
+[bundles]
+kotest = ["kotest-junit5", "kotest-core", "kotest-datatest"]
+logging = ["slf4j-api", "logback-core"]
+mockito = ["mockito-core", "mockito-kotlin"]

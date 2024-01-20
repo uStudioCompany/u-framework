@@ -1,0 +1,171 @@
+public abstract interface class io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException : java/lang/RuntimeException {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException$Companion;
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Exception;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getDiagnosticContext ()Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException$Companion {
+	public final fun make (Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public final fun make (Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Exception;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static synthetic fun make$default (Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException$Companion;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/handler/MessageHandlerExceptionKt {
+	public static final fun toMessageHandlerException (Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static final fun toMessageHandlerException (Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Exception;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static synthetic fun toMessageHandlerException$default (Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/message/ChannelName$Companion;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/ChannelName;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Companion {
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public abstract class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getType-uX7CcE4 ()Ljava/lang/Class;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessage {
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel;Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getBody ()Ljava/lang/Object;
+	public final fun getChannel ()Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel;
+	public final fun getHeaders ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel {
+	public fun <init> (Ljava/lang/String;I)V
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPartition ()I
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/message/IncomingMessages : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public abstract fun isEmpty ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessages$Empty : io/github/ustudiocompany/uframework/messaging/message/IncomingMessages {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessages$Empty;
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/MessageRoutingKey {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/message/MessageRoutingKey$Companion;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/MessageRoutingKey;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/MessageRoutingKey$Companion {
+	public final fun of-GlftMg0 (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/OutgoingMessage {
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getBody ()Ljava/lang/Object;
+	public final fun getHeaders ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/Header {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;
+	public fun <init> (Ljava/lang/String;[B)V
+	public final fun equals (Ljava/lang/String;Z)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun valueAsByteArray ()[B
+	public final fun valueAsString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/Header$Companion {
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/message/header/Headers$Companion;
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun add (Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun add (Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun addAll (Ljava/lang/Iterable;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun get (Ljava/lang/String;Z)Ljava/lang/Iterable;
+	public static synthetic fun get$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Ljava/lang/Iterable;
+	public static final fun invoke (Ljava/util/List;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public static final fun invoke ([Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public fun iterator ()Ljava/util/Iterator;
+	public final fun last (Ljava/lang/String;Z)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
+	public static synthetic fun last$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
+	public final fun remove (Ljava/lang/String;Z)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public static synthetic fun remove$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers$Companion {
+	public final fun getEmpty ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun invoke (Ljava/util/List;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun invoke ([Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/receiver/MessageReceiver : java/lang/AutoCloseable {
+	public abstract fun commitAsync ()V
+	public abstract fun commitSync ()V
+	public abstract fun poll ()Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessages;
+	public abstract fun subscribe (Ljava/util/Collection;)V
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory {
+	public abstract fun create ()Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiver;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/sender/MessageSender {
+	public abstract fun send-2BAurtk (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors$Send : io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Exception;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/sender/SentMessageMetadata {
+	public abstract fun getHasTimestamp ()Z
+	public abstract fun getOffset ()J
+	public abstract fun getPartition ()I
+	public abstract fun getTimestamp ()J
+	public abstract fun getTopic ()Ljava/lang/String;
+}
+

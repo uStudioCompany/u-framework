@@ -1,0 +1,29 @@
+{
+  "allowedLicenses": [
+    {
+      "moduleLicense": "Apache License, Version 2.0",
+      "moduleName": ".*",
+      "moduleVersion": ".*"
+    },
+    {
+      "moduleLicense": "Eclipse Public License 2.0",
+      "moduleName": ".*",
+      "moduleVersion": ".*"
+    },
+    {
+      "moduleLicense": "GNU Lesser General Public License",
+      "moduleName": ".*",
+      "moduleVersion": ".*"
+    },
+    {
+      "moduleLicense": "BSD 2-Clause License",
+      "moduleName": ".*",
+      "moduleVersion": ".*"
+    },
+    {
+      "moduleLicense": "MIT License",
+      "moduleName": ".*",
+      "moduleVersion": ".*"
+    }
+  ]
+}

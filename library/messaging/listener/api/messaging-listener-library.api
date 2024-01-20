@@ -1,0 +1,19 @@
+public final class io/github/ustudiocompany/uframework/messaging/listener/MessageListener {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener$Properties;Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory;Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandler;)V
+	public final fun getName ()Ljava/lang/String;
+	public final fun run (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lkotlin/coroutines/CoroutineContext;)Lkotlinx/coroutines/Job;
+	public static synthetic fun run$default (Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener;Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lkotlin/coroutines/CoroutineContext;ILjava/lang/Object;)Lkotlinx/coroutines/Job;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/listener/MessageListener$Properties {
+	public fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/time/Duration;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDelayBeforeRecreatingReceiver ()Ljava/time/Duration;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getTopics ()Ljava/util/List;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/listener/MessageListenerKt {
+	public static final fun messageListener (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener$Properties;Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory;Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandler;)Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener;
+}
+
