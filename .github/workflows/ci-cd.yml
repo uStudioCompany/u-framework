@@ -33,4 +33,9 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
+      env:
+        REPOSITORY_SNAPSHOTS_URL: ${{ vars.REPOSITORY_SNAPSHOTS_URL }}
+        REPOSITORY_RELEASES_URL: ${{ vars.REPOSITORY_RELEASES_URL }}
+        REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
+        REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./gradlew build koverXmlReport publish
