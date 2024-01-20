@@ -1,5 +1,8 @@
 # u-framework
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CI/CD](https://github.com/uStudioCompany/u-framework/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/uStudioCompany/u-framework/actions/workflows/ci-cd.yml)
+
 ## Compilation ##
 
 To compile ocds-publisher, follow these steps:
