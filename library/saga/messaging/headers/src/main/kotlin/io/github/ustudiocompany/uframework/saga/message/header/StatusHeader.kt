@@ -10,4 +10,4 @@ public fun Header.Companion.status(value: Status): Header =
 
 public fun Headers.status(): Header? = this.last(STATUS_HEADER_NAME)
 
-private const val STATUS_HEADER_NAME: String = "status"
+public const val STATUS_HEADER_NAME: String = "status"

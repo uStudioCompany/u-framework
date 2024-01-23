@@ -1,9 +1,11 @@
 public final class io/github/ustudiocompany/uframework/saga/message/header/CorrelationIdHeaderKt {
+	public static final field CORRELATION_ID_HEADER_NAME Ljava/lang/String;
 	public static final fun correlationId (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 	public static final fun correlationId-jKMP-yk (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/message/header/StatusHeaderKt {
+	public static final field STATUS_HEADER_NAME Ljava/lang/String;
 	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/saga/message/header/type/Status;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 }

@@ -10,4 +10,4 @@ public fun Header.Companion.correlationId(value: CorrelationId): Header =
 
 public fun Headers.correlationId(): Header? = this.last(CORRELATION_ID_HEADER_NAME)
 
-private const val CORRELATION_ID_HEADER_NAME: String = "correlation-id"
+public const val CORRELATION_ID_HEADER_NAME: String = "correlation-id"
