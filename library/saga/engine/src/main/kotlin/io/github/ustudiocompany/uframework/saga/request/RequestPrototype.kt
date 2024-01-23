@@ -4,13 +4,13 @@ import io.github.airflux.functional.Result
 import io.github.airflux.functional.map
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.saga.MetaData
 import io.github.ustudiocompany.uframework.saga.internal.toChannelName
 import io.github.ustudiocompany.uframework.saga.internal.toMessageName
 import io.github.ustudiocompany.uframework.saga.internal.toMessageVersion
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageName
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageVersion
 
 public fun <BODY : Any> requestPrototype(
     channel: String,

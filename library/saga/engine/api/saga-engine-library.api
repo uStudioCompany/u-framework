@@ -197,12 +197,12 @@ public abstract class io/github/ustudiocompany/uframework/saga/error/SagaManager
 }
 
 public final class io/github/ustudiocompany/uframework/saga/error/SagaManagerErrors$SagaForCommandNotFound : io/github/ustudiocompany/uframework/saga/error/SagaManagerErrors {
-	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getName ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;
+	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public fun getNumber ()Ljava/lang/String;
-	public final fun getVersion ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;
+	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/error/SagaManagerErrors$SagaForSagaInstanceNotFound : io/github/ustudiocompany/uframework/saga/error/SagaManagerErrors {
@@ -286,7 +286,7 @@ public final class io/github/ustudiocompany/uframework/saga/executor/StepToRetry
 	public synthetic fun <init> (ILjava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getDirection ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun getLabel-529efPM ()Ljava/lang/String;
-	public final fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getPosition ()I
 	public final fun getRequestBuilder ()Lkotlin/jvm/functions/Function1;
 }
@@ -310,31 +310,31 @@ public final class io/github/ustudiocompany/uframework/saga/manager/SagaManager 
 
 public final class io/github/ustudiocompany/uframework/saga/manager/SagaResolver {
 	public synthetic fun <init> (Ljava/util/Map;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun resolve (Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;)Lio/github/ustudiocompany/uframework/saga/Saga;
+	public final fun resolve (Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;)Lio/github/ustudiocompany/uframework/saga/Saga;
 	public final fun resolve-2CoMfMU (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/Saga;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/manager/SagaResolver$Builder {
 	public fun <init> ()V
 	public final fun build ()Lio/github/ustudiocompany/uframework/saga/manager/SagaResolver;
-	public final fun register (Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/Saga;)V
+	public final fun register (Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/Saga;)V
 	public final fun register (Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/Saga;)V
 }
 
 public final class io/github/ustudiocompany/uframework/saga/message/CommandMessage {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/String;
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public final fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/saga/MetaData;
-	public final fun getName ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;
+	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
-	public final fun getVersion ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;
+	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/message/ReplyMessage {
 	public abstract fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public abstract fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/message/ReplyMessage$Error : io/github/ustudiocompany/uframework/saga/message/ReplyMessage {
@@ -342,7 +342,7 @@ public final class io/github/ustudiocompany/uframework/saga/message/ReplyMessage
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/String;
 	public fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/saga/MetaData;
 }
 
@@ -351,20 +351,20 @@ public final class io/github/ustudiocompany/uframework/saga/message/ReplyMessage
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/String;
 	public fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/saga/MetaData;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/publisher/Command {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/String;
 	public final fun getChannel-QTL2v0M ()Ljava/lang/String;
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public final fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/saga/MetaData;
-	public final fun getName ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;
+	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
-	public final fun getVersion ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;
+	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/publisher/CommandPublisher {
@@ -378,19 +378,19 @@ public abstract interface class io/github/ustudiocompany/uframework/saga/reposit
 }
 
 public final class io/github/ustudiocompany/uframework/saga/request/Request {
-	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/MetaData;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/MetaData;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/String;
 	public final fun getChannel-QTL2v0M ()Ljava/lang/String;
 	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/saga/MetaData;
-	public final fun getName ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;
-	public final fun getVersion ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;
+	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
+	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
 public abstract class io/github/ustudiocompany/uframework/saga/request/RequestPrototype {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	protected final fun getChannel-QTL2v0M ()Ljava/lang/String;
-	protected final fun getName ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;
-	protected final fun getVersion ()Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;
+	protected final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
+	protected final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/request/RequestPrototype$WithBody : io/github/ustudiocompany/uframework/saga/request/RequestPrototype {
@@ -411,21 +411,21 @@ public final class io/github/ustudiocompany/uframework/saga/request/RequestProto
 public abstract interface class io/github/ustudiocompany/uframework/saga/state/HistoricalStep {
 	public abstract fun getIndex ()I
 	public abstract fun getLabel-529efPM ()Ljava/lang/String;
-	public abstract fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/state/HistoricalStep$Completed : io/github/ustudiocompany/uframework/saga/state/HistoricalStep {
 	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getIndex ()I
 	public fun getLabel-529efPM ()Ljava/lang/String;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/state/HistoricalStep$NotCompleted : io/github/ustudiocompany/uframework/saga/state/HistoricalStep {
 	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getIndex ()I
 	public fun getLabel-529efPM ()Ljava/lang/String;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/state/HistoricalStepKt {
@@ -437,17 +437,17 @@ public final class io/github/ustudiocompany/uframework/saga/state/ProcessedStep 
 	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/time/ZonedDateTime;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getIndex ()I
 	public final fun getLabel-529efPM ()Ljava/lang/String;
-	public final fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getTimestamp ()Ljava/time/ZonedDateTime;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/state/ProcessedStep$Companion {
-	public final fun invoke-5QLxbRo (ILjava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/ProcessedStep;
+	public final fun invoke-yADlALw (ILjava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/ProcessedStep;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/state/SagaExecutionState {
 	public abstract fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
-	public abstract fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public abstract fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 }
 
@@ -455,19 +455,19 @@ public final class io/github/ustudiocompany/uframework/saga/state/SagaExecutionS
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-N3_JE24 ()Ljava/lang/String;
 	public final fun component2-0tTMTkE ()Ljava/lang/String;
-	public final fun component3-eubhCZA ()Ljava/lang/String;
+	public final fun component3-e-GfBr8 ()Ljava/lang/String;
 	public final fun component4 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun component5 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
 	public final fun component6-QiT60GA ()Ljava/util/List;
 	public final fun component7 ()Ljava/lang/Object;
-	public final fun copy-HYe078c (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;
-	public static synthetic fun copy-HYe078c$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;
+	public final fun copy-sYEDVZE (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;
+	public static synthetic fun copy-sYEDVZE$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Continuation;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public final fun getData ()Ljava/lang/Object;
 	public final fun getDirection ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun getHistory-QiT60GA ()Ljava/util/List;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 	public final fun getStatus ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
 	public fun hashCode ()I
@@ -491,7 +491,7 @@ public final class io/github/ustudiocompany/uframework/saga/state/SagaExecutionS
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public final fun getData ()Ljava/lang/Object;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 }
 
@@ -499,19 +499,19 @@ public final class io/github/ustudiocompany/uframework/saga/state/SagaExecutionS
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-N3_JE24 ()Ljava/lang/String;
 	public final fun component2-0tTMTkE ()Ljava/lang/String;
-	public final fun component3-eubhCZA ()Ljava/lang/String;
+	public final fun component3-e-GfBr8 ()Ljava/lang/String;
 	public final fun component4 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun component5 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
 	public final fun component6-QiT60GA ()Ljava/util/List;
 	public final fun component7 ()Ljava/lang/Object;
-	public final fun copy-HYe078c (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;
-	public static synthetic fun copy-HYe078c$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;
+	public final fun copy-sYEDVZE (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;
+	public static synthetic fun copy-sYEDVZE$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Resume;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public final fun getData ()Ljava/lang/Object;
 	public final fun getDirection ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun getHistory-QiT60GA ()Ljava/util/List;
-	public fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 	public final fun getStatus ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
 	public fun hashCode ()I
@@ -537,20 +537,20 @@ public final class io/github/ustudiocompany/uframework/saga/state/SagaExecutionS
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-N3_JE24 ()Ljava/lang/String;
 	public final fun component2-0tTMTkE ()Ljava/lang/String;
-	public final fun component3-eubhCZA ()Ljava/lang/String;
+	public final fun component3-e-GfBr8 ()Ljava/lang/String;
 	public final fun component4-QRyP-tA ()Ljava/lang/String;
 	public final fun component5 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun component6 ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
 	public final fun component7-QiT60GA ()Ljava/util/List;
 	public final fun component8-BJNn0NU ()Ljava/lang/String;
-	public final fun copy-Scwp99s (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;
-	public static synthetic fun copy-Scwp99s$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Lio/github/ustudiocompany/uframework/saga/state/SerializedData;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;
+	public final fun copy-l6oR1ME (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;
+	public static synthetic fun copy-l6oR1ME$default (Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;Ljava/util/List;Lio/github/ustudiocompany/uframework/saga/state/SerializedData;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public final fun getDirection ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;
 	public final fun getHistory-QiT60GA ()Ljava/util/List;
 	public final fun getLabel-QRyP-tA ()Ljava/lang/String;
-	public final fun getMessageId-eubhCZA ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 	public final fun getSerializedData-BJNn0NU ()Ljava/lang/String;
 	public final fun getStatus ()Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Status;
@@ -576,7 +576,7 @@ public final class io/github/ustudiocompany/uframework/saga/state/StepHistory {
 	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/saga/state/StepHistory;
 	public static fun constructor-impl (Lio/github/ustudiocompany/uframework/saga/state/ProcessedStep;)Ljava/util/List;
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
-	public static final fun contains-Ya608Fc (Ljava/util/List;Ljava/lang/String;)Z
+	public static final fun contains-WyKgyjQ (Ljava/util/List;Ljava/lang/String;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
@@ -590,7 +590,7 @@ public final class io/github/ustudiocompany/uframework/saga/state/StepHistory {
 }
 
 public final class io/github/ustudiocompany/uframework/saga/state/StepHistoryKt {
-	public static final fun get-2GZiHQM (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/HistoricalStep;
+	public static final fun get-HdhWA7I (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/state/HistoricalStep;
 	public static final fun last-_Tge914 (Ljava/util/List;)Lio/github/ustudiocompany/uframework/saga/state/HistoricalStep$NotCompleted;
 }
 

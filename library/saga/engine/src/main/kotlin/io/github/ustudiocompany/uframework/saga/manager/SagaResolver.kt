@@ -1,11 +1,11 @@
 package io.github.ustudiocompany.uframework.saga.manager
 
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.saga.Saga
 import io.github.ustudiocompany.uframework.saga.SagaLabel
 import io.github.ustudiocompany.uframework.saga.internal.toMessageName
 import io.github.ustudiocompany.uframework.saga.internal.toMessageVersion
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageName
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageVersion
 
 public class SagaResolver private constructor(
     private val resolverForCommand: Map<CommandKey, Saga<*>>,

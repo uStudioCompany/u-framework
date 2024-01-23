@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.saga.message.header.type
+package io.github.ustudiocompany.uframework.messaging.header.type
 
 import io.github.ustudiocompany.uframework.utils.EnumElementProvider
 

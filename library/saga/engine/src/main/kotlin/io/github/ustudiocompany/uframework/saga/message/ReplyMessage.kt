@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.saga.message
 
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.saga.MetaData
 import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageId
 
 public sealed interface ReplyMessage {
     public val correlationId: CorrelationId

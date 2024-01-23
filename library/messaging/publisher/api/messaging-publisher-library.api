@@ -1,7 +1,5 @@
 public final class io/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel {
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/sender/MessageSender;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun generateDiagnosticContextEntry ()Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext$Entry;
-	public final fun send (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 	public final fun send (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel$Stamp;)V
 }
 

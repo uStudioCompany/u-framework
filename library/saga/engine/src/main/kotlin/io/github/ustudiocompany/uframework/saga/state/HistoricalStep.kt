@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.state
 
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageId
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.saga.step.StepLabel
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract

@@ -3,26 +3,6 @@ public final class io/github/ustudiocompany/uframework/saga/message/header/Corre
 	public static final fun correlationId-jKMP-yk (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 }
 
-public final class io/github/ustudiocompany/uframework/saga/message/header/MessageIdHeaderKt {
-	public static final fun messageId (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public static final fun messageId-RPQQzxE (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-}
-
-public final class io/github/ustudiocompany/uframework/saga/message/header/MessageNameHeaderKt {
-	public static final fun name (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageName;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public static final fun name (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-}
-
-public final class io/github/ustudiocompany/uframework/saga/message/header/MessageTypeHeaderKt {
-	public static final fun type (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageType;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public static final fun type (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-}
-
-public final class io/github/ustudiocompany/uframework/saga/message/header/MessageVersionHeaderKt {
-	public static final fun version (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/saga/message/header/type/MessageVersion;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public static final fun version (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-}
-
 public final class io/github/ustudiocompany/uframework/saga/message/header/StatusHeaderKt {
 	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/saga/message/header/type/Status;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;

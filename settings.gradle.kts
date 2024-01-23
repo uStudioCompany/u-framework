@@ -29,6 +29,12 @@ project(":logging-slf4j-library").projectDir = file("./library/logging/slf4j")
 include(":messaging-core-library")
 project(":messaging-core-library").projectDir = file("./library/messaging/core")
 
+include(":messaging-core-types-library")
+project(":messaging-core-types-library").projectDir = file("./library/messaging/core/types")
+
+include(":messaging-core-headers-library")
+project(":messaging-core-headers-library").projectDir = file("./library/messaging/core/headers")
+
 include(":messaging-listener-library")
 project(":messaging-listener-library").projectDir = file("./library/messaging/listener")
 

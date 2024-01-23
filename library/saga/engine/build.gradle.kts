@@ -30,7 +30,10 @@ dependencies {
 
     /* Messaging lib */
     implementation(project(":messaging-core-library"))
+    implementation(project(":messaging-core-types-library"))
     implementation(project(":messaging-publisher-library"))
+
+    /* Saga lib */
     implementation(project(":saga-messaging-types-library"))
     implementation(project(":saga-messaging-headers-library"))
 

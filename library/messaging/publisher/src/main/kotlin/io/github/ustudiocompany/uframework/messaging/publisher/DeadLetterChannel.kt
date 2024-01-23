@@ -20,20 +20,6 @@ public fun <T> deadLetterChannel(
 public class DeadLetterChannel<T>(private val channelName: ChannelName, private val sender: MessageSender<T>) {
 
     context(Logging, DiagnosticContext)
-    @Deprecated("Use send with identifier")
-    public fun send(message: IncomingMessage<T>) {
-        val outgoingMessage = OutgoingMessage(
-            headers = message.headers,
-            routingKey = message.routingKey,
-            body = message.body
-        )
-
-        //TODO Fixed (runBlocking)
-        runBlocking { sender.send(channelName, outgoingMessage) }
-            .onError { failure -> throw failure.toMessageHandlerException() }
-    }
-
-    context(Logging, DiagnosticContext)
     public fun send(message: IncomingMessage<T>, stamp: Stamp) {
         val outgoingMessage = OutgoingMessage(
             headers = message.headers.add(Stamp.KEY to stamp.get),
@@ -45,13 +31,6 @@ public class DeadLetterChannel<T>(private val channelName: ChannelName, private 
         runBlocking { sender.send(channelName, outgoingMessage) }
             .onError { failure -> throw failure.toMessageHandlerException() }
     }
-
-    @Deprecated("Use Identifier")
-    public fun generateDiagnosticContextEntry(): DiagnosticContext.Entry =
-        DiagnosticContext.Entry(
-            key = DEAD_LETTER_ID_DIAGNOSTIC_CONTEXT_KEY,
-            value = UUID.randomUUID().toString()
-        )
 
     public class Stamp private constructor(public val get: String) {
 
@@ -65,9 +44,5 @@ public class DeadLetterChannel<T>(private val channelName: ChannelName, private 
 
             public const val KEY: String = "dead-letter-stamp"
         }
-    }
-
-    private companion object {
-        private const val DEAD_LETTER_ID_DIAGNOSTIC_CONTEXT_KEY: String = "dead-letter-id"
     }
 }

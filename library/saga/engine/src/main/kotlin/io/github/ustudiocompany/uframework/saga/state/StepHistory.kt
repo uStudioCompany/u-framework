@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.saga.state
 
 import io.github.airflux.functional.collection.NonEmptyList
 import io.github.airflux.functional.collection.exists
-import io.github.ustudiocompany.uframework.saga.message.header.type.MessageId
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
 public value class StepHistory(public val get: NonEmptyList<ProcessedStep>) {

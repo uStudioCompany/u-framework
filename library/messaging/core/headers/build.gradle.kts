@@ -13,8 +13,6 @@ repositories {
 
 dependencies {
 
-    api(project(":saga-messaging-types-library"))
-
     /* Libs section */
     implementation(libs.airflux.functional.core)
 
@@ -33,6 +31,7 @@ dependencies {
 
     /* Messaging libs */
     implementation(project(":messaging-core-library"))
+    api(project(":messaging-core-types-library"))
 
     /* Test section */
     testImplementation(libs.bundles.kotest)
