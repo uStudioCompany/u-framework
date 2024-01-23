@@ -35,6 +35,9 @@ project(":messaging-core-types-library").projectDir = file("./library/messaging/
 include(":messaging-core-headers-library")
 project(":messaging-core-headers-library").projectDir = file("./library/messaging/core/headers")
 
+include(":messaging-router-library")
+project(":messaging-router-library").projectDir = file("./library/messaging/router")
+
 include(":messaging-listener-library")
 project(":messaging-listener-library").projectDir = file("./library/messaging/listener")
 
