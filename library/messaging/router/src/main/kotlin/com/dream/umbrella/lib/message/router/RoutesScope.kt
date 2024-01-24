@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
-context(io.github.ustudiocompany.uframework.telemetry.logging.api.Logging, DiagnosticContext)
+context(Logging, DiagnosticContext)
 public class RoutesScope<T, HANDLER> {
     private val routes = Routes.Builder<T, HANDLER>()
 
