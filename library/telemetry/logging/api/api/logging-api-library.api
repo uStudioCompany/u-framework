@@ -1,0 +1,56 @@
+public abstract interface class io/github/ustudiocompany/uframework/telemetry/logging/api/Logger {
+	public abstract fun debug (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public static synthetic fun debug$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;ILjava/lang/Object;)V
+	public abstract fun error (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;)V
+	public static synthetic fun error$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;ILjava/lang/Object;)V
+	public abstract fun info (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public static synthetic fun info$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;ILjava/lang/Object;)V
+	public abstract fun isEnabled (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;)Z
+	public abstract fun trace (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public static synthetic fun trace$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;ILjava/lang/Object;)V
+	public abstract fun warn (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public static synthetic fun warn$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;ILjava/lang/Object;)V
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level : java/lang/Enum {
+	public static final field DEBUG Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static final field ERROR Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static final field INFO Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static final field TRACE Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static final field WARN Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+	public static fun values ()[Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/telemetry/logging/api/Logger$MessageFormatter {
+	public abstract fun format (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;)Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/api/LoggerKt {
+	public static final fun debug (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;)V
+	public static final fun debug (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun debug$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static final fun error (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public static final fun error (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/Exception;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun error$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static synthetic fun error$default (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Ljava/lang/Exception;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static final fun info (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;)V
+	public static final fun info (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun info$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static final fun trace (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;)V
+	public static final fun trace (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun trace$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public static final fun warn (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;)V
+	public static final fun warn (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lkotlin/jvm/functions/Function0;)V
+	public static synthetic fun warn$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/telemetry/logging/api/Logging {
+	public abstract fun getLogger ()Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/api/LoggingKt {
+	public static final fun withLogging (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+

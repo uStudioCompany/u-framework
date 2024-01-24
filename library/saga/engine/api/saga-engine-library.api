@@ -310,19 +310,19 @@ public final class io/github/ustudiocompany/uframework/saga/executor/StepToRetry
 
 public final class io/github/ustudiocompany/uframework/saga/manager/SagaInstance {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/Saga;Lio/github/ustudiocompany/uframework/saga/publisher/CommandPublisher;)V
-	public final fun continueExecution (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;Lio/github/ustudiocompany/uframework/saga/message/ReplyMessage;)Lio/github/airflux/functional/Result;
+	public final fun continueExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;Lio/github/ustudiocompany/uframework/saga/message/ReplyMessage;)Lio/github/airflux/functional/Result;
 	public final fun getLabel-QRyP-tA ()Ljava/lang/String;
-	public final fun resumeExecution (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;)Lio/github/airflux/functional/Result;
-	public final fun startExecution (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/CommandMessage;)Lio/github/airflux/functional/Result;
-	public final fun stopExecution (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;)Lio/github/airflux/functional/Result;
+	public final fun resumeExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;)Lio/github/airflux/functional/Result;
+	public final fun startExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/CommandMessage;)Lio/github/airflux/functional/Result;
+	public final fun stopExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionStateRecord;)Lio/github/airflux/functional/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/manager/SagaManager {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/manager/SagaResolver;Lio/github/ustudiocompany/uframework/saga/repository/SagaRepository;Lio/github/ustudiocompany/uframework/saga/publisher/CommandPublisher;)V
-	public final fun handle (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/ReplyMessage;)Lio/github/airflux/functional/Result;
-	public final fun resume-ndN1hoU (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun start (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/CommandMessage;)Lio/github/airflux/functional/Result;
-	public final fun stop-ndN1hoU (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/ReplyMessage;)Lio/github/airflux/functional/Result;
+	public final fun resume-ndN1hoU (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun start (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/message/CommandMessage;)Lio/github/airflux/functional/Result;
+	public final fun stop-ndN1hoU (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/functional/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/manager/SagaResolver {
@@ -385,7 +385,7 @@ public final class io/github/ustudiocompany/uframework/saga/publisher/Command {
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/publisher/CommandPublisher {
-	public abstract fun publish (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/publisher/Command;)Lio/github/airflux/functional/Result;
+	public abstract fun publish (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/publisher/Command;)Lio/github/airflux/functional/Result;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/repository/SagaRepository {

@@ -1,11 +1,5 @@
 package io.github.ustudiocompany.uframework.messaging.listener
 
-import io.github.ustudiocompany.uframework.logging.api.Logger
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
-import io.github.ustudiocompany.uframework.logging.logger.formatter.json.JsonFormatter
-import io.github.ustudiocompany.uframework.logging.logger.logback.LogbackLogger
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessages
@@ -13,6 +7,12 @@ import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.messaging.message.header.Headers
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiver
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiverFactory
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logger
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 import io.kotest.core.spec.style.FreeSpec
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

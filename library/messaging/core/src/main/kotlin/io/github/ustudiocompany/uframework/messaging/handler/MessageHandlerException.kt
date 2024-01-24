@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.handler
 
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 
 context(DiagnosticContext)
 public fun Failure.toMessageHandlerException(description: String? = null): MessageHandlerException =

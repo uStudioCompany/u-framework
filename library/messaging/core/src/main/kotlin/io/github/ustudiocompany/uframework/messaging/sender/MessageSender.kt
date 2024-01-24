@@ -2,10 +2,10 @@ package io.github.ustudiocompany.uframework.messaging.sender
 
 import io.github.airflux.functional.Result
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 public interface MessageSender<T> {
 

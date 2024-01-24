@@ -1,17 +1,17 @@
 package io.github.ustudiocompany.uframework.messaging.listener
 
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.debug
-import io.github.ustudiocompany.uframework.logging.api.error
-import io.github.ustudiocompany.uframework.logging.api.info
-import io.github.ustudiocompany.uframework.logging.api.warn
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandlerException
 import io.github.ustudiocompany.uframework.messaging.handler.toMessageHandlerException
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiver
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiverFactory
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.api.error
+import io.github.ustudiocompany.uframework.telemetry.logging.api.info
+import io.github.ustudiocompany.uframework.telemetry.logging.api.warn
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope

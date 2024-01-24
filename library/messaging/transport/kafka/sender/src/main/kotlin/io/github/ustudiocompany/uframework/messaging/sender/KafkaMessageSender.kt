@@ -3,12 +3,12 @@ package io.github.ustudiocompany.uframework.messaging.sender
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.error
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.debug
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord

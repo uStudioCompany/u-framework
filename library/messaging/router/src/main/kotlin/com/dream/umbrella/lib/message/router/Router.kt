@@ -2,13 +2,13 @@ package com.dream.umbrella.lib.message.router
 
 import io.github.airflux.functional.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.error
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.error
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 
 context(Logging, DiagnosticContext)
 public fun <T> router(

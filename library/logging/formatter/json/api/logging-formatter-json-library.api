@@ -1,5 +1,0 @@
-public final class io/github/ustudiocompany/uframework/logging/logger/formatter/json/JsonFormatter : io/github/ustudiocompany/uframework/logging/api/Logger$MessageFormatter {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/logging/logger/formatter/json/JsonFormatter;
-	public fun format (Ljava/lang/String;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;)Ljava/lang/String;
-}
-

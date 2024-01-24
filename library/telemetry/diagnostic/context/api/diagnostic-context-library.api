@@ -1,0 +1,36 @@
+public abstract interface class io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun foldLeft (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+	public abstract fun isEmpty ()Z
+	public fun isNotEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public fun plus (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;)Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;
+	public fun plus (Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Empty : io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Empty;
+	public fun isEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;Ljava/lang/String;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContextKt {
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;[Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;[Lkotlin/Pair;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext (Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext ([Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext ([Lkotlin/Pair;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+

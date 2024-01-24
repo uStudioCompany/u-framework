@@ -3,14 +3,14 @@ package io.github.ustudiocompany.uframework.messaging.publisher
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.mapError
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.debug
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
 import io.github.ustudiocompany.uframework.messaging.sender.SentMessageMetadata
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import kotlinx.coroutines.runBlocking
 
 public fun <T : Any> publisher(channelName: ChannelName, sender: MessageSender<T>): MessagePublisher.Fixed<T> =

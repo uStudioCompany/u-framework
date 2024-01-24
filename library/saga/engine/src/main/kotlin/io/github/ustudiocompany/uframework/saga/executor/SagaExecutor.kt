@@ -9,8 +9,6 @@ import io.github.airflux.functional.map
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.saga.Saga
@@ -33,6 +31,8 @@ import io.github.ustudiocompany.uframework.saga.state.last
 import io.github.ustudiocompany.uframework.saga.step.StepLabel
 import io.github.ustudiocompany.uframework.saga.step.action.handler.ErrorReplyHandler
 import io.github.ustudiocompany.uframework.saga.step.action.handler.SuccessfulReplyHandler
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 context(Logging, DiagnosticContext)
 internal fun <DATA> Saga<DATA>.execute(

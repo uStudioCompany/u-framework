@@ -5,8 +5,6 @@ import io.github.airflux.functional.ResultWith
 import io.github.airflux.functional.error
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.saga.error.SagaErrors
 import io.github.ustudiocompany.uframework.saga.error.SagaManagerErrors
 import io.github.ustudiocompany.uframework.saga.error.SagaStorageErrors
@@ -16,6 +14,8 @@ import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationI
 import io.github.ustudiocompany.uframework.saga.publisher.CommandPublisher
 import io.github.ustudiocompany.uframework.saga.repository.SagaRepository
 import io.github.ustudiocompany.uframework.saga.state.SagaExecutionStateRecord
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 public class SagaManager(
     private val sagaResolver: SagaResolver,

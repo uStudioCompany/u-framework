@@ -5,15 +5,15 @@ import io.github.airflux.functional.error
 import io.github.airflux.functional.getOrForward
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.debug
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.header.Header
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import java.util.*
 
 public class Routes<T, HANDLER>(private val items: Map<RouteSelector, Route<HANDLER>>) {

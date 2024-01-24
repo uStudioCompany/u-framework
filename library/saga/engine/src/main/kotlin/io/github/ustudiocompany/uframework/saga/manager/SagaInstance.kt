@@ -7,8 +7,6 @@ import io.github.airflux.functional.fold
 import io.github.airflux.functional.map
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.saga.Saga
 import io.github.ustudiocompany.uframework.saga.SagaLabel
 import io.github.ustudiocompany.uframework.saga.error.SagaErrors
@@ -24,6 +22,8 @@ import io.github.ustudiocompany.uframework.saga.publisher.CommandPublisher
 import io.github.ustudiocompany.uframework.saga.state.SagaExecutionState
 import io.github.ustudiocompany.uframework.saga.state.SagaExecutionStateRecord
 import io.github.ustudiocompany.uframework.saga.state.SerializedData
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 @Suppress("TooManyFunctions")
 public class SagaInstance<DATA>(

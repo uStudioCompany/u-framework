@@ -1,0 +1,10 @@
+public final class io/github/ustudiocompany/uframework/telemetry/logging/logger/logback/LogbackLogger : io/github/ustudiocompany/uframework/telemetry/logging/api/Logger {
+	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$MessageFormatter;)V
+	public fun debug (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public fun error (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Throwable;)V
+	public fun info (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public fun isEnabled (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logger$Level;)Z
+	public fun trace (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public fun warn (Ljava/lang/String;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+}
+

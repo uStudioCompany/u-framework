@@ -8,22 +8,24 @@ project(":utils-library").projectDir = file("./library/utils")
 include(":failure-library")
 project(":failure-library").projectDir = file("./library/failure")
 
+/* Telemetry */
+
 /* Diagnostic-Context */
 include(":diagnostic-context-library")
-project(":diagnostic-context-library").projectDir = file("./library/diagnostic/context")
+project(":diagnostic-context-library").projectDir = file("./library/telemetry/diagnostic/context")
 
 include(":diagnostic-context-extension-library")
-project(":diagnostic-context-extension-library").projectDir = file("./library/diagnostic/context/extension")
+project(":diagnostic-context-extension-library").projectDir = file("./library/telemetry/diagnostic/context/extension")
 
 /* Logging */
 include(":logging-api-library")
-project(":logging-api-library").projectDir = file("./library/logging/api")
+project(":logging-api-library").projectDir = file("./library/telemetry/logging/api")
 
 include(":logging-formatter-json-library")
-project(":logging-formatter-json-library").projectDir = file("./library/logging/formatter/json")
+project(":logging-formatter-json-library").projectDir = file("./library/telemetry/logging/formatter/json")
 
 include(":logging-slf4j-library")
-project(":logging-slf4j-library").projectDir = file("./library/logging/slf4j")
+project(":logging-slf4j-library").projectDir = file("./library/telemetry/logging/slf4j")
 
 /* Messaging */
 include(":messaging-core-library")

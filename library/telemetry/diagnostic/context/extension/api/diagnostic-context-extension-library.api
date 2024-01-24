@@ -1,0 +1,8 @@
+public final class io/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContextExtensionKt {
+	public static final fun plus (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;[Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext$Entry;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDiagnosticContext (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;[Lkotlin/Pair;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+

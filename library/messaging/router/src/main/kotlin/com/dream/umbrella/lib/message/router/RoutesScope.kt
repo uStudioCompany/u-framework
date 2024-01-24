@@ -1,13 +1,13 @@
 package com.dream.umbrella.lib.message.router
 
 import io.github.airflux.functional.orThrow
-import io.github.ustudiocompany.uframework.logging.api.Logging
-import io.github.ustudiocompany.uframework.logging.api.debug
-import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
-context(Logging, DiagnosticContext)
+context(io.github.ustudiocompany.uframework.telemetry.logging.api.Logging, DiagnosticContext)
 public class RoutesScope<T, HANDLER> {
     private val routes = Routes.Builder<T, HANDLER>()
 

@@ -1,6 +1,6 @@
 public final class io/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender : io/github/ustudiocompany/uframework/messaging/sender/MessageSender {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties;)V
-	public fun send-2BAurtk (Lio/github/ustudiocompany/uframework/logging/api/Logging;Lio/github/ustudiocompany/uframework/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun send-2BAurtk (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties {
