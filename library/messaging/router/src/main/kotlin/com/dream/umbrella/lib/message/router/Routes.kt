@@ -8,7 +8,6 @@ import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.logging.api.Logging
 import io.github.ustudiocompany.uframework.logging.api.debug
 import io.github.ustudiocompany.uframework.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
@@ -17,10 +16,10 @@ import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.header.Header
 import java.util.*
 
-public class Routes<T>(private val items: Map<RouteSelector, Route<T>>) {
+public class Routes<T, HANDLER>(private val items: Map<RouteSelector, Route<HANDLER>>) {
 
     context(Logging, DiagnosticContext)
-    public fun match(message: IncomingMessage<T>): Result<Route<T>, RoutingErrors> {
+    public fun match(message: IncomingMessage<T>): Result<Route<HANDLER>, RoutingErrors> {
         logger.debug { "A message routing..." }
         val selector = selector(message).getOrForward { return it }
         return findRoute(selector)
@@ -51,7 +50,7 @@ public class Routes<T>(private val items: Map<RouteSelector, Route<T>>) {
     }
 
     context(Logging, DiagnosticContext)
-    private fun findRoute(selector: RouteSelector): Result<Route<T>, RoutingErrors> {
+    private fun findRoute(selector: RouteSelector): Result<Route<HANDLER>, RoutingErrors> {
         logger.debug { "Finding a message handler by selector ($selector)..." }
         return items[selector]
             ?.success()
@@ -64,10 +63,10 @@ public class Routes<T>(private val items: Map<RouteSelector, Route<T>>) {
         return headers.last(name)
     }
 
-    public class Builder<T> {
-        private val items = TreeMap<RouteSelector, Route<T>>()
+    public class Builder<T, HANDLER> {
+        private val items = TreeMap<RouteSelector, Route<HANDLER>>()
 
-        public fun add(selector: RouteSelector, handler: MessageHandler<T>): Boolean {
+        public fun add(selector: RouteSelector, handler: HANDLER): Boolean {
             if (selector in items) return false
             items[selector] = Route(
                 name = selector.name,
@@ -77,6 +76,6 @@ public class Routes<T>(private val items: Map<RouteSelector, Route<T>>) {
             return true
         }
 
-        internal fun build() = Routes(items)
+        public fun build(): Routes<T, HANDLER> = Routes<T, HANDLER>(items)
     }
 }

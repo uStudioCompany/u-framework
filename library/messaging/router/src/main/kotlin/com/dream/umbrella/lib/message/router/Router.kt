@@ -11,11 +11,14 @@ import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel
 
 context(Logging, DiagnosticContext)
-public fun <T> router(deadLetterChannel: DeadLetterChannel<T>? = null, router: RoutesScope<T>.() -> Unit): Router<T> =
-    Router(routes = RoutesScope<T>().apply(router).build(), deadLetterChannel = deadLetterChannel)
+public fun <T> router(
+    deadLetterChannel: DeadLetterChannel<T>? = null,
+    router: RoutesScope<T, MessageHandler<T>>.() -> Unit
+): Router<T> =
+    Router(routes = RoutesScope<T, MessageHandler<T>>().apply(router).build(), deadLetterChannel = deadLetterChannel)
 
 public class Router<T>(
-    private val routes: Routes<T>,
+    private val routes: Routes<T, MessageHandler<T>>,
     private val deadLetterChannel: DeadLetterChannel<T>?
 ) : MessageHandler<T> {
 
