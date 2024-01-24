@@ -15,6 +15,7 @@ public final class io/github/ustudiocompany/uframework/utils/EnumElementProvider
 }
 
 public abstract class io/github/ustudiocompany/uframework/utils/EnumElementProvider$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
 public final class io/github/ustudiocompany/uframework/utils/EnumElementProvider$Errors$UnexpectedValue : io/github/ustudiocompany/uframework/utils/EnumElementProvider$Errors {

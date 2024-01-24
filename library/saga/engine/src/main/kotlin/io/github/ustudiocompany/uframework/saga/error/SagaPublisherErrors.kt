@@ -7,8 +7,10 @@ public sealed interface SagaPublisherErrors : SagaErrors {
         get() = "SAGA.PUBLISHER"
 
     public class CommandPublishing(cause: Failure) : SagaPublisherErrors {
-        override val number: String = "2"
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val number: String = "1"
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val description: String = "An error to publishing command."
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 }

@@ -6,6 +6,7 @@ public interface Failure {
     public val description: String get() = ""
     public val details: Details get() = Details.None
     public val cause: Cause get() = Cause.None
+    public val kind: Kind
 
     public fun code(): String {
         fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
@@ -18,7 +19,7 @@ public interface Failure {
             when (cause) {
                 is Cause.None -> this
                 is Cause.Exception -> this
-                is Cause.Error -> {
+                is Cause.Failure -> {
                     val error = cause.get
                     append(CHAIN_DELIMITER)
                         .appendCurrentCode(error)
@@ -37,7 +38,7 @@ public interface Failure {
             when (val cause = failure.cause) {
                 is Cause.None -> failure
                 is Cause.Exception -> failure
-                is Cause.Error -> getUnderlying(cause.get)
+                is Cause.Failure -> getUnderlying(cause.get)
             }
         return getUnderlying(this)
     }
@@ -51,7 +52,7 @@ public interface Failure {
             when (cause) {
                 is Cause.None -> this
                 is Cause.Exception -> this
-                is Cause.Error -> {
+                is Cause.Failure -> {
                     val error = cause.get
                     appendCurrentDescription(error)
                     appendDescriptionFromCause(error.cause)
@@ -70,7 +71,7 @@ public interface Failure {
             when (val cause = failure.cause) {
                 is Cause.None -> null
                 is Cause.Exception -> cause.get
-                is Cause.Error -> getException(cause.get)
+                is Cause.Failure -> getException(cause.get)
             }
 
         return getException(this)
@@ -81,7 +82,7 @@ public interface Failure {
             when (cause) {
                 is Cause.None -> this
                 is Cause.Exception -> this
-                is Cause.Error -> {
+                is Cause.Failure -> {
                     val error = cause.get
                     addAll(error.details)
                     appendDetailsFromCause(error.cause)
@@ -99,7 +100,7 @@ public interface Failure {
     public sealed interface Cause {
         public data object None : Cause
         public class Exception(public val get: kotlin.Exception) : Cause
-        public class Error(public val get: Failure) : Cause
+        public class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause
     }
 
     public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
@@ -119,6 +120,8 @@ public interface Failure {
             public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else None
         }
     }
+
+    public enum class Kind { INCIDENT, ERROR }
 
     private companion object {
         private const val CODE_DELIMITER = "-"

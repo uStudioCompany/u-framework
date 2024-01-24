@@ -29,6 +29,9 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>) wher
         where T : Enum<T>,
               T : Key {
 
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
+
         public class UnexpectedValue<T>(override val type: TypeOf<T>, value: String, expected: Array<T>) : Errors<T>()
             where T : Enum<T>,
                   T : Key {

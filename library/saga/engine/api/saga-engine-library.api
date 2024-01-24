@@ -107,6 +107,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/saga/error/SagaExecutorErrors$CompensationCommandError;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -116,6 +117,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -123,6 +125,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -130,6 +133,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -137,6 +141,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -144,6 +149,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -151,12 +157,14 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorErrors$ReplyBodyMissing : io/github/ustudiocompany/uframework/saga/error/SagaExecutorErrors {
 	public fun <init> ()V
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -164,6 +172,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -171,6 +180,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/saga/error/SagaExecutorErrors$ReplyNotRelevant;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -180,6 +190,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/saga/error/SagaExecutorErrors$SagaIsNotActive;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -189,6 +200,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaExecutorEr
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -200,6 +212,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaManagerErr
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public fun getNumber ()Ljava/lang/String;
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
@@ -209,6 +222,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaManagerErr
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public final fun getLabel-QRyP-tA ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
@@ -217,6 +231,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaManagerErr
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getCorrelationId-0tTMTkE ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -228,6 +243,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaPublisherE
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -239,6 +255,7 @@ public final class io/github/ustudiocompany/uframework/saga/error/SagaStorageErr
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 

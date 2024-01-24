@@ -8,6 +8,9 @@ public sealed class RoutingErrors : Failure {
 
     override val domain: String = "ROUTING"
 
+    override val kind: Failure.Kind
+        get() = Failure.Kind.ERROR
+
     public class RouteNotFound(selector: RouteSelector) : RoutingErrors() {
         override val number: String = "1"
         override val description: String =
@@ -36,7 +39,7 @@ public sealed class RoutingErrors : Failure {
             override val number: String = "2"
             override val description: String =
                 "The `$MESSAGE_NAME_HEADER_NAME` header is invalid data."
-            override val cause: Failure.Cause = Failure.Cause.Error(failure)
+            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }
 
@@ -57,7 +60,7 @@ public sealed class RoutingErrors : Failure {
             override val number: String = "2"
             override val description: String =
                 "The `$MESSAGE_VERSION_HEADER_NAME` header is invalid data."
-            override val cause: Failure.Cause = Failure.Cause.Error(failure)
+            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }
 

@@ -43,11 +43,14 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
     public sealed class Errors : Failure {
         override val domain: String = "MESSAGE.PUBLISHER"
 
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
+
         public class Publish(failure: MessageSender.Errors) : Errors() {
             override val number: String = "1"
             override val description: String = "A message publishing error."
             override val details: Failure.Details = Failure.Details.None
-            override val cause: Failure.Cause = Failure.Cause.Error(failure)
+            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }
 

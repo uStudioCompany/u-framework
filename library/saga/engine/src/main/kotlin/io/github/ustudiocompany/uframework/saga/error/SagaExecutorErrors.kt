@@ -13,6 +13,8 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public data object SagaIsNotActive : SagaExecutorErrors() {
         override val number: String = "1"
         override val description: String = "The saga instance is not active."
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -21,7 +23,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataInitialize(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "2"
         override val description: String = "An error of initialize the saga instance initial data."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 
     /**
@@ -30,7 +34,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataDeserialization(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "3"
         override val description: String = "An error of deserialization the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 
     /**
@@ -39,7 +45,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataSerialization(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "4"
         override val description: String = "An error of serialization the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 
     /**
@@ -48,7 +56,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataUpdate(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "5"
         override val description: String = "An error of update the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -57,6 +67,8 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public data object ReplyNotRelevant : SagaExecutorErrors() {
         override val number: String = "6"
         override val description: String = "The reply is not relevant."
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -70,6 +82,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
             SagaErrors.STEP_INDEX_DETAIL_KEY to index.toString(),
             SagaErrors.STEP_LABEL_DETAIL_KEY to label.get
         )
+
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 
     /**
@@ -78,6 +93,8 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class ReplyBodyMissing : SagaExecutorErrors() {
         override val number: String = "8"
         override val description: String = "The reply body is missing."
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -86,7 +103,9 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class ReplyBodyDeserialization(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "9"
         override val description: String = "An error of deserialize the reply body."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -95,12 +114,16 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class ReplyHandle(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "10"
         override val description: String = "An error of handle the reply."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 
     public data object CompensationCommandError : SagaExecutorErrors() {
         override val number: String = "11"
         override val description: String = "An error of compensation command."
+        override val kind: Failure.Kind
+            get() = Failure.Kind.INCIDENT
     }
 
     /**
@@ -109,6 +132,8 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class MakeRequest(cause: Failure) : SagaExecutorErrors() {
         override val number: String = "12"
         override val description: String = "An error of create a request."
-        override val cause: Failure.Cause = Failure.Cause.Error(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val kind: Failure.Kind
+            get() = Failure.Kind.ERROR
     }
 }

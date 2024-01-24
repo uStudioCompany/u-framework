@@ -6,6 +6,9 @@ public interface TypeFailure<T> : Failure {
     override val domain: String
         get() = type.name
 
+    override val kind: Failure.Kind
+        get() = Failure.Kind.ERROR
+
     public companion object {
         public const val ACTUAL_VALUE_DETAIL_KEY: String = "actual-value"
         public const val PATTERN_DETAIL_KEY: String = "pattern"
