@@ -1,0 +1,50 @@
+public abstract class io/github/ustudiocompany/uframework/retry/AttemptsPolicy {
+	public static final field Companion Lio/github/ustudiocompany/uframework/retry/AttemptsPolicy$Companion;
+	public abstract fun next ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/retry/AttemptsPolicy$Companion {
+	public final fun limited (I)Lio/github/ustudiocompany/uframework/retry/AttemptsPolicy;
+	public final fun unlimited ()Lio/github/ustudiocompany/uframework/retry/AttemptsPolicy;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/BackOffPolicy {
+	public static final field Companion Lio/github/ustudiocompany/uframework/retry/BackOffPolicy$Companion;
+	public final fun computeNextDelay (Ljava/time/Duration;)Ljava/time/Duration;
+	public final fun getMin ()Ljava/time/Duration;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/BackOffPolicy$Companion {
+	public final fun default ()Lio/github/ustudiocompany/uframework/retry/BackOffPolicy;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/BackOffPolicyKt {
+	public static final fun backOffPolicy (Ljava/time/Duration;Ljava/time/Duration;Lio/github/ustudiocompany/uframework/retry/TimeStep;)Lio/github/ustudiocompany/uframework/retry/BackOffPolicy;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/RetryKt {
+	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/RetryScope {
+	public static final field Companion Lio/github/ustudiocompany/uframework/retry/RetryScope$Companion;
+	public fun <init> (Lio/github/ustudiocompany/uframework/retry/AttemptsPolicy;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/retry/BackOffPolicy;Lio/github/ustudiocompany/uframework/retry/AttemptsPolicy;)V
+	public final fun getDelay ()Ljava/time/Duration;
+	public final fun next ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/retry/RetryScope$Companion {
+	public final fun default ()Lio/github/ustudiocompany/uframework/retry/RetryScope;
+}
+
+public abstract class io/github/ustudiocompany/uframework/retry/TimeStep {
+	public static final field Companion Lio/github/ustudiocompany/uframework/retry/TimeStep$Companion;
+	public abstract fun computeNext (Ljava/time/Duration;)Ljava/time/Duration;
+}
+
+public final class io/github/ustudiocompany/uframework/retry/TimeStep$Companion {
+	public final fun factor (D)Lio/github/ustudiocompany/uframework/retry/TimeStep;
+	public final fun linear (Ljava/time/Duration;)Lio/github/ustudiocompany/uframework/retry/TimeStep;
+}
+

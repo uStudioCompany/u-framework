@@ -61,3 +61,7 @@ project(":saga-messaging-headers-library").projectDir = file("./library/saga/mes
 
 include(":saga-engine-library")
 project(":saga-engine-library").projectDir = file("./library/saga/engine")
+
+/* Retry */
+include(":retry-library")
+project(":retry-library").projectDir = file("./library/retry")
