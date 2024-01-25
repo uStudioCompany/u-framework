@@ -30,3 +30,8 @@ public abstract interface class io/github/ustudiocompany/uframework/utils/EnumEl
 	public abstract fun getKey ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/utils/NullableExtensionsKt {
+	public static final fun isNotPresent (Ljava/lang/Object;)Z
+	public static final fun isPresent (Ljava/lang/Object;)Z
+}
+
