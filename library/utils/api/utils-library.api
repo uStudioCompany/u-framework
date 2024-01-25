@@ -1,3 +1,8 @@
+public final class io/github/ustudiocompany/uframework/utils/ContextKt {
+	public static final fun fromContext (Ljava/lang/Object;)Ljava/lang/Object;
+	public static final fun withContext (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+
 public abstract class io/github/ustudiocompany/uframework/utils/EnumElementProvider {
 	public static final field Companion Lio/github/ustudiocompany/uframework/utils/EnumElementProvider$Companion;
 	public fun <init> (Lio/github/ustudiocompany/uframework/utils/EnumElementProvider$EnumInfo;)V
