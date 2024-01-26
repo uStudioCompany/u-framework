@@ -1,18 +1,18 @@
-public final class com/dream/umbrella/lib/message/router/NameScope {
+public final class io/github/ustudiocompany/uframework/messaging/router/NameScope {
 	public final fun build ()V
 	public final fun version (Ljava/lang/String;Ljava/lang/Object;)V
 	public final fun versions ([Ljava/lang/String;Ljava/lang/Object;)V
 }
 
-public final class com/dream/umbrella/lib/message/router/Route {
+public final class io/github/ustudiocompany/uframework/messaging/router/Route {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Ljava/lang/Object;)V
 	public final fun getHandler ()Ljava/lang/Object;
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
-public final class com/dream/umbrella/lib/message/router/RouteSelector : java/lang/Comparable {
-	public fun compareTo (Lcom/dream/umbrella/lib/message/router/RouteSelector;)I
+public final class io/github/ustudiocompany/uframework/messaging/router/RouteSelector : java/lang/Comparable {
+	public fun compareTo (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;)I
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
@@ -21,55 +21,55 @@ public final class com/dream/umbrella/lib/message/router/RouteSelector : java/la
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/Router : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public fun <init> (Lcom/dream/umbrella/lib/message/router/Routes;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;)V
+public final class io/github/ustudiocompany/uframework/messaging/router/Router : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Routes;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;)V
 	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
-public final class com/dream/umbrella/lib/message/router/RouterKt {
-	public static final fun router (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lcom/dream/umbrella/lib/message/router/Router;
-	public static synthetic fun router$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/dream/umbrella/lib/message/router/Router;
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterKt {
+	public static final fun router (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/router/Router;
+	public static synthetic fun router$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/router/Router;
 }
 
-public final class com/dream/umbrella/lib/message/router/Routes {
+public final class io/github/ustudiocompany/uframework/messaging/router/Routes {
 	public fun <init> (Ljava/util/Map;)V
 	public final fun match (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)Lio/github/airflux/functional/Result;
 }
 
-public final class com/dream/umbrella/lib/message/router/Routes$Builder {
+public final class io/github/ustudiocompany/uframework/messaging/router/Routes$Builder {
 	public fun <init> ()V
-	public final fun add (Lcom/dream/umbrella/lib/message/router/RouteSelector;Ljava/lang/Object;)Z
-	public final fun build ()Lcom/dream/umbrella/lib/message/router/Routes;
+	public final fun add (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;Ljava/lang/Object;)Z
+	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Routes;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutesScope {
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutesScope {
 	public fun <init> (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
-	public final fun build ()Lcom/dream/umbrella/lib/message/router/Routes;
+	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Routes;
 	public final fun route (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V
 	public final fun route (Ljava/lang/String;Ljava/util/Collection;Ljava/lang/Object;)V
 	public final fun route (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun versions ([Ljava/lang/String;)Ljava/util/List;
 }
 
-public abstract class com/dream/umbrella/lib/message/router/RoutingErrors : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
 	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
-public abstract class com/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader : com/dream/umbrella/lib/message/router/RoutingErrors {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors {
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader$InvalidValue : com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader {
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader$Missing : com/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader {
-	public static final field INSTANCE Lcom/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader$Missing;
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$Missing;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
@@ -77,20 +77,20 @@ public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageNa
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader : com/dream/umbrella/lib/message/router/RoutingErrors$MessageNameHeader {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader {
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader$InvalidValue : com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader {
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader$Missing : com/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader {
-	public static final field INSTANCE Lcom/dream/umbrella/lib/message/router/RoutingErrors$MessageVersionHeader$Missing;
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$Missing;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
@@ -98,8 +98,8 @@ public final class com/dream/umbrella/lib/message/router/RoutingErrors$MessageVe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/dream/umbrella/lib/message/router/RoutingErrors$RouteNotFound : com/dream/umbrella/lib/message/router/RoutingErrors {
-	public fun <init> (Lcom/dream/umbrella/lib/message/router/RouteSelector;)V
+public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$RouteNotFound : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;

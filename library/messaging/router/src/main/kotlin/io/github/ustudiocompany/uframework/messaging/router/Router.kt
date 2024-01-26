@@ -1,4 +1,4 @@
-package com.dream.umbrella.lib.message.router
+package io.github.ustudiocompany.uframework.messaging.router
 
 import io.github.airflux.functional.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure

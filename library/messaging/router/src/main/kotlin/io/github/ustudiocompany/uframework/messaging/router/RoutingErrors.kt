@@ -1,4 +1,4 @@
-package com.dream.umbrella.lib.message.router
+package io.github.ustudiocompany.uframework.messaging.router
 
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME

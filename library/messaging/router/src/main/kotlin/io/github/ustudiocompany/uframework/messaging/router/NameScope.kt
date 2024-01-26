@@ -1,4 +1,4 @@
-package com.dream.umbrella.lib.message.router
+package io.github.ustudiocompany.uframework.messaging.router
 
 public class NameScope<T, HANDLER> internal constructor(
     private val name: String,
