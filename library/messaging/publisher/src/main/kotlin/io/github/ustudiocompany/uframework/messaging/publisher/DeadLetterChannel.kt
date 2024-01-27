@@ -17,18 +17,18 @@ public fun <T> deadLetterChannel(
 ): DeadLetterChannel<T> =
     DeadLetterChannel(channelName, sender)
 
-public class DeadLetterChannel<T>(private val channelName: ChannelName, private val sender: MessageSender<T>) {
+public class DeadLetterChannel<T>(public val name: ChannelName, private val sender: MessageSender<T>) {
 
     context(Logging, DiagnosticContext)
     public fun send(message: IncomingMessage<T>, stamp: Stamp) {
         val outgoingMessage = OutgoingMessage(
-            headers = message.headers.add(Stamp.KEY to stamp.get),
+            headers = message.headers.add(STAMP_KEY to stamp.get),
             routingKey = message.routingKey,
             body = message.body
         )
 
         //TODO Fixed (runBlocking)
-        runBlocking { sender.send(channelName, outgoingMessage) }
+        runBlocking { sender.send(name, outgoingMessage) }
             .onError { failure -> throw failure.toMessageHandlerException() }
     }
 
@@ -41,8 +41,11 @@ public class DeadLetterChannel<T>(private val channelName: ChannelName, private 
                 val base = buildString { message.headers.map { item -> append(item.valueAsString()) } }
                 return Stamp(UUID.nameUUIDFromBytes(base.toByteArray()).toString())
             }
-
-            public const val KEY: String = "dead-letter-stamp"
         }
+    }
+
+    public companion object {
+        public const val STAMP_KEY: String = "dead-letter-stamp"
+        public const val CHANNEL_NAME_KEY: String = "dead-letter-channel-name"
     }
 }

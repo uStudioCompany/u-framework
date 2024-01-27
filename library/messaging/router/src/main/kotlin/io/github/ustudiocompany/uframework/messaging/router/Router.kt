@@ -5,6 +5,8 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel
+import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel.Companion.CHANNEL_NAME_KEY
+import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel.Companion.STAMP_KEY
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
@@ -31,19 +33,17 @@ public class Router<T>(
 
     context(Logging, DiagnosticContext)
     private fun handleFailure(failure: Failure, message: IncomingMessage<T>) {
-        val stamp = createDeadLetterStamp(message)
-        failure.logging(DeadLetterChannel.Stamp.KEY to stamp.get)
-        message.forwardToDeadLetterChannel(stamp)
+        if (deadLetterChannel != null) {
+            val stamp = createDeadLetterStamp(message)
+            failure.logging(CHANNEL_NAME_KEY to deadLetterChannel.name, STAMP_KEY to stamp.get)
+            deadLetterChannel.send(message, stamp)
+        } else
+            failure.logging()
     }
 
     context(Logging, DiagnosticContext)
     private fun createDeadLetterStamp(message: IncomingMessage<T>): DeadLetterChannel.Stamp =
         DeadLetterChannel.Stamp.generate(message)
-
-    context(Logging, DiagnosticContext)
-    private fun IncomingMessage<T>.forwardToDeadLetterChannel(stamp: DeadLetterChannel.Stamp) {
-        deadLetterChannel?.send(this@forwardToDeadLetterChannel, stamp)
-    }
 
     context(Logging, DiagnosticContext)
     private fun <F : Failure> F.logging(vararg details: Pair<String, Any>) {
