@@ -8,8 +8,8 @@ import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 context(Logging, DiagnosticContext)
-public class RoutesScope<T, HANDLER> {
-    private val routes = Routes.Builder<T, HANDLER>()
+public class RouterScope<T, HANDLER> {
+    private val router = Router.Builder<T, HANDLER>()
 
     public fun versions(vararg values: String): List<String> = values.asList()
 
@@ -22,7 +22,7 @@ public class RoutesScope<T, HANDLER> {
     public fun route(name: String, block: NameScope<T, HANDLER>.() -> Unit): Unit =
         NameScope(name = name, this).apply(block).build()
 
-    public fun build(): Routes<T, HANDLER> = routes.build()
+    public fun build(): Router<T, HANDLER> = router.build()
 
     private fun String.toMessageName(): MessageName = MessageName.of(this)
         .orThrow { failure -> IllegalArgumentException("Invalid name. ${failure.joinDescriptions()}") }
@@ -36,7 +36,7 @@ public class RoutesScope<T, HANDLER> {
         handler: HANDLER
     ) {
         val selector = RouteSelector(name, version)
-        val added: Boolean = routes.add(selector, handler)
+        val added: Boolean = router.add(selector, handler)
         check(added) { "A route by selector ($selector) is already registered.." }
         logger.debug { "A route by selector ($selector) was registered" }
     }

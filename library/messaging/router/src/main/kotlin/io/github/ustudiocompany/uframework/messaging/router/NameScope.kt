@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.messaging.router
 
 public class NameScope<T, HANDLER> internal constructor(
     private val name: String,
-    private val messageRoutingBuilder: RoutesScope<T, HANDLER>
+    private val messageRoutingBuilder: RouterScope<T, HANDLER>
 ) {
 
     private val handlersByVersions = mutableMapOf<String, HANDLER>()

@@ -1,3 +1,13 @@
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;)V
+	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherKt {
+	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static synthetic fun dispatcher$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+}
+
 public final class io/github/ustudiocompany/uframework/messaging/router/NameScope {
 	public final fun build ()V
 	public final fun version (Ljava/lang/String;Ljava/lang/Object;)V
@@ -21,55 +31,35 @@ public final class io/github/ustudiocompany/uframework/messaging/router/RouteSel
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/Router : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Routes;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;)V
-	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
-}
-
-public final class io/github/ustudiocompany/uframework/messaging/router/RouterKt {
-	public static final fun router (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/router/Router;
-	public static synthetic fun router$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/router/Router;
-}
-
-public final class io/github/ustudiocompany/uframework/messaging/router/Routes {
-	public fun <init> (Ljava/util/Map;)V
+public final class io/github/ustudiocompany/uframework/messaging/router/Router {
 	public final fun match (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)Lio/github/airflux/functional/Result;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/Routes$Builder {
+public final class io/github/ustudiocompany/uframework/messaging/router/Router$Builder {
 	public fun <init> ()V
 	public final fun add (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;Ljava/lang/Object;)Z
-	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Routes;
+	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Router;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutesScope {
-	public fun <init> (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
-	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Routes;
-	public final fun route (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V
-	public final fun route (Ljava/lang/String;Ljava/util/Collection;Ljava/lang/Object;)V
-	public final fun route (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
-	public final fun versions ([Ljava/lang/String;)Ljava/util/List;
-}
-
-public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
 	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
-public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader : io/github/ustudiocompany/uframework/messaging/router/RouterErrors {
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader$Missing;
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader$Missing;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
@@ -77,20 +67,20 @@ public final class io/github/ustudiocompany/uframework/messaging/router/RoutingE
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageNameHeader {
+public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader {
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RoutingErrors$MessageVersionHeader$Missing;
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader$Missing : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader$Missing;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
@@ -98,10 +88,23 @@ public final class io/github/ustudiocompany/uframework/messaging/router/RoutingE
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/router/RoutingErrors$RouteNotFound : io/github/ustudiocompany/uframework/messaging/router/RoutingErrors {
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$RouteNotFound : io/github/ustudiocompany/uframework/messaging/router/RouterErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterKt {
+	public static final fun router (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/router/Router;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/router/RouterScope {
+	public fun <init> (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)V
+	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Router;
+	public final fun route (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun route (Ljava/lang/String;Ljava/util/Collection;Ljava/lang/Object;)V
+	public final fun route (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun versions ([Ljava/lang/String;)Ljava/util/List;
 }
 

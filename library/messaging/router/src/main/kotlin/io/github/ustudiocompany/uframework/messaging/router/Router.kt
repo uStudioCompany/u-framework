@@ -1,54 +1,86 @@
 package io.github.ustudiocompany.uframework.messaging.router
 
+import io.github.airflux.functional.Result
+import io.github.airflux.functional.error
 import io.github.airflux.functional.getOrForward
-import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
+import io.github.airflux.functional.mapError
+import io.github.airflux.functional.success
+import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
+import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
-import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel
-import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel.Companion.CHANNEL_NAME_KEY
-import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel.Companion.STAMP_KEY
+import io.github.ustudiocompany.uframework.messaging.message.header.Header
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
-import io.github.ustudiocompany.uframework.telemetry.logging.api.error
+import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import java.util.*
 
 context(Logging, DiagnosticContext)
-public fun <T> router(
-    deadLetterChannel: DeadLetterChannel<T>? = null,
-    router: RoutesScope<T, MessageHandler<T>>.() -> Unit
-): Router<T> =
-    Router(routes = RoutesScope<T, MessageHandler<T>>().apply(router).build(), deadLetterChannel = deadLetterChannel)
+public fun <T, HANDLER> router(
+    scope: RouterScope<T, HANDLER>.() -> Unit
+): Router<T, HANDLER> = RouterScope<T, HANDLER>().apply(scope).build()
 
-public class Router<T>(
-    private val routes: Routes<T, MessageHandler<T>>,
-    private val deadLetterChannel: DeadLetterChannel<T>?
-) : MessageHandler<T> {
+public class Router<T, HANDLER> internal constructor(private val items: Map<RouteSelector, Route<HANDLER>>) {
 
     context(Logging, DiagnosticContext)
-    override fun handle(message: IncomingMessage<T>) {
-        val route = routes.match(message)
-            .getOrForward { (failure) -> return handleFailure(failure, message) }
-        route.handler.handle(message)
+    public fun match(message: IncomingMessage<T>): Result<Route<HANDLER>, RouterErrors> {
+        logger.debug { "A message routing..." }
+        val selector = selector(message).getOrForward { return it }
+        return findRoute(selector)
     }
 
     context(Logging, DiagnosticContext)
-    private fun handleFailure(failure: Failure, message: IncomingMessage<T>) {
-        if (deadLetterChannel != null) {
-            val stamp = createDeadLetterStamp(message)
-            failure.logging(CHANNEL_NAME_KEY to deadLetterChannel.name, STAMP_KEY to stamp.get)
-            deadLetterChannel.send(message, stamp)
-        } else
-            failure.logging()
+    private fun selector(message: IncomingMessage<T>): Result<RouteSelector, RouterErrors> {
+        logger.debug { "Extracting selector from headers of a message..." }
+        val name = message.name().getOrForward { return it }
+        val version = message.version().getOrForward { return it }
+        return RouteSelector(name, version).success()
     }
 
     context(Logging, DiagnosticContext)
-    private fun createDeadLetterStamp(message: IncomingMessage<T>): DeadLetterChannel.Stamp =
-        DeadLetterChannel.Stamp.generate(message)
+    private fun IncomingMessage<T>.name(): Result<MessageName, RouterErrors> {
+        val header = getHeader(MESSAGE_NAME_HEADER_NAME)
+            ?: return RouterErrors.MessageNameHeader.Missing.error()
+        return MessageName.of(header.valueAsString())
+            .mapError { failure -> RouterErrors.MessageNameHeader.InvalidValue(failure) }
+    }
 
     context(Logging, DiagnosticContext)
-    private fun <F : Failure> F.logging(vararg details: Pair<String, Any>) {
-        withDiagnosticContext(this, Iterable { details.iterator() }) {
-            logger.error(getException()) { "An error of command message router. ${joinDescriptions()}" }
+    private fun IncomingMessage<T>.version(): Result<MessageVersion, RouterErrors> {
+        val header = getHeader(MESSAGE_VERSION_HEADER_NAME)
+            ?: return RouterErrors.MessageVersionHeader.Missing.error()
+        return MessageVersion.of(header.valueAsString())
+            .mapError { failure -> RouterErrors.MessageVersionHeader.InvalidValue(failure) }
+    }
+
+    context(Logging, DiagnosticContext)
+    private fun findRoute(selector: RouteSelector): Result<Route<HANDLER>, RouterErrors> {
+        logger.debug { "Finding a message handler by selector ($selector)..." }
+        return items[selector]
+            ?.success()
+            ?: RouterErrors.RouteNotFound(selector).error()
+    }
+
+    context(Logging, DiagnosticContext)
+    private fun IncomingMessage<T>.getHeader(name: String): Header? {
+        logger.debug { "Extracting the $name from the headers of a message..." }
+        return headers.last(name)
+    }
+
+    public class Builder<T, HANDLER> {
+        private val items = TreeMap<RouteSelector, Route<HANDLER>>()
+
+        public fun add(selector: RouteSelector, handler: HANDLER): Boolean {
+            if (selector in items) return false
+            items[selector] = Route(
+                name = selector.name,
+                version = selector.version,
+                handler = handler
+            )
+            return true
         }
+
+        public fun build(): Router<T, HANDLER> = Router(items)
     }
 }

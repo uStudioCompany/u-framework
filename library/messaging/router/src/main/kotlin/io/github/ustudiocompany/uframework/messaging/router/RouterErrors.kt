@@ -4,14 +4,14 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 
-public sealed class RoutingErrors : Failure {
+public sealed class RouterErrors : Failure {
 
-    override val domain: String = "ROUTING"
+    override val domain: String = "ROUTER"
 
     override val kind: Failure.Kind
         get() = Failure.Kind.ERROR
 
-    public class RouteNotFound(selector: RouteSelector) : RoutingErrors() {
+    public class RouteNotFound(selector: RouteSelector) : RouterErrors() {
         override val number: String = "1"
         override val description: String =
             "A router by selector ($selector) is missing."
@@ -21,7 +21,7 @@ public sealed class RoutingErrors : Failure {
         )
     }
 
-    public sealed class MessageNameHeader : RoutingErrors() {
+    public sealed class MessageNameHeader : RouterErrors() {
 
         override val domain: String
             get() = super.domain + ".HEADER.MESSAGE.NAME"
