@@ -1,5 +1,9 @@
 package io.github.ustudiocompany.uframework.messaging.message.header
 
+import io.github.airflux.functional.Result
+import io.github.airflux.functional.error
+import io.github.airflux.functional.success
+
 public class Headers private constructor(private val items: List<Header>) : Iterable<Header> {
 
     public fun add(header: Pair<String, String>): Headers =
@@ -9,14 +13,19 @@ public class Headers private constructor(private val items: List<Header>) : Iter
 
     public fun addAll(headers: Iterable<Header>): Headers = Headers(this.items + headers)
 
-    public operator fun get(name: String, ignoreCase: Boolean = false): Iterable<Header> =
-        Iterable { FilterByNameIterator(name = name, ignoreCase = ignoreCase, original = items.iterator()) }
+    public operator fun get(name: String): Iterable<Header> =
+        Iterable { FilterByNameIterator(name = name, ignoreCase = true, original = items.iterator()) }
 
-    public fun last(name: String, ignoreCase: Boolean = false): Header? =
-        items.findLast { header -> header.equals(name, ignoreCase) }
+    public fun last(name: String): Result<Header, HeaderErrors> =
+        lastOrNull(name = name)
+            ?.success()
+            ?: HeaderErrors.Missing(name).error()
 
-    public fun remove(name: String, ignoreCase: Boolean = false): Headers =
-        Headers(items.filterNot { header -> header.equals(name, ignoreCase) })
+    public fun lastOrNull(name: String): Header? =
+        items.findLast { header -> header.equals(name = name, ignoreCase = true) }
+
+    public fun remove(name: String): Headers =
+        Headers(items.filterNot { header -> header.equals(name = name, ignoreCase = true) })
 
     override fun iterator(): Iterator<Header> = items.iterator()
 

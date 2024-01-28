@@ -65,7 +65,7 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     context(Logging, DiagnosticContext)
     private fun IncomingMessage<T>.getHeader(name: String): Header? {
         logger.debug { "Extracting the $name from the headers of a message..." }
-        return headers.last(name)
+        return headers.lastOrNull(name)
     }
 
     public class Builder<T, HANDLER> {

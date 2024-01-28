@@ -111,21 +111,40 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Header$Companion {
 }
 
+public abstract class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$InvalidValue : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
+	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$Missing : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getNumber ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/message/header/Headers$Companion;
 	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun add (Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public final fun add (Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public final fun addAll (Ljava/lang/Iterable;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
-	public final fun get (Ljava/lang/String;Z)Ljava/lang/Iterable;
-	public static synthetic fun get$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Ljava/lang/Iterable;
+	public final fun get (Ljava/lang/String;)Ljava/lang/Iterable;
 	public static final fun invoke (Ljava/util/List;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public static final fun invoke ([Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public fun iterator ()Ljava/util/Iterator;
-	public final fun last (Ljava/lang/String;Z)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public static synthetic fun last$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
-	public final fun remove (Ljava/lang/String;Z)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
-	public static synthetic fun remove$default (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/String;ZILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun last (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun lastOrNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
+	public final fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers$Companion {
