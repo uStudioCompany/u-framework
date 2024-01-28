@@ -1,12 +1,12 @@
-package io.github.ustudiocompany.uframework.saga.message.header
+package io.github.ustudiocompany.uframework.messaging.header
 
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.flatMap
 import io.github.airflux.functional.mapError
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.message.header.Header
 import io.github.ustudiocompany.uframework.messaging.message.header.HeaderErrors
 import io.github.ustudiocompany.uframework.messaging.message.header.Headers
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
 import kotlin.text.Charsets.UTF_8
 
 public fun Header.Companion.correlationId(value: CorrelationId): Header =

@@ -29,7 +29,5 @@ dependencies {
     kover(project(":messaging-publisher-library"))
     kover(project(":messaging-kafka-receiver-library"))
     kover(project(":messaging-kafka-sender-library"))
-    kover(project(":saga-messaging-types-library"))
-    kover(project(":saga-messaging-headers-library"))
     kover(project(":saga-engine-library"))
 }

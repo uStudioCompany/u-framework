@@ -1,3 +1,32 @@
+public final class io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Companion;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/header/type/CorrelationId;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Companion {
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public abstract class io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getType-uX7CcE4 ()Ljava/lang/Class;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Errors {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageId {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/header/type/MessageId$Companion;
 	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/header/type/MessageId;
@@ -52,6 +81,20 @@ public final class io/github/ustudiocompany/uframework/messaging/header/type/Mes
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageStatus : java/lang/Enum, io/github/ustudiocompany/uframework/utils/EnumElementProvider$Key {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus$Companion;
+	public static final field ERROR Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;
+	public static final field INCIDENT Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;
+	public static final field SUCCESS Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public fun getKey ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;
+	public static fun values ()[Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageStatus$Companion : io/github/ustudiocompany/uframework/utils/EnumElementProvider {
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageType : java/lang/Enum, io/github/ustudiocompany/uframework/utils/EnumElementProvider$Key {

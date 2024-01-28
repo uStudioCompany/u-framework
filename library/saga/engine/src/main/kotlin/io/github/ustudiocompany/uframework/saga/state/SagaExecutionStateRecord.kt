@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.saga.state
 
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.saga.SagaLabel
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
 
 public data class SagaExecutionStateRecord(
     public val routingKey: MessageRoutingKey,

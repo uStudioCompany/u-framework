@@ -1,3 +1,9 @@
+public final class io/github/ustudiocompany/uframework/messaging/header/CorrelationIdHeaderKt {
+	public static final field CORRELATION_ID_HEADER_NAME Ljava/lang/String;
+	public static final fun correlationId (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/airflux/functional/Result;
+	public static final fun correlationId-akp2R48 (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
+}
+
 public final class io/github/ustudiocompany/uframework/messaging/header/MessageIdHeaderKt {
 	public static final field MESSAGE_ID_HEADER_NAME Ljava/lang/String;
 	public static final fun messageId (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/airflux/functional/Result;
@@ -8,6 +14,12 @@ public final class io/github/ustudiocompany/uframework/messaging/header/MessageN
 	public static final field MESSAGE_NAME_HEADER_NAME Ljava/lang/String;
 	public static final fun name (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 	public static final fun name (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/header/MessageStatusHeaderKt {
+	public static final field STATUS_HEADER_NAME Ljava/lang/String;
+	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Header$Companion;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageStatus;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
+	public static final fun status (Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;)Lio/github/airflux/functional/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/MessageTypeHeaderKt {

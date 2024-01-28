@@ -53,12 +53,6 @@ include(":messaging-kafka-sender-library")
 project(":messaging-kafka-sender-library").projectDir = file("./library/messaging/transport/kafka/sender")
 
 /* Saga */
-include(":saga-messaging-types-library")
-project(":saga-messaging-types-library").projectDir = file("./library/saga/messaging/types")
-
-include(":saga-messaging-headers-library")
-project(":saga-messaging-headers-library").projectDir = file("./library/saga/messaging/headers")
-
 include(":saga-engine-library")
 project(":saga-engine-library").projectDir = file("./library/saga/engine")
 

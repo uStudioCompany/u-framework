@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.saga.repository
 
 import io.github.airflux.functional.Result
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.saga.state.SagaExecutionStateRecord
 
 public interface SagaRepository {

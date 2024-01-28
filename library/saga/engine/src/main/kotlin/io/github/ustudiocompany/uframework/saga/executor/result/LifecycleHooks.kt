@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.executor.result
 
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 
 internal sealed interface LifecycleHooks<DATA> {
 

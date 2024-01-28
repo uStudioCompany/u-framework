@@ -9,6 +9,7 @@ import io.github.airflux.functional.map
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.saga.Saga
@@ -16,7 +17,6 @@ import io.github.ustudiocompany.uframework.saga.error.SagaExecutorErrors
 import io.github.ustudiocompany.uframework.saga.executor.result.ExecutionResult
 import io.github.ustudiocompany.uframework.saga.executor.result.LifecycleHooks
 import io.github.ustudiocompany.uframework.saga.message.ReplyMessage
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.saga.publisher.Command
 import io.github.ustudiocompany.uframework.saga.request.Request
 import io.github.ustudiocompany.uframework.saga.state.HistoricalStep

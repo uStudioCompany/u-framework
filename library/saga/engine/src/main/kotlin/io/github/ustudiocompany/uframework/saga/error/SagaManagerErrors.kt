@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.saga.error
 
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.saga.SagaLabel
@@ -8,7 +9,6 @@ import io.github.ustudiocompany.uframework.saga.error.SagaErrors.Companion.CORRE
 import io.github.ustudiocompany.uframework.saga.error.SagaErrors.Companion.MESSAGE_ACTION_DETAIL_KEY
 import io.github.ustudiocompany.uframework.saga.error.SagaErrors.Companion.MESSAGE_VERSION_DETAIL_KEY
 import io.github.ustudiocompany.uframework.saga.error.SagaErrors.Companion.SAGA_LABEL_DETAIL_KEY
-import io.github.ustudiocompany.uframework.saga.message.header.type.CorrelationId
 
 public sealed class SagaManagerErrors : SagaErrors {
     override val domain: String
