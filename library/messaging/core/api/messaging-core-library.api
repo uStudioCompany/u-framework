@@ -113,6 +113,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 
 public abstract class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
+	public abstract fun getName ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$InvalidValue : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
@@ -121,6 +122,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getName ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -129,6 +131,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getName ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
