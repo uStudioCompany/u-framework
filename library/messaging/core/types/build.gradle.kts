@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.airflux.functional.core)
 
     /* Utils libs */
-    implementation(project(":utils-library"))
+    api(project(":utils-library"))
 
     /* Failure libs */
     implementation(project(":failure-library"))

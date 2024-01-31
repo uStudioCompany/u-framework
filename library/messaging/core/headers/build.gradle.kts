@@ -13,11 +13,12 @@ repositories {
 
 dependencies {
 
+    /* Messaging libs */
+    implementation(project(":messaging-core-library"))
+    api(project(":messaging-core-types-library"))
+
     /* Libs section */
     implementation(libs.airflux.functional.core)
-
-    /* Utils libs */
-    implementation(project(":utils-library"))
 
     /* Failure libs */
     implementation(project(":failure-library"))
@@ -28,10 +29,6 @@ dependencies {
     implementation(project(":logging-api-library"))
     implementation(project(":logging-formatter-json-library"))
     implementation(project(":logging-slf4j-library"))
-
-    /* Messaging libs */
-    implementation(project(":messaging-core-library"))
-    api(project(":messaging-core-types-library"))
 
     /* Test section */
     testImplementation(libs.bundles.kotest)
