@@ -37,6 +37,7 @@ public final class io/github/ustudiocompany/uframework/messaging/router/Router {
 
 public final class io/github/ustudiocompany/uframework/messaging/router/Router$Builder {
 	public fun <init> ()V
+	public final fun add (Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Ljava/lang/Object;)Z
 	public final fun add (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;Ljava/lang/Object;)Z
 	public final fun build ()Lio/github/ustudiocompany/uframework/messaging/router/Router;
 }

@@ -71,6 +71,11 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     public class Builder<T, HANDLER> {
         private val items = TreeMap<RouteSelector, Route<HANDLER>>()
 
+        public fun add(name: MessageName, version: MessageVersion, handler: HANDLER): Boolean {
+            val selector = RouteSelector(name, version)
+            return add(selector, handler)
+        }
+
         public fun add(selector: RouteSelector, handler: HANDLER): Boolean {
             if (selector in items) return false
             items[selector] = Route(
