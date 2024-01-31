@@ -4,6 +4,7 @@ import io.github.airflux.functional.Result
 import io.github.airflux.functional.error
 import io.github.airflux.functional.getOrForward
 import io.github.airflux.functional.mapError
+import io.github.airflux.functional.orThrow
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
@@ -71,10 +72,11 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     public class Builder<T, HANDLER> {
         private val items = TreeMap<RouteSelector, Route<HANDLER>>()
 
-        public fun add(name: MessageName, version: MessageVersion, handler: HANDLER): Boolean {
-            val selector = RouteSelector(name, version)
-            return add(selector, handler)
-        }
+        public fun add(name: String, version: String, handler: HANDLER): Boolean =
+            add(name = name.toMessageName(), version = version.toMessageVersion(), handler = handler)
+
+        public fun add(name: MessageName, version: MessageVersion, handler: HANDLER): Boolean =
+            add(RouteSelector(name, version), handler)
 
         public fun add(selector: RouteSelector, handler: HANDLER): Boolean {
             if (selector in items) return false
@@ -87,5 +89,11 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
         }
 
         public fun build(): Router<T, HANDLER> = Router(items)
+
+        private fun String.toMessageName(): MessageName = MessageName.of(this)
+            .orThrow { failure -> IllegalArgumentException("Invalid a message name. ${failure.joinDescriptions()}") }
+
+        private fun String.toMessageVersion(): MessageVersion = MessageVersion.of(this)
+            .orThrow { failure -> IllegalArgumentException("Invalid a message version. ${failure.joinDescriptions()}") }
     }
 }
