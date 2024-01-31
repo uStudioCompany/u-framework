@@ -22,6 +22,7 @@ public final class io/github/ustudiocompany/uframework/messaging/router/Route {
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/router/RouteSelector : java/lang/Comparable {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;)V
 	public fun compareTo (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;)I
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public fun equals (Ljava/lang/Object;)Z

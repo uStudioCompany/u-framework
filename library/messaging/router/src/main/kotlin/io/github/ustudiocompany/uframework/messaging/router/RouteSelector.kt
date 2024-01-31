@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.messaging.router
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 
-public class RouteSelector internal constructor(
+public class RouteSelector(
     public val name: MessageName,
     public val version: MessageVersion
 ) : Comparable<RouteSelector> {
