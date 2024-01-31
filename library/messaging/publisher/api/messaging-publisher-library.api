@@ -24,6 +24,7 @@ public final class io/github/ustudiocompany/uframework/messaging/publisher/DeadL
 public final class io/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannelKt {
 	public static final fun deadLetterChannel-vSX-5XE (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/sender/MessageSender;)Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;
 	public static final fun sendToDeadLetterChannel (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Ljava/lang/String;Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public static synthetic fun sendToDeadLetterChannel$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Ljava/lang/String;Lio/github/ustudiocompany/uframework/failure/Failure;ILjava/lang/Object;)V
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher {
