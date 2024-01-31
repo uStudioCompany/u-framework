@@ -53,7 +53,6 @@ public class DeadLetterChannel<T>(public val name: ChannelName, private val send
     }
 }
 
-
 context(Logging, DiagnosticContext)
 public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
     channel: DeadLetterChannel<T>,
