@@ -53,10 +53,11 @@ public class DeadLetterChannel<T>(public val name: ChannelName, private val send
     }
 }
 
+
 context(Logging, DiagnosticContext)
 public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
     channel: DeadLetterChannel<T>,
-    description: String,
+    description: String? = null,
     cause: Failure
 ) {
     val stamp = DeadLetterChannel.Stamp.generate(this)
@@ -65,7 +66,12 @@ public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
         DeadLetterChannel.CHANNEL_NAME_KEY to channel.name,
         DeadLetterChannel.STAMP_KEY to stamp.get
     ) {
-        logger.error(cause.getException()) { "$description ${cause.joinDescriptions()}" }
+        logger.error(cause.getException()) {
+            if (description != null)
+                "$description ${cause.joinDescriptions()}"
+            else
+                cause.joinDescriptions()
+        }
     }
     channel.send(this, stamp)
 }
