@@ -122,7 +122,7 @@ public class SagaInstance<DATA>(
     }
 
     private fun SerializedData.deserialize(): Result<DATA, SagaExecutorErrors.DataDeserialization> =
-        saga.definition.deserializer.deserialize(this.get)
+        saga.definition.serializer.deserialize(this.get)
             .mapError { SagaExecutorErrors.DataDeserialization(it) }
 
     private fun DATA.serialize(): Result<SerializedData, SagaExecutorErrors.DataSerialization> =

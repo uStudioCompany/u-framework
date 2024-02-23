@@ -26,19 +26,15 @@ public abstract interface class io/github/ustudiocompany/uframework/saga/Saga {
 }
 
 public final class io/github/ustudiocompany/uframework/saga/SagaDefinition {
-	public final fun getDeserializer ()Lio/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer;
 	public final fun getLabel-QRyP-tA ()Ljava/lang/String;
 	public final fun getSerializer ()Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;
 	public final fun getSteps ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/SagaDefinitionBuilder {
-	public final fun deserializer (Lio/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer;)Lio/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer;
-	public final fun getDeserializer ()Lio/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer;
 	public final fun getName-QRyP-tA ()Ljava/lang/String;
 	public final fun getSerializer ()Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;
-	public final fun serializer (Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;)Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;
-	public final fun setDeserializer (Lio/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer;)V
+	public final fun serializer (Lkotlin/jvm/functions/Function0;)Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;
 	public final fun setSerializer (Lio/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer;)V
 	public final fun step (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 }
@@ -283,11 +279,8 @@ public final class io/github/ustudiocompany/uframework/saga/executor/ReplyHandli
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/saga/executor/SagaDataDeserializer {
-	public abstract fun deserialize (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/saga/executor/SagaDataSerializer {
+	public abstract fun deserialize (Ljava/lang/String;)Lio/github/airflux/functional/Result;
 	public abstract fun serialize (Ljava/lang/Object;)Lio/github/airflux/functional/Result;
 }
 
