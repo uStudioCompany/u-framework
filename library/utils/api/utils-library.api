@@ -38,5 +38,6 @@ public abstract interface class io/github/ustudiocompany/uframework/utils/EnumEl
 public final class io/github/ustudiocompany/uframework/utils/NullableExtensionsKt {
 	public static final fun isNotPresent (Ljava/lang/Object;)Z
 	public static final fun isPresent (Ljava/lang/Object;)Z
+	public static final fun notNull (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
