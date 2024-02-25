@@ -1,9 +1,6 @@
 package io.github.ustudiocompany.uframework.saga
 
-import io.github.airflux.functional.Result
-import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
-import io.github.ustudiocompany.uframework.saga.message.CommandMessage
 
 public fun <DATA> saga(
     name: String,
@@ -13,7 +10,7 @@ public fun <DATA> saga(
 
 public interface Saga<DATA> {
     public val definition: SagaDefinition<DATA>
-    public val dataInitializer: (CommandMessage) -> Result<DATA, Failure>
+    public val dataInitializer: SagaDataInitializer<DATA>
 
     public fun onStarted(correlationId: CorrelationId) {}
 

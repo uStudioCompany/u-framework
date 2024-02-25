@@ -396,6 +396,10 @@ public final class io/github/ustudiocompany/uframework/saga/request/Request {
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
 
+public final class io/github/ustudiocompany/uframework/saga/request/RequestBuilderKt {
+	public static final fun makeRequestBuilder (Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
+}
+
 public abstract class io/github/ustudiocompany/uframework/saga/request/RequestPrototype {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	protected final fun getChannel-QTL2v0M ()Ljava/lang/String;

@@ -3,20 +3,18 @@ package io.github.ustudiocompany.uframework.saga.step.action
 import io.github.airflux.functional.Result
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.saga.MetaData
-import io.github.ustudiocompany.uframework.saga.request.Request
+import io.github.ustudiocompany.uframework.saga.request.RequestBuilder
 import io.github.ustudiocompany.uframework.saga.response.ResponseBodyDeserializer
 import io.github.ustudiocompany.uframework.saga.step.action.handler.ErrorReplyHandler
 import io.github.ustudiocompany.uframework.saga.step.action.handler.SuccessfulReplyHandler
 
 public class InvokeParticipantAction<DATA> private constructor(
-    public val requestBuilder: (DATA) -> Result<Request, Failure>,
+    public val requestBuilder: RequestBuilder<DATA>,
     public val successfulReplyHandler: SuccessfulReplyHandler<DATA>?,
     public val errorReplyHandler: ErrorReplyHandler<DATA>?
 ) {
 
-    public class Builder<DATA> internal constructor(
-        private val requestBuilder: (DATA) -> Result<Request, Failure>
-    ) {
+    public class Builder<DATA> internal constructor(private val requestBuilder: RequestBuilder<DATA>) {
         private var successfulReplyHandler: SuccessfulReplyHandler<DATA>? = null
         private var errorReplyHandler: ErrorReplyHandler<DATA>? = null
 

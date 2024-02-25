@@ -8,7 +8,6 @@ import io.github.airflux.functional.error
 import io.github.airflux.functional.map
 import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
@@ -19,6 +18,7 @@ import io.github.ustudiocompany.uframework.saga.executor.result.LifecycleHooks
 import io.github.ustudiocompany.uframework.saga.message.ReplyMessage
 import io.github.ustudiocompany.uframework.saga.publisher.Command
 import io.github.ustudiocompany.uframework.saga.request.Request
+import io.github.ustudiocompany.uframework.saga.request.RequestBuilder
 import io.github.ustudiocompany.uframework.saga.state.HistoricalStep
 import io.github.ustudiocompany.uframework.saga.state.ProcessedStep
 import io.github.ustudiocompany.uframework.saga.state.SagaExecutionState
@@ -301,10 +301,10 @@ private fun <DATA> StepToRetryExecution<DATA>.makeRequest(data: DATA): Result<Re
     makeRequest(requestBuilder, data)
 
 private fun <DATA> makeRequest(
-    builder: (DATA) -> Result<Request, Failure>,
+    requestBuilder: RequestBuilder<DATA>,
     data: DATA
 ): Result<Request, SagaExecutorErrors.MakeRequest> =
-    builder(data)
+    requestBuilder(data)
         .mapError { error -> SagaExecutorErrors.MakeRequest(error) }
 
 private fun Request.toCommand(routingKey: MessageRoutingKey, correlationId: CorrelationId, messageId: MessageId) =
