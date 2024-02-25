@@ -1,13 +1,13 @@
 package io.github.ustudiocompany.uframework.saga.state
 
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
-import io.github.ustudiocompany.uframework.saga.step.StepLabel
+import io.github.ustudiocompany.uframework.saga.step.SagaStepLabel
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 public sealed interface HistoricalStep {
     public val index: Int
-    public val label: StepLabel
+    public val label: SagaStepLabel
     public val messageId: MessageId
 
     /**
@@ -15,7 +15,7 @@ public sealed interface HistoricalStep {
      */
     public class Completed(
         override val index: Int,
-        override val label: StepLabel,
+        override val label: SagaStepLabel,
         override val messageId: MessageId
     ) : HistoricalStep
 
@@ -24,7 +24,7 @@ public sealed interface HistoricalStep {
      */
     public class NotCompleted(
         override val index: Int,
-        override val label: StepLabel,
+        override val label: SagaStepLabel,
         override val messageId: MessageId
     ) : HistoricalStep
 }

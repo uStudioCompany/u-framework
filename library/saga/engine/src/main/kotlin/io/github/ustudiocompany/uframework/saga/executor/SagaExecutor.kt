@@ -28,7 +28,7 @@ import io.github.ustudiocompany.uframework.saga.state.StepHistory
 import io.github.ustudiocompany.uframework.saga.state.get
 import io.github.ustudiocompany.uframework.saga.state.isCompleted
 import io.github.ustudiocompany.uframework.saga.state.last
-import io.github.ustudiocompany.uframework.saga.step.StepLabel
+import io.github.ustudiocompany.uframework.saga.step.SagaStepLabel
 import io.github.ustudiocompany.uframework.saga.step.action.handler.ErrorReplyHandler
 import io.github.ustudiocompany.uframework.saga.step.action.handler.SuccessfulReplyHandler
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
@@ -287,11 +287,11 @@ private fun <DATA> Saga<DATA>.getRetryStep(
 
 private fun generateMessageId(
     correlationId: CorrelationId,
-    stepLabel: StepLabel,
+    label: SagaStepLabel,
     direction: SagaExecutionState.Direction
 ): MessageId =
     MessageId.generate(
-        correlationId.get.lowercase() + ":" + stepLabel.get.lowercase() + ":" + direction.name.lowercase()
+        correlationId.get.lowercase() + ":" + label.get.lowercase() + ":" + direction.name.lowercase()
     )
 
 private fun <DATA> StepToExecution<DATA>.makeRequest(data: DATA): Result<Request, SagaExecutorErrors.MakeRequest> =

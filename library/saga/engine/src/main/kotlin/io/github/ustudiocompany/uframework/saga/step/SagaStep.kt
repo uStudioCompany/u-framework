@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.saga.step.action.handler.ErrorReplyHa
 import io.github.ustudiocompany.uframework.saga.step.action.handler.SuccessfulReplyHandler
 
 public class SagaStep<DATA>(
-    public val label: StepLabel,
+    public val label: SagaStepLabel,
     public val participant: InvokeParticipantAction<DATA>,
     public val compensation: CompensationAction<DATA>?
 )

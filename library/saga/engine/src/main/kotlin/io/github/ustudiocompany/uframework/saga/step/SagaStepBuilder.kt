@@ -4,7 +4,7 @@ import io.github.ustudiocompany.uframework.saga.request.RequestBuilder
 import io.github.ustudiocompany.uframework.saga.step.action.CompensationAction
 import io.github.ustudiocompany.uframework.saga.step.action.InvokeParticipantAction
 
-public class SagaStepBuilder<DATA> internal constructor(private val label: StepLabel) {
+public class SagaStepBuilder<DATA> internal constructor(private val label: SagaStepLabel) {
     private var invokeParticipantActionBuilder: InvokeParticipantAction.Builder<DATA>? = null
     private var compensationActionBuilder: CompensationAction.Builder<DATA>? = null
 

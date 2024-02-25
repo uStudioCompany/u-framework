@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.saga.error
 
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.saga.step.StepLabel
+import io.github.ustudiocompany.uframework.saga.step.SagaStepLabel
 
 public sealed class SagaExecutorErrors : SagaErrors {
     override val domain: String
@@ -74,7 +74,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     /**
      * Сага не містить крок на який посилається крок з історії (R-3)
      */
-    public class UnknownStep(index: Int, label: StepLabel) : SagaExecutorErrors() {
+    public class UnknownStep(index: Int, label: SagaStepLabel) : SagaExecutorErrors() {
         override val number: String = "7"
         override val description: String = "The saga does not contain a step that is referenced by a step in history."
 
