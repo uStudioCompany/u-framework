@@ -615,16 +615,16 @@ public final class io/github/ustudiocompany/uframework/saga/step/SagaStep {
 	public final fun getParticipant ()Lio/github/ustudiocompany/uframework/saga/step/action/InvokeParticipantAction;
 }
 
-public final class io/github/ustudiocompany/uframework/saga/step/SagaStepKt {
-	public static final fun getErrorReplyHandler (Lio/github/ustudiocompany/uframework/saga/step/SagaStep;)Lio/github/ustudiocompany/uframework/saga/step/action/handler/ErrorReplyHandler;
-	public static final fun getSuccessfulReplyHandler (Lio/github/ustudiocompany/uframework/saga/step/SagaStep;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;)Lio/github/ustudiocompany/uframework/saga/step/action/handler/SuccessfulReplyHandler;
-}
-
-public final class io/github/ustudiocompany/uframework/saga/step/StepBuilder {
+public final class io/github/ustudiocompany/uframework/saga/step/SagaStepBuilder {
 	public final fun compensation (Lkotlin/jvm/functions/Function1;)V
 	public final fun compensation (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 	public final fun invokeParticipant (Lkotlin/jvm/functions/Function1;)V
 	public final fun invokeParticipant (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/github/ustudiocompany/uframework/saga/step/SagaStepKt {
+	public static final fun getErrorReplyHandler (Lio/github/ustudiocompany/uframework/saga/step/SagaStep;)Lio/github/ustudiocompany/uframework/saga/step/action/handler/ErrorReplyHandler;
+	public static final fun getSuccessfulReplyHandler (Lio/github/ustudiocompany/uframework/saga/step/SagaStep;Lio/github/ustudiocompany/uframework/saga/state/SagaExecutionState$Direction;)Lio/github/ustudiocompany/uframework/saga/step/action/handler/SuccessfulReplyHandler;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/step/StepLabel {
