@@ -20,11 +20,13 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Exception : io/github/ustudiocompany/uframework/failure/Failure$Cause {
 	public fun <init> (Ljava/lang/Exception;)V
 	public final fun getGet ()Ljava/lang/Exception;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Failure : io/github/ustudiocompany/uframework/failure/Failure$Cause {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public final fun getGet ()Lio/github/ustudiocompany/uframework/failure/Failure;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$None : io/github/ustudiocompany/uframework/failure/Failure$Cause {
@@ -73,6 +75,7 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details :
 	public fun subList (II)Ljava/util/List;
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Details$Companion {
@@ -86,6 +89,7 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details$I
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun getKey ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Kind : java/lang/Enum {

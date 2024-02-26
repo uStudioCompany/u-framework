@@ -98,16 +98,29 @@ public interface Failure {
     }
 
     public sealed interface Cause {
-        public data object None : Cause
-        public class Exception(public val get: kotlin.Exception) : Cause
-        public class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause
+
+        public data object None : Cause {
+            override fun toString(): String = "None"
+        }
+
+        public class Exception(public val get: kotlin.Exception) : Cause {
+            override fun toString(): String = "Exception: $get"
+        }
+
+        public class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
+            override fun toString(): String = "Failure: $get"
+        }
     }
 
     public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
         public operator fun plus(details: Details): Details = Details(this.items + details)
         public operator fun plus(item: Item): Details = Details(this.items + item)
 
-        public class Item(public val key: String, public val value: String)
+        override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
+
+        public class Item(public val key: String, public val value: String) {
+            override fun toString(): String = "$key=`$value`"
+        }
 
         public companion object {
             public val None: Details = Details(emptyList())
