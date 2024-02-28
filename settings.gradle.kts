@@ -59,3 +59,12 @@ project(":saga-engine-library").projectDir = file("./library/saga/engine")
 /* Retry */
 include(":retry-library")
 project(":retry-library").projectDir = file("./library/retry")
+
+/* Databases */
+
+/* JDBC */
+include(":jdbc-library")
+project(":jdbc-library").projectDir = file("./library/jdbc")
+
+include(":jdbc-test-library")
+project(":jdbc-test-library").projectDir = file("./library/jdbc/test")

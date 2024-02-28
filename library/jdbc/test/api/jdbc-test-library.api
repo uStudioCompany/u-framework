@@ -1,0 +1,14 @@
+public abstract class io/github/ustudiocompany/uframework/jdbc/AbstractSQLDatabaseTest : io/kotest/core/spec/style/FreeSpec {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Lliquibase/Contexts;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/lang/String;Lliquibase/Contexts;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun beforeSpec (Lio/kotest/core/spec/Spec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun checkData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	protected final fun executeSql (Ljava/lang/String;)V
+	protected final fun getDataSource ()Lcom/zaxxer/hikari/HikariDataSource;
+	protected final fun selectData (Ljava/lang/String;)Ljava/util/List;
+	protected final fun shouldContain (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	protected final fun shouldContainExactly (Ljava/lang/String;[Lkotlin/jvm/functions/Function2;)V
+	protected final fun truncateTable (Ljava/lang/String;)V
+}
+
