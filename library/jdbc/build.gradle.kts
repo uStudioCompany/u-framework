@@ -18,7 +18,7 @@ dependencies {
     implementation(project(":failure-library"))
 
     /* Retry libs */
-    implementation(project(":retry-library"))
+    api(project(":retry-library"))
 
     /* Database */
     api(libs.bundles.database)
