@@ -12,17 +12,26 @@ repositories {
 }
 
 dependencies {
+    /* Kotlin */
+    implementation(libs.coroutines.core)
+
+    /* Libs section */
     implementation(libs.airflux.functional.core)
 
-    /* u-framework */
+    /* Failure libs */
     implementation(project(":failure-library"))
-    implementation(project(":logging-api-library"))
+
+    /* Logging libs */
     implementation(project(":diagnostic-context-library"))
     implementation(project(":diagnostic-context-extension-library"))
-    implementation(project(":messaging-core-library"))
-    implementation(project(":messaging-router-library"))
-    implementation(project(":messaging-dead-letter-channel-library"))
+    implementation(project(":logging-api-library"))
+    implementation(project(":logging-formatter-json-library"))
+    implementation(project(":logging-slf4j-library"))
 
-    /* Test */
+    /* Messaging libs */
+    implementation(project(":messaging-core-library"))
+
+    /* Test section */
     testImplementation(libs.bundles.kotest)
+    testImplementation(libs.bundles.mockito)
 }
