@@ -7,8 +7,10 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.DeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.sendToDeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.dispatcher.Dispatcher.FailureHandler
+import io.github.ustudiocompany.uframework.messaging.dispatcher.Dispatcher.RouteHandler
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
+import io.github.ustudiocompany.uframework.messaging.router.Route
 import io.github.ustudiocompany.uframework.messaging.router.Router
 import io.github.ustudiocompany.uframework.messaging.router.RouterScope
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
@@ -17,32 +19,41 @@ import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 
 context(Logging, DiagnosticContext)
-public fun <T, H : MessageHandler<T>> dispatcher(
+public fun <T, H> dispatcher(
+    routeHandler: RouteHandler<T, H>,
     failureHandler: FailureHandler<T>,
     router: RouterScope<T, H>.() -> Unit
-): Dispatcher<T, H> = Dispatcher(
-    failureHandler = failureHandler,
-    router = RouterScope<T, H>().apply(router).build()
-)
+): Dispatcher<T, H> =
+    Dispatcher(
+        routeHandler = routeHandler,
+        failureHandler = failureHandler,
+        router = RouterScope<T, H>().apply(router).build()
+    )
 
-context(Logging, DiagnosticContext)
-public fun <T, H : MessageHandler<T>> dispatcher(
-    deadLetterChannel: DeadLetterChannel<T>,
-    router: RouterScope<T, H>.() -> Unit
-): Dispatcher<T, H> = dispatcher(failureHandler = FailureHandler.deadLetter(deadLetterChannel), router = router)
-
-public class Dispatcher<T, H : MessageHandler<T>>(
-    private val failureHandler: FailureHandler<T>,
-    private val router: Router<T, H>
+public class Dispatcher<T, H>(
+    private val router: Router<T, H>,
+    private val routeHandler: RouteHandler<T, H>,
+    private val failureHandler: FailureHandler<T>
 ) : MessageHandler<T> {
 
     context(Logging, DiagnosticContext)
     override fun handle(message: IncomingMessage<T>) {
         router.match(message)
             .fold(
-                onSuccess = { route -> route.handler.handle(message) },
+                onSuccess = { route -> routeHandler.handle(message, route) },
                 onError = { failure -> failureHandler.handle(message, failure) }
             )
+    }
+
+    public fun interface RouteHandler<T, H> {
+
+        context(Logging, DiagnosticContext)
+        public fun handle(message: IncomingMessage<T>, route: Route<H>)
+
+        public companion object {
+            public fun <T> defaultMessageHandler(): RouteHandler<T, MessageHandler<T>> =
+                RouteHandler { message, route -> route.handler.handle(message) }
+        }
     }
 
     public fun interface FailureHandler<T> {
