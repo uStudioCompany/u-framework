@@ -50,7 +50,7 @@ include(":messaging-publisher-library")
 project(":messaging-publisher-library").projectDir = file("./library/messaging/publisher")
 
 include(":messaging-dead-letter-channel-library")
-project(":messaging-dead-letter-channel-library").projectDir = file("./library/messaging/deadletterchannel")
+project(":messaging-dead-letter-channel-library").projectDir = file("./library/messaging/channels/deadletter")
 
 include(":messaging-kafka-receiver-library")
 project(":messaging-kafka-receiver-library").projectDir = file("./library/messaging/transport/kafka/receiver")

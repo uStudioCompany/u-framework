@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.messaging.publisher
+package io.github.ustudiocompany.uframework.messaging.channel.deadletter
 
 import io.github.airflux.functional.onError
 import io.github.ustudiocompany.uframework.failure.Failure

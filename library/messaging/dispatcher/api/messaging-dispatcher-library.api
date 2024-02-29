@@ -1,10 +1,10 @@
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;)V
 	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherKt {
-	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
-	public static synthetic fun dispatcher$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/publisher/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static synthetic fun dispatcher$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
 }
 

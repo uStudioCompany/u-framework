@@ -4,10 +4,10 @@ package io.github.ustudiocompany.uframework.messaging.dispatcher
 
 import io.github.airflux.functional.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.messaging.channel.deadletter.DeadLetterChannel
+import io.github.ustudiocompany.uframework.messaging.channel.deadletter.sendToDeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
-import io.github.ustudiocompany.uframework.messaging.publisher.DeadLetterChannel
-import io.github.ustudiocompany.uframework.messaging.publisher.sendToDeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.router.Router
 import io.github.ustudiocompany.uframework.messaging.router.RouterScope
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
