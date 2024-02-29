@@ -1,10 +1,21 @@
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lio/github/ustudiocompany/uframework/messaging/router/Router;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;Lio/github/ustudiocompany/uframework/messaging/router/Router;)V
 	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion;
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/failure/Failure;)V
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion {
+	public final fun deadLetter (Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public final fun getNone ()Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public final fun getOnlyLogging ()Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherKt {
 	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
-	public static synthetic fun dispatcher$default (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
 }
 
