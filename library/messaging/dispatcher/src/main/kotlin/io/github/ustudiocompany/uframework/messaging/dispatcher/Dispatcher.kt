@@ -19,15 +19,14 @@ context(Logging, DiagnosticContext)
 public fun <T> dispatcher(
     deadLetterChannel: DeadLetterChannel<T>? = null,
     router: RouterScope<T, MessageHandler<T>>.() -> Unit
-): Dispatcher<T> =
-    Dispatcher(
-        router = RouterScope<T, MessageHandler<T>>().apply(router).build(),
-        deadLetterChannel = deadLetterChannel
-    )
+): Dispatcher<T> = Dispatcher(
+    deadLetterChannel = deadLetterChannel,
+    router = RouterScope<T, MessageHandler<T>>().apply(router).build()
+)
 
 public class Dispatcher<T>(
-    private val router: Router<T, MessageHandler<T>>,
-    private val deadLetterChannel: DeadLetterChannel<T>?
+    private val deadLetterChannel: DeadLetterChannel<T>?,
+    private val router: Router<T, MessageHandler<T>>
 ) : MessageHandler<T> {
 
     context(Logging, DiagnosticContext)
