@@ -18,21 +18,21 @@ import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.
 import java.util.*
 
 context(Logging, DiagnosticContext)
-public fun <T, HANDLER> router(
-    scope: RouterScope<T, HANDLER>.() -> Unit
-): Router<T, HANDLER> = RouterScope<T, HANDLER>().apply(scope).build()
+public fun <BODY, HANDLER> router(
+    scope: RouterScope<BODY, HANDLER>.() -> Unit
+): Router<BODY, HANDLER> = RouterScope<BODY, HANDLER>().apply(scope).build()
 
-public class Router<T, HANDLER> internal constructor(private val items: Map<RouteSelector, Route<HANDLER>>) {
+public class Router<BODY, HANDLER> internal constructor(private val items: Map<RouteSelector, Route<HANDLER>>) {
 
     context(Logging, DiagnosticContext)
-    public fun match(message: IncomingMessage<T>): Result<Route<HANDLER>, RouterErrors> {
+    public fun match(message: IncomingMessage<BODY>): Result<Route<HANDLER>, RouterErrors> {
         logger.debug { "A message routing..." }
         val selector = selector(message).getOrForward { return it }
         return findRoute(selector)
     }
 
     context(Logging, DiagnosticContext)
-    private fun selector(message: IncomingMessage<T>): Result<RouteSelector, RouterErrors> {
+    private fun selector(message: IncomingMessage<BODY>): Result<RouteSelector, RouterErrors> {
         logger.debug { "Extracting selector from headers of a message..." }
         val name = message.name().getOrForward { return it }
         val version = message.version().getOrForward { return it }
@@ -40,7 +40,7 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     }
 
     context(Logging, DiagnosticContext)
-    private fun IncomingMessage<T>.name(): Result<MessageName, RouterErrors> {
+    private fun IncomingMessage<BODY>.name(): Result<MessageName, RouterErrors> {
         val header = getHeader(MESSAGE_NAME_HEADER_NAME)
             ?: return RouterErrors.MessageNameHeader.Missing.error()
         return MessageName.of(header.valueAsString())
@@ -48,7 +48,7 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     }
 
     context(Logging, DiagnosticContext)
-    private fun IncomingMessage<T>.version(): Result<MessageVersion, RouterErrors> {
+    private fun IncomingMessage<BODY>.version(): Result<MessageVersion, RouterErrors> {
         val header = getHeader(MESSAGE_VERSION_HEADER_NAME)
             ?: return RouterErrors.MessageVersionHeader.Missing.error()
         return MessageVersion.of(header.valueAsString())
@@ -64,12 +64,12 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
     }
 
     context(Logging, DiagnosticContext)
-    private fun IncomingMessage<T>.getHeader(name: String): Header? {
+    private fun IncomingMessage<BODY>.getHeader(name: String): Header? {
         logger.debug { "Extracting the $name from the headers of a message..." }
         return headers.lastOrNull(name)
     }
 
-    public class Builder<T, HANDLER> {
+    public class Builder<BODY, HANDLER> {
         private val items = TreeMap<RouteSelector, Route<HANDLER>>()
 
         public fun add(name: String, version: String, handler: HANDLER): Boolean =
@@ -88,7 +88,7 @@ public class Router<T, HANDLER> internal constructor(private val items: Map<Rout
             return true
         }
 
-        public fun build(): Router<T, HANDLER> = Router(items)
+        public fun build(): Router<BODY, HANDLER> = Router(items)
 
         private fun String.toMessageName(): MessageName = MessageName.of(this)
             .orThrow { failure -> IllegalArgumentException("Invalid a message name. ${failure.joinDescriptions()}") }
