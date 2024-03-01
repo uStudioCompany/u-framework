@@ -20,7 +20,7 @@ dependencies {
     implementation(project(":diagnostic-context-library"))
     implementation(project(":diagnostic-context-extension-library"))
     implementation(project(":messaging-core-library"))
-    implementation(project(":messaging-router-library"))
+    api(project(":messaging-router-library"))
     implementation(project(":messaging-dead-letter-channel-library"))
 
     /* Test */

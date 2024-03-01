@@ -1,29 +1,67 @@
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;)V
 	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion;
-	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion {
-	public final fun deadLetter (Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
-	public final fun getNone ()Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
-	public final fun getOnlyLogging ()Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public final fun deadLetter (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function2;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public static synthetic fun deadLetter$default (Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/channel/deadletter/DeadLetterChannel;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public final fun none (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public final fun onlyLogging (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function2;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+	public static synthetic fun onlyLogging$default (Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler$Companion;Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler {
+	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler$Companion;
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Ljava/lang/Object;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler$Companion {
+	public final fun none (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler$Companion;
-	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Lio/github/ustudiocompany/uframework/messaging/router/Route;)V
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)Lio/github/airflux/functional/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler$Companion {
-	public final fun defaultMessageHandler ()Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;
+	public final fun messageHandler (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;
+}
+
+public abstract class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun getDomain ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$Handler : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$PostHandler : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$Route : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/RouterErrors;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherKt {
-	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;Lio/github/ustudiocompany/uframework/messaging/router/Router;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
+	public static final fun dispatcher (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher;
 }
 
