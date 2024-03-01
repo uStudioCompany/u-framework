@@ -5,8 +5,8 @@ import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
 context(Logging, DiagnosticContext)
-public class RouterScope<T, HANDLER> {
-    private val router = Router.Builder<T, HANDLER>()
+public class RouterScope<BODY, HANDLER> {
+    private val router = Router.Builder<BODY, HANDLER>()
 
     public fun versions(vararg values: String): List<String> = values.asList()
 
@@ -16,10 +16,10 @@ public class RouterScope<T, HANDLER> {
     public fun route(name: String, versions: Collection<String>, handler: HANDLER): Unit =
         versions.forEach { version -> route(name, version, handler) }
 
-    public fun route(name: String, block: NameScope<T, HANDLER>.() -> Unit): Unit =
+    public fun route(name: String, block: NameScope<BODY, HANDLER>.() -> Unit): Unit =
         NameScope(name = name, this).apply(block).build()
 
-    public fun build(): Router<T, HANDLER> = router.build()
+    public fun build(): Router<BODY, HANDLER> = router.build()
 
     private fun register(name: String, version: String, handler: HANDLER) {
         val added: Boolean = router.add(name, version, handler)
