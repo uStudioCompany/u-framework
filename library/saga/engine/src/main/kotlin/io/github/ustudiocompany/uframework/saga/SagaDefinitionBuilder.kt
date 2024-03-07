@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.saga
 
+import io.github.airflux.functional.orThrow
 import io.github.ustudiocompany.uframework.saga.executor.SagaDataSerializer
 import io.github.ustudiocompany.uframework.saga.step.SagaStep
 import io.github.ustudiocompany.uframework.saga.step.SagaStepBuilder
@@ -12,7 +13,8 @@ public class SagaDefinitionBuilder<DATA> internal constructor(public val name: S
     public fun serializer(serializer: () -> SagaDataSerializer<DATA>): SagaDataSerializer<DATA> = serializer()
 
     public fun step(label: String, block: SagaStepBuilder<DATA>.() -> Unit) {
-        val step = SagaStepBuilder<DATA>(SagaStepLabel.of(label)).apply(block).build()
+        val sagaStepLabel = SagaStepLabel.of(label).orThrow { IllegalArgumentException(it.description) }
+        val step = SagaStepBuilder<DATA>(sagaStepLabel).apply(block).build()
         addStep(step)
     }
 

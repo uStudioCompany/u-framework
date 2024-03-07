@@ -642,7 +642,20 @@ public final class io/github/ustudiocompany/uframework/saga/step/SagaStepLabel {
 }
 
 public final class io/github/ustudiocompany/uframework/saga/step/SagaStepLabel$Companion {
-	public final fun of-680iTPg (Ljava/lang/String;)Ljava/lang/String;
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public abstract class io/github/ustudiocompany/uframework/saga/step/SagaStepLabel$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getType-uX7CcE4 ()Ljava/lang/Class;
+}
+
+public final class io/github/ustudiocompany/uframework/saga/step/SagaStepLabel$Errors$IsBlank : io/github/ustudiocompany/uframework/saga/step/SagaStepLabel$Errors {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/saga/step/SagaStepLabel$Errors$IsBlank;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/step/action/CompensationAction {
