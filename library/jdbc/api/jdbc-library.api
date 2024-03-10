@@ -192,25 +192,33 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/TypedParameter {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/InsertStatement {
-	public final fun execute ()Lio/github/airflux/functional/Result;
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement {
+	public abstract fun clearParameters ()V
+	public abstract fun execute (Ljava/util/Map;)Lio/github/airflux/functional/Result;
+	public abstract fun getOriginalSql ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/QueryStatement {
-	public final fun execute ()Lio/github/airflux/functional/Result;
+public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatementKt {
+	public static final fun createPreparedInsertStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)Lio/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/StatementKt {
-	public static final fun createInsertStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Ljava/util/Map;)Lio/github/ustudiocompany/uframework/jdbc/statement/InsertStatement;
-	public static final fun createInsertStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;[Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/jdbc/statement/InsertStatement;
-	public static final fun createQueryStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Ljava/util/Map;)Lio/github/ustudiocompany/uframework/jdbc/statement/QueryStatement;
-	public static final fun createQueryStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;[Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/jdbc/statement/QueryStatement;
-	public static final fun createStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Ljava/util/Map;)Ljava/sql/PreparedStatement;
-	public static final fun createUpdateStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Ljava/util/Map;)Lio/github/ustudiocompany/uframework/jdbc/statement/UpdateStatement;
-	public static final fun createUpdateStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;[Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/jdbc/statement/UpdateStatement;
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedQueryStatement {
+	public abstract fun clearParameters ()V
+	public abstract fun execute (Ljava/util/Map;)Lio/github/airflux/functional/Result;
+	public abstract fun getOriginalSql ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/UpdateStatement {
-	public final fun execute ()Lio/github/airflux/functional/Result;
+public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedQueryStatementKt {
+	public static final fun createPreparedQueryStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)Lio/github/ustudiocompany/uframework/jdbc/statement/PreparedQueryStatement;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatement {
+	public abstract fun clearParameters ()V
+	public abstract fun execute (Ljava/util/Map;)Lio/github/airflux/functional/Result;
+	public abstract fun getOriginalSql ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatementKt {
+	public static final fun createPreparedUpdateStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)Lio/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatement;
 }
 
