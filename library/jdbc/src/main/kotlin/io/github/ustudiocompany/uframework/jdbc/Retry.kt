@@ -5,10 +5,7 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.retry.RetryScope
 import io.github.ustudiocompany.uframework.retry.retry
 
-public inline fun <T> retry(
-    scope: RetryScope,
-    block: () -> Result<T, JDBCErrors>
-): Result<T, JDBCErrors> =
+public inline fun <T, F> retry(scope: RetryScope, block: () -> Result<T, F>): Result<T, F> =
     retry(scope, ::isRecoverableError, block)
 
-public fun isRecoverableError(failure: JDBCErrors): Boolean = failure is JDBCErrors.Connection
+public fun <F> isRecoverableError(failure: F): Boolean = failure is JDBCErrors.Connection

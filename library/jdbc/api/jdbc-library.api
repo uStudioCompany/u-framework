@@ -4,10 +4,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/ConnectionKt {
 
 public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/functional/Result;
+	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/functional/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/RetryKt {
-	public static final fun isRecoverableError (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)Z
+	public static final fun isRecoverableError (Ljava/lang/Object;)Z
 	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/functional/Result;
 }
 
@@ -130,9 +131,14 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql$
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQuery {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 	public final fun execute (Ljava/sql/Connection;Ljava/util/Map;)Lio/github/airflux/functional/Result;
 	public final fun execute (Ljava/sql/Connection;[Lkotlin/Pair;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQueryKt {
+	public static final fun rowMappingQuery (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/jdbc/sql/RowMappingQuery;
+	public static final fun rowMappingQuery (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/jdbc/sql/RowMappingQuery;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery {
