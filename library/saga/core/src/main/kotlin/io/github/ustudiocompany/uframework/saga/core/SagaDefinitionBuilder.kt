@@ -7,9 +7,7 @@ import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 
 public class SagaDefinitionBuilder<DATA> internal constructor(public val label: SagaLabel) {
     private val steps = mutableListOf<SagaStep<DATA>>()
-    public var serializer: SagaDataSerializer<DATA>? = null
-
-    public fun serializer(serializer: () -> SagaDataSerializer<DATA>): SagaDataSerializer<DATA> = serializer()
+    public var dataSerializer: SagaDataSerializer<DATA>? = null
 
     public fun step(label: String, block: SagaStepBuilder<DATA>.() -> Unit) {
         val sagaStepLabel = SagaStepLabel.of(label).orThrow { IllegalArgumentException(it.description) }
@@ -23,7 +21,7 @@ public class SagaDefinitionBuilder<DATA> internal constructor(public val label: 
 
     internal fun build(): SagaDefinition<DATA> = SagaDefinition(
         label = label,
-        serializer = requireNotNull(serializer) { "No serializer." },
+        serializer = requireNotNull(dataSerializer) { "No serializer." },
         steps = steps
     )
 }
