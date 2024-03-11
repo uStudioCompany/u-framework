@@ -3,10 +3,10 @@ package io.github.ustudiocompany.uframework.saga.core
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 
 public fun <DATA> saga(
-    name: String,
+    label: String,
     builder: SagaDefinitionBuilder<DATA>.() -> Unit
 ): SagaDefinition<DATA> =
-    SagaDefinitionBuilder<DATA>(SagaLabel.of(name)).apply(builder).build()
+    SagaDefinitionBuilder<DATA>(SagaLabel.of(label)).apply(builder).build()
 
 public interface Saga<DATA> {
     public val definition: SagaDefinition<DATA>

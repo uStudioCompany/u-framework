@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.saga.core.step.SagaStep
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepBuilder
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 
-public class SagaDefinitionBuilder<DATA> internal constructor(public val name: SagaLabel) {
+public class SagaDefinitionBuilder<DATA> internal constructor(public val label: SagaLabel) {
     private val steps = mutableListOf<SagaStep<DATA>>()
     public var serializer: SagaDataSerializer<DATA>? = null
 
@@ -22,8 +22,8 @@ public class SagaDefinitionBuilder<DATA> internal constructor(public val name: S
     }
 
     internal fun build(): SagaDefinition<DATA> = SagaDefinition(
-        name,
+        label = label,
         serializer = requireNotNull(serializer) { "No serializer." },
-        steps
+        steps = steps
     )
 }
