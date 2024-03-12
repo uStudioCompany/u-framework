@@ -17,6 +17,7 @@ import io.github.ustudiocompany.uframework.saga.core.request.Request
 import io.github.ustudiocompany.uframework.saga.core.request.RequestBuilder
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ErrorReplyHandler
+import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ReplyHandlerErrors
 import io.github.ustudiocompany.uframework.saga.core.step.action.handler.SuccessfulReplyHandler
 import io.github.ustudiocompany.uframework.saga.engine.error.SagaExecutorErrors
 import io.github.ustudiocompany.uframework.saga.engine.publisher.Command
@@ -196,18 +197,39 @@ private fun <DATA> CurrentExecutionStep<DATA>.invokeReplyHandler(
 private fun <DATA> SuccessfulReplyHandler<DATA>?.invoke(
     reply: ReplyMessage.Success,
     data: DATA
-): Result<DATA, SagaExecutorErrors.ApplyReply> =
+): Result<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
-        handle(data, reply).mapError { SagaExecutorErrors.ApplyReply(it) }
+        handle(data, reply).mapError {
+            when (it) {
+                is ReplyHandlerErrors.ReplyBodyMissing ->
+                    SagaExecutorErrors.Reply.ReplyBodyMissing(it)
+
+                is ReplyHandlerErrors.ReplyBodyDeserialization ->
+                    SagaExecutorErrors.Reply.ReplyBodyDeserialization(it)
+
+                is ReplyHandlerErrors.ReplyHandle -> SagaExecutorErrors.Reply.ReplyHandle(it)
+            }
+        }
     else
         data.success()
 
 private fun <DATA> ErrorReplyHandler<DATA>?.invoke(
     reply: ReplyMessage.Error,
     data: DATA
-): Result<DATA, SagaExecutorErrors.ApplyReply> =
+): Result<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
-        handle(data, reply).mapError { SagaExecutorErrors.ApplyReply(it) }
+        handle(data, reply).mapError {
+            when (it) {
+                is ReplyHandlerErrors.ReplyBodyMissing ->
+                    SagaExecutorErrors.Reply.ReplyBodyMissing(it)
+
+                is ReplyHandlerErrors.ReplyBodyDeserialization ->
+                    SagaExecutorErrors.Reply.ReplyBodyDeserialization(it)
+
+                is ReplyHandlerErrors.ReplyHandle ->
+                    SagaExecutorErrors.Reply.ReplyHandle(it)
+            }
+        }
     else
         data.success()
 

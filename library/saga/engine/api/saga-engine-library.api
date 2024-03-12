@@ -38,14 +38,6 @@ public abstract class io/github/ustudiocompany/uframework/saga/engine/error/Saga
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$ApplyReply : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
-	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
-	public fun getNumber ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Companion {
 }
 
@@ -87,6 +79,31 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExe
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
+	public fun getDescription ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyBodyDeserialization : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
+	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyDeserialization;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyBodyMissing : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
+	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyMissing;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyHandle : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
+	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyHandle;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }

@@ -6,7 +6,7 @@ import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ReplyHa
 
 public sealed class SagaExecutorErrors : SagaErrors {
     override val domain: String
-        get() = "SAGA.EXECUTOR"
+        get() = "SAGA-EXECUTOR"
 
     /**
      * Екземпляр саги не активний (S-2)
@@ -64,19 +64,37 @@ public sealed class SagaExecutorErrors : SagaErrors {
     /**
      *  Помилка оновлення даних екземпляру саги (D-3)
      */
-    public class ApplyReply(cause: ReplyHandlerErrors) : SagaExecutorErrors() {
-        override val number: String = "6"
-        override val description: String = "An error of update the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
+    public sealed class Reply : SagaExecutorErrors() {
+
+        override val description: String = "An error of handling a reply."
+
+        public class ReplyBodyMissing(cause: ReplyHandlerErrors.ReplyBodyMissing) : Reply() {
+            override val number: String = "6"
+            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val kind: Failure.Kind
+                get() = Failure.Kind.ERROR
+        }
+
+        public class ReplyBodyDeserialization(cause: ReplyHandlerErrors.ReplyBodyDeserialization) : Reply() {
+            override val number: String = "7"
+            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val kind: Failure.Kind
+                get() = Failure.Kind.ERROR
+        }
+
+        public class ReplyHandle(cause: ReplyHandlerErrors.ReplyHandle) : Reply() {
+            override val number: String = "8"
+            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val kind: Failure.Kind
+                get() = Failure.Kind.ERROR
+        }
     }
 
     /**
      * Сага не містить крок на який посилається крок з історії (R-3)
      */
     public class UnknownStep(index: Int, label: SagaStepLabel) : SagaExecutorErrors() {
-        override val number: String = "7"
+        override val number: String = "9"
         override val description: String = "The saga does not contain a step that is referenced by a step in history."
 
         override val details: Failure.Details = Failure.Details.of(
@@ -89,7 +107,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     }
 
     public data object CompensationCommandError : SagaExecutorErrors() {
-        override val number: String = "8"
+        override val number: String = "10"
         override val description: String = "An error of compensation command."
         override val kind: Failure.Kind
             get() = Failure.Kind.INCIDENT
@@ -99,7 +117,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Помилка створення запиту (MRFC-1)
      */
     public class MakeRequest(cause: Failure) : SagaExecutorErrors() {
-        override val number: String = "9"
+        override val number: String = "11"
         override val description: String = "An error of create a request."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val kind: Failure.Kind
