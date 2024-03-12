@@ -2,12 +2,6 @@ package io.github.ustudiocompany.uframework.saga.core
 
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 
-public fun <DATA> saga(
-    label: String,
-    builder: SagaDefinitionBuilder<DATA>.() -> Unit
-): SagaDefinition<DATA> =
-    SagaDefinitionBuilder<DATA>(SagaLabel.of(label)).apply(builder).build()
-
 public interface Saga<DATA> {
     public val definition: SagaDefinition<DATA>
     public val dataInitializer: SagaDataInitializer<DATA>
