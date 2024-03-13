@@ -4,7 +4,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 
 public sealed interface SagaStorageErrors : SagaErrors {
     override val domain: String
-        get() = "SAGA.STORAGE"
+        get() = "SAGA-STORAGE"
 
     public class Storage(cause: Failure) : SagaStorageErrors {
         override val number: String = "1"

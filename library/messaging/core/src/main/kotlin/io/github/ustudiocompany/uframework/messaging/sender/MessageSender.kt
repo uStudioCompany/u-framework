@@ -13,7 +13,7 @@ public interface MessageSender<T> {
     public suspend fun send(channelName: ChannelName, message: OutgoingMessage<T>): Result<SentMessageMetadata, Errors>
 
     public sealed class Errors : Failure {
-        override val domain: String = "MESSAGE.SENDER"
+        override val domain: String = "MESSAGE-SENDER"
 
         override val kind: Failure.Kind
             get() = Failure.Kind.INCIDENT

@@ -41,7 +41,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
     }
 
     public sealed class Errors : Failure {
-        override val domain: String = "MESSAGE.PUBLISHER"
+        override val domain: String = "MESSAGE-PUBLISHER"
 
         override val kind: Failure.Kind
             get() = Failure.Kind.INCIDENT

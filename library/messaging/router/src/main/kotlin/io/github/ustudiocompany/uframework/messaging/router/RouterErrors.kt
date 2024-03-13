@@ -24,7 +24,7 @@ public sealed class RouterErrors : Failure {
     public sealed class MessageNameHeader : RouterErrors() {
 
         override val domain: String
-            get() = super.domain + ".HEADER.MESSAGE.NAME"
+            get() = super.domain + "-HEADER-MESSAGE-NAME"
 
         override val details: Failure.Details =
             Failure.Details.of(HEADER_NAME_DETAIL_KEY to MESSAGE_NAME_HEADER_NAME)
@@ -45,7 +45,7 @@ public sealed class RouterErrors : Failure {
 
     public sealed class MessageVersionHeader : MessageNameHeader() {
         override val domain: String
-            get() = super.domain + ".HEADER.MESSAGE.VERSION"
+            get() = super.domain + "-HEADER-MESSAGE-VERSION"
 
         override val details: Failure.Details =
             Failure.Details.of(HEADER_NAME_DETAIL_KEY to MESSAGE_VERSION_HEADER_NAME)

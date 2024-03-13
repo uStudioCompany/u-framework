@@ -42,7 +42,7 @@ public class MessageVersion private constructor(
 
         public sealed class InvalidVersionSegmentValue : Errors() {
             override val domain: String
-                get() = super.domain + ".SEGMENT"
+                get() = super.domain + "-SEGMENT"
 
             public class Major(public val value: Int) : InvalidVersionSegmentValue() {
                 override val number: String = "1"

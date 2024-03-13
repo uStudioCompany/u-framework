@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.saga.core.SagaLabel
 
 public sealed class SagaManagerErrors : SagaErrors {
     override val domain: String
-        get() = "SAGA.MANAGER"
+        get() = "SAGA-MANAGER"
 
     /**
      * SI-1

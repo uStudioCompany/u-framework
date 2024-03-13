@@ -4,7 +4,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 
 public sealed interface SagaPublisherErrors : SagaErrors {
     override val domain: String
-        get() = "SAGA.PUBLISHER"
+        get() = "SAGA-PUBLISHER"
 
     public class CommandPublishing(cause: Failure) : SagaPublisherErrors {
         override val number: String = "1"
