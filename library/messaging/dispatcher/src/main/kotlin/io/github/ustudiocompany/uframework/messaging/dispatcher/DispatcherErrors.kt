@@ -7,9 +7,6 @@ public sealed class DispatcherErrors : Failure {
 
     override val domain: String = "DISPATCHER"
 
-    override val kind: Failure.Kind
-        get() = Failure.Kind.ERROR
-
     public class Route(cause: RouterErrors) : DispatcherErrors() {
         override val number: String = "1"
         override val description: String = "The routing error."

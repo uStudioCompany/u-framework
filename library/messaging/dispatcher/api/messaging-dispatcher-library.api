@@ -36,7 +36,6 @@ public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Disp
 
 public abstract class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$Handler : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {

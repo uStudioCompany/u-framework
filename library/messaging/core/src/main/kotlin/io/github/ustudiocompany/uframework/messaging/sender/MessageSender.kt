@@ -15,9 +15,6 @@ public interface MessageSender<T> {
     public sealed class Errors : Failure {
         override val domain: String = "MESSAGE-SENDER"
 
-        override val kind: Failure.Kind
-            get() = Failure.Kind.INCIDENT
-
         public class Send(channel: ChannelName, key: Any?, exception: Exception) : Errors() {
             override val number: String = "1"
             override val description: String =

@@ -10,7 +10,6 @@ public final class io/github/ustudiocompany/uframework/messaging/publisher/Messa
 
 public abstract class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Errors$Publish : io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Errors {

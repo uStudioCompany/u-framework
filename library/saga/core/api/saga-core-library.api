@@ -239,14 +239,12 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/han
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyMissing : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> ()V
 	public fun getDescription ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -254,7 +252,6 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/han
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getNumber ()Ljava/lang/String;
 }
 

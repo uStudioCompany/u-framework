@@ -6,7 +6,6 @@ public interface Failure {
     public val description: String get() = ""
     public val details: Details get() = Details.None
     public val cause: Cause get() = Cause.None
-    public val kind: Kind
 
     public fun code(): String {
         fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
@@ -133,8 +132,6 @@ public interface Failure {
             public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else None
         }
     }
-
-    public enum class Kind { INCIDENT, ERROR }
 
     private companion object {
         private const val CODE_DELIMITER = "-"

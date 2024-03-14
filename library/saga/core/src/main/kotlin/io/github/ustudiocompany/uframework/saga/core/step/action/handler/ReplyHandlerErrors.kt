@@ -12,8 +12,6 @@ public sealed class ReplyHandlerErrors : Failure {
     public class ReplyBodyMissing : ReplyHandlerErrors() {
         override val number: String = "1"
         override val description: String = "The reply body is missing."
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -23,8 +21,6 @@ public sealed class ReplyHandlerErrors : Failure {
         override val number: String = "2"
         override val description: String = "An error of deserialize the reply body."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -34,7 +30,5 @@ public sealed class ReplyHandlerErrors : Failure {
         override val number: String = "3"
         override val description: String = "An error of handle the reply."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 }

@@ -14,7 +14,6 @@ public sealed class JDBCErrors : Failure {
             "code=`${code()}`, " +
             "description='${joinDescriptions()}', " +
             "cause=`$cause`, " +
-            "kind=`$kind`, " +
             "details=$details" +
             ")"
 
@@ -24,9 +23,6 @@ public sealed class JDBCErrors : Failure {
         override val description: String = "Unexpected error: `${exception.message}`."
 
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-
-        override val kind: Failure.Kind
-            get() = Failure.Kind.INCIDENT
 
         override val details: Failure.Details =
             if (exception is SQLException)
@@ -42,8 +38,6 @@ public sealed class JDBCErrors : Failure {
         override val number: String = "1"
         override val description: String = "The connection error."
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-        override val kind: Failure.Kind
-            get() = Failure.Kind.INCIDENT
         override val details: Failure.Details =
             if (exception is SQLException)
                 Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
@@ -54,9 +48,6 @@ public sealed class JDBCErrors : Failure {
     public sealed class Rows : JDBCErrors() {
         override val domain: String
             get() = super.domain + "-ROWS"
-
-        override val kind: Failure.Kind
-            get() = Failure.Kind.INCIDENT
 
         public class UndefinedColumn(public val label: ColumnLabel, cause: Exception) : Rows() {
             public constructor(name: String, cause: Exception) : this(label = ColumnLabel.Name(name), cause = cause)
@@ -82,9 +73,6 @@ public sealed class JDBCErrors : Failure {
     public sealed class Row : JDBCErrors() {
         override val domain: String
             get() = super.domain + "-ROW"
-
-        override val kind: Failure.Kind
-            get() = Failure.Kind.INCIDENT
 
         public class ReadColumn(public val label: ColumnLabel, cause: Exception) : Row() {
 
@@ -116,8 +104,6 @@ public sealed class JDBCErrors : Failure {
             override val number: String = "1"
             override val description: String = "The duplicate key value violates a unique constraint."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-            override val kind: Failure.Kind
-                get() = Failure.Kind.INCIDENT
             override val details: Failure.Details =
                 if (exception is SQLException)
                     Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)

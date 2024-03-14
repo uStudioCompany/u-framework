@@ -18,8 +18,6 @@ public sealed class SagaManagerErrors : SagaErrors {
         override val details: Failure.Details = Failure.Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get
         )
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     /**
@@ -37,8 +35,6 @@ public sealed class SagaManagerErrors : SagaErrors {
             MESSAGE_ACTION_DETAIL_KEY to name.name,
             MESSAGE_VERSION_DETAIL_KEY to version.toString()
         )
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     public class SagaForSagaInstanceNotFound(
@@ -50,8 +46,6 @@ public sealed class SagaManagerErrors : SagaErrors {
             CORRELATION_ID_DETAIL_KEY to correlationId.get,
             SAGA_LABEL_DETAIL_KEY to label.get
         )
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     public companion object {

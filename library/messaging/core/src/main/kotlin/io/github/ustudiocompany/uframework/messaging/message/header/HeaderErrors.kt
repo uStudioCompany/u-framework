@@ -11,8 +11,6 @@ public sealed class HeaderErrors : Failure {
     public class Missing(override val name: String) : HeaderErrors() {
         override val number: String = "1"
         override val description: String = "The `$name` header of a message is missing."
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
         override val details: Failure.Details = Failure.Details.of(HEADER_NAME_DETAIL_KEY to name)
     }
 
@@ -21,8 +19,6 @@ public sealed class HeaderErrors : Failure {
         override val description: String = "The `$name` header has invalid value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(HEADER_NAME_DETAIL_KEY to name)
-        override val kind: Failure.Kind
-            get() = Failure.Kind.ERROR
     }
 
     private companion object {

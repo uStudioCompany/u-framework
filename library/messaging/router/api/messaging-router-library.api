@@ -36,7 +36,6 @@ public final class io/github/ustudiocompany/uframework/messaging/router/Router$B
 
 public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader : io/github/ustudiocompany/uframework/messaging/router/RouterErrors {

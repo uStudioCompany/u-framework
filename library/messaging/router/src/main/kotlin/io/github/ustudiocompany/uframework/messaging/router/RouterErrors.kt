@@ -8,9 +8,6 @@ public sealed class RouterErrors : Failure {
 
     override val domain: String = "ROUTER"
 
-    override val kind: Failure.Kind
-        get() = Failure.Kind.ERROR
-
     public class RouteNotFound(selector: RouteSelector) : RouterErrors() {
         override val number: String = "1"
         override val description: String =

@@ -8,7 +8,6 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public abstract fun getDomain ()Ljava/lang/String;
 	public fun getException ()Ljava/lang/Exception;
-	public abstract fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public abstract fun getNumber ()Ljava/lang/String;
 	public fun joinDescriptions (Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun joinDescriptions$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
@@ -92,20 +91,11 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details$I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Kind : java/lang/Enum {
-	public static final field ERROR Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
-	public static final field INCIDENT Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
-	public static fun values ()[Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/failure/TypeFailure : io/github/ustudiocompany/uframework/failure/Failure {
 	public static final field ACTUAL_VALUE_DETAIL_KEY Ljava/lang/String;
 	public static final field Companion Lio/github/ustudiocompany/uframework/failure/TypeFailure$Companion;
 	public static final field PATTERN_DETAIL_KEY Ljava/lang/String;
 	public fun getDomain ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public abstract fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
