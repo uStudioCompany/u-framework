@@ -3,7 +3,7 @@
 coroutines = "1.7.2"
 
 #Libs
-airflux-functional = "v0.0.1-alpha.11"
+airflux-functional = "0.0.1-SNAPSHOT"
 
 #Messaging
 kafka = "3.5.0"
@@ -30,7 +30,7 @@ testcontainers = "1.19.7"
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
 
 #Libs
-airflux-functional-core = { module = "com.github.airflux.airflux-functional:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
+airflux-functional-core = { module = "io.github.airflux:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -48,7 +48,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 
 #Test
-airflux-functional-test = { module = "com.github.airflux.airflux-functional:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
+airflux-functional-test = { module = "io.github.airflux:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-extensions-testcontainers" }

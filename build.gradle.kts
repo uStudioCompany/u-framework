@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     id("kover-merge-conventions")
     id("licenses-conventions")
@@ -5,15 +7,25 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url = URI("https://nexus.eprocurement.systems/repository/maven-snapshots/")
+    }
 }
 
 subprojects {
     repositories {
         mavenCentral()
+        maven {
+            url = URI("https://nexus.eprocurement.systems/repository/maven-snapshots/")
+        }
     }
 
     version = "0.0.1-SNAPSHOT"
     group = "io.github.ustudiocompany"
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(0, "seconds")
+    }
 }
 
 dependencies {
