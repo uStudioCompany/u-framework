@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
-public class ProcessedStep(
+public data class ProcessedStep(
     public val index: Int,
     public val label: SagaStepLabel,
     public val messageId: MessageId,
