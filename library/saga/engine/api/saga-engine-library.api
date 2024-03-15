@@ -393,8 +393,8 @@ public final class io/github/ustudiocompany/uframework/saga/engine/state/SagaExe
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/state/SerializedData {
+	public static final field Companion Lio/github/ustudiocompany/uframework/saga/engine/state/SerializedData$Companion;
 	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/engine/state/SerializedData;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -404,6 +404,11 @@ public final class io/github/ustudiocompany/uframework/saga/engine/state/Seriali
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/saga/engine/state/SerializedData$Companion {
+	public final fun empty-V_-W92c ()Ljava/lang/String;
+	public final fun invoke-4aXh7s0 (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/state/StepHistory {
