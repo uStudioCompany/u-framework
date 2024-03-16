@@ -156,10 +156,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlQuery {
 	public final fun execute (Ljava/sql/Connection;[Lkotlin/Pair;)Lio/github/airflux/functional/Result;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/SqlTemplate {
-	public abstract fun getSql ()Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlType : java/lang/Enum {
 	public static final field BIGINT Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
 	public static final field BOOLEAN Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
