@@ -85,6 +85,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
 	public final fun getLong (Ljava/lang/String;)Lio/github/airflux/functional/Result;
 	public final fun getString (I)Lio/github/airflux/functional/Result;
 	public final fun getString (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun getTimestamp (I)Lio/github/airflux/functional/Result;
+	public final fun getTimestamp (Ljava/lang/String;)Lio/github/airflux/functional/Result;
 	public final fun getUUID (I)Lio/github/airflux/functional/Result;
 	public final fun getUUID (Ljava/lang/String;)Lio/github/airflux/functional/Result;
 }
@@ -163,6 +165,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlType : java/l
 	public static final field BOOLEAN Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
 	public static final field INTEGER Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
 	public static final field TEXT Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
+	public static final field TIMESTAMP Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
+	public static final field UUID Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;
 	public static fun values ()[Lio/github/ustudiocompany/uframework/jdbc/sql/SqlType;

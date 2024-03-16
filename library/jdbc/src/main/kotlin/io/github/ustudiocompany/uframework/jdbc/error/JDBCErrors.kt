@@ -55,8 +55,7 @@ public sealed class JDBCErrors : Failure {
 
             override val number: String = "1"
 
-            override val description: String
-                get() = "Undefined column."
+            override val description: String = "Undefined column."
 
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
 
@@ -81,8 +80,7 @@ public sealed class JDBCErrors : Failure {
 
             override val number: String = "1"
 
-            override val description: String
-                get() = "The error of reading column value"
+            override val description: String = "The error of reading column value"
 
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
 

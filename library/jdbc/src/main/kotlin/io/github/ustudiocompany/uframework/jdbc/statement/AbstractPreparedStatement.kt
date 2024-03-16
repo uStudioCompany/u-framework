@@ -4,7 +4,10 @@ import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.SqlType
 import io.github.ustudiocompany.uframework.jdbc.sql.TypedParameter
 import java.sql.Connection
+import java.sql.JDBCType
 import java.sql.PreparedStatement
+import java.sql.Timestamp
+import java.util.*
 
 internal abstract class AbstractPreparedStatement(
     connection: Connection,
@@ -31,6 +34,7 @@ internal abstract class AbstractPreparedStatement(
         return this
     }
 
+    @Suppress("CognitiveComplexMethod")
     private fun PreparedStatement.setValue(position: Int, typedParameter: TypedParameter, value: Any) =
         when (typedParameter.type) {
             SqlType.BOOLEAN -> if (value is Boolean)
@@ -52,6 +56,16 @@ internal abstract class AbstractPreparedStatement(
                 setLong(position, value)
             else
                 error("The parameter `${typedParameter.name}` is not `Bigint` type.")
+
+            SqlType.TIMESTAMP -> if (value is Timestamp)
+                setTimestamp(position, value)
+            else
+                error("The parameter `${typedParameter.name}` is not `Timestamp` type.")
+
+            SqlType.UUID -> if (value is UUID)
+                setObject(position, value, JDBCType.JAVA_OBJECT)
+            else
+                error("The parameter `${typedParameter.name}` is not `UUID` type.")
         }
 
     companion object {

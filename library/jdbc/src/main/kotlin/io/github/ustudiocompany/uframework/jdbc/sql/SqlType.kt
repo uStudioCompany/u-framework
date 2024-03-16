@@ -4,5 +4,7 @@ public enum class SqlType {
     BOOLEAN,
     TEXT,
     INTEGER,
-    BIGINT
+    BIGINT,
+    TIMESTAMP,
+    UUID
 }

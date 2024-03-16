@@ -12,6 +12,7 @@ import io.github.ustudiocompany.uframework.jdbc.exception.isUndefinedColumn
 import org.postgresql.util.PSQLState
 import java.sql.ResultSet
 import java.sql.SQLException
+import java.sql.Timestamp
 import java.util.*
 
 @Suppress("TooManyFunctions")
@@ -190,9 +191,48 @@ public class Row internal constructor(private val resultSet: ResultSet) {
         } catch (expected: ClassCastException) {
             JDBCErrors.Row.ReadColumn(columnName, expected).error()
         } catch (expected: SQLException) {
+            val error = if (expected.isConnectionError)
+                JDBCErrors.Connection(expected)
+            else
+                JDBCErrors.UnexpectedError(expected)
+            error.error()
+        } catch (expected: Exception) {
+            JDBCErrors.UnexpectedError(expected).error()
+        }
+    }
+
+    public fun getTimestamp(index: Int): Result<Timestamp, JDBCErrors> {
+        fun SQLException.isReadingError() =
+            sqlState == PSQLState.DATA_TYPE_MISMATCH.state ||
+                sqlState == PSQLState.BAD_DATETIME_FORMAT.state
+
+        return try {
+            resultSet.getTimestamp(index).success()
+        } catch (expected: SQLException) {
             val error = when {
                 expected.isConnectionError -> JDBCErrors.Connection(expected)
-                expected.isInvalidColumnIndex -> JDBCErrors.Rows.UndefinedColumn(columnName, expected)
+                expected.isInvalidColumnIndex -> JDBCErrors.Rows.UndefinedColumn(index, expected)
+                expected.isReadingError() -> JDBCErrors.Row.ReadColumn(index, expected)
+                else -> JDBCErrors.UnexpectedError(expected)
+            }
+            error.error()
+        } catch (expected: Exception) {
+            JDBCErrors.UnexpectedError(expected).error()
+        }
+    }
+
+    public fun getTimestamp(columnName: String): Result<Timestamp, JDBCErrors> {
+        fun SQLException.isReadingError() =
+            sqlState == PSQLState.DATA_TYPE_MISMATCH.state ||
+                sqlState == PSQLState.BAD_DATETIME_FORMAT.state
+
+        return try {
+            findColumnIndex(columnName)
+                .flatMap { index -> resultSet.getTimestamp(index).success() }
+        } catch (expected: SQLException) {
+            val error = when {
+                expected.isConnectionError -> JDBCErrors.Connection(expected)
+                expected.isReadingError() -> JDBCErrors.Row.ReadColumn(columnName, expected)
                 else -> JDBCErrors.UnexpectedError(expected)
             }
             error.error()

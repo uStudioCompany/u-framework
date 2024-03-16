@@ -19,11 +19,12 @@
         <sql>
             CREATE TABLE public.test_row_table
             (
-                boolean_column BOOLEAN NOT NULL,
-                string_column  TEXT    NOT NULL,
-                int_column     INTEGER NOT NULL,
-                long_column    BIGINT  NOT NULL,
-                uuid_column    UUID    NOT NULL
+                boolean_column   BOOLEAN   NOT NULL,
+                string_column    TEXT      NOT NULL,
+                int_column       INTEGER   NOT NULL,
+                long_column      BIGINT    NOT NULL,
+                uuid_column      UUID      NOT NULL,
+                timestamp_column TIMESTAMP NOT NULL
             );
         </sql>
     </changeSet>
