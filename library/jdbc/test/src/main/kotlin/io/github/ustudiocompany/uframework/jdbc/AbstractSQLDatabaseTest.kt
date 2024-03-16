@@ -1,11 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc
 
-import com.zaxxer.hikari.HikariDataSource
-import io.kotest.assertions.failure
-import io.kotest.core.extensions.install
 import io.kotest.core.spec.Spec
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.extensions.testcontainers.JdbcDatabaseContainerExtension
 import liquibase.Contexts
 import liquibase.LabelExpression
 import liquibase.Scope
@@ -20,8 +15,6 @@ import liquibase.database.DatabaseFactory
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.DirectoryResourceAccessor
 import liquibase.resource.ResourceAccessor
-import org.testcontainers.containers.PostgreSQLContainer
-import java.sql.ResultSet
 import kotlin.io.path.Path
 
 public abstract class AbstractSQLDatabaseTest(
@@ -29,13 +22,7 @@ public abstract class AbstractSQLDatabaseTest(
     private val context: Contexts = Contexts(CONTEXT),
     private val resourceAccessor: ResourceAccessor = DirectoryResourceAccessor(Path(DIRECTORY_RESOURCE_ACCESSOR_PATH)),
     private val liquibaseConfig: CommandScope.() -> Unit = {}
-) : FreeSpec() {
-
-    private val postgresql = PostgreSQLContainer<Nothing>("postgres:15.4").apply {
-        startupAttempts = 1
-    }
-
-    protected val dataSource: HikariDataSource = install(JdbcDatabaseContainerExtension(postgresql))
+) : PostgresContainerTest() {
 
     override suspend fun beforeSpec(spec: Spec) {
         dataSource.connection.use { connection ->
@@ -74,79 +61,5 @@ public abstract class AbstractSQLDatabaseTest(
         private const val CHANGE_LOG_FILE: String = "liquibase.changelog-master.xml"
         private const val CONTEXT: String = "test"
         private const val DIRECTORY_RESOURCE_ACCESSOR_PATH: String = "./migrations"
-    }
-
-    protected fun truncateTable(name: String) {
-        executeSql("TRUNCATE TABLE $name CASCADE")
-    }
-
-    protected fun executeSql(value: String) {
-        dataSource.connection
-            .use { connection ->
-                connection.prepareStatement(value).execute()
-            }
-    }
-
-    protected fun <T> checkData(sql: String, assertions: ResultSet.(index: Int) -> T) {
-        dataSource.connection
-            .use { connection ->
-                connection.prepareStatement(sql)
-                    .executeQuery()
-                    .let { result ->
-                        var index = 0
-                        while (result.next()) {
-                            assertions(result, index++)
-                        }
-                    }
-            }
-    }
-
-    protected fun selectData(sql: String): List<ResultSet> =
-        dataSource.connection
-            .use { connection ->
-                connection.prepareStatement(sql)
-                    .executeQuery()
-                    .let { result ->
-                        val list = mutableListOf<ResultSet>()
-                        while (result.next()) {
-                            list.add(result)
-                        }
-                        list
-                    }
-            }
-
-    protected fun <T> shouldContain(sql: String, assertion: ResultSet.(index: Int) -> T) {
-        dataSource.connection
-            .use { connection ->
-                connection.prepareStatement(sql)
-                    .executeQuery()
-                    .let { result ->
-                        var index = 0
-                        while (result.next()) {
-                            assertion(result, index++)
-                        }
-                    }
-            }
-    }
-
-    protected fun shouldContainExactly(sql: String, vararg assertions: ResultSet.(index: Int) -> Unit) {
-        val assertionCount = assertions.size
-        var currentAssertionIndex = 0
-        dataSource.connection
-            .use { connection ->
-                connection.prepareStatement(sql)
-                    .executeQuery()
-                    .let { result ->
-                        var index = 0
-                        while (result.next()) {
-                            if (currentAssertionIndex != assertionCount) {
-                                val assertion = assertions[currentAssertionIndex]
-                                assertion(result, index++)
-                                currentAssertionIndex++
-                            } else
-                                failure("There are fewer assertions than rows.")
-                        }
-                    }
-            }
     }
 }
