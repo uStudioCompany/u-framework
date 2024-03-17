@@ -10,20 +10,20 @@ public class ParametrizedSql private constructor(
         public fun of(sql: String): ParametrizedSql = parse(sql)
 
         private fun parse(value: String): ParametrizedSql {
+            val stream = Stream(value)
+
             val parameters = mutableMapOf<String, Int>()
             val canonicalSqlBuilder = StringBuilder(value.length)
-            var currentPosition = 0
-            while (currentPosition < value.length) {
-                val char = value[currentPosition]
-                if (char == ':') {
-                    val parameterNameInfo = value.getParameterName(currentPosition + 1)
-                    val name = parameterNameInfo.first
+            while (stream.hasNext()) {
+                val currentChar = stream.currentChar
+                if (currentChar == ':') {
+                    stream.next()
+                    val name = stream.getParameterName()
                     parameters.append(name)
                     canonicalSqlBuilder.append(PARAMETER_NAME_PLACEHOLDER)
-                    currentPosition = parameterNameInfo.second
                 } else {
-                    canonicalSqlBuilder.append(char)
-                    currentPosition += 1
+                    canonicalSqlBuilder.append(currentChar)
+                    stream.next()
                 }
             }
 
@@ -35,27 +35,38 @@ public class ParametrizedSql private constructor(
             if (previous != null) error("The parameter `$name` is duplicated.")
         }
 
-        private fun String.getParameterName(startPosition: Int): Pair<String, Int> {
-            var nextChar: Char?
-            var position = startPosition
+        private fun Stream.getParameterName(): String {
             val nameBuilder = StringBuilder()
-            while (position < length) {
-                nextChar = this[position]
-                if (nextChar.isAllowedParameterNameCharacter()) {
-                    nameBuilder.append(nextChar)
-                    position += 1
+            while (hasNext()) {
+                val currentChar = this.currentChar
+                if (currentChar.isAllowedParameterNameCharacter()) {
+                    nameBuilder.append(currentChar)
+                    next()
                 } else
                     break
             }
 
             val name = nameBuilder.toString()
             if (name.isEmpty()) error("The parameter name is empty.")
-            return name to position
+            return name
         }
 
         private fun Char.isAllowedParameterNameCharacter(): Boolean =
             isLetterOrDigit() || this == '_' || this == '-'
 
         private const val PARAMETER_NAME_PLACEHOLDER = "?"
+    }
+
+    private class Stream(private val value: String) {
+        val currentChar: Char
+            get() = value[position]
+
+        fun next() {
+            position += 1
+        }
+
+        fun hasNext(): Boolean = position < value.length
+
+        private var position = 0
     }
 }
