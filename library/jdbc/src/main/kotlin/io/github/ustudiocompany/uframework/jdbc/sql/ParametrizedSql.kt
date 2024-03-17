@@ -14,39 +14,37 @@ public class ParametrizedSql private constructor(
 
             val parameters = mutableMapOf<String, Int>()
             val canonicalSqlBuilder = StringBuilder(value.length)
-            while (stream.hasNext()) {
+            val parameterNameBuilder = StringBuilder()
+
+            while (stream.hasNextChar()) {
                 val currentChar = stream.currentChar
-                if (currentChar == ':') {
-                    stream.next()
-                    val name = stream.getParameterName()
+                if (currentChar == PREFIX_PARAMETER_NAME) {
+                    stream.moveToNextChar()
+                    val name = stream.getParameterName(parameterNameBuilder)
                     parameters.append(name)
                     canonicalSqlBuilder.append(PARAMETER_NAME_PLACEHOLDER)
                 } else {
                     canonicalSqlBuilder.append(currentChar)
-                    stream.next()
+                    stream.moveToNextChar()
                 }
             }
 
             return ParametrizedSql(canonicalSqlBuilder.toString(), parameters)
         }
 
-        private fun MutableMap<String, Int>.append(name: String) {
-            val previous = this.put(name, size + 1)
-            if (previous != null) error("The parameter `$name` is duplicated.")
-        }
-
-        private fun Stream.getParameterName(): String {
-            val nameBuilder = StringBuilder()
-            while (hasNext()) {
+        private fun Stream.getParameterName(builder: StringBuilder): String {
+            builder.clear()
+            val stream = this
+            while (stream.hasNextChar()) {
                 val currentChar = this.currentChar
                 if (currentChar.isAllowedParameterNameCharacter()) {
-                    nameBuilder.append(currentChar)
-                    next()
+                    builder.append(currentChar)
+                    stream.moveToNextChar()
                 } else
                     break
             }
 
-            val name = nameBuilder.toString()
+            val name = builder.toString()
             if (name.isEmpty()) error("The parameter name is empty.")
             return name
         }
@@ -54,18 +52,24 @@ public class ParametrizedSql private constructor(
         private fun Char.isAllowedParameterNameCharacter(): Boolean =
             isLetterOrDigit() || this == '_' || this == '-'
 
+        private fun MutableMap<String, Int>.append(name: String) {
+            val previous = this.put(name, size + 1)
+            if (previous != null) error("The parameter `$name` is duplicated.")
+        }
+
         private const val PARAMETER_NAME_PLACEHOLDER = "?"
+        private const val PREFIX_PARAMETER_NAME = ':'
     }
 
     private class Stream(private val value: String) {
         val currentChar: Char
             get() = value[position]
 
-        fun next() {
+        fun moveToNextChar() {
             position += 1
         }
 
-        fun hasNext(): Boolean = position < value.length
+        fun hasNextChar(): Boolean = position < value.length
 
         private var position = 0
     }
