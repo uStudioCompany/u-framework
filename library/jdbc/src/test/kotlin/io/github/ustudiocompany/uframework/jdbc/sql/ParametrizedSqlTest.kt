@@ -49,6 +49,12 @@ internal class ParametrizedSqlTest : FreeSpec() {
 
     private val testData = listOf(
         TestDataItem(
+            description = "there are no parameters and SQL is empty",
+            sqlWithParameters = "",
+            sqlWithoutParameters = "",
+            parameters = mapOf()
+        ),
+        TestDataItem(
             description = "there are no parameters and SQL without formatting",
             sqlWithParameters = "SELECT * FROM table",
             sqlWithoutParameters = "SELECT * FROM table",
