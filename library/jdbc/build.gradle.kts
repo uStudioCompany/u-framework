@@ -1,5 +1,8 @@
+import info.solidsoft.gradle.pitest.PitestPluginExtension
+
 plugins {
     id("kotlin-library-conventions")
+    id("pitest-conventions")
 }
 
 dependencies {
@@ -19,4 +22,8 @@ dependencies {
     testImplementation(libs.bundles.logging)
     testImplementation(libs.airflux.functional.test)
     testImplementation(libs.bundles.kotest)
+}
+
+configure<PitestPluginExtension> {
+    mainSourceSets.set(listOf(project.sourceSets.main.get()))
 }

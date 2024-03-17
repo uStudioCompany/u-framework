@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0")
+    }
+}
+
 plugins {
     `kotlin-dsl`
 }
@@ -13,4 +22,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kover-gradle-plugin:0.7.4")
     implementation("com.github.jk1:gradle-license-report:2.5")
     implementation("org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin:0.13.2")
+    implementation("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0")
 }
