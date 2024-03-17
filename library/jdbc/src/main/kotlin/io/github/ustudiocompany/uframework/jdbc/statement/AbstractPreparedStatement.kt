@@ -1,13 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
-import io.github.ustudiocompany.uframework.jdbc.sql.SqlType
-import io.github.ustudiocompany.uframework.jdbc.sql.TypedParameter
+import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
+import io.github.ustudiocompany.uframework.jdbc.sql.param.setValue
 import java.sql.Connection
-import java.sql.JDBCType
 import java.sql.PreparedStatement
-import java.sql.Timestamp
-import java.util.*
 
 internal abstract class AbstractPreparedStatement(
     connection: Connection,
@@ -23,50 +20,21 @@ internal abstract class AbstractPreparedStatement(
         statement.clearParameters()
     }
 
-    fun PreparedStatement.setPropertyValues(values: Map<String, Any>): PreparedStatement {
-        parametrizedSql.parameters
-            .forEachIndexed { index, typedParameter ->
-                val position = index + 1
-                val value = values[typedParameter.name]
-                    ?: error("The parameter `${typedParameter.name}` is not found.")
-                setValue(position, typedParameter, value)
-            }
+    fun PreparedStatement.setPropertyValues(values: Iterable<SqlParam>): PreparedStatement {
+        values.forEach { parameter ->
+            val name = parameter.name
+            parametrizedSql.parameters[name]
+                ?.let { position -> setValue(position, parameter) }
+                ?: run {
+                    val availableParameters = if (parametrizedSql.parameters.isEmpty())
+                        "."
+                    else
+                        " (available parameters: ${parametrizedSql.parameters.keys})."
+                    error("The `$name` is the unavailable parameter $availableParameters")
+                }
+        }
         return this
     }
-
-    @Suppress("CognitiveComplexMethod")
-    private fun PreparedStatement.setValue(position: Int, typedParameter: TypedParameter, value: Any) =
-        when (typedParameter.type) {
-            SqlType.BOOLEAN -> if (value is Boolean)
-                setBoolean(position, value)
-            else
-                error("The parameter `${typedParameter.name}` is not `Boolean` type.")
-
-            SqlType.TEXT -> if (value is String)
-                setString(position, value)
-            else
-                error("The parameter `${typedParameter.name}` is not `String` type.")
-
-            SqlType.INTEGER -> if (value is Int)
-                setInt(position, value)
-            else
-                error("The parameter `${typedParameter.name}` is not `Integer` type.")
-
-            SqlType.BIGINT -> if (value is Long)
-                setLong(position, value)
-            else
-                error("The parameter `${typedParameter.name}` is not `Bigint` type.")
-
-            SqlType.TIMESTAMP -> if (value is Timestamp)
-                setTimestamp(position, value)
-            else
-                error("The parameter `${typedParameter.name}` is not `Timestamp` type.")
-
-            SqlType.UUID -> if (value is UUID)
-                setObject(position, value, JDBCType.JAVA_OBJECT)
-            else
-                error("The parameter `${typedParameter.name}` is not `UUID` type.")
-        }
 
     companion object {
 

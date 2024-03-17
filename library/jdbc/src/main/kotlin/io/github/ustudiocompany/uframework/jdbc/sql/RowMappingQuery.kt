@@ -7,6 +7,7 @@ import io.github.airflux.functional.identity
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
+import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
 import java.sql.Connection
 
 public fun <T, F> rowMappingQuery(
@@ -27,10 +28,10 @@ public class RowMappingQuery<out T, out F>(
 ) {
     private val query = SqlQuery(sql)
 
-    public fun execute(connection: Connection, vararg parameters: Pair<String, Any>): Result<T?, F> =
-        execute(connection, parameters.toMap())
+    public fun execute(connection: Connection, vararg parameters: SqlParam): Result<T?, F> =
+        execute(connection, Iterable { parameters.iterator() })
 
-    public fun execute(connection: Connection, parameters: Map<String, Any>): Result<T?, F> =
+    public fun execute(connection: Connection, parameters: Iterable<SqlParam>): Result<T?, F> =
         query.execute(connection, parameters)
             .fold(
                 onSuccess = { rows ->

@@ -7,6 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
+import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -17,7 +18,8 @@ public fun Connection.createPreparedQueryStatement(sql: ParametrizedSql): Prepar
 public interface PreparedQueryStatement {
     public val originalSql: String
     public fun clearParameters()
-    public fun execute(values: Map<String, Any>): Result<Rows, JDBCErrors>
+    public fun execute(vararg values: SqlParam): Result<Rows, JDBCErrors> = execute(Iterable { values.iterator() })
+    public fun execute(values: Iterable<SqlParam>): Result<Rows, JDBCErrors>
 }
 
 private class PreparedQueryStatementImpl(
@@ -26,7 +28,7 @@ private class PreparedQueryStatementImpl(
 ) : PreparedQueryStatement,
     AbstractPreparedStatement(connection, parametrizedSql) {
 
-    override fun execute(values: Map<String, Any>): Result<Rows, JDBCErrors> = try {
+    override fun execute(values: Iterable<SqlParam>): Result<Rows, JDBCErrors> = try {
         statement.execute(values).success()
     } catch (expected: SQLException) {
         val error = if (expected.isConnectionError)
@@ -38,6 +40,6 @@ private class PreparedQueryStatementImpl(
         JDBCErrors.UnexpectedError(expected).error()
     }
 
-    private fun PreparedStatement.execute(values: Map<String, Any>): Rows =
+    private fun PreparedStatement.execute(values: Iterable<SqlParam>): Rows =
         Rows(setPropertyValues(values).executeQuery())
 }

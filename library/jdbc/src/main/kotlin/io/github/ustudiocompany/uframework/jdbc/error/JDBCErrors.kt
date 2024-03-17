@@ -20,7 +20,7 @@ public sealed class JDBCErrors : Failure {
     public class UnexpectedError(exception: Exception) : JDBCErrors() {
         override val number: String = "1"
 
-        override val description: String = "Unexpected error: `${exception.message}`."
+        override val description: String = "Unexpected error: '${exception.message}'."
 
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
 

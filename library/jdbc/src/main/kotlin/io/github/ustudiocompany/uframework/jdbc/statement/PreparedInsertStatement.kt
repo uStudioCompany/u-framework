@@ -7,6 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.exception.isDuplicate
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
+import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -17,7 +18,8 @@ public fun Connection.createPreparedInsertStatement(sql: ParametrizedSql): Prepa
 public interface PreparedInsertStatement {
     public val originalSql: String
     public fun clearParameters()
-    public fun execute(values: Map<String, Any>): Result<Int, JDBCErrors>
+    public fun execute(vararg values: SqlParam): Result<Int, JDBCErrors> = execute(Iterable { values.iterator() })
+    public fun execute(values: Iterable<SqlParam>): Result<Int, JDBCErrors>
 }
 
 private class PreparedInsertStatementImpl(
@@ -26,7 +28,7 @@ private class PreparedInsertStatementImpl(
 ) : PreparedInsertStatement,
     AbstractPreparedStatement(connection, parametrizedSql) {
 
-    override fun execute(values: Map<String, Any>): Result<Int, JDBCErrors> = try {
+    override fun execute(values: Iterable<SqlParam>): Result<Int, JDBCErrors> = try {
         statement.execute(values).success()
     } catch (expected: SQLException) {
         val error = when {
@@ -39,5 +41,5 @@ private class PreparedInsertStatementImpl(
         JDBCErrors.UnexpectedError(expected).error()
     }
 
-    private fun PreparedStatement.execute(values: Map<String, Any>): Int = setPropertyValues(values).executeUpdate()
+    private fun PreparedStatement.execute(values: Iterable<SqlParam>): Int = setPropertyValues(values).executeUpdate()
 }
