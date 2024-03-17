@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.sql
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.maps.shouldContainExactly
@@ -10,10 +11,38 @@ internal class ParametrizedSqlTest : FreeSpec() {
     init {
 
         "The ParametrizedSql type" - {
-            withData(nameFn = { item -> item.description }, testData) { item ->
-                val parametrizedSql = ParametrizedSql.of(item.sqlWithParameters)
-                parametrizedSql.value shouldBe item.sqlWithoutParameters
-                parametrizedSql.parameters shouldContainExactly item.parameters
+
+            "when successful SQL parsing" - {
+                withData(nameFn = { item -> item.description }, testData) { item ->
+                    val parametrizedSql = ParametrizedSql.of(item.sqlWithParameters)
+                    parametrizedSql.value shouldBe item.sqlWithoutParameters
+                    parametrizedSql.parameters shouldContainExactly item.parameters
+                }
+            }
+
+            "when failure SQL parsing" - {
+
+                "when the SQL parameter is duplicate" - {
+
+                    "then should throw exception" {
+                        val sql = "SELECT * FROM table WHERE id = :id AND id = :id"
+                        val exception = shouldThrow<IllegalStateException> { ParametrizedSql.of(sql) }
+                        exception.message shouldBe "The parameter `id` is duplicated."
+                    }
+                }
+
+                "when the SQL parameter is empty" - {
+                    withData(
+                        listOf(
+                            "SELECT * FROM table WHERE id = :",
+                            "SELECT * FROM table WHERE id = : AND id = :id",
+                            "SELECT * FROM table WHERE id = :id AND id = :"
+                        )
+                    ) { sql ->
+                        val exception = shouldThrow<IllegalStateException> { ParametrizedSql.of(sql) }
+                        exception.message shouldBe "The parameter name is empty."
+                    }
+                }
             }
         }
     }
