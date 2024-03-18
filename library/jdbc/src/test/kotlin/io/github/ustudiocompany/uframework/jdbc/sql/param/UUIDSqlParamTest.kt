@@ -36,7 +36,7 @@ internal class UUIDSqlParamTest : AbstractSqlParamTest() {
     }
 
     private companion object {
-        private const val TABLE_NAME = "test_string_sql_param_table"
+        private const val TABLE_NAME = "test_uuid_sql_param_table"
         private val NON_NULLABLE_VALUE: UUID = UUID.randomUUID()
         private val NULLABLE_VALUE: UUID? = null
 
