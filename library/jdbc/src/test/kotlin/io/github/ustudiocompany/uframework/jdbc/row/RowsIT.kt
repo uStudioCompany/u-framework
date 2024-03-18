@@ -4,16 +4,18 @@ import io.github.airflux.functional.getOrForward
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.airflux.functional.success
 import io.github.airflux.functional.traverse
-import io.github.ustudiocompany.uframework.jdbc.AbstractSQLDatabaseTest
+import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
+import org.intellij.lang.annotations.Language
 
-internal class RowsIT : AbstractSQLDatabaseTest() {
+internal class RowsIT : PostgresContainerTest() {
 
     init {
 
         "The Rows type" - {
+            executeSql(CREATE_TABLE)
 
             "when the table does not contain data" - {
                 truncateTable(TABLE_NAME)
@@ -73,6 +75,16 @@ internal class RowsIT : AbstractSQLDatabaseTest() {
         private const val FIRST_ROW_TITLE = "f-r-title"
         private const val SECOND_ROW_ID = "s-r-id"
         private const val SECOND_ROW_TITLE = "s-r-title"
+
+        @JvmStatic
+        @Language("Postgresql")
+        private val CREATE_TABLE = """
+            | CREATE TABLE $TABLE_NAME (
+            |    $ID_COLUMN_NAME    TEXT NOT NULL,
+            |    $TITLE_COLUMN_NAME TEXT NOT NULL,
+            |    PRIMARY KEY ($ID_COLUMN_NAME)
+            | );
+            """.trimMargin()
 
         private val SQL = """
             |   SELECT $ID_COLUMN_NAME, 
