@@ -199,14 +199,17 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlUpdate {
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/BooleanSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/Boolean;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Boolean;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/IntSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/Integer;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/LongSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/Long;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Long;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam {
@@ -221,14 +224,17 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/param/SqlParamKt
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/StringSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/TimestampSqlParamKt {
 	public static final fun asSqlParam (Ljava/sql/Timestamp;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/sql/Timestamp;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/UUIDSqlParamKt {
 	public static final fun asSqlParam (Ljava/util/UUID;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun sqlParam (Ljava/lang/String;Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement {
