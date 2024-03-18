@@ -86,6 +86,8 @@ internal class RowsIT : PostgresContainerTest() {
             | );
             """.trimMargin()
 
+        @JvmStatic
+        @Language("Postgresql")
         private val SQL = """
             |   SELECT $ID_COLUMN_NAME, 
             |          $TITLE_COLUMN_NAME
