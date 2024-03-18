@@ -11,20 +11,18 @@ internal class IntSqlParamTest : AbstractSqlParamTest() {
 
             "when inserting a non-null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(VALUE_COLUMN_VALUE)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
                     checkData(SELECT_QUERY) {
-                        getInt(VALUE_COLUMN_NAME) shouldBe VALUE_COLUMN_VALUE
+                        getInt(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(null)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
                     checkData(SELECT_QUERY) {
@@ -36,11 +34,10 @@ internal class IntSqlParamTest : AbstractSqlParamTest() {
         }
     }
 
-    private data class Data(val value: Int?)
-
     private companion object {
         private const val TABLE_NAME = "test_int_sql_param_table"
-        private const val VALUE_COLUMN_VALUE = Int.MAX_VALUE
+        private const val NON_NULLABLE_VALUE: Int = Int.MAX_VALUE
+        private val NULLABLE_VALUE: Int? = null
 
         @JvmStatic
         private val CREATE_TABLE = createTable(TABLE_NAME, "INTEGER")

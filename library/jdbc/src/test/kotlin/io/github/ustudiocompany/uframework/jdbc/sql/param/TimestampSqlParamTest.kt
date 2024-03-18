@@ -13,20 +13,18 @@ internal class TimestampSqlParamTest : AbstractSqlParamTest() {
 
             "when inserting a non-null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(VALUE_COLUMN_VALUE)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
                     checkData(SELECT_QUERY) {
-                        getTimestamp(VALUE_COLUMN_NAME) shouldBe VALUE_COLUMN_VALUE
+                        getTimestamp(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(null)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
                     checkData(SELECT_QUERY) {
@@ -38,11 +36,10 @@ internal class TimestampSqlParamTest : AbstractSqlParamTest() {
         }
     }
 
-    private data class Data(val value: Timestamp?)
-
     private companion object {
         private const val TABLE_NAME = "test_timestamp_sql_param_table"
-        private val VALUE_COLUMN_VALUE = Timestamp.valueOf(LocalDateTime.now())
+        private val NON_NULLABLE_VALUE: Timestamp = Timestamp.valueOf(LocalDateTime.now())
+        private val NULLABLE_VALUE: Timestamp? = null
 
         @JvmStatic
         private val CREATE_TABLE = createTable(TABLE_NAME, "TIMESTAMP")

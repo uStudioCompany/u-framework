@@ -11,20 +11,18 @@ internal class BooleanSqlParamTest : AbstractSqlParamTest() {
 
             "when inserting a non-null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(VALUE_COLUMN_VALUE)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
                     checkData(SELECT_QUERY) {
-                        getBoolean(VALUE_COLUMN_NAME) shouldBe VALUE_COLUMN_VALUE
+                        getBoolean(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
                 truncateTable(TABLE_NAME)
-                val data = Data(null)
-                insertData(parametrizedSql, data.value asSqlParam VALUE_PARAM_NAME)
+                insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
                     checkData(SELECT_QUERY) {
@@ -36,11 +34,10 @@ internal class BooleanSqlParamTest : AbstractSqlParamTest() {
         }
     }
 
-    private data class Data(val value: Boolean?)
-
     private companion object {
         private const val TABLE_NAME = "test_boolean_sql_param_table"
-        private const val VALUE_COLUMN_VALUE = true
+        private const val NON_NULLABLE_VALUE: Boolean = true
+        private val NULLABLE_VALUE: Boolean? = null
 
         @JvmStatic
         private val CREATE_TABLE = createTable(TABLE_NAME, "BOOLEAN")
