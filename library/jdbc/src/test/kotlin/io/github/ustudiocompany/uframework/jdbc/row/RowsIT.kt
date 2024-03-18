@@ -5,6 +5,7 @@ import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.airflux.functional.success
 import io.github.airflux.functional.traverse
 import io.github.ustudiocompany.uframework.jdbc.AbstractSQLDatabaseTest
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 

@@ -77,23 +77,59 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
-	public final fun getBoolean (I)Lio/github/airflux/functional/Result;
-	public final fun getBoolean (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun getInt (I)Lio/github/airflux/functional/Result;
-	public final fun getInt (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun getLong (I)Lio/github/airflux/functional/Result;
-	public final fun getLong (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun getString (I)Lio/github/airflux/functional/Result;
-	public final fun getString (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun getTimestamp (I)Lio/github/airflux/functional/Result;
-	public final fun getTimestamp (Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	public final fun getUUID (I)Lio/github/airflux/functional/Result;
-	public final fun getUUID (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public static final synthetic fun box-impl (Ljava/sql/ResultSet;)Lio/github/ustudiocompany/uframework/jdbc/row/Row;
+	public static fun constructor-impl (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/sql/ResultSet;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/sql/ResultSet;Ljava/sql/ResultSet;)Z
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/sql/ResultSet;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/sql/ResultSet;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/sql/ResultSet;
+}
+
+public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor {
+	public fun <init> ()V
+	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	protected final fun findColumnIndex-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Rows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public fun <init> (Ljava/sql/ResultSet;)V
 	public fun iterator ()Ljava/util/Iterator;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BooleanColumnExtractorKt {
+	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntColumnExtractorKt {
+	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongColumnExtractorKt {
+	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringColumnExtractorKt {
+	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampColumnExtractorKt {
+	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDColumnExtractorKt {
+	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
+	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {
