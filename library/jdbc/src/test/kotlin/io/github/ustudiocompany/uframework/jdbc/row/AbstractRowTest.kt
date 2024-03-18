@@ -1,17 +1,17 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.ustudiocompany.uframework.jdbc.AbstractSQLDatabaseTest
+import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import org.intellij.lang.annotations.Language
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
 
-internal abstract class AbstractRowTest : AbstractSQLDatabaseTest() {
+internal abstract class AbstractRowTest : PostgresContainerTest() {
 
-    protected fun <T> executeQuery(block: Row.() -> T): T =
+    protected fun <T> executeQuery(sql: String, block: Row.() -> T): T =
         dataSource.connection
             .use { connection ->
-                val statement = connection.prepareStatement(SELECT_QUERY)
+                val statement = connection.prepareStatement(sql)
                 val resultSet = statement.executeQuery()
                 val rows = Rows(resultSet)
                 val row = rows.first()
@@ -21,7 +21,16 @@ internal abstract class AbstractRowTest : AbstractSQLDatabaseTest() {
     companion object {
 
         @JvmStatic
-        protected val TABLE_NAME = "test_row_table"
+        protected val TABLE_NAME = "public.test_row_table"
+
+        @JvmStatic
+        protected val ID_COLUMN_NAME = "id_column"
+
+        @JvmStatic
+        protected val ID_ROW_WITH_DATA = 1
+
+        @JvmStatic
+        protected val ID_ROW_WITHOUT_DATA = 2
 
         @JvmStatic
         protected val UNKNOWN_COLUMN_NAME = "unknown_column"
@@ -66,53 +75,90 @@ internal abstract class AbstractRowTest : AbstractSQLDatabaseTest() {
         protected val UNKNOWN_COLUMN_INDEX = 0
 
         @JvmStatic
-        protected val BOOLEAN_COLUMN_INDEX = 1
+        protected val BOOLEAN_COLUMN_INDEX = 2
 
         @JvmStatic
-        protected val STRING_COLUMN_INDEX = 2
+        protected val STRING_COLUMN_INDEX = 3
 
         @JvmStatic
-        protected val INT_COLUMN_INDEX = 3
+        protected val INT_COLUMN_INDEX = 4
 
         @JvmStatic
-        protected val LONG_COLUMN_INDEX = 4
+        protected val LONG_COLUMN_INDEX = 5
 
         @JvmStatic
-        protected val UUID_COLUMN_INDEX = 5
+        protected val UUID_COLUMN_INDEX = 6
 
         @JvmStatic
-        protected val TIMESTAMP_COLUMN_INDEX = 6
+        protected val TIMESTAMP_COLUMN_INDEX = 7
 
         @JvmStatic
         @Language("Postgresql")
-        protected val INSERT_QUERY = """
-            | INSERT INTO $TABLE_NAME (
-            |    $BOOLEAN_COLUMN_NAME,
-            |    $STRING_COLUMN_NAME,
-            |    $INT_COLUMN_NAME,
-            |    $LONG_COLUMN_NAME,
-            |    $UUID_COLUMN_NAME,
-            |    $TIMESTAMP_COLUMN_NAME)
-            | VALUES (
-            |     $BOOLEAN_COLUMN_VALUE,
-            |     '$STRING_COLUMN_VALUE'::text,
-            |     $INT_COLUMN_VALUE::int,
-            |     $LONG_COLUMN_VALUE,
-            |     '$UUID_COLUMN_VALUE'::uuid,
-            |     '$TIMESTAMP_COLUMN_VALUE'::timestamp
+        protected val CREATE_TABLE = """
+            | CREATE TABLE $TABLE_NAME (
+            |   $ID_COLUMN_NAME        INTEGER PRIMARY KEY,
+            |   $BOOLEAN_COLUMN_NAME   BOOLEAN NULL,
+            |   $STRING_COLUMN_NAME    TEXT NULL,
+            |   $INT_COLUMN_NAME       INTEGER NULL,
+            |   $LONG_COLUMN_NAME      BIGINT NULL,
+            |   $UUID_COLUMN_NAME      UUID NULL,
+            |   $TIMESTAMP_COLUMN_NAME TIMESTAMP NULL
             | );
             """.trimMargin()
 
         @JvmStatic
         @Language("Postgresql")
-        protected val SELECT_QUERY = """
-            | SELECT $BOOLEAN_COLUMN_NAME, 
+        protected val INSERT_QUERY = """
+            | INSERT INTO $TABLE_NAME (
+            |    $ID_COLUMN_NAME,
+            |    $BOOLEAN_COLUMN_NAME,
+            |    $STRING_COLUMN_NAME,
+            |    $INT_COLUMN_NAME,
+            |    $LONG_COLUMN_NAME,
+            |    $UUID_COLUMN_NAME,
+            |    $TIMESTAMP_COLUMN_NAME
+            | ) VALUES (
+            |    $ID_ROW_WITH_DATA,
+            |    $BOOLEAN_COLUMN_VALUE,
+            |   '$STRING_COLUMN_VALUE'::text,
+            |    $INT_COLUMN_VALUE::int,
+            |    $LONG_COLUMN_VALUE,
+            |   '$UUID_COLUMN_VALUE'::uuid,
+            |   '$TIMESTAMP_COLUMN_VALUE'::timestamp
+            | );
+            """.trimMargin()
+
+        @JvmStatic
+        @Language("Postgresql")
+        protected val INSERT_WITHOUT_VALUES_QUERY =
+            "INSERT INTO $TABLE_NAME ($ID_COLUMN_NAME) VALUES ($ID_ROW_WITHOUT_DATA);"
+
+        @JvmStatic
+        @Language("Postgresql")
+        protected val SELECT_ROW_WITH_DATA_QUERY = """
+            | SELECT $ID_COLUMN_NAME, 
+            |        $BOOLEAN_COLUMN_NAME,
             |        $STRING_COLUMN_NAME,
             |        $INT_COLUMN_NAME,
             |        $LONG_COLUMN_NAME,
             |        $UUID_COLUMN_NAME,
             |        $TIMESTAMP_COLUMN_NAME
             |   FROM $TABLE_NAME
-        """.trimMargin()
+            |  WHERE $ID_COLUMN_NAME = $ID_ROW_WITH_DATA;
+            """.trimMargin()
+
+        @JvmStatic
+        @Language("Postgresql")
+        protected val SELECT_ROW_WITHOUT_DATA_QUERY = """
+            | SELECT $ID_COLUMN_NAME, 
+            |        $BOOLEAN_COLUMN_NAME,
+            |        $STRING_COLUMN_NAME,
+            |        $INT_COLUMN_NAME,
+            |        $LONG_COLUMN_NAME,
+            |        $UUID_COLUMN_NAME,
+            |        $TIMESTAMP_COLUMN_NAME
+            |   FROM $TABLE_NAME
+            |  WHERE $ID_COLUMN_NAME = $ID_ROW_WITHOUT_DATA;
+            """.trimMargin()
     }
 }

@@ -162,15 +162,15 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlUpdate {
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/BooleanSqlParamKt {
-	public static final fun asSqlParam (ZLjava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun asSqlParam (Ljava/lang/Boolean;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/IntSqlParamKt {
-	public static final fun asSqlParam (ILjava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun asSqlParam (Ljava/lang/Integer;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/LongSqlParamKt {
-	public static final fun asSqlParam (JLjava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun asSqlParam (Ljava/lang/Long;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam {
