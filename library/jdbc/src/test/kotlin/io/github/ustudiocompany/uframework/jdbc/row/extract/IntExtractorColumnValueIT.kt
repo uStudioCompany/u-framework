@@ -1,19 +1,19 @@
-package io.github.ustudiocompany.uframework.jdbc.row
+package io.github.ustudiocompany.uframework.jdbc.row.extract
 
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class GetTimestampValueFromRowIT : AbstractRowTest() {
+internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
 
     init {
 
-        "The `getTimestamp` method" - {
+        "The `getInt` method" - {
             executeSql(CREATE_TABLE)
 
             "when a row contains data" - {
@@ -27,8 +27,8 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         "for column is a boolean type" - {
                             val index = BOOLEAN_COLUMN_INDEX
 
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                            "then should return the value" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -41,7 +41,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val index = STRING_COLUMN_INDEX
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -54,12 +54,10 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val index = INT_COLUMN_INDEX
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
+                                result.shouldBeSuccess()
+                                result.value shouldBe INT_COLUMN_VALUE
                             }
                         }
 
@@ -67,7 +65,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val index = LONG_COLUMN_INDEX
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -80,7 +78,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val index = UUID_COLUMN_INDEX
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -92,10 +90,13 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         "for column is a timestamp type" - {
                             val index = TIMESTAMP_COLUMN_INDEX
 
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
-                                result.shouldBeSuccess()
-                                result.value shouldBe TIMESTAMP_COLUMN_VALUE
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
+
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
                     }
@@ -104,7 +105,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         val index = UNKNOWN_COLUMN_INDEX
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(index) }
+                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -121,8 +122,8 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         "for column is a boolean type" - {
                             val columnName = BOOLEAN_COLUMN_NAME
 
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                            "then should return the value" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -135,7 +136,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val columnName = STRING_COLUMN_NAME
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -148,12 +149,10 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val columnName = INT_COLUMN_NAME
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                                label.get shouldBe columnName
+                                result.shouldBeSuccess()
+                                result.value shouldBe INT_COLUMN_VALUE
                             }
                         }
 
@@ -161,7 +160,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val columnName = LONG_COLUMN_NAME
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
@@ -174,22 +173,12 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                             val columnName = UUID_COLUMN_NAME
 
                             "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
                                 result.shouldBeError()
                                 val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
                                 val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
                                 label.get shouldBe columnName
-                            }
-                        }
-
-                        "for column is a timestamp type" - {
-                            val columnName = TIMESTAMP_COLUMN_NAME
-
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
-                                result.shouldBeSuccess()
-                                result.value shouldBe TIMESTAMP_COLUMN_VALUE
                             }
                         }
                     }
@@ -198,7 +187,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         val columnName = UNKNOWN_COLUMN_NAME
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getTimestamp(columnName) }
+                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -226,7 +215,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                                 TIMESTAMP_COLUMN_INDEX
                             )
                         ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getTimestamp(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
                             result shouldBeSuccess null
                         }
                     }
@@ -235,7 +224,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         val index = UNKNOWN_COLUMN_INDEX
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getTimestamp(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -258,7 +247,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                                 TIMESTAMP_COLUMN_NAME
                             )
                         ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getTimestamp(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
                             result shouldBeSuccess null
                         }
                     }
@@ -267,7 +256,7 @@ internal class GetTimestampValueFromRowIT : AbstractRowTest() {
                         val columnName = UNKNOWN_COLUMN_NAME
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getTimestamp(columnName) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(columnName) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()

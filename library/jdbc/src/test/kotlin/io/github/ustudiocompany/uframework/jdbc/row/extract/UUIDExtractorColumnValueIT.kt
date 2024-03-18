@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.jdbc.row
+package io.github.ustudiocompany.uframework.jdbc.row.extract
 
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
@@ -9,7 +9,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class GetUUIDValueFromRowIT : AbstractRowTest() {
+internal class UUIDExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
 
     init {
 

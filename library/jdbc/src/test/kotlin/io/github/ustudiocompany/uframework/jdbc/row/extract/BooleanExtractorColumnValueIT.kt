@@ -1,19 +1,19 @@
-package io.github.ustudiocompany.uframework.jdbc.row
+package io.github.ustudiocompany.uframework.jdbc.row.extract
 
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getBoolean
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class GetStringValueFromRowIT : AbstractRowTest() {
+internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
 
     init {
 
-        "The `getString` method" - {
+        "The `getBoolean` method" - {
             executeSql(CREATE_TABLE)
 
             "when a row contains data" - {
@@ -28,65 +28,74 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                             val index = BOOLEAN_COLUMN_INDEX
 
                             "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
-
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
                                 result.shouldBeSuccess()
-                                result.value shouldBe "t"
+                                result.value shouldBe BOOLEAN_COLUMN_VALUE
                             }
                         }
 
                         "for column is a string type" - {
                             val index = STRING_COLUMN_INDEX
 
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe STRING_COLUMN_VALUE
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
 
                         "for column is a int type" - {
                             val index = INT_COLUMN_INDEX
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe INT_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
 
                         "for column is a long type" - {
                             val index = LONG_COLUMN_INDEX
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe LONG_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
 
                         "for column is a UUID type" - {
                             val index = UUID_COLUMN_INDEX
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe UUID_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
 
                         "for column is a timestamp type" - {
                             val index = TIMESTAMP_COLUMN_INDEX
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe TIMESTAMP_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
+                                label.get shouldBe index
                             }
                         }
                     }
@@ -95,7 +104,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                         val index = UNKNOWN_COLUMN_INDEX
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(index) }
+                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(index) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -113,65 +122,74 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                             val columnName = BOOLEAN_COLUMN_NAME
 
                             "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
-
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
                                 result.shouldBeSuccess()
-                                result.value shouldBe "t"
+                                result.value shouldBe BOOLEAN_COLUMN_VALUE
                             }
                         }
 
                         "for column is a string type" - {
                             val columnName = STRING_COLUMN_NAME
 
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe STRING_COLUMN_VALUE
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
+                                label.get shouldBe columnName
                             }
                         }
 
                         "for column is a int type" - {
                             val columnName = INT_COLUMN_NAME
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe INT_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
+                                label.get shouldBe columnName
                             }
                         }
 
                         "for column is a long type" - {
                             val columnName = LONG_COLUMN_NAME
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe LONG_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
+                                label.get shouldBe columnName
                             }
                         }
 
                         "for column is a UUID type" - {
                             val columnName = UUID_COLUMN_NAME
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe UUID_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
+                                label.get shouldBe columnName
                             }
                         }
 
                         "for column is a timestamp type" - {
                             val columnName = TIMESTAMP_COLUMN_NAME
 
-                            "then should return the int value as string" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            "then should return the error" {
+                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
-                                result.shouldBeSuccess()
-                                result.value shouldBe TIMESTAMP_COLUMN_VALUE.toString()
+                                result.shouldBeError()
+                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
+                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
+                                label.get shouldBe columnName
                             }
                         }
                     }
@@ -180,7 +198,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                         val columnName = UNKNOWN_COLUMN_NAME
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getString(columnName) }
+                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getBoolean(columnName) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -208,7 +226,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                                 TIMESTAMP_COLUMN_INDEX
                             )
                         ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getString(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getBoolean(index) }
                             result shouldBeSuccess null
                         }
                     }
@@ -217,7 +235,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                         val index = UNKNOWN_COLUMN_INDEX
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getString(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getBoolean(index) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
@@ -240,7 +258,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                                 TIMESTAMP_COLUMN_NAME
                             )
                         ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getString(index) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getBoolean(index) }
                             result shouldBeSuccess null
                         }
                     }
@@ -249,7 +267,7 @@ internal class GetStringValueFromRowIT : AbstractRowTest() {
                         val columnName = UNKNOWN_COLUMN_NAME
 
                         "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getString(columnName) }
+                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getBoolean(columnName) }
 
                             result.shouldBeError()
                             val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()

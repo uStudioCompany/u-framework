@@ -1,12 +1,14 @@
-package io.github.ustudiocompany.uframework.jdbc.row
+package io.github.ustudiocompany.uframework.jdbc.row.extract
 
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
+import io.github.ustudiocompany.uframework.jdbc.row.Row
+import io.github.ustudiocompany.uframework.jdbc.row.Rows
 import org.intellij.lang.annotations.Language
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
 
-internal abstract class AbstractRowTest : PostgresContainerTest() {
+internal abstract class AbstractExtractorColumnValueTest : PostgresContainerTest() {
 
     protected fun <T> executeQuery(sql: String, block: Row.() -> T): T =
         dataSource.connection
