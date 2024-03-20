@@ -53,15 +53,22 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Rows : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
-	public fun getDomain ()Ljava/lang/String;
+public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row$TypeMismatch : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row {
+	public fun <init> (ILjava/lang/String;I)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/String;I)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;I)V
+	public final fun getActual ()I
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getExpected ()Ljava/lang/String;
+	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
+	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Rows$UndefinedColumn : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Rows {
-	public fun <init> (ILjava/lang/Exception;)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/Exception;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row$UndefinedColumn : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row {
+	public fun <init> (I)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;)V
+	public fun <init> (Ljava/lang/String;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
@@ -74,6 +81,10 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {
+	public static final fun isConnectionError (Ljava/sql/SQLException;)Z
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
@@ -90,11 +101,24 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor {
-	public fun <init> ()V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;)V
+	protected final fun checkIndex (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/functional/Result;
+	protected final fun checkType (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/functional/Result;
+	protected final fun checkType (Ljava/sql/ResultSetMetaData;ILjava/lang/String;)Lio/github/airflux/functional/Result;
 	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/functional/Result;
 	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/functional/Result;
+	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/functional/Result;
 	protected final fun findColumnIndex-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	protected final fun getType ()Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;
 	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public fun <init> (Ljava/lang/String;[I)V
+	public final fun getExpected ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Rows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
@@ -139,16 +163,28 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/Col
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Index : io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Index;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Index;IILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Index;
+	public fun equals (Ljava/lang/Object;)Z
 	public fun getDetailsKey ()Ljava/lang/String;
 	public fun getDetailsValue ()Ljava/lang/String;
 	public final fun getGet ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Name : io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {
 	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Name;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Name;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel$Name;
+	public fun equals (Ljava/lang/Object;)Z
 	public fun getDetailsKey ()Ljava/lang/String;
 	public fun getDetailsValue ()Ljava/lang/String;
 	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql {

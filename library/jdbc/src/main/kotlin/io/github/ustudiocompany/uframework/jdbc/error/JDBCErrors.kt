@@ -45,40 +45,53 @@ public sealed class JDBCErrors : Failure {
                 Failure.Details.None
     }
 
-    public sealed class Rows : JDBCErrors() {
+    public sealed class Row : JDBCErrors() {
         override val domain: String
-            get() = super.domain + "-ROWS"
+            get() = super.domain + "-ROW"
 
-        public class UndefinedColumn(public val label: ColumnLabel, cause: Exception) : Rows() {
-            public constructor(name: String, cause: Exception) : this(label = ColumnLabel.Name(name), cause = cause)
-            public constructor(index: Int, cause: Exception) : this(ColumnLabel.Index(index), cause)
+        public class UndefinedColumn(public val label: ColumnLabel) : Row() {
+            public constructor(name: String) : this(label = ColumnLabel.Name(name))
+            public constructor(index: Int) : this(ColumnLabel.Index(index))
 
             override val number: String = "1"
 
             override val description: String = "Undefined column."
 
-            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+            override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
+                .apply {
+                    add(Failure.Details.Item(key = label.detailsKey, value = label.detailsValue))
+                }
+                .let { Failure.Details.of(it) }
+        }
+
+        public class TypeMismatch(public val label: ColumnLabel, public val expected: String, public val actual: Int) :
+            Row() {
+
+            public constructor(name: String, expected: String, actual: Int) :
+                this(ColumnLabel.Name(name), expected, actual)
+
+            public constructor(index: Int, expected: String, actual: Int) :
+                this(ColumnLabel.Index(index), expected, actual)
+
+            override val number: String = "2"
+
+            override val description: String = "The type of a column is mismatched."
 
             override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
                 .apply {
                     add(Failure.Details.Item(key = label.detailsKey, value = label.detailsValue))
-                    if (cause is SQLException)
-                        add(Failure.Details.Item(key = SQL_STATE_DETAILS_KEY, value = cause.sqlState))
+                    add(Failure.Details.Item(key = EXPECTED_COLUMN_TYPE_DETAILS_KEY, value = expected))
+                    add(Failure.Details.Item(key = ACTUAL_COLUMN_TYPE_DETAILS_KEY, value = actual.toString()))
                 }
                 .let { Failure.Details.of(it) }
         }
-    }
-
-    public sealed class Row : JDBCErrors() {
-        override val domain: String
-            get() = super.domain + "-ROW"
 
         public class ReadColumn(public val label: ColumnLabel, cause: Exception) : Row() {
 
             public constructor(name: String, cause: Exception) : this(ColumnLabel.Name(name), cause)
             public constructor(index: Int, cause: Exception) : this(ColumnLabel.Index(index), cause)
 
-            override val number: String = "1"
+            override val number: String = "3"
 
             override val description: String = "The error of reading column value"
 
@@ -112,5 +125,7 @@ public sealed class JDBCErrors : Failure {
 
     private companion object {
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
+        private const val EXPECTED_COLUMN_TYPE_DETAILS_KEY = "expected-column-type"
+        private const val ACTUAL_COLUMN_TYPE_DETAILS_KEY = "actual-column-type"
     }
 }

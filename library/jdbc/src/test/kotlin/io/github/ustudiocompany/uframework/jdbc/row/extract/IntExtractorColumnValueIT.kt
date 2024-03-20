@@ -3,6 +3,13 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
@@ -14,258 +21,122 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
     init {
 
         "The `getInt` method" - {
-            executeSql(CREATE_TABLE)
+            executeSql(makeCreateTableSql())
 
-            "when a row contains data" - {
-                truncateTable(TABLE_NAME)
-                executeSql(INSERT_QUERY)
+            "when column index is valid" - {
+                withData(
+                    nameFn = { "when column type is '${it.dataType}'" },
+                    columnTypes(INTEGER)
+                ) { metadata ->
+                    truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                "when data is read by a column index" - {
-
-                    "when a column index is known" - {
-
-                        "for column is a boolean type" - {
-                            val index = BOOLEAN_COLUMN_INDEX
-
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
-                            }
-                        }
-
-                        "for column is a string type" - {
-                            val index = STRING_COLUMN_INDEX
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
-                            }
-                        }
-
-                        "for column is a int type" - {
-                            val index = INT_COLUMN_INDEX
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeSuccess()
-                                result.value shouldBe INT_COLUMN_VALUE
-                            }
-                        }
-
-                        "for column is a long type" - {
-                            val index = LONG_COLUMN_INDEX
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
-                            }
-                        }
-
-                        "for column is a UUID type" - {
-                            val index = UUID_COLUMN_INDEX
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
-                            }
-                        }
-
-                        "for column is a timestamp type" - {
-                            val index = TIMESTAMP_COLUMN_INDEX
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                                label.get shouldBe index
-                            }
-                        }
-                    }
-
-                    "when a column index is not known" - {
-                        val index = UNKNOWN_COLUMN_INDEX
-
-                        "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(index) }
-
-                            result.shouldBeError()
-                            val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
-                            val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                            label.get shouldBe index
+                    withData(
+                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        listOf(
+                            1 to MAX_VALUE,
+                            2 to ZERO_VALUE,
+                            3 to MIN_VALUE,
+                            4 to NULL_VALUE
+                        )
+                    ) { (rowId, value) ->
+                        insertData(rowId, metadata.columnName, value)
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                        executeQuery(selectSql) {
+                            getInt(metadata.columnIndex).shouldBeSuccess(value)
                         }
                     }
                 }
 
-                "when data is read by a column name" - {
+                withData(
+                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
+                    getColumnsExclude(INTEGER)
+                ) { metadata ->
+                    truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    "when a column name is known" - {
-
-                        "for column is a boolean type" - {
-                            val columnName = BOOLEAN_COLUMN_NAME
-
-                            "then should return the value" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                                label.get shouldBe columnName
-                            }
-                        }
-
-                        "for column is a string type" - {
-                            val columnName = STRING_COLUMN_NAME
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                                label.get shouldBe columnName
-                            }
-                        }
-
-                        "for column is a int type" - {
-                            val columnName = INT_COLUMN_NAME
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                                result.shouldBeSuccess()
-                                result.value shouldBe INT_COLUMN_VALUE
-                            }
-                        }
-
-                        "for column is a long type" - {
-                            val columnName = LONG_COLUMN_NAME
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                                label.get shouldBe columnName
-                            }
-                        }
-
-                        "for column is a UUID type" - {
-                            val columnName = UUID_COLUMN_NAME
-
-                            "then should return the error" {
-                                val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                                result.shouldBeError()
-                                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.ReadColumn>()
-                                val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                                label.get shouldBe columnName
-                            }
-                        }
-                    }
-
-                    "when a column name is not known" - {
-                        val columnName = UNKNOWN_COLUMN_NAME
-
-                        "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITH_DATA_QUERY) { getInt(columnName) }
-
-                            result.shouldBeError()
-                            val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
-                            val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                            label.get shouldBe columnName
-                        }
+                    executeSql(makeInsertEmptyRowSql())
+                    executeQuery(makeSelectEmptyRowSql()) {
+                        val failure = getInt(metadata.columnIndex).shouldBeError()
+                        val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                        cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
                 }
             }
 
-            "when a row does not contain data" - {
-                truncateTable(TABLE_NAME)
-                executeSql(INSERT_WITHOUT_VALUES_QUERY)
+            "when column index is invalid then the function should return an error" - {
+                truncateTable(MULTI_COLUMN_TABLE_NAME)
+                executeSql(makeInsertEmptyRowSql())
 
-                "when data is read by a column index" - {
+                executeQuery(makeSelectEmptyRowSql()) {
+                    val failure = getInt(INVALID_COLUMN_INDEX).shouldBeError()
+                    val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                    cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
+                }
+            }
 
-                    "when a column index is known" - {
-                        withData(
-                            listOf(
-                                BOOLEAN_COLUMN_INDEX,
-                                STRING_COLUMN_INDEX,
-                                INT_COLUMN_INDEX,
-                                LONG_COLUMN_INDEX,
-                                UUID_COLUMN_INDEX,
-                                TIMESTAMP_COLUMN_INDEX
-                            )
-                        ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
-                            result shouldBeSuccess null
-                        }
-                    }
+            "when column name is valid" - {
+                withData(
+                    nameFn = { "when column type is '${it.dataType}'" },
+                    columnTypes(INTEGER)
+                ) { metadata ->
+                    truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    "when a column index is not known" - {
-                        val index = UNKNOWN_COLUMN_INDEX
-
-                        "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
-
-                            result.shouldBeError()
-                            val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
-                            val label = cause.label.shouldBeInstanceOf<ColumnLabel.Index>()
-                            label.get shouldBe index
+                    withData(
+                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        listOf(
+                            1 to MAX_VALUE,
+                            2 to ZERO_VALUE,
+                            3 to MIN_VALUE,
+                            4 to NULL_VALUE
+                        )
+                    ) { (rowId, value) ->
+                        insertData(rowId, metadata.columnName, value)
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                        executeQuery(selectSql) {
+                            getInt(metadata.columnName).shouldBeSuccess(value)
                         }
                     }
                 }
 
-                "when data is read by a column name" - {
+                withData(
+                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
+                    getColumnsExclude(INTEGER)
+                ) { metadata ->
+                    truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    "when a column name is known" - {
-                        withData(
-                            listOf(
-                                BOOLEAN_COLUMN_NAME,
-                                STRING_COLUMN_NAME,
-                                INT_COLUMN_NAME,
-                                LONG_COLUMN_NAME,
-                                UUID_COLUMN_NAME,
-                                TIMESTAMP_COLUMN_NAME
-                            )
-                        ) { index ->
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(index) }
-                            result shouldBeSuccess null
-                        }
+                    executeSql(makeInsertEmptyRowSql())
+                    executeQuery(makeSelectEmptyRowSql()) {
+                        val failure = getInt(metadata.columnName).shouldBeError()
+                        val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                        cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
+                }
+            }
 
-                    "when a column name is not known" - {
-                        val columnName = UNKNOWN_COLUMN_NAME
+            "when column name is invalid then the function should return an error" - {
+                truncateTable(MULTI_COLUMN_TABLE_NAME)
+                executeSql(makeInsertEmptyRowSql())
 
-                        "then the called method should return an error" - {
-                            val result = executeQuery(SELECT_ROW_WITHOUT_DATA_QUERY) { getInt(columnName) }
-
-                            result.shouldBeError()
-                            val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Rows.UndefinedColumn>()
-                            val label = cause.label.shouldBeInstanceOf<ColumnLabel.Name>()
-                            label.get shouldBe columnName
-                        }
-                    }
+                executeQuery(makeSelectEmptyRowSql()) {
+                    val failure = getInt(INVALID_COLUMN_NAME).shouldBeError()
+                    val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                    cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }
             }
         }
+    }
+
+    private fun insertData(rowId: Int, columnName: String, value: Int?) {
+        val sql = """
+        | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
+        | VALUES ($rowId, $value);
+        """.trimMargin()
+        executeSql(sql)
+    }
+
+    companion object {
+        private const val MAX_VALUE = Int.MAX_VALUE
+        private const val MIN_VALUE = Int.MIN_VALUE
+        private const val ZERO_VALUE = 0
+        private val NULL_VALUE: Int? = null
     }
 }
