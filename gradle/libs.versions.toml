@@ -1,12 +1,12 @@
 [versions]
 # Kotlin
-coroutines = "1.7.2"
+coroutines = "1.7.3"
 
 #Libs
 airflux-functional = "0.0.1-SNAPSHOT"
 
 #Messaging
-kafka = "3.5.0"
+kafka = "3.6.0"
 
 #Database
 hikaricp = "5.1.0"
@@ -14,15 +14,15 @@ liquibase = "4.26.0"
 postgresql = "42.7.2"
 
 #Logging
-logback = "1.4.12"
+logback = "1.4.14"
 logstash = "6.6"
-slf4j = "2.0.7"
+slf4j = "2.0.9"
 
 #Test
 kotest = "5.8.0"
 kotest-extensions-testcontainers="2.0.2"
-mockito = "5.4.0"
-mockito-kotlin = "5.1.0"
+mockito = "5.10.0"
+mockito-kotlin = "5.2.0"
 testcontainers = "1.19.7"
 pitest-junit = "1.0.0"
 
