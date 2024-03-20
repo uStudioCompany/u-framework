@@ -109,15 +109,15 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnVal
 	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
 	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/functional/Result;
 	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/functional/Result;
-	protected final fun findColumnIndex-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/functional/Result;
-	protected final fun getType ()Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;
+	protected final fun getColumnIndexOrNull (Ljava/sql/ResultSet;Ljava/lang/String;)Ljava/lang/Integer;
+	protected final fun getExpectedType ()Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;
 	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType {
 	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
 	public fun <init> (Ljava/lang/String;[I)V
-	public final fun getExpected ()Ljava/util/List;
+	public final fun getCodes ()Ljava/util/List;
 	public final fun getName ()Ljava/lang/String;
 }
 

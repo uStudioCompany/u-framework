@@ -2,7 +2,6 @@ package io.github.ustudiocompany.uframework.jdbc.row
 
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.error
-import io.github.airflux.functional.flatMap
 import io.github.airflux.functional.getOrForward
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
@@ -20,6 +19,7 @@ public value class Row(private val resultSet: ResultSet) {
         public abstract fun extract(row: Row, index: Int): Result<T?, JDBCErrors>
         public abstract fun extract(row: Row, columnName: String): Result<T?, JDBCErrors>
 
+        protected fun resultSet(row: Row): ResultSet = row.resultSet
         protected inline fun <T> Row.extract(index: Int, block: ResultSet.(Int) -> T): Result<T?, JDBCErrors> =
             try {
                 val resultSet = resultSet(this)
@@ -42,14 +42,15 @@ public value class Row(private val resultSet: ResultSet) {
 
         protected inline fun <T> Row.extract(columnName: String, block: ResultSet.(Int) -> T): Result<T?, JDBCErrors> =
             try {
-                findColumnIndex(this, columnName)
-                    .flatMap { index ->
-                        val resultSet = resultSet(this)
+                val resultSet = resultSet(this)
+                resultSet.getColumnIndexOrNull(columnName)
+                    ?.let { index ->
                         val metadata = resultSet.metaData
                         metadata.checkType(index, columnName).getOrForward { return it }
                         val result = block(resultSet, index)
                         if (resultSet.wasNull()) Result.asNull else result.success()
                     }
+                    ?: JDBCErrors.Row.UndefinedColumn(columnName).error()
             } catch (expected: ClassCastException) {
                 JDBCErrors.Row.ReadColumn(columnName, expected).error()
             } catch (expected: SQLException) {
@@ -62,17 +63,10 @@ public value class Row(private val resultSet: ResultSet) {
                 JDBCErrors.UnexpectedError(expected).error()
             }
 
-        protected fun resultSet(row: Row): ResultSet = row.resultSet
-
-        protected fun findColumnIndex(row: Row, name: String): Result<Int, JDBCErrors> = try {
-            row.resultSet.findColumn(name).success()
+        protected fun ResultSet.getColumnIndexOrNull(columnName: String): Int? = try {
+            findColumn(columnName)
         } catch (expected: SQLException) {
-            val error = when {
-                expected.isConnectionError -> JDBCErrors.Connection(expected)
-                expected.isUndefinedColumn -> JDBCErrors.Row.UndefinedColumn(name)
-                else -> JDBCErrors.UnexpectedError(expected)
-            }
-            error.error()
+            if (expected.isUndefinedColumn) null else throw expected
         }
 
         protected fun ResultSetMetaData.checkIndex(index: Int): Result<Unit, JDBCErrors> =
