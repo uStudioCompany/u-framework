@@ -210,9 +210,14 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQueryK
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/functional/Result;
 	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/functional/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQueryKt {
+	public static final fun rowsMappingQuery (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery;
+	public static final fun rowsMappingQuery (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlInsert {
