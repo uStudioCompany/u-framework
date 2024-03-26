@@ -7,7 +7,8 @@ dependencies {
 
     /* Database */
     implementation(libs.bundles.database)
-    api(libs.bundles.testcontainers.postgres)
+    api(libs.bundles.testcontainers.core)
+    api(libs.bundles.testcontainers.postgresql)
 
     implementation(project(":testing-library"))
 }
