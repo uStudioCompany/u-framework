@@ -43,11 +43,13 @@ public abstract class io/github/ustudiocompany/uframework/messaging/message/Chan
 	public fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
-public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors {
-	public fun <init> (Ljava/lang/String;)V
+public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$IsBlank : io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$IsBlank;
+	public fun equals (Ljava/lang/Object;)Z
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessage {
@@ -121,7 +123,6 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getName ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
@@ -130,7 +131,6 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun <init> (Ljava/lang/String;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 	public fun getName ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
@@ -173,7 +173,6 @@ public abstract interface class io/github/ustudiocompany/uframework/messaging/se
 
 public abstract class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
-	public fun getKind ()Lio/github/ustudiocompany/uframework/failure/Failure$Kind;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors$Send : io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors {
