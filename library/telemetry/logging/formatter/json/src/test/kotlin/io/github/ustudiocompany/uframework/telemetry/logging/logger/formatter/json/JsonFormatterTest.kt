@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json
 
-import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
 internal class JsonFormatterTest : UnitTest() {

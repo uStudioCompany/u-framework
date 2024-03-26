@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc
 
-import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import com.zaxxer.hikari.HikariDataSource
+import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.assertions.failure
 import io.kotest.core.extensions.install
 import io.kotest.extensions.testcontainers.JdbcDatabaseContainerExtension
