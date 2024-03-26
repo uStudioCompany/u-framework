@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.messaging.listener
 
-import com.dream.umbrella.lib.kotest.ComponentTest
+import io.github.ustudiocompany.uframework.test.kotest.ComponentTest
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessages

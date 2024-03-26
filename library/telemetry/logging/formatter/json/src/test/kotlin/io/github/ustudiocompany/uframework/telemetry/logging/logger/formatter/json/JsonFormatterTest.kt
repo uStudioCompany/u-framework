@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json
 
-import com.dream.umbrella.lib.kotest.UnitTest
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.kotest.matchers.shouldBe
 

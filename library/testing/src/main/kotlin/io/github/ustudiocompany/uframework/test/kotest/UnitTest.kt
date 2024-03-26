@@ -1,4 +1,4 @@
-package com.dream.umbrella.lib.kotest
+package io.github.ustudiocompany.uframework.test.kotest
 
 import io.kotest.core.spec.style.FreeSpec
 

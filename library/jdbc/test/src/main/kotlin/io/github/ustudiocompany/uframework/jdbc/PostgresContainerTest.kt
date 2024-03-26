@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc
 
-import com.dream.umbrella.lib.kotest.IntegrationTest
+import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import com.zaxxer.hikari.HikariDataSource
 import io.kotest.assertions.failure
 import io.kotest.core.extensions.install

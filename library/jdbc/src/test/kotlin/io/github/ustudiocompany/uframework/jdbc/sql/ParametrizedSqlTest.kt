@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.sql
 
-import com.dream.umbrella.lib.kotest.UnitTest
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.datatest.withData
 import io.kotest.matchers.maps.shouldContainExactly
