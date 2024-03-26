@@ -1,5 +1,9 @@
 rootProject.name = "u-framework"
 
+/* Testing */
+include(":testing-library")
+project(":testing-library").projectDir = file("./library/testing")
+
 /* Utils */
 include(":utils-library")
 project(":utils-library").projectDir = file("./library/utils")

@@ -5,14 +5,14 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/AbstractSQLDataba
 	public fun beforeSpec (Lio/kotest/core/spec/Spec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public abstract class io/github/ustudiocompany/uframework/jdbc/PostgresContainerTest : io/kotest/core/spec/style/FreeSpec {
+public abstract class io/github/ustudiocompany/uframework/jdbc/PostgresContainerTest : com/dream/umbrella/lib/kotest/IntegrationTest {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	protected final fun checkData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	protected final fun executeSql (Ljava/lang/String;)V
-	protected final fun getContainer ()Lorg/testcontainers/containers/PostgreSQLContainer;
-	protected final fun getDataSource ()Lcom/zaxxer/hikari/HikariDataSource;
+	protected final fun getContainer ()Lkotlin/Lazy;
+	protected final fun getDataSource ()Lkotlin/Lazy;
 	protected final fun selectData (Ljava/lang/String;)Ljava/util/List;
 	protected final fun shouldContain (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	protected final fun shouldContainExactly (Ljava/lang/String;[Lkotlin/jvm/functions/Function2;)V

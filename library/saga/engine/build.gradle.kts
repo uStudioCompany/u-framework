@@ -25,7 +25,4 @@ dependencies {
     implementation(project(":messaging-core-library"))
     implementation(project(":messaging-core-types-library"))
     implementation(project(":messaging-publisher-library"))
-
-    /* Test */
-    testImplementation(libs.bundles.kotest)
 }

@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.messaging.listener
 
+import com.dream.umbrella.lib.kotest.ComponentTest
 import io.github.ustudiocompany.uframework.messaging.handler.MessageHandler
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessages
@@ -13,7 +14,6 @@ import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
-import io.kotest.core.spec.style.FreeSpec
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.mockito.kotlin.any
@@ -25,7 +25,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import java.time.Duration
 
-internal class MessageListenerTest : FreeSpec() {
+internal class MessageListenerTest : ComponentTest() {
 
     companion object {
         private const val FIRST_TOPIC = "topic-1"

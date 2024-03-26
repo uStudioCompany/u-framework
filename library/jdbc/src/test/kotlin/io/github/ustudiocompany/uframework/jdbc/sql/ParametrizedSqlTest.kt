@@ -1,12 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.sql
 
+import com.dream.umbrella.lib.kotest.UnitTest
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 
-internal class ParametrizedSqlTest : FreeSpec() {
+internal class ParametrizedSqlTest : UnitTest() {
 
     init {
 

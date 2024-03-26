@@ -25,36 +25,37 @@ public abstract class AbstractSQLDatabaseTest(
 ) : PostgresContainerTest() {
 
     override suspend fun beforeSpec(spec: Spec) {
-        dataSource.connection.use { connection ->
-            val database = DatabaseFactory.getInstance()
-                .findCorrectDatabaseImplementation(JdbcConnection(connection))
+        dataSource.value
+            .connection.use { connection ->
+                val database = DatabaseFactory.getInstance()
+                    .findCorrectDatabaseImplementation(JdbcConnection(connection))
 
-            Scope.child(
-                mapOf(
-                    Scope.Attr.database.name to database,
-                    Scope.Attr.resourceAccessor.name to resourceAccessor
-                )
-            ) {
-                val updateCommand = CommandScope(*UpdateCommandStep.COMMAND_NAME)
-                    .apply {
-                        addArgumentValue(DbUrlConnectionArgumentsCommandStep.DATABASE_ARG, database)
-                        addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, changeLogFile)
-                        addArgumentValue(UpdateCommandStep.CONTEXTS_ARG, context.toString())
-                        addArgumentValue(UpdateCommandStep.LABEL_FILTER_ARG, LabelExpression().originalString)
-                        addArgumentValue(
-                            ChangeExecListenerCommandStep.CHANGE_EXEC_LISTENER_ARG,
-                            null as ChangeExecListener?
-                        )
-                        addArgumentValue(
-                            DatabaseChangelogCommandStep.CHANGELOG_PARAMETERS,
-                            ChangeLogParameters(database)
-                        )
+                Scope.child(
+                    mapOf(
+                        Scope.Attr.database.name to database,
+                        Scope.Attr.resourceAccessor.name to resourceAccessor
+                    )
+                ) {
+                    val updateCommand = CommandScope(*UpdateCommandStep.COMMAND_NAME)
+                        .apply {
+                            addArgumentValue(DbUrlConnectionArgumentsCommandStep.DATABASE_ARG, database)
+                            addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, changeLogFile)
+                            addArgumentValue(UpdateCommandStep.CONTEXTS_ARG, context.toString())
+                            addArgumentValue(UpdateCommandStep.LABEL_FILTER_ARG, LabelExpression().originalString)
+                            addArgumentValue(
+                                ChangeExecListenerCommandStep.CHANGE_EXEC_LISTENER_ARG,
+                                null as ChangeExecListener?
+                            )
+                            addArgumentValue(
+                                DatabaseChangelogCommandStep.CHANGELOG_PARAMETERS,
+                                ChangeLogParameters(database)
+                            )
 
-                        liquibaseConfig(this)
-                    }
-                updateCommand.execute()
+                            liquibaseConfig(this)
+                        }
+                    updateCommand.execute()
+                }
             }
-        }
     }
 
     private companion object {

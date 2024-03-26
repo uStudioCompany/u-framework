@@ -8,7 +8,8 @@ import io.github.ustudiocompany.uframework.jdbc.statement.createPreparedInsertSt
 internal abstract class AbstractSqlParamTest : PostgresContainerTest() {
 
     protected fun insertData(sql: ParametrizedSql, param: SqlParam) {
-        dataSource.connection
+        dataSource.value
+            .connection
             .use { connection ->
                 val statement = connection.createPreparedInsertStatement(sql)
                 val result = statement.execute(param)

@@ -3,30 +3,30 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getLong
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
+internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest() {
 
     init {
 
-        "The `getInt` method" - {
+        "The `getLong` method" - {
             executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(INTEGER)
+                    columnTypes(BIGINT)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -42,20 +42,20 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getInt(metadata.columnIndex).shouldBeSuccess(value)
+                            getLong(metadata.columnIndex).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(INTEGER)
+                    getColumnsExclude(BIGINT)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getInt(metadata.columnIndex).shouldBeError()
+                        val failure = getLong(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
@@ -67,7 +67,7 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getInt(INVALID_COLUMN_INDEX).shouldBeError()
+                    val failure = getLong(INVALID_COLUMN_INDEX).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
                 }
@@ -76,7 +76,7 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
             "when column name is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(INTEGER)
+                    columnTypes(BIGINT)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -92,20 +92,20 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getInt(metadata.columnName).shouldBeSuccess(value)
+                            getLong(metadata.columnName).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(INTEGER)
+                    getColumnsExclude(BIGINT)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getInt(metadata.columnName).shouldBeError()
+                        val failure = getLong(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
@@ -117,7 +117,7 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getInt(INVALID_COLUMN_NAME).shouldBeError()
+                    val failure = getLong(INVALID_COLUMN_NAME).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }
@@ -125,7 +125,7 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
         }
     }
 
-    private fun insertData(rowId: Int, columnName: String, value: Int?) {
+    private fun insertData(rowId: Int, columnName: String, value: Long?) {
         val sql = """
         | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
         | VALUES ($rowId, $value);
@@ -134,9 +134,9 @@ internal class IntExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
     }
 
     companion object {
-        private const val MAX_VALUE = Int.MAX_VALUE
-        private const val MIN_VALUE = Int.MIN_VALUE
-        private const val ZERO_VALUE = 0
-        private val NULL_VALUE: Int? = null
+        private const val MAX_VALUE = Long.MAX_VALUE
+        private const val MIN_VALUE = Long.MIN_VALUE
+        private const val ZERO_VALUE = 0L
+        private val NULL_VALUE: Long? = null
     }
 }

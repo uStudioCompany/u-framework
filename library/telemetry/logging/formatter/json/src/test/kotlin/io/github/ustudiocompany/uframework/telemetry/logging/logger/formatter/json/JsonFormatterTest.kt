@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json
 
+import com.dream.umbrella.lib.kotest.UnitTest
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-internal class JsonFormatterTest : FreeSpec() {
+internal class JsonFormatterTest : UnitTest() {
     companion object {
         private const val MESSAGE = "Unknown error."
         private const val FIRST_ELEMENT_KEY = "key-1"

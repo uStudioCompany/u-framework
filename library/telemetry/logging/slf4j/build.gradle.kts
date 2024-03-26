@@ -14,7 +14,4 @@ dependencies {
     implementation(libs.slf4j.api)
     implementation(libs.logback.core)
     implementation(libs.logback.classic)
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
 }

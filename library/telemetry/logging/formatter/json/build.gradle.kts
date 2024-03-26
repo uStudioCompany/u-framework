@@ -13,5 +13,5 @@ dependencies {
     implementation(project(":logging-api-library"))
 
     /* Test section */
-    testImplementation(libs.bundles.kotest)
+    testImplementation(project(":testing-library"))
 }

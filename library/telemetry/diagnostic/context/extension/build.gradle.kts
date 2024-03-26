@@ -9,5 +9,4 @@ repositories {
 dependencies {
     implementation(project(":failure-library"))
     implementation(project(":diagnostic-context-library"))
-    testImplementation(libs.bundles.kotest)
 }

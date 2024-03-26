@@ -19,8 +19,4 @@ dependencies {
     implementation(project(":logging-api-library"))
     implementation(project(":logging-formatter-json-library"))
     implementation(project(":logging-slf4j-library"))
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.bundles.mockito)
 }

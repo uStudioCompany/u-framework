@@ -9,7 +9,4 @@ dependencies {
 
     /* Failure libs */
     implementation(project(":failure-library"))
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
 }

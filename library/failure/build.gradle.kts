@@ -5,9 +5,3 @@ plugins {
 repositories {
     mavenCentral()
 }
-
-dependencies {
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
-}

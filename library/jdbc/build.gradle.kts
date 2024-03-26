@@ -21,7 +21,7 @@ dependencies {
     testImplementation(project(":jdbc-test-library"))
     testImplementation(libs.bundles.logging)
     testImplementation(libs.airflux.functional.test)
-    testImplementation(libs.bundles.kotest)
+    testImplementation(project(":testing-library"))
 }
 
 configure<PitestPluginExtension> {

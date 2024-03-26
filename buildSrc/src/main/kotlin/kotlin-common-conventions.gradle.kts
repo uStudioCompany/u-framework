@@ -26,8 +26,7 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
-        if (!project.hasProperty("integration-tests"))
-            exclude("**/**IT.*")
+        systemProperties = System.getProperties().asIterable().associate { it.key.toString() to it.value }
     }
 }
 

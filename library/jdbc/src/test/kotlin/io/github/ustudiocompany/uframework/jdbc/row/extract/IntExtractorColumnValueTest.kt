@@ -3,58 +3,59 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BOOLEAN
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getBoolean
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
+internal class IntExtractorColumnValueTest : AbstractExtractorColumnValueTest() {
 
     init {
 
-        "The `getBoolean` method" - {
+        "The `getInt` method" - {
             executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(BOOLEAN)
+                    columnTypes(INTEGER)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
                         listOf(
-                            1 to TRUE_VALUE,
-                            2 to FALSE_VALUE,
-                            3 to NULL_VALUE,
+                            1 to MAX_VALUE,
+                            2 to ZERO_VALUE,
+                            3 to MIN_VALUE,
+                            4 to NULL_VALUE
                         )
                     ) { (rowId, value) ->
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getBoolean(metadata.columnIndex).shouldBeSuccess(value)
+                            getInt(metadata.columnIndex).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(BOOLEAN)
+                    getColumnsExclude(INTEGER)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getBoolean(metadata.columnIndex).shouldBeError()
+                        val failure = getInt(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
@@ -66,7 +67,7 @@ internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest(
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getBoolean(INVALID_COLUMN_INDEX).shouldBeError()
+                    val failure = getInt(INVALID_COLUMN_INDEX).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
                 }
@@ -75,35 +76,36 @@ internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest(
             "when column name is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(BOOLEAN)
+                    columnTypes(INTEGER)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
                         listOf(
-                            1 to TRUE_VALUE,
-                            2 to FALSE_VALUE,
-                            3 to NULL_VALUE,
+                            1 to MAX_VALUE,
+                            2 to ZERO_VALUE,
+                            3 to MIN_VALUE,
+                            4 to NULL_VALUE
                         )
                     ) { (rowId, value) ->
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getBoolean(metadata.columnName).shouldBeSuccess(value)
+                            getInt(metadata.columnName).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(BOOLEAN)
+                    getColumnsExclude(INTEGER)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getBoolean(metadata.columnName).shouldBeError()
+                        val failure = getInt(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
@@ -115,7 +117,7 @@ internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest(
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getBoolean(INVALID_COLUMN_NAME).shouldBeError()
+                    val failure = getInt(INVALID_COLUMN_NAME).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }
@@ -123,7 +125,7 @@ internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest(
         }
     }
 
-    private fun insertData(rowId: Int, columnName: String, value: Boolean?) {
+    private fun insertData(rowId: Int, columnName: String, value: Int?) {
         val sql = """
         | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
         | VALUES ($rowId, $value);
@@ -132,8 +134,9 @@ internal class BooleanExtractorColumnValueIT : AbstractExtractorColumnValueTest(
     }
 
     companion object {
-        private const val TRUE_VALUE = true
-        private const val FALSE_VALUE = false
-        private val NULL_VALUE: Boolean? = null
+        private const val MAX_VALUE = Int.MAX_VALUE
+        private const val MIN_VALUE = Int.MIN_VALUE
+        private const val ZERO_VALUE = 0
+        private val NULL_VALUE: Int? = null
     }
 }

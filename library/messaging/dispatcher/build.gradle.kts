@@ -13,7 +13,4 @@ dependencies {
     implementation(project(":messaging-core-library"))
     api(project(":messaging-router-library"))
     implementation(project(":messaging-dead-letter-channel-library"))
-
-    /* Test */
-    testImplementation(libs.bundles.kotest)
 }

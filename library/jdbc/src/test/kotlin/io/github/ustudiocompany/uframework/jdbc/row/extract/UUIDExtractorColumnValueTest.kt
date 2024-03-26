@@ -9,53 +9,51 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUID
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import java.sql.Timestamp
 
-internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTest() {
+internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest() {
 
     init {
 
-        "The `getTimestamp` method" - {
+        "The `getUUID` method" - {
             executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(TIMESTAMP)
+                    columnTypes(UUID)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        nameFn = { "when column value is is '${it.second}' then the function should return this value" },
                         listOf(
-                            1 to MAX_VALUE,
-                            2 to MIN_VALUE,
-                            3 to NULL_VALUE
+                            1 to VALID_VALUE,
+                            2 to NULL_VALUE
                         )
                     ) { (rowId, value) ->
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getTimestamp(metadata.columnIndex).shouldBeSuccess(value)
+                            getUUID(metadata.columnIndex).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(TIMESTAMP)
+                    getColumnsExclude(UUID)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getTimestamp(metadata.columnIndex).shouldBeError()
+                        val failure = getUUID(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
@@ -67,7 +65,7 @@ internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTes
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getTimestamp(INVALID_COLUMN_INDEX).shouldBeError()
+                    val failure = getUUID(INVALID_COLUMN_INDEX).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
                 }
@@ -76,35 +74,34 @@ internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTes
             "when column name is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(TIMESTAMP)
+                    columnTypes(UUID)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
                         listOf(
-                            1 to MAX_VALUE,
-                            2 to MIN_VALUE,
-                            3 to NULL_VALUE
+                            1 to VALID_VALUE,
+                            2 to NULL_VALUE
                         )
                     ) { (rowId, value) ->
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getTimestamp(metadata.columnName).shouldBeSuccess(value)
+                            getUUID(metadata.columnName).shouldBeSuccess(value)
                         }
                     }
                 }
 
                 withData(
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(TIMESTAMP)
+                    getColumnsExclude(UUID)
                 ) { metadata ->
                     truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getTimestamp(metadata.columnName).shouldBeError()
+                        val failure = getUUID(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
@@ -116,7 +113,7 @@ internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTes
                 executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getTimestamp(INVALID_COLUMN_NAME).shouldBeError()
+                    val failure = getUUID(INVALID_COLUMN_NAME).shouldBeError()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }
@@ -124,7 +121,7 @@ internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTes
         }
     }
 
-    private fun insertData(rowId: Int, columnName: String, value: Timestamp?) {
+    private fun insertData(rowId: Int, columnName: String, value: java.util.UUID?) {
         val rowValue: String? = value?.let { "'$it'" }
         val sql = """
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
@@ -134,8 +131,7 @@ internal class TimestampExtractorColumnValueIT : AbstractExtractorColumnValueTes
     }
 
     companion object {
-        private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
-        private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
-        private val NULL_VALUE: Timestamp? = null
+        private val VALID_VALUE: java.util.UUID = java.util.UUID.randomUUID()
+        private val NULL_VALUE: java.util.UUID? = null
     }
 }

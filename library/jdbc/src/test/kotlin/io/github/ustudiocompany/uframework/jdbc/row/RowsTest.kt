@@ -10,7 +10,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
-internal class RowsIT : PostgresContainerTest() {
+internal class RowsTest : PostgresContainerTest() {
 
     init {
 
@@ -54,7 +54,8 @@ internal class RowsIT : PostgresContainerTest() {
     }
 
     private fun executeQuery() =
-        dataSource.connection
+        dataSource.value
+            .connection
             .use { connection ->
                 val statement = connection.prepareStatement(SQL)
                 val resultSet = statement.executeQuery()

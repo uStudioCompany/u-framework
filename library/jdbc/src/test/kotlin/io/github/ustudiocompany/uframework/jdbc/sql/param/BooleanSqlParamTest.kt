@@ -8,6 +8,7 @@ internal class BooleanSqlParamTest : AbstractSqlParamTest() {
 
         "The LongSqlParam type" - {
             executeSql(CREATE_TABLE)
+            println("!!!!!!!")
 
             "when inserting a non-null value" - {
                 truncateTable(TABLE_NAME)

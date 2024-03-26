@@ -26,8 +26,4 @@ dependencies {
 
     /* Kafka client */
     api(libs.kafka.client)
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.bundles.mockito)
 }

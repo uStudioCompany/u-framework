@@ -20,7 +20,7 @@ slf4j = "2.0.9"
 
 #Test
 kotest = "5.8.0"
-kotest-extensions-testcontainers="2.0.2"
+kotest-extensions-testcontainers = "2.0.2"
 mockito = "5.10.0"
 mockito-kotlin = "5.2.0"
 testcontainers = "1.19.7"

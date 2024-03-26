@@ -7,7 +7,8 @@ import io.github.ustudiocompany.uframework.jdbc.row.Rows
 internal abstract class AbstractExtractorColumnValueTest : PostgresContainerTest() {
 
     protected fun <T> executeQuery(sql: String, block: Row.() -> T): T =
-        dataSource.connection
+        dataSource.value
+            .connection
             .use { connection ->
                 val statement = connection.prepareStatement(sql)
                 val resultSet = statement.executeQuery()

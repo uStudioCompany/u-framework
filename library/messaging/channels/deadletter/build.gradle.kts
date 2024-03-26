@@ -21,8 +21,4 @@ dependencies {
 
     /* Messaging libs */
     implementation(project(":messaging-core-library"))
-
-    /* Test section */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.bundles.mockito)
 }
