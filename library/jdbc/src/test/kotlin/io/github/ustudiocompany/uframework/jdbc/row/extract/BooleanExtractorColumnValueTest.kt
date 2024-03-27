@@ -21,14 +21,14 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
     init {
 
         "The `getBoolean` method" - {
-            executeSql(makeCreateTableSql())
+            container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
                     columnTypes(BOOLEAN)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
@@ -50,9 +50,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(BOOLEAN)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getBoolean(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -62,8 +62,8 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
             }
 
             "when column index is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getBoolean(INVALID_COLUMN_INDEX).shouldBeError()
@@ -77,7 +77,7 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                     nameFn = { "when column type is '${it.dataType}'" },
                     columnTypes(BOOLEAN)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
@@ -99,9 +99,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(BOOLEAN)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getBoolean(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -111,8 +111,8 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
             }
 
             "when column name is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getBoolean(INVALID_COLUMN_NAME).shouldBeError()
@@ -128,7 +128,7 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
         | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
         | VALUES ($rowId, $value);
         """.trimMargin()
-        executeSql(sql)
+        container.executeSql(sql)
     }
 
     companion object {

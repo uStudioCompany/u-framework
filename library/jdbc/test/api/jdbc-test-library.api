@@ -1,21 +1,18 @@
-public abstract class io/github/ustudiocompany/uframework/jdbc/AbstractSQLDatabaseTest : io/github/ustudiocompany/uframework/jdbc/PostgresContainerTest {
-	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Lliquibase/Contexts;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/lang/String;Lliquibase/Contexts;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun beforeSpec (Lio/kotest/core/spec/Spec;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+public final class io/github/ustudiocompany/uframework/jdbc/DatabaseInitializatorKt {
+	public static final fun initialize (Lio/github/ustudiocompany/uframework/jdbc/PostgresContainerTest;Lliquibase/Contexts;Ljava/lang/String;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun initialize$default (Lio/github/ustudiocompany/uframework/jdbc/PostgresContainerTest;Lliquibase/Contexts;Ljava/lang/String;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
-public abstract class io/github/ustudiocompany/uframework/jdbc/PostgresContainerTest : io/github/ustudiocompany/uframework/test/kotest/IntegrationTest {
+public final class io/github/ustudiocompany/uframework/jdbc/PostgresContainerTest {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	protected final fun checkData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
-	protected final fun executeSql (Ljava/lang/String;)V
-	protected final fun getContainer ()Lkotlin/Lazy;
-	protected final fun getDataSource ()Lkotlin/Lazy;
-	protected final fun selectData (Ljava/lang/String;)Ljava/util/List;
-	protected final fun shouldContain (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
-	protected final fun shouldContainExactly (Ljava/lang/String;[Lkotlin/jvm/functions/Function2;)V
-	protected final fun truncateTable (Ljava/lang/String;)V
+	public final fun checkData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun executeSql (Ljava/lang/String;)V
+	public final fun getDataSource ()Ljavax/sql/DataSource;
+	public final fun selectData (Ljava/lang/String;)Ljava/util/List;
+	public final fun shouldContain (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun shouldContainExactly (Ljava/lang/String;[Lkotlin/jvm/functions/Function2;)V
+	public final fun truncateTable (Ljava/lang/String;)V
 }
 

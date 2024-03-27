@@ -7,26 +7,25 @@ internal class BooleanSqlParamTest : AbstractSqlParamTest() {
     init {
 
         "The LongSqlParam type" - {
-            executeSql(CREATE_TABLE)
-            println("!!!!!!!")
+            container.executeSql(CREATE_TABLE)
 
             "when inserting a non-null value" - {
-                truncateTable(TABLE_NAME)
+                container.truncateTable(TABLE_NAME)
                 insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
-                    checkData(SELECT_QUERY) {
+                    container.checkData(SELECT_QUERY) {
                         getBoolean(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
-                truncateTable(TABLE_NAME)
+                container.truncateTable(TABLE_NAME)
                 insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
-                    checkData(SELECT_QUERY) {
+                    container.checkData(SELECT_QUERY) {
                         getBoolean(1) shouldBe false
                         wasNull() shouldBe true
                     }

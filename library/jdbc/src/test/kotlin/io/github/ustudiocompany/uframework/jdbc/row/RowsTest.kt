@@ -6,19 +6,22 @@ import io.github.airflux.functional.success
 import io.github.airflux.functional.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
+import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
-internal class RowsTest : PostgresContainerTest() {
+internal class RowsTest : IntegrationTest() {
+
+    private val container = PostgresContainerTest()
 
     init {
 
         "The Rows type" - {
-            executeSql(CREATE_TABLE)
+            container.executeSql(CREATE_TABLE)
 
             "when the table does not contain data" - {
-                truncateTable(TABLE_NAME)
+                container.truncateTable(TABLE_NAME)
 
                 "then the result should be empty" {
                     val result = executeQuery()
@@ -29,8 +32,8 @@ internal class RowsTest : PostgresContainerTest() {
             }
 
             "when the table contains data" - {
-                truncateTable(TABLE_NAME)
-                executeSql(
+                container.truncateTable(TABLE_NAME)
+                container.executeSql(
                     """
                        | INSERT INTO $TABLE_NAME($ID_COLUMN_NAME, $TITLE_COLUMN_NAME)
                        |      VALUES ('$FIRST_ROW_ID', '$FIRST_ROW_TITLE');
@@ -54,7 +57,7 @@ internal class RowsTest : PostgresContainerTest() {
     }
 
     private fun executeQuery() =
-        dataSource.value
+        container.dataSource
             .connection
             .use { connection ->
                 val statement = connection.prepareStatement(SQL)

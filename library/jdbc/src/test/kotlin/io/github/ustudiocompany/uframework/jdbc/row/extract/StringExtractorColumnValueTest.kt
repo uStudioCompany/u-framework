@@ -23,7 +23,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
     init {
 
         "The `getString` method" - {
-            executeSql(makeCreateTableSql())
+            container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
 
@@ -31,7 +31,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                     nameFn = { "when column type is '${it.first.dataType}'" },
                     testData
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     @Suppress("DestructuringDeclarationWithTooManyEntries")
                     withData(
@@ -50,9 +50,9 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(TEXT, VARCHAR, CHAR)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getString(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -62,8 +62,8 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
             }
 
             "when column index is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getString(INVALID_COLUMN_INDEX).shouldBeError()
@@ -77,7 +77,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                     nameFn = { "when column type is '${it.first.dataType}'" },
                     testData
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     @Suppress("DestructuringDeclarationWithTooManyEntries")
                     withData(
@@ -96,9 +96,9 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(TEXT, VARCHAR, CHAR)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getString(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -108,8 +108,8 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
             }
 
             "when column name is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getString(INVALID_COLUMN_NAME).shouldBeError()
@@ -147,7 +147,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
             | VALUES ($rowId, $rowValue);
             """.trimMargin()
-        executeSql(sql)
+        container.executeSql(sql)
     }
 
     private data class TestDataItem(

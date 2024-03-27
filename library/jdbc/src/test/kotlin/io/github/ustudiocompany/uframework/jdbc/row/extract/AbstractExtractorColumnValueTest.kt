@@ -3,11 +3,14 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.Row
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
+import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 
-internal abstract class AbstractExtractorColumnValueTest : PostgresContainerTest() {
+internal abstract class AbstractExtractorColumnValueTest : IntegrationTest() {
+
+    protected val container = PostgresContainerTest()
 
     protected fun <T> executeQuery(sql: String, block: Row.() -> T): T =
-        dataSource.value
+        container.dataSource
             .connection
             .use { connection ->
                 val statement = connection.prepareStatement(sql)

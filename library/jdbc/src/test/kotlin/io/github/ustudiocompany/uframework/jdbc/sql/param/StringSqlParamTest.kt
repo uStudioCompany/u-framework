@@ -7,25 +7,25 @@ internal class StringSqlParamTest : AbstractSqlParamTest() {
     init {
 
         "The StringSqlParam type" - {
-            executeSql(CREATE_TABLE)
+            container.executeSql(CREATE_TABLE)
 
             "when inserting a non-null value" - {
-                truncateTable(TABLE_NAME)
+                container.truncateTable(TABLE_NAME)
                 insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
-                    checkData(SELECT_QUERY) {
+                    container.checkData(SELECT_QUERY) {
                         getString(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
-                truncateTable(TABLE_NAME)
+                container.truncateTable(TABLE_NAME)
                 insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
-                    checkData(SELECT_QUERY) {
+                    container.checkData(SELECT_QUERY) {
                         getString(1) shouldBe null
                         wasNull() shouldBe true
                     }

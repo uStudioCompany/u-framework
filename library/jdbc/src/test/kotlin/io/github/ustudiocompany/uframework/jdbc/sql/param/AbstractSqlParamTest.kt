@@ -4,11 +4,14 @@ import io.github.airflux.functional.kotest.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.createPreparedInsertStatement
+import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 
-internal abstract class AbstractSqlParamTest : PostgresContainerTest() {
+internal abstract class AbstractSqlParamTest : IntegrationTest() {
+
+    protected val container = PostgresContainerTest()
 
     protected fun insertData(sql: ParametrizedSql, param: SqlParam) {
-        dataSource.value
+        container.dataSource
             .connection
             .use { connection ->
                 val statement = connection.createPreparedInsertStatement(sql)

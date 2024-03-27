@@ -9,6 +9,5 @@ dependencies {
     implementation(libs.bundles.database)
     api(libs.bundles.testcontainers.core)
     api(libs.bundles.testcontainers.postgresql)
-
-    implementation(project(":testing-library"))
+    implementation(libs.bundles.kotest)
 }

@@ -22,14 +22,14 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
     init {
 
         "The `getTimestamp` method" - {
-            executeSql(makeCreateTableSql())
+            container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.dataType}'" },
                     columnTypes(TIMESTAMP)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
@@ -51,9 +51,9 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(TIMESTAMP)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getTimestamp(metadata.columnIndex).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -63,8 +63,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
             }
 
             "when column index is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getTimestamp(INVALID_COLUMN_INDEX).shouldBeError()
@@ -78,7 +78,7 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                     nameFn = { "when column type is '${it.dataType}'" },
                     columnTypes(TIMESTAMP)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
@@ -100,9 +100,9 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                     nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
                     getColumnsExclude(TIMESTAMP)
                 ) { metadata ->
-                    truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    executeSql(makeInsertEmptyRowSql())
+                    container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
                         val failure = getTimestamp(metadata.columnName).shouldBeError()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
@@ -112,8 +112,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
             }
 
             "when column name is invalid then the function should return an error" - {
-                truncateTable(MULTI_COLUMN_TABLE_NAME)
-                executeSql(makeInsertEmptyRowSql())
+                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
                     val failure = getTimestamp(INVALID_COLUMN_NAME).shouldBeError()
@@ -130,7 +130,7 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
             | VALUES ($rowId, $rowValue);
             """.trimMargin()
-        executeSql(sql)
+        container.executeSql(sql)
     }
 
     companion object {

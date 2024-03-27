@@ -20,7 +20,6 @@ slf4j = "2.0.9"
 
 #Test
 kotest = "5.8.0"
-kotest-extensions-testcontainers = "2.0.2"
 mockito = "5.10.0"
 mockito-kotlin = "5.2.0"
 testcontainers = "1.19.7"
@@ -52,7 +51,7 @@ slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 airflux-functional-test = { module = "io.github.airflux:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
-kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-extensions-testcontainers" }
+#kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-extensions-testcontainers" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
@@ -66,6 +65,6 @@ kotest = ["kotest-junit5", "kotest-core", "kotest-datatest"]
 logging = ["slf4j-api", "logback-core"]
 mockito = ["mockito-core", "mockito-kotlin"]
 database = ["hikaricp", "postgresql"]
-testcontainers-core = ["testcontainers-junit", "kotest-extensions-testcontainers"]
+testcontainers-core = ["testcontainers-junit"]
 testcontainers-postgresql = ["testcontainers-postgresql", "liquibase-core"]
 testcontainers-kafka = ["testcontainers-kafka"]

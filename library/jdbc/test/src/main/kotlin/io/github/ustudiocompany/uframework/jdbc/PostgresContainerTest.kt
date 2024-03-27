@@ -1,39 +1,45 @@
 package io.github.ustudiocompany.uframework.jdbc
 
 import com.zaxxer.hikari.HikariDataSource
-import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.assertions.failure
-import io.kotest.core.extensions.install
-import io.kotest.extensions.testcontainers.JdbcDatabaseContainerExtension
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.ResultSet
+import javax.sql.DataSource
 
-public abstract class PostgresContainerTest(dockerImageName: String = "postgres:15.4") : IntegrationTest() {
+public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
 
-    protected val container: Lazy<PostgreSQLContainer<Nothing>> = lazy {
+    private val container: Lazy<PostgreSQLContainer<Nothing>> = lazy {
         PostgreSQLContainer<Nothing>(dockerImageName)
-            .apply { startupAttempts = 1 }
+            .apply {
+                startupAttempts = 1
+                start()
+            }
     }
 
-    protected val dataSource: Lazy<HikariDataSource> = lazy {
-        install(JdbcDatabaseContainerExtension(container.value))
+    private val _dataSource: Lazy<HikariDataSource> = lazy {
+        HikariDataSource().apply {
+            jdbcUrl = container.value.jdbcUrl
+            username = container.value.username
+            password = container.value.password
+        }
     }
 
-    protected fun truncateTable(name: String) {
+    public val dataSource: DataSource
+        get() = _dataSource.value
+
+    public fun truncateTable(name: String) {
         executeSql("TRUNCATE TABLE $name CASCADE")
     }
 
-    protected fun executeSql(value: String) {
-        dataSource.value
-            .connection
+    public fun executeSql(value: String) {
+        dataSource.connection
             .use { connection ->
                 connection.prepareStatement(value).execute()
             }
     }
 
-    protected fun <T> checkData(sql: String, assertions: ResultSet.(index: Int) -> T) {
-        dataSource.value
-            .connection
+    public fun <T> checkData(sql: String, assertions: ResultSet.(index: Int) -> T) {
+        dataSource.connection
             .use { connection ->
                 connection.prepareStatement(sql)
                     .executeQuery()
@@ -46,9 +52,8 @@ public abstract class PostgresContainerTest(dockerImageName: String = "postgres:
             }
     }
 
-    protected fun selectData(sql: String): List<ResultSet> =
-        dataSource.value
-            .connection
+    public fun selectData(sql: String): List<ResultSet> =
+        dataSource.connection
             .use { connection ->
                 connection.prepareStatement(sql)
                     .executeQuery()
@@ -61,9 +66,8 @@ public abstract class PostgresContainerTest(dockerImageName: String = "postgres:
                     }
             }
 
-    protected fun <T> shouldContain(sql: String, assertion: ResultSet.(index: Int) -> T) {
-        dataSource.value
-            .connection
+    public fun <T> shouldContain(sql: String, assertion: ResultSet.(index: Int) -> T) {
+        dataSource.connection
             .use { connection ->
                 connection.prepareStatement(sql)
                     .executeQuery()
@@ -76,11 +80,10 @@ public abstract class PostgresContainerTest(dockerImageName: String = "postgres:
             }
     }
 
-    protected fun shouldContainExactly(sql: String, vararg assertions: ResultSet.(index: Int) -> Unit) {
+    public fun shouldContainExactly(sql: String, vararg assertions: ResultSet.(index: Int) -> Unit) {
         val assertionCount = assertions.size
         var currentAssertionIndex = 0
-        dataSource.value
-            .connection
+        dataSource.connection
             .use { connection ->
                 connection.prepareStatement(sql)
                     .executeQuery()
