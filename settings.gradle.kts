@@ -81,3 +81,10 @@ project(":jdbc-library").projectDir = file("./library/jdbc")
 
 include(":jdbc-test-library")
 project(":jdbc-test-library").projectDir = file("./library/jdbc/test")
+
+/* Event-Sourcing */
+include(":event-sourcing-modeling-library")
+project(":event-sourcing-modeling-library").projectDir = file("./library/eventsourcing/modeling")
+
+include(":event-sourcing-store-library")
+project(":event-sourcing-store-library").projectDir = file("./library/eventsourcing/store")

@@ -1,0 +1,200 @@
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepository {
+	public fun <init> (Lcom/dream/umbrella/lib/eventsourcing/store/snapshot/SnapshotStore;Lcom/dream/umbrella/lib/eventsourcing/store/event/EventStore;Lcom/dream/umbrella/lib/eventsourcing/aggregate/AggregateFactory;)V
+	public final fun loadAggregate (Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;ILio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun loadEvent-BrvBYDk (Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;JLio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun saveEvent (Lcom/dream/umbrella/lib/eventsourcing/event/Event;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun saveSnapshot (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Aggregate : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Aggregate$Create : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Aggregate {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Connection : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Connection;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Deserialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$InvalidData : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Load : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Missing : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public static final field INSTANCE Lcom/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Missing;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Save : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$Serialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event$UnknownName : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Event {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$Connection : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Connection;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$Deserialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$History : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun getDomain ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$History$Deserialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$History {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$History$Serialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$History {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$InvalidData : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$Load : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$Save : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot$Serialization : com/dream/umbrella/lib/eventsourcing/EventSourceRepositoryErrors$Snapshot {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/aggregate/AggregateFactory {
+	public abstract fun apply (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Aggregate;Lcom/dream/umbrella/lib/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/store/event/EventStore {
+	public fun <init> (Ljavax/sql/DataSource;Lcom/dream/umbrella/lib/eventsourcing/event/EventNameResolver;Ljava/lang/String;)V
+	protected abstract fun createEvent (Lcom/dream/umbrella/lib/eventsourcing/store/event/query/EventRow;)Lio/github/airflux/functional/Result;
+	public final fun loadEvent-BrvBYDk (Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;JLio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun loadEvents-zobTiBo (Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;JILio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun saveEvent (Lcom/dream/umbrella/lib/eventsourcing/event/Event;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	protected abstract fun serializeData (Lcom/dream/umbrella/lib/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/store/event/query/EventRow {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/dream/umbrella/lib/eventsourcing/event/EventName;JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
+	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
+	public final fun getData ()Ljava/lang/String;
+	public final fun getName ()Lcom/dream/umbrella/lib/eventsourcing/event/EventName;
+	public final fun getRevision-JxIhc-Y ()J
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/store/snapshot/HistorySerializer {
+	public abstract fun deserialize (Ljava/lang/Object;)Lio/github/airflux/functional/Result;
+	public abstract fun serialize-EONHmqQ (Ljava/util/List;)Ljava/lang/Object;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/store/snapshot/SnapshotStore {
+	public fun <init> (Ljavax/sql/DataSource;Lcom/dream/umbrella/lib/eventsourcing/store/snapshot/HistorySerializer;Ljava/lang/String;)V
+	protected abstract fun createSnapshot (Lcom/dream/umbrella/lib/eventsourcing/store/snapshot/query/SnapshotRow;)Lio/github/airflux/functional/Result;
+	public final fun loadSnapshot (Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun saveSnapshot (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	protected abstract fun serializeData (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/functional/Result;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/store/snapshot/query/SnapshotRow {
+	public fun <init> (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;Ljava/lang/String;)V
+	public final fun getData ()Ljava/lang/String;
+	public final fun getRevisions ()Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;
+}
+

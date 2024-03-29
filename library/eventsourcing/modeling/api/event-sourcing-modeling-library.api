@@ -1,0 +1,140 @@
+public abstract class com/dream/umbrella/lib/eventsourcing/aggregate/Aggregate {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public abstract fun getId ()Ljava/lang/Object;
+	public abstract fun getRevisions ()Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;
+	public fun hashCode ()I
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/ExtensionsKt {
+	public static final fun needCreateSnapshot (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Aggregate;)Z
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/History : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lcom/dream/umbrella/lib/eventsourcing/aggregate/History$Companion;
+	public static final synthetic fun box-impl (Ljava/util/List;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/History;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
+	public static final fun get-1TmhWHQ (Ljava/util/List;Ljava/lang/String;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/util/List;)I
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (Ljava/util/List;)Ljava/util/Iterator;
+	public static final fun maxRevision-JxIhc-Y (Ljava/util/List;)J
+	public static final fun plus-hAJPx1Q (Ljava/util/List;Lcom/dream/umbrella/lib/eventsourcing/event/Event;)Ljava/util/List;
+	public static final fun revision-1TmhWHQ (Ljava/util/List;Ljava/lang/String;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/util/List;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/History$Companion {
+	public final fun getEmpty-4tPwyJk ()Ljava/util/List;
+	public final fun of-hAJPx1Q (Ljava/util/List;)Ljava/util/List;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/History$Point {
+	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-JxIhc-Y ()J
+	public final fun component2-e-GfBr8 ()Ljava/lang/String;
+	public final fun copy-ARwldnk (JLjava/lang/String;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/History$Point;
+	public static synthetic fun copy-ARwldnk$default (Lcom/dream/umbrella/lib/eventsourcing/aggregate/History$Point;JLjava/lang/String;ILjava/lang/Object;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/History$Point;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
+	public final fun getRevision-JxIhc-Y ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/Revision : java/lang/Comparable {
+	public static final field Companion Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision$Companion;
+	public static final synthetic fun box-impl (J)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-ayQ8dDE (J)I
+	public static fun compareTo-ayQ8dDE (JJ)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getGet ()J
+	public static final fun getInitial-JxIhc-Y ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public static final fun next-JxIhc-Y (J)J
+	public static final fun of (J)Lio/github/airflux/functional/Result;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/Revision$Companion {
+	public final fun getInitial-JxIhc-Y ()J
+	public final fun of (J)Lio/github/airflux/functional/Result;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getType-uX7CcE4 ()Ljava/lang/Class;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors$Negative : com/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors {
+	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors$Negative;
+	public static synthetic fun copy$default (Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors$Negative;JILjava/lang/Object;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revision$Errors$Negative;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getNumber ()Ljava/lang/String;
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/Revisions {
+	public static final field Companion Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions$Companion;
+	public synthetic fun <init> (JLjava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun apply (Lcom/dream/umbrella/lib/eventsourcing/event/Event;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;
+	public final fun getCurrent-JxIhc-Y ()J
+	public final fun getHistory-4tPwyJk ()Ljava/util/List;
+}
+
+public final class com/dream/umbrella/lib/eventsourcing/aggregate/Revisions$Companion {
+	public final fun getInitial ()Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;
+	public final fun of-Mgn_n9o (JLjava/util/List;)Lcom/dream/umbrella/lib/eventsourcing/aggregate/Revisions;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/command/Command {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
+	public abstract fun getId-e-GfBr8 ()Ljava/lang/String;
+	public fun hashCode ()I
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/entity/Entity {
+	public abstract fun getId ()Ljava/lang/Object;
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/entity/EntityId {
+	public abstract fun asString ()Ljava/lang/String;
+}
+
+public abstract class com/dream/umbrella/lib/eventsourcing/event/Event {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public abstract fun getAggregateId ()Lcom/dream/umbrella/lib/eventsourcing/entity/EntityId;
+	public abstract fun getCommandId-e-GfBr8 ()Ljava/lang/String;
+	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
+	public abstract fun getName ()Lcom/dream/umbrella/lib/eventsourcing/event/EventName;
+	public abstract fun getRevision-JxIhc-Y ()J
+	public fun hashCode ()I
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/event/EventName {
+	public abstract fun getGet ()Ljava/lang/String;
+}
+
+public abstract interface class com/dream/umbrella/lib/eventsourcing/event/EventNameResolver {
+	public abstract fun resolve (Ljava/lang/String;)Lcom/dream/umbrella/lib/eventsourcing/event/EventName;
+}
+
