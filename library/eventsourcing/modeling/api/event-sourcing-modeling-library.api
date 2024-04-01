@@ -134,7 +134,3 @@ public abstract interface class io/github/ustudiocompany/uframework/eventsourcin
 	public abstract fun getGet ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/event/EventNameResolver {
-	public abstract fun resolve (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/event/EventName;
-}
-

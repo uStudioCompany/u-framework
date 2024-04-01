@@ -1,9 +1,9 @@
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepository {
 	public fun <init> (Lio/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore;Lio/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/AggregateFactory;)V
-	public final fun loadAggregate (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;ILio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun loadEvent-MCea5XE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JLio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
+	public final fun loadAggregate (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;I)Lio/github/airflux/functional/Result;
+	public final fun loadEvent-NkxzCrM (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
+	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
+	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/functional/Result;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -26,66 +26,17 @@ public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSou
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Connection : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Connection;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Deserialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$InvalidData : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Load : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Missing : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Missing;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Save : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Serialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$UnknownName : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
-	public fun <init> (Ljava/lang/String;)V
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getNumber ()Ljava/lang/String;
@@ -95,52 +46,8 @@ public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSou
 	public fun getDomain ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Connection : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Connection;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Deserialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$History : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun getDomain ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$History$Deserialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$History {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$History$Serialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$History {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$InvalidData : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Load : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
@@ -148,18 +55,10 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/EventSource
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Save : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCErrors;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Serialization : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getDescription ()Ljava/lang/String;
 	public fun getNumber ()Ljava/lang/String;
 }
 
@@ -167,40 +66,14 @@ public abstract interface class io/github/ustudiocompany/uframework/eventsourcin
 	public abstract fun apply (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
 }
 
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore {
-	public fun <init> (Ljavax/sql/DataSource;Lio/github/ustudiocompany/uframework/eventsourcing/event/EventNameResolver;Ljava/lang/String;)V
-	protected abstract fun createEvent (Lio/github/ustudiocompany/uframework/eventsourcing/store/event/query/EventRow;)Lio/github/airflux/functional/Result;
-	public final fun loadEvent-MCea5XE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JLio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun loadEvents-D-ltpbM (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JILio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	protected abstract fun serializeData (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
+public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore {
+	public abstract fun loadEvent-NkxzCrM (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
+	public abstract fun loadEvents-MCea5XE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JI)Lio/github/airflux/functional/Result;
+	public abstract fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
 }
 
-public final class io/github/ustudiocompany/uframework/eventsourcing/store/event/query/EventRow {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/eventsourcing/event/EventName;JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
-	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public final fun getData ()Ljava/lang/String;
-	public final fun getName ()Lio/github/ustudiocompany/uframework/eventsourcing/event/EventName;
-	public final fun getRevision-TATSxLQ ()J
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/snapshot/HistorySerializer {
-	public abstract fun deserialize (Ljava/lang/Object;)Lio/github/airflux/functional/Result;
-	public abstract fun serialize-Hbr--M0 (Ljava/util/List;)Ljava/lang/Object;
-}
-
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore {
-	public fun <init> (Ljavax/sql/DataSource;Lio/github/ustudiocompany/uframework/eventsourcing/store/snapshot/HistorySerializer;Ljava/lang/String;)V
-	protected abstract fun createSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/store/snapshot/query/SnapshotRow;)Lio/github/airflux/functional/Result;
-	public final fun loadSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/retry/RetryScope;)Lio/github/airflux/functional/Result;
-	protected abstract fun serializeData (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/functional/Result;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/store/snapshot/query/SnapshotRow {
-	public fun <init> (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;Ljava/lang/String;)V
-	public final fun getData ()Ljava/lang/String;
-	public final fun getRevisions ()Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
+public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore {
+	public abstract fun loadSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;)Lio/github/airflux/functional/Result;
+	public abstract fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/functional/Result;
 }
 

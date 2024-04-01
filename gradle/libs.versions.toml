@@ -32,8 +32,6 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
 
 #Libs
 airflux-functional-core = { module = "io.github.airflux:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
-jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
-jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -63,7 +61,6 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.
 pitest-junit5 = { module = "org.pitest:pitest-junit5-plugin", version.ref = "pitest-junit" }
 
 [bundles]
-jackson = ["jackson-core", "jackson-kotlin"]
 kotest = ["kotest-junit5", "kotest-core", "kotest-datatest"]
 logging = ["slf4j-api", "logback-core"]
 mockito = ["mockito-core", "mockito-kotlin"]
