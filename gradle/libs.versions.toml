@@ -4,13 +4,14 @@ coroutines = "1.7.3"
 
 #Libs
 airflux-functional = "0.0.1-SNAPSHOT"
+jackson = "2.16.1"
 
 #Messaging
 kafka = "3.6.0"
 
 #Database
 hikaricp = "5.1.0"
-liquibase = "4.26.0"
+liquibase = "4.27.0"
 postgresql = "42.7.2"
 
 #Logging
@@ -31,6 +32,8 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
 
 #Libs
 airflux-functional-core = { module = "io.github.airflux:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -51,7 +54,6 @@ slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 airflux-functional-test = { module = "io.github.airflux:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
-#kotest-extensions-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-extensions-testcontainers" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
@@ -61,6 +63,7 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.
 pitest-junit5 = { module = "org.pitest:pitest-junit5-plugin", version.ref = "pitest-junit" }
 
 [bundles]
+jackson = ["jackson-core", "jackson-kotlin"]
 kotest = ["kotest-junit5", "kotest-core", "kotest-datatest"]
 logging = ["slf4j-api", "logback-core"]
 mockito = ["mockito-core", "mockito-kotlin"]

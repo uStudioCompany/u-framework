@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_table_events" author="Maxim Sambulat" context="test">
+        <sql>
+            CREATE TABLE public.test_events
+            (
+                aggregate_id   TEXT   NOT NULL,
+                revision       BIGINT NOT NULL,
+                name           TEXT   NOT NULL,
+                correlation_id TEXT   NOT NULL,
+                command_id     TEXT   NOT NULL,
+                created_at     TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
+                data           TEXT   NOT NULL,
+                PRIMARY KEY (aggregate_id, revision),
+                UNIQUE (aggregate_id, revision)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="create_table_snapshots" author="Maxim Sambulat" context="test">
+        <sql>
+            CREATE TABLE public.test_snapshots
+            (
+                aggregate_id TEXT   NOT NULL,
+                revision     BIGINT NOT NULL,
+                history      TEXT   NOT NULL,
+                updated_at   TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
+                data         TEXT   NOT NULL,
+                PRIMARY KEY (aggregate_id),
+                UNIQUE (aggregate_id)
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
