@@ -69,7 +69,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT, NAME>(
         eventStore.loadEvents(id, revision, maxCount)
             .mapError { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
 
-    private fun List<EVENT>.replay(): Result<AGGREGATE?, EventSourceRepositoryErrors.Aggregate> =
+    private fun List<EVENT>.replay(): Result<AGGREGATE?, EventSourceRepositoryErrors.Aggregate.Create> =
         iterator().replay(initial = { event -> factory.apply(null, event) }, factory = factory)
 
     private fun AGGREGATE.apply(events: List<EVENT>): Result<AGGREGATE, EventSourceRepositoryErrors.Aggregate.Create> =

@@ -1,0 +1,289 @@
+package io.github.ustudiocompany.uframework.eventsourcing
+
+import io.github.airflux.functional.Result
+import io.github.airflux.functional.kotest.getValue
+import io.github.airflux.functional.kotest.shouldBeError
+import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Revision
+import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
+import io.github.ustudiocompany.uframework.eventsourcing.event.TestRegistered
+import io.github.ustudiocompany.uframework.eventsourcing.event.TestUpdated
+import io.github.ustudiocompany.uframework.eventsourcing.model.TestAggregate
+import io.github.ustudiocompany.uframework.eventsourcing.model.TestEntityId
+import io.github.ustudiocompany.uframework.eventsourcing.store.snapshot.SnapshotStore
+import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
+import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
+import io.github.ustudiocompany.uframework.test.kotest.TestTags
+import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+
+internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTags.Component) }) {
+
+    init {
+        "The EventSourceRepository type" - {
+
+            "when snapshot is missing" - {
+                val snapshotStore: SnapshotStore<TestAggregate, TestEntityId> = mock {
+                    on { loadSnapshot(any<TestEntityId>()) } doReturn Result.asNull
+                }
+
+                "when events is missing" - {
+                    val eventStore = InMemoryEventStore()
+
+                    "then function `loadAggregate` should return null value" {
+                        val repository =
+                            EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                        val result = repository.loadAggregate(entityId, 2)
+                        val aggregate = result.shouldBeSuccess().value
+                        aggregate shouldBe null
+                    }
+                }
+
+                "when the store contains only an initializing event" - {
+                    val initialRevision = Revision.initial
+                    val eventStore = InMemoryEventStore(
+                        mutableMapOf(
+                            entityId to listOf(
+                                TestEvent.Registered(
+                                    commandId = commandId,
+                                    correlationId = correlationId,
+                                    revision = initialRevision,
+                                    data = TestRegistered(
+                                        id = entityId,
+                                        title = INITIAL_TITLE,
+                                        description = INITIAL_DESCRIPTION
+                                    )
+                                )
+                            )
+                        )
+                    )
+
+                    "then function `loadAggregate` should return an aggregate" {
+                        val repository =
+                            EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                        val result = repository.loadAggregate(entityId, 2)
+                        val aggregate = result.shouldBeSuccess().value
+                        aggregate.shouldNotBeNull()
+                        aggregate.id shouldBe entityId
+                        aggregate.entity.id shouldBe entityId
+                        aggregate.entity.title shouldBe INITIAL_TITLE
+                        aggregate.entity.description shouldBe INITIAL_DESCRIPTION
+                        aggregate.revisions.current shouldBe initialRevision
+                    }
+                }
+
+                "when the store contains an initializing and an updating events" - {
+
+                    "when events are ordered" - {
+                        val initialRevision = Revision.initial
+                        val firstUpdateRevision = initialRevision.next()
+                        val secondUpdateRevision = firstUpdateRevision.next()
+                        val eventStore = InMemoryEventStore(
+                            mutableMapOf(
+                                entityId to listOf(
+                                    TestEvent.Registered(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = initialRevision,
+                                        data = TestRegistered(
+                                            id = entityId,
+                                            title = INITIAL_TITLE,
+                                            description = INITIAL_DESCRIPTION
+                                        )
+                                    ),
+                                    TestEvent.Updated(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = firstUpdateRevision,
+                                        data = TestUpdated(
+                                            id = entityId,
+                                            title = UPDATED_TITLE,
+                                            description = null
+                                        )
+                                    ),
+                                    TestEvent.Updated(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = secondUpdateRevision,
+                                        data = TestUpdated(
+                                            id = entityId,
+                                            title = null,
+                                            description = UPDATED_DESCRIPTION
+                                        )
+                                    )
+                                )
+                            )
+                        )
+
+                        "then function `loadAggregate` should return an aggregate" {
+                            val repository =
+                                EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                            val result = repository.loadAggregate(entityId, 2)
+                            val aggregate = result.shouldBeSuccess().value
+                            aggregate.shouldNotBeNull()
+                            aggregate.id shouldBe entityId
+                            aggregate.entity.id shouldBe entityId
+                            aggregate.entity.title shouldBe UPDATED_TITLE
+                            aggregate.entity.description shouldBe UPDATED_DESCRIPTION
+                            aggregate.revisions.current shouldBe secondUpdateRevision
+                        }
+                    }
+
+                    "when events are not ordered" - {
+                        val initialRevision = Revision.initial
+                        val firstUpdateRevision = initialRevision.next()
+                        val secondUpdateRevision = firstUpdateRevision.next()
+                        val eventStore = InMemoryEventStore(
+                            mutableMapOf(
+                                entityId to listOf(
+                                    TestEvent.Registered(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = initialRevision,
+                                        data = TestRegistered(
+                                            id = entityId,
+                                            title = INITIAL_TITLE,
+                                            description = INITIAL_DESCRIPTION
+                                        )
+                                    ),
+                                    TestEvent.Updated(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = secondUpdateRevision,
+                                        data = TestUpdated(
+                                            id = entityId,
+                                            title = null,
+                                            description = UPDATED_DESCRIPTION
+                                        )
+                                    ),
+                                    TestEvent.Updated(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = firstUpdateRevision,
+                                        data = TestUpdated(
+                                            id = entityId,
+                                            title = UPDATED_TITLE,
+                                            description = null
+                                        )
+                                    )
+                                )
+                            )
+                        )
+
+                        "then function `loadAggregate` should return an error" {
+                            val repository =
+                                EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                            val result = repository.loadAggregate(entityId, 2)
+                            result.shouldBeError().cause
+                                .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                        }
+                    }
+
+                    "when two events have the same revision" - {
+                        val initialRevision = Revision.initial
+                        val eventStore = InMemoryEventStore(
+                            mutableMapOf(
+                                entityId to listOf(
+                                    TestEvent.Registered(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = initialRevision,
+                                        data = TestRegistered(
+                                            id = entityId,
+                                            title = INITIAL_TITLE,
+                                            description = INITIAL_DESCRIPTION
+                                        )
+                                    ),
+                                    TestEvent.Updated(
+                                        commandId = commandId,
+                                        correlationId = correlationId,
+                                        revision = initialRevision,
+                                        data = TestUpdated(
+                                            id = entityId,
+                                            title = UPDATED_TITLE,
+                                            description = null
+                                        )
+                                    )
+                                )
+                            )
+                        )
+
+                        "then function `loadAggregate` should return an error" {
+                            val repository =
+                                EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                            val result = repository.loadAggregate(entityId, 2)
+                            result.shouldBeError().cause
+                                .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                        }
+                    }
+                }
+
+                "when the store contains two initializing events" - {
+                    val initialRevision = Revision.initial
+                    val firstRevision = initialRevision.next()
+                    val eventStore = InMemoryEventStore(
+                        mutableMapOf(
+                            entityId to listOf(
+                                TestEvent.Registered(
+                                    commandId = commandId,
+                                    correlationId = correlationId,
+                                    revision = initialRevision,
+                                    data = TestRegistered(
+                                        id = entityId,
+                                        title = INITIAL_TITLE,
+                                        description = INITIAL_DESCRIPTION
+                                    )
+                                ),
+                                TestEvent.Registered(
+                                    commandId = commandId,
+                                    correlationId = correlationId,
+                                    revision = firstRevision,
+                                    data = TestRegistered(
+                                        id = entityId,
+                                        title = UPDATED_TITLE,
+                                        description = null
+                                    )
+                                )
+                            )
+                        )
+                    )
+
+                    "then function `loadAggregate` should return an error" {
+                        val repository =
+                            EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
+
+                        val result = repository.loadAggregate(entityId, 2)
+                        result.shouldBeError().cause
+                            .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val ENTITY_ID = "3bb5b407-ae3c-4386-b09e-61977769a518"
+        private const val CORRELATION_ID = "e2c9aa2f-1f9d-4236-9d18-5411426a0613"
+        private const val MESSAGE_ID = "8d164913-4aa4-4fcf-aba8-a9beaaae48f1"
+
+        private val entityId = TestEntityId(ENTITY_ID)
+        private val correlationId = CorrelationId.of(CORRELATION_ID).getValue()
+        private val commandId = MessageId.of(MESSAGE_ID).getValue()
+
+        private const val INITIAL_TITLE = "title-1"
+        private const val UPDATED_TITLE = "title-2"
+
+        private const val INITIAL_DESCRIPTION = "description-1"
+        private const val UPDATED_DESCRIPTION = "description-2"
+    }
+}
