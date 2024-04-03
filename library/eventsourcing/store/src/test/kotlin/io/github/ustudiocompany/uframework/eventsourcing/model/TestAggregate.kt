@@ -9,7 +9,8 @@ import io.github.ustudiocompany.uframework.failure.Failure
 public data class TestAggregate(
     override val revisions: Revisions,
     public val entity: TestEntity
-) : Aggregate<TestEntityId>() {
+) : Aggregate<TestEntityId> {
+
     override val id: TestEntityId
         get() = entity.id
 

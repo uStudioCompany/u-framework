@@ -1,9 +1,6 @@
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate {
-	public fun <init> ()V
-	public fun equals (Ljava/lang/Object;)Z
+public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate {
 	public abstract fun getId ()Ljava/lang/Object;
 	public abstract fun getRevisions ()Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
-	public fun hashCode ()I
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/ExtensionsKt {
