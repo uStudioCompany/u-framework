@@ -2,12 +2,12 @@ package io.github.ustudiocompany.uframework.eventsourcing.model
 
 import io.github.airflux.functional.Result
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Aggregate
-import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Revisions
+import io.github.ustudiocompany.uframework.eventsourcing.aggregate.History
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.failure.Failure
 
 public data class TestAggregate(
-    override val revisions: Revisions,
+    override val history: History,
     public val entity: TestEntity
 ) : Aggregate<TestEntityId> {
 
@@ -18,9 +18,8 @@ public data class TestAggregate(
 }
 
 public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Result<TestAggregate, Failure> = Result {
-    val (revisions) = Revisions.of(event.revision, event.commandId)
     TestAggregate(
-        revisions = revisions,
+        history = History.of(event.revision, event.commandId).bind(),
         entity = TestEntity(
             id = event.data.id,
             title = event.data.title,
@@ -31,9 +30,8 @@ public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Resu
 
 public fun TestAggregate.applyEvent(event: TestEvent.Updated): Result<TestAggregate, Failure> =
     Result {
-        val (newRevision) = revisions.add(event.revision, event.commandId)
         TestAggregate(
-            revisions = newRevision,
+            history = history.add(event.revision, event.commandId).bind(),
             entity = entity.applyEvent(event)
         )
     }

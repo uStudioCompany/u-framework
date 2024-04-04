@@ -75,7 +75,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         aggregate.entity.id shouldBe entityId
                         aggregate.entity.title shouldBe INITIAL_TITLE
                         aggregate.entity.description shouldBe INITIAL_DESCRIPTION
-                        aggregate.revisions.current shouldBe initialRevision
+                        aggregate.history.revision shouldBe initialRevision
                     }
                 }
 
@@ -133,7 +133,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             aggregate.entity.id shouldBe entityId
                             aggregate.entity.title shouldBe UPDATED_TITLE
                             aggregate.entity.description shouldBe UPDATED_DESCRIPTION
-                            aggregate.revisions.current shouldBe secondUpdateRevision
+                            aggregate.history.revision shouldBe secondUpdateRevision
                         }
                     }
 

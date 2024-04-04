@@ -7,32 +7,32 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
-public value class Revisions private constructor(
-    public val history: List<Point>
+public value class History private constructor(
+    public val points: List<Point>
 ) {
 
-    public val current: Revision
-        get() = history.last().revision
+    public val revision: Revision
+        get() = points.last().revision
 
-    public fun add(revision: Revision, commandId: MessageId): Result<Revisions, Errors> =
+    public fun add(revision: Revision, commandId: MessageId): Result<History, Errors> =
         plus(Point(revision, commandId))
 
-    public operator fun plus(point: Point): Result<Revisions, Errors> {
+    public operator fun plus(point: Point): Result<History, Errors> {
         fun checkUniqueMessageId(commandId: MessageId): Errors.NonUniqueMessageId? =
-            if (history.any { item -> item.commandId == commandId })
+            if (points.any { item -> item.commandId == commandId })
                 Errors.NonUniqueMessageId(commandId)
             else
                 null
 
-        val error = compareRevisions(current = current, next = point.revision)
+        val error = compareRevisions(current = revision, next = point.revision)
             ?: checkUniqueMessageId(commandId = point.commandId)
         if (error != null) return error.error()
 
-        return Revisions(history + point).success()
+        return History(points + point).success()
     }
 
     public operator fun get(commandId: MessageId): Revision? =
-        history.find { item -> item.commandId == commandId }?.revision
+        points.find { item -> item.commandId == commandId }?.revision
 
     public data class Point(
         public val revision: Revision,
@@ -78,16 +78,16 @@ public value class Revisions private constructor(
 
     public companion object {
 
-        public fun of(revision: Revision, messageId: MessageId): Result<Revisions, Errors> =
+        public fun of(revision: Revision, messageId: MessageId): Result<History, Errors> =
             of(Point(revision = revision, commandId = messageId))
 
-        public fun of(point: Point): Result<Revisions, Errors> =
+        public fun of(point: Point): Result<History, Errors> =
             of(listOf(point))
 
-        public fun of(history: List<Point>): Result<Revisions, Errors> =
+        public fun of(history: List<Point>): Result<History, Errors> =
             if (history.isNotEmpty())
                 checkHistory(history)?.error()
-                    ?: Revisions(history).success()
+                    ?: History(history).success()
             else
                 Errors.HistoryIsEmpty.error()
 

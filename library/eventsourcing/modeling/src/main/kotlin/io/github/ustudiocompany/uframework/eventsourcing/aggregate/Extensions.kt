@@ -6,4 +6,4 @@ private const val NUMBER_EVENTS_FOR_CREATE_SNAPSHOT = 10
 public fun <AGGREGATE, ID> AGGREGATE.needCreateSnapshot(): Boolean
     where AGGREGATE : Aggregate<ID>,
           ID : EntityId =
-    (revisions.history.size % NUMBER_EVENTS_FOR_CREATE_SNAPSHOT) == 0
+    (history.points.size % NUMBER_EVENTS_FOR_CREATE_SNAPSHOT) == 0
