@@ -1,47 +1,10 @@
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate {
 	public abstract fun getId ()Ljava/lang/Object;
-	public abstract fun getRevisions ()Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
+	public abstract fun getRevisions-D633oJI ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/ExtensionsKt {
 	public static final fun needCreateSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Z
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Companion;
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History;
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
-	public static final fun get-vaJkPbE (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revision;
-	public fun hashCode ()I
-	public static fun hashCode-impl (Ljava/util/List;)I
-	public fun iterator ()Ljava/util/Iterator;
-	public static fun iterator-impl (Ljava/util/List;)Ljava/util/Iterator;
-	public static final fun maxRevision-TATSxLQ (Ljava/util/List;)J
-	public static final fun plus-Ay4ZOGg (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Ljava/util/List;
-	public static final fun revision-vaJkPbE (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revision;
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Ljava/util/List;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Companion {
-	public final fun getEmpty-LHyGWSw ()Ljava/util/List;
-	public final fun of-Ay4ZOGg (Ljava/util/List;)Ljava/util/List;
-}
-
-public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point {
-	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-TATSxLQ ()J
-	public final fun component2-e-GfBr8 ()Ljava/lang/String;
-	public final fun copy-4TwYATk (JLjava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;
-	public static synthetic fun copy-4TwYATk$default (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;JLjava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
-	public final fun getRevision-TATSxLQ ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revision : java/lang/Comparable {
@@ -89,26 +52,69 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/R
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions {
 	public static final field Companion Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Companion;
-	public synthetic fun <init> (JLjava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun apply (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
-	public final fun getCurrent-TATSxLQ ()J
-	public final fun getHistory-LHyGWSw ()Ljava/util/List;
+	public static final fun add-4TwYATk (Ljava/util/List;JLjava/lang/String;)Lio/github/airflux/functional/Result;
+	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
+	public static final fun get-vaJkPbE (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revision;
+	public static final fun getCurrent-TATSxLQ (Ljava/util/List;)J
+	public final fun getHistory ()Ljava/util/List;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/util/List;)I
+	public static final fun plus-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point;)Lio/github/airflux/functional/Result;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Companion {
-	public final fun getInitial ()Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
-	public final fun of-FypLVYw (JLjava/util/List;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions;
+	public final fun of (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point;)Lio/github/airflux/functional/Result;
+	public final fun of (Ljava/util/List;)Lio/github/airflux/functional/Result;
+	public final fun of-4TwYATk (JLjava/lang/String;)Lio/github/airflux/functional/Result;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun getDomain ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors$HistoryIsEmpty : io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors$HistoryIsEmpty;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getDescription ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors$InvalidRevision : io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors {
 	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getActual-TATSxLQ ()J
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getExpected-TATSxLQ ()J
 	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors$NonUniqueMessageId : io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Errors {
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getId-e-GfBr8 ()Ljava/lang/String;
+	public fun getNumber ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point {
+	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-TATSxLQ ()J
+	public final fun component2-e-GfBr8 ()Ljava/lang/String;
+	public final fun copy-4TwYATk (JLjava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point;
+	public static synthetic fun copy-4TwYATk$default (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point;JLjava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revisions$Point;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
+	public final fun getRevision-TATSxLQ ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/command/Command {

@@ -17,19 +17,23 @@ public data class TestAggregate(
     public companion object;
 }
 
-public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): TestAggregate = TestAggregate(
-    revisions = Revisions.initial,
-    entity = TestEntity(
-        id = event.data.id,
-        title = event.data.title,
-        description = event.data.description
+public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Result<TestAggregate, Failure> = Result {
+    val (revisions) = Revisions.of(event.revision, event.commandId)
+    TestAggregate(
+        revisions = revisions,
+        entity = TestEntity(
+            id = event.data.id,
+            title = event.data.title,
+            description = event.data.description
+        )
     )
-)
+}
 
 public fun TestAggregate.applyEvent(event: TestEvent.Updated): Result<TestAggregate, Failure> =
     Result {
+        val (newRevision) = revisions.add(event.revision, event.commandId)
         TestAggregate(
-            revisions = revisions.apply(event).bind(),
+            revisions = newRevision,
             entity = entity.applyEvent(event)
         )
     }
