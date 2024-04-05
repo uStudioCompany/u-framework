@@ -117,12 +117,9 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/R
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/command/Command {
-	public fun <init> ()V
-	public fun equals (Ljava/lang/Object;)Z
+public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/command/Command {
 	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public abstract fun getId-e-GfBr8 ()Ljava/lang/String;
-	public fun hashCode ()I
+	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/entity/Entity {
