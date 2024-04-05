@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
-public interface Event<out ID, NAME>
+public interface Event<out ID, out NAME>
     where ID : EntityId,
           NAME : EventName {
 
