@@ -45,7 +45,7 @@ public value class MessageId private constructor(public val get: String) {
                 Errors.InvalidFormat(value = value).error()
 
         private const val PATTERN: String =
-            """^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}${'$'}"""
+            """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
         private val regex = PATTERN.toRegex()
     }
 }
