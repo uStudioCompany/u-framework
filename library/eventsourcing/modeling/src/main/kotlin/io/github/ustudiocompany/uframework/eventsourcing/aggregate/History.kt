@@ -83,12 +83,12 @@ public value class History private constructor(
 
         public fun of(events: List<Event>): Result<History, Errors> =
             if (events.isNotEmpty())
-                checkEvents(events)?.error()
+                events.checkEvents()?.error()
                     ?: History(events).success()
             else
                 Errors.HistoryIsEmpty.error()
 
-        private fun checkEvents(events: List<Event>): Errors? {
+        private fun List<Event>.checkEvents(): Errors? {
             fun List<Event>.checkRevisionFirstEvent(): Errors.InvalidRevision? {
                 val revision = first().revision
                 return if (revision != Revision.initial)
@@ -114,12 +114,12 @@ public value class History private constructor(
                 return null
             }
 
-            events.checkRevisionFirstEvent()?.let { return it }
+            checkRevisionFirstEvent()?.let { return it }
 
-            return if (events.size == 1)
+            return if (size == 1)
                 null
             else
-                events.checkRevisions(0) ?: events.checkUniqueMessageId()
+                checkRevisions(0) ?: checkUniqueMessageId()
         }
 
         private fun compareRevisions(current: Revision, next: Revision): Errors.InvalidRevision? {
