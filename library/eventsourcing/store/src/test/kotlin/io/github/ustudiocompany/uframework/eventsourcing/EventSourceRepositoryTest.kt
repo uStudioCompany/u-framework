@@ -51,7 +51,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         mutableMapOf(
                             entityId to listOf(
                                 TestEvent.Registered(
-                                    commandId = registerCommandId,
+                                    messageId = registerCommandId,
                                     correlationId = correlationId,
                                     revision = initialRevision,
                                     data = TestRegistered(
@@ -89,7 +89,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        commandId = registerCommandId,
+                                        messageId = registerCommandId,
                                         correlationId = correlationId,
                                         revision = initialRevision,
                                         data = TestRegistered(
@@ -99,7 +99,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        commandId = firstUpdateCommandId,
+                                        messageId = firstUpdateCommandId,
                                         correlationId = correlationId,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
@@ -109,7 +109,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        commandId = secondUpdateCommandId,
+                                        messageId = secondUpdateCommandId,
                                         correlationId = correlationId,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
@@ -145,7 +145,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        commandId = registerCommandId,
+                                        messageId = registerCommandId,
                                         correlationId = correlationId,
                                         revision = initialRevision,
                                         data = TestRegistered(
@@ -155,7 +155,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        commandId = firstUpdateCommandId,
+                                        messageId = firstUpdateCommandId,
                                         correlationId = correlationId,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
@@ -165,7 +165,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        commandId = secondUpdateCommandId,
+                                        messageId = secondUpdateCommandId,
                                         correlationId = correlationId,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
@@ -194,7 +194,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        commandId = registerCommandId,
+                                        messageId = registerCommandId,
                                         correlationId = correlationId,
                                         revision = initialRevision,
                                         data = TestRegistered(
@@ -204,7 +204,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        commandId = firstUpdateCommandId,
+                                        messageId = firstUpdateCommandId,
                                         correlationId = correlationId,
                                         revision = initialRevision,
                                         data = TestUpdated(
@@ -235,7 +235,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         mutableMapOf(
                             entityId to listOf(
                                 TestEvent.Registered(
-                                    commandId = registerCommandId,
+                                    messageId = registerCommandId,
                                     correlationId = correlationId,
                                     revision = initialRevision,
                                     data = TestRegistered(
@@ -245,7 +245,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                     )
                                 ),
                                 TestEvent.Registered(
-                                    commandId = registerCommandId,
+                                    messageId = registerCommandId,
                                     correlationId = correlationId,
                                     revision = firstRevision,
                                     data = TestRegistered(

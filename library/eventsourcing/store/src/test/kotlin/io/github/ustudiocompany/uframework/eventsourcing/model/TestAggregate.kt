@@ -19,7 +19,7 @@ public data class TestAggregate(
 
 public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Result<TestAggregate, Failure> = Result {
     TestAggregate(
-        history = History.of(event.revision, event.commandId).bind(),
+        history = History.of(event.revision, event.messageId).bind(),
         entity = TestEntity(
             id = event.data.id,
             title = event.data.title,
@@ -31,7 +31,7 @@ public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Resu
 public fun TestAggregate.applyEvent(event: TestEvent.Updated): Result<TestAggregate, Failure> =
     Result {
         TestAggregate(
-            history = history.add(event.revision, event.commandId).bind(),
+            history = history.add(event.revision, event.messageId).bind(),
             entity = entity.applyEvent(event)
         )
     }

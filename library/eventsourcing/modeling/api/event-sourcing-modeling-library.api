@@ -133,15 +133,12 @@ public abstract interface class io/github/ustudiocompany/uframework/eventsourcin
 	public abstract fun asString ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/eventsourcing/event/Event {
-	public fun <init> ()V
-	public fun equals (Ljava/lang/Object;)Z
+public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/event/Event {
 	public abstract fun getAggregateId ()Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;
-	public abstract fun getCommandId-e-GfBr8 ()Ljava/lang/String;
 	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
+	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public abstract fun getName ()Lio/github/ustudiocompany/uframework/eventsourcing/event/EventName;
 	public abstract fun getRevision-TATSxLQ ()J
-	public fun hashCode ()I
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/event/EventName {
