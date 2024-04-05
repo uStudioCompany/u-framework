@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.eventsourcing.aggregate
+package io.github.ustudiocompany.uframework.eventsourcing.common
 
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.error

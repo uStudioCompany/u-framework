@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 import io.github.airflux.functional.kotest.getValue
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.test.kotest.TestTags
 import io.kotest.core.spec.style.FreeSpec

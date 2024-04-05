@@ -1,7 +1,7 @@
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepository {
 	public fun <init> (Lio/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore;Lio/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/AggregateFactory;)V
 	public final fun loadAggregate (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;I)Lio/github/airflux/functional/Result;
-	public final fun loadEvent-NkxzCrM (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
+	public final fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
 	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
 	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/functional/Result;
 }
@@ -67,8 +67,8 @@ public abstract interface class io/github/ustudiocompany/uframework/eventsourcin
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore {
-	public abstract fun loadEvent-NkxzCrM (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
-	public abstract fun loadEvents-MCea5XE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JI)Lio/github/airflux/functional/Result;
+	public abstract fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/functional/Result;
+	public abstract fun loadEvents-eZbUabw (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JI)Lio/github/airflux/functional/Result;
 	public abstract fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/functional/Result;
 }
 

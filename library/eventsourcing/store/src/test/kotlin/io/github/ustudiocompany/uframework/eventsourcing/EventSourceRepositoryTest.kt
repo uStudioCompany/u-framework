@@ -4,7 +4,7 @@ import io.github.airflux.functional.Result
 import io.github.airflux.functional.kotest.getValue
 import io.github.airflux.functional.kotest.shouldBeError
 import io.github.airflux.functional.kotest.shouldBeSuccess
-import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Revision
+import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestRegistered
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestUpdated

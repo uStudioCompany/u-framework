@@ -6,7 +6,7 @@ import io.github.airflux.functional.mapError
 import io.github.airflux.functional.success
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Aggregate
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.AggregateFactory
-import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Revision
+import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.eventsourcing.event.Event
 import io.github.ustudiocompany.uframework.eventsourcing.event.EventName

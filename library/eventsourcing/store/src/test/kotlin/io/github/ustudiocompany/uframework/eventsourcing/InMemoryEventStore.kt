@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.eventsourcing
 
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.success
-import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Revision
+import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.eventsourcing.model.TestEntityId
 import io.github.ustudiocompany.uframework.eventsourcing.store.event.EventStore

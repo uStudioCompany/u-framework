@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 import io.github.airflux.functional.Result
 import io.github.airflux.functional.error
 import io.github.airflux.functional.success
+import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
