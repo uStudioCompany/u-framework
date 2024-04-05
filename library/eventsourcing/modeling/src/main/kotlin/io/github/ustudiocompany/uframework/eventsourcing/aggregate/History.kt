@@ -8,39 +8,37 @@ import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
 public value class History private constructor(
-    public val points: List<Point>
+    public val events: List<Event>
 ) {
 
     public val revision: Revision
-        get() = points.last().revision
+        get() = events.last().revision
 
-    public fun add(revision: Revision, commandId: MessageId): Result<History, Errors> =
-        plus(Point(revision, commandId))
+    public fun add(revision: Revision, messageId: MessageId): Result<History, Errors> =
+        plus(Event(revision, messageId))
 
-    public operator fun plus(point: Point): Result<History, Errors> {
-        fun checkUniqueMessageId(commandId: MessageId): Errors.NonUniqueMessageId? =
-            if (points.any { item -> item.commandId == commandId })
-                Errors.NonUniqueMessageId(commandId)
-            else
-                null
+    public operator fun plus(event: Event): Result<History, Errors> {
+        fun checkUniqueMessageId(messageId: MessageId): Errors.NonUniqueMessageId? =
+            events.find { item -> item.messageId == messageId }
+                ?.let { Errors.NonUniqueMessageId(messageId) }
 
-        val error = compareRevisions(current = revision, next = point.revision)
-            ?: checkUniqueMessageId(commandId = point.commandId)
+        val error = compareRevisions(current = revision, next = event.revision)
+            ?: checkUniqueMessageId(messageId = event.messageId)
         if (error != null) return error.error()
 
-        return History(points + point).success()
+        return History(events + event).success()
     }
 
-    public operator fun get(commandId: MessageId): Revision? =
-        points.find { item -> item.commandId == commandId }?.revision
+    public operator fun get(messageId: MessageId): Revision? =
+        events.find { item -> item.messageId == messageId }?.revision
 
-    public data class Point(
+    public data class Event(
         public val revision: Revision,
-        public val commandId: MessageId
+        public val messageId: MessageId
     )
 
     public sealed class Errors : Failure {
-        override val domain: String = "REVISIONS"
+        override val domain: String = "HISTORY"
 
         public data object HistoryIsEmpty : Errors() {
             override val number: String = "1"
@@ -79,44 +77,49 @@ public value class History private constructor(
     public companion object {
 
         public fun of(revision: Revision, messageId: MessageId): Result<History, Errors> =
-            of(Point(revision = revision, commandId = messageId))
+            of(Event(revision = revision, messageId = messageId))
 
-        public fun of(point: Point): Result<History, Errors> =
-            of(listOf(point))
+        public fun of(event: Event): Result<History, Errors> = of(listOf(event))
 
-        public fun of(history: List<Point>): Result<History, Errors> =
-            if (history.isNotEmpty())
-                checkHistory(history)?.error()
-                    ?: History(history).success()
+        public fun of(events: List<Event>): Result<History, Errors> =
+            if (events.isNotEmpty())
+                checkEvents(events)?.error()
+                    ?: History(events).success()
             else
                 Errors.HistoryIsEmpty.error()
 
-        private fun checkHistory(history: List<Point>): Errors? {
-            tailrec fun checkRevisions(history: List<Point>, index: Int): Errors.InvalidRevision? {
-                if (index + 1 == history.size) return null
-                val current = history[index].revision
-                val next = history[index + 1].revision
-                return compareRevisions(current, next) ?: checkRevisions(history, index + 1)
+        private fun checkEvents(events: List<Event>): Errors? {
+            fun List<Event>.checkRevisionFirstEvent(): Errors.InvalidRevision? {
+                val revision = first().revision
+                return if (revision != Revision.initial)
+                    Errors.InvalidRevision(expected = Revision.initial, actual = revision)
+                else
+                    null
             }
 
-            fun checkUniqueMessageId(history: List<Point>): Errors.NonUniqueMessageId? {
+            tailrec fun List<Event>.checkRevisions(index: Int): Errors.InvalidRevision? {
+                if (index + 1 == this.size) return null
+                val current = this[index].revision
+                val next = this[index + 1].revision
+                return compareRevisions(current, next) ?: checkRevisions(index + 1)
+            }
+
+            fun List<Event>.checkUniqueMessageId(): Errors.NonUniqueMessageId? {
                 mutableSetOf<MessageId>().apply {
-                    history.forEach { item ->
-                        if (!add(item.commandId))
-                            return Errors.NonUniqueMessageId(item.commandId)
+                    this@checkUniqueMessageId.forEach { item ->
+                        if (!add(item.messageId))
+                            return Errors.NonUniqueMessageId(item.messageId)
                     }
                 }
                 return null
             }
 
-            val revision = history.first().revision
-            if (revision != Revision.initial)
-                return Errors.InvalidRevision(expected = Revision.initial, actual = revision)
+            events.checkRevisionFirstEvent()?.let { return it }
 
-            return if (history.size == 1)
+            return if (events.size == 1)
                 null
             else
-                checkRevisions(history, 0) ?: checkUniqueMessageId(history)
+                events.checkRevisions(0) ?: events.checkUniqueMessageId()
         }
 
         private fun compareRevisions(current: Revision, next: Revision): Errors.InvalidRevision? {

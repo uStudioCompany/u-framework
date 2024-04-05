@@ -19,23 +19,23 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
 
             "the factory method of creating" - {
 
-                "when points is empty" - {
-                    val points = emptyList<History.Point>()
+                "when events is empty" - {
+                    val events = emptyList<History.Event>()
 
                     "then the factory method should return null value" {
-                        val result = History.of(points)
+                        val result = History.of(events)
                         result.shouldBeError().cause
                             .shouldBeInstanceOf<History.Errors.HistoryIsEmpty>()
                     }
                 }
 
-                "when points contains only one item" - {
+                "when events contains only one item" - {
 
                     "when the revision of this item equal to `initialize`" - {
-                        val points = listOf(History.Point(initialRevision, firstMessageID))
+                        val events = listOf(History.Event(initialRevision, firstMessageID))
 
                         "then the factory method should return the revision value" - {
-                            val history = History.of(points).shouldBeSuccess().value
+                            val history = History.of(events).shouldBeSuccess().value
 
                             "then the current revision should equal to `initialize`" {
                                 history.revision shouldBe Revision.initial
@@ -44,10 +44,10 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                     }
 
                     "when the revision of this item is not equal to `initialize`" - {
-                        val points = listOf(History.Point(secondRevision, firstMessageID))
+                        val events = listOf(History.Event(secondRevision, firstMessageID))
 
                         "then the factory method should return an error" {
-                            val error = History.of(points).shouldBeError().cause
+                            val error = History.of(events).shouldBeError().cause
                                 .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                             error.expected shouldBe initialRevision
                             error.actual shouldBe secondRevision
@@ -55,7 +55,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                     }
                 }
 
-                "when points contains some items" - {
+                "when events contains some items" - {
 
                     "when the revision of first item equal to `initialize`" - {
                         val firstRevision = initialRevision
@@ -63,13 +63,13 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                         "when revisions of history elements are successively increasing" - {
 
                             "when a message id is unique" - {
-                                val points = listOf(
-                                    History.Point(firstRevision, firstMessageID),
-                                    History.Point(secondRevision, secondMessageID)
+                                val events = listOf(
+                                    History.Event(firstRevision, firstMessageID),
+                                    History.Event(secondRevision, secondMessageID)
                                 )
 
                                 "then the factory method should return the revision value" - {
-                                    val history = History.of(points).shouldBeSuccess().value
+                                    val history = History.of(events).shouldBeSuccess().value
 
                                     "then the current revision is equal to the revision of the last history item" {
                                         history.shouldNotBeNull()
@@ -79,13 +79,13 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                             }
 
                             "when a message id is non-unique" - {
-                                val points = listOf(
-                                    History.Point(firstRevision, firstMessageID),
-                                    History.Point(secondRevision, firstMessageID)
+                                val events = listOf(
+                                    History.Event(firstRevision, firstMessageID),
+                                    History.Event(secondRevision, firstMessageID)
                                 )
 
                                 "then the factory method should return an error" - {
-                                    val error = History.of(points).shouldBeError().cause
+                                    val error = History.of(events).shouldBeError().cause
                                         .shouldBeInstanceOf<History.Errors.NonUniqueMessageId>()
                                     error.id shouldBe firstMessageID
                                 }
@@ -93,13 +93,13 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                         }
 
                         "when revisions of history elements are not consistently increased" - {
-                            val points = listOf(
-                                History.Point(firstRevision, firstMessageID),
-                                History.Point(thirdRevision, secondMessageID)
+                            val events = listOf(
+                                History.Event(firstRevision, firstMessageID),
+                                History.Event(thirdRevision, secondMessageID)
                             )
 
                             "then the factory method should return an error" {
-                                val error = History.of(points).shouldBeError().cause
+                                val error = History.of(events).shouldBeError().cause
                                     .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                                 error.expected shouldBe secondRevision
                                 error.actual shouldBe thirdRevision
@@ -109,13 +109,13 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
 
                     "when the revision of first item is not equal to `initialize`" - {
                         val firstRevision = secondRevision
-                        val points = listOf(
-                            History.Point(firstRevision, firstMessageID),
-                            History.Point(secondRevision, secondMessageID)
+                        val events = listOf(
+                            History.Event(firstRevision, firstMessageID),
+                            History.Event(secondRevision, secondMessageID)
                         )
 
                         "then the factory method should return an error" {
-                            val error = History.of(points).shouldBeError().cause
+                            val error = History.of(events).shouldBeError().cause
                                 .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                             error.expected shouldBe initialRevision
                             error.actual shouldBe secondRevision
@@ -124,24 +124,24 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                 }
             }
 
-            "the function appending a new history point" - {
+            "the function appending a new history event" - {
                 val history = History.of(
                     listOf(
-                        History.Point(initialRevision, firstMessageID),
-                        History.Point(secondRevision, secondMessageID)
+                        History.Event(initialRevision, firstMessageID),
+                        History.Event(secondRevision, secondMessageID)
                     )
                 ).getValue()
 
-                "when a new history point contains an unique message id" - {
-                    val result = history.add(revision = thirdRevision, commandId = thirdMessageID)
+                "when a new history event contains an unique message id" - {
+                    val result = history.add(revision = thirdRevision, messageId = thirdMessageID)
 
                     "then the function should return new revisions" {
                         result.shouldBeSuccess().value.revision shouldBe thirdRevision
                     }
                 }
 
-                "when a new history point contains a non-unique message id" - {
-                    val result = history.add(revision = thirdRevision, commandId = secondMessageID)
+                "when a new history event contains a non-unique message id" - {
+                    val result = history.add(revision = thirdRevision, messageId = secondMessageID)
 
                     "then the function should return an error" {
                         val error = result.shouldBeError().cause
@@ -154,8 +154,8 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
             "the function searching for a revision by message id" - {
                 val history = History.of(
                     listOf(
-                        History.Point(initialRevision, firstMessageID),
-                        History.Point(secondRevision, secondMessageID)
+                        History.Event(initialRevision, firstMessageID),
+                        History.Event(secondRevision, secondMessageID)
                     )
                 ).getValue()
 

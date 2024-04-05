@@ -15,18 +15,18 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
 	public static final fun get-vaJkPbE (Ljava/util/List;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Revision;
-	public final fun getPoints ()Ljava/util/List;
+	public final fun getEvents ()Ljava/util/List;
 	public static final fun getRevision-TATSxLQ (Ljava/util/List;)J
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/util/List;)I
-	public static final fun plus-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;)Lio/github/airflux/functional/Result;
+	public static final fun plus-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/functional/Result;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Companion {
-	public final fun of (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;)Lio/github/airflux/functional/Result;
+	public final fun of (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/functional/Result;
 	public final fun of (Ljava/util/List;)Lio/github/airflux/functional/Result;
 	public final fun of-4TwYATk (JLjava/lang/String;)Lio/github/airflux/functional/Result;
 }
@@ -61,14 +61,14 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public fun getNumber ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point {
+public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event {
 	public synthetic fun <init> (JLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-TATSxLQ ()J
 	public final fun component2-e-GfBr8 ()Ljava/lang/String;
-	public final fun copy-4TwYATk (JLjava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;
-	public static synthetic fun copy-4TwYATk$default (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;JLjava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Point;
+	public final fun copy-4TwYATk (JLjava/lang/String;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;
+	public static synthetic fun copy-4TwYATk$default (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;JLjava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getCommandId-e-GfBr8 ()Ljava/lang/String;
+	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
 	public final fun getRevision-TATSxLQ ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
