@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.eventsourcing.model.TestEntityId
 import io.github.ustudiocompany.uframework.eventsourcing.model.applyEvent
 import io.github.ustudiocompany.uframework.failure.Failure
 
-internal class TestAggregateFactory : AggregateFactory<TestAggregate, TestEntityId, TestEvent, TestEvent.Name> {
+internal class TestAggregateFactory : AggregateFactory<TestAggregate, TestEntityId, TestEvent> {
 
     override fun apply(aggregate: TestAggregate?, event: TestEvent): Result<TestAggregate, Errors> =
         when (event) {

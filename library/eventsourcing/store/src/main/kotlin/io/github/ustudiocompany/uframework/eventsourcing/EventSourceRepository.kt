@@ -9,20 +9,18 @@ import io.github.ustudiocompany.uframework.eventsourcing.aggregate.AggregateFact
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.eventsourcing.event.Event
-import io.github.ustudiocompany.uframework.eventsourcing.event.EventName
 import io.github.ustudiocompany.uframework.eventsourcing.store.event.EventStore
 import io.github.ustudiocompany.uframework.eventsourcing.store.snapshot.SnapshotStore
 import io.github.ustudiocompany.uframework.failure.Failure
 
-public class EventSourceRepository<AGGREGATE, ID, EVENT, NAME>(
+public class EventSourceRepository<AGGREGATE, ID, EVENT>(
     private val snapshotStore: SnapshotStore<AGGREGATE, ID>,
-    private val eventStore: EventStore<EVENT, ID, NAME>,
-    private val factory: AggregateFactory<AGGREGATE, ID, EVENT, NAME>
+    private val eventStore: EventStore<EVENT, ID>,
+    private val factory: AggregateFactory<AGGREGATE, ID, EVENT>
 )
     where AGGREGATE : Aggregate<ID>,
           ID : EntityId,
-          EVENT : Event<ID, NAME>,
-          NAME : EventName {
+          EVENT : Event<ID> {
 
     public fun loadAggregate(id: ID, maxCount: Int): Result<AGGREGATE?, EventSourceRepositoryErrors> =
         ResultWith {
@@ -77,7 +75,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT, NAME>(
 
     private fun Iterator<EVENT>.replay(
         initial: (EVENT) -> Result<AGGREGATE, Failure>,
-        factory: AggregateFactory<AGGREGATE, ID, EVENT, NAME>
+        factory: AggregateFactory<AGGREGATE, ID, EVENT>
     ): Result<AGGREGATE?, EventSourceRepositoryErrors.Aggregate.Create> = ResultWith {
         val events = this@replay
         if (!events.hasNext()) return Result.asNull
@@ -90,7 +88,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT, NAME>(
 
     private fun Iterator<EVENT>.replay(
         initial: AGGREGATE,
-        factory: AggregateFactory<AGGREGATE, ID, EVENT, NAME>
+        factory: AggregateFactory<AGGREGATE, ID, EVENT>
     ): Result<AGGREGATE, EventSourceRepositoryErrors.Aggregate.Create> = Result {
         var aggregate = initial
         val events = this@replay

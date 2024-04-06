@@ -74,11 +74,6 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/command/Command {
-	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revision : java/lang/Comparable {
 	public static final field Companion Lio/github/ustudiocompany/uframework/eventsourcing/common/Revision$Companion;
 	public static final synthetic fun box-impl (J)Lio/github/ustudiocompany/uframework/eventsourcing/common/Revision;
@@ -132,13 +127,7 @@ public abstract interface class io/github/ustudiocompany/uframework/eventsourcin
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/event/Event {
 	public abstract fun getAggregateId ()Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;
-	public abstract fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
 	public abstract fun getMessageId-e-GfBr8 ()Ljava/lang/String;
-	public abstract fun getName ()Lio/github/ustudiocompany/uframework/eventsourcing/event/EventName;
 	public abstract fun getRevision-xP0aac4 ()J
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/event/EventName {
-	public abstract fun getGet ()Ljava/lang/String;
 }
 

@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.eventsourcing.event.TestUpdated
 import io.github.ustudiocompany.uframework.eventsourcing.model.TestAggregate
 import io.github.ustudiocompany.uframework.eventsourcing.model.TestEntityId
 import io.github.ustudiocompany.uframework.eventsourcing.store.snapshot.SnapshotStore
-import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.test.kotest.TestTags
 import io.kotest.core.spec.style.FreeSpec
@@ -51,8 +50,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         mutableMapOf(
                             entityId to listOf(
                                 TestEvent.Registered(
-                                    messageId = registerCommandId,
-                                    correlationId = correlationId,
+                                    messageId = registerMessageId,
                                     revision = initialRevision,
                                     data = TestRegistered(
                                         id = entityId,
@@ -89,8 +87,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerCommandId,
-                                        correlationId = correlationId,
+                                        messageId = registerMessageId,
                                         revision = initialRevision,
                                         data = TestRegistered(
                                             id = entityId,
@@ -99,8 +96,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateCommandId,
-                                        correlationId = correlationId,
+                                        messageId = firstUpdateMessageId,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
                                             id = entityId,
@@ -109,8 +105,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = secondUpdateCommandId,
-                                        correlationId = correlationId,
+                                        messageId = secondUpdateMessageId,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
                                             id = entityId,
@@ -145,8 +140,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerCommandId,
-                                        correlationId = correlationId,
+                                        messageId = registerMessageId,
                                         revision = initialRevision,
                                         data = TestRegistered(
                                             id = entityId,
@@ -155,8 +149,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateCommandId,
-                                        correlationId = correlationId,
+                                        messageId = firstUpdateMessageId,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
                                             id = entityId,
@@ -165,8 +158,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = secondUpdateCommandId,
-                                        correlationId = correlationId,
+                                        messageId = secondUpdateMessageId,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
                                             id = entityId,
@@ -194,8 +186,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             mutableMapOf(
                                 entityId to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerCommandId,
-                                        correlationId = correlationId,
+                                        messageId = registerMessageId,
                                         revision = initialRevision,
                                         data = TestRegistered(
                                             id = entityId,
@@ -204,8 +195,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateCommandId,
-                                        correlationId = correlationId,
+                                        messageId = firstUpdateMessageId,
                                         revision = initialRevision,
                                         data = TestUpdated(
                                             id = entityId,
@@ -235,8 +225,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         mutableMapOf(
                             entityId to listOf(
                                 TestEvent.Registered(
-                                    messageId = registerCommandId,
-                                    correlationId = correlationId,
+                                    messageId = registerMessageId,
                                     revision = initialRevision,
                                     data = TestRegistered(
                                         id = entityId,
@@ -245,8 +234,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                     )
                                 ),
                                 TestEvent.Registered(
-                                    messageId = registerCommandId,
-                                    correlationId = correlationId,
+                                    messageId = registerMessageId,
                                     revision = firstRevision,
                                     data = TestRegistered(
                                         id = entityId,
@@ -273,16 +261,14 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
 
     companion object {
         private const val ENTITY_ID = "3bb5b407-ae3c-4386-b09e-61977769a518"
-        private const val CORRELATION_ID = "e2c9aa2f-1f9d-4236-9d18-5411426a0613"
         private const val REGISTER_MESSAGE_ID = "8d164913-4aa4-4fcf-aba8-a9beaaae48f1"
         private const val FIRST_UPDATE_MESSAGE_ID = "1542b339-2f80-4bf4-bd95-b7cddd512483"
         private const val SECOND_UPDATE_MESSAGE_ID = "a8a73b5d-5951-4eb3-bcc3-d5d61f23d60e"
 
         private val entityId = TestEntityId(ENTITY_ID)
-        private val correlationId = CorrelationId.of(CORRELATION_ID).getValue()
-        private val registerCommandId = MessageId.of(REGISTER_MESSAGE_ID).getValue()
-        private val firstUpdateCommandId = MessageId.of(FIRST_UPDATE_MESSAGE_ID).getValue()
-        private val secondUpdateCommandId = MessageId.of(SECOND_UPDATE_MESSAGE_ID).getValue()
+        private val registerMessageId = MessageId.of(REGISTER_MESSAGE_ID).getValue()
+        private val firstUpdateMessageId = MessageId.of(FIRST_UPDATE_MESSAGE_ID).getValue()
+        private val secondUpdateMessageId = MessageId.of(SECOND_UPDATE_MESSAGE_ID).getValue()
 
         private const val INITIAL_TITLE = "title-1"
         private const val UPDATED_TITLE = "title-2"

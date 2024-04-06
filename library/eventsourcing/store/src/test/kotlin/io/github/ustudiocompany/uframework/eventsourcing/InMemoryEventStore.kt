@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 
 internal class InMemoryEventStore(
     private val data: MutableMap<TestEntityId, List<TestEvent>> = mutableMapOf()
-) : EventStore<TestEvent, TestEntityId, TestEvent.Name> {
+) : EventStore<TestEvent, TestEntityId> {
 
     override fun loadEvents(id: TestEntityId, revision: Revision, maxCount: Int): Result<List<TestEvent>, Failure> {
         val events = data[id] ?: return Result.asEmptyList
