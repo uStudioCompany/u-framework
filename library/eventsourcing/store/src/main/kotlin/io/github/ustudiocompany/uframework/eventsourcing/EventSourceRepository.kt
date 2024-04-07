@@ -22,12 +22,12 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
           ID : EntityId,
           EVENT : Event<ID> {
 
-    public fun loadAggregate(id: ID, maxCount: Int): Result<AGGREGATE?, EventSourceRepositoryErrors> =
+    public fun loadAggregate(aggregateId: ID, maxCount: Int): Result<AGGREGATE?, EventSourceRepositoryErrors> =
         ResultWith {
-            val (snapshot) = loadSnapshot(id)
+            val (snapshot) = loadSnapshot(aggregateId)
 
             val initialRevision = snapshot?.history?.revision?.next() ?: Revision.initial
-            var (events) = loadEvents(id, initialRevision, maxCount)
+            var (events) = loadEvents(aggregateId, initialRevision, maxCount)
             var aggregate = if (snapshot != null)
                 snapshot.apply(events).bind()
             else
@@ -35,7 +35,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
 
             while (true) {
                 val revision: Revision = aggregate.history.revision.next()
-                events = loadEvents(id, revision, maxCount).bind()
+                events = loadEvents(aggregateId, revision, maxCount).bind()
                 if (events.isEmpty()) break
                 aggregate = aggregate.apply(events).bind()
             }
@@ -43,8 +43,8 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
             aggregate.success()
         }
 
-    public fun loadEvent(id: ID, revision: Revision): Result<EVENT?, EventSourceRepositoryErrors.Event.Load> =
-        eventStore.loadEvent(id, revision)
+    public fun loadEvent(aggregateId: ID, revision: Revision): Result<EVENT?, EventSourceRepositoryErrors.Event.Load> =
+        eventStore.loadEvent(aggregateId, revision)
             .mapError { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
 
     public fun saveEvent(event: EVENT): Result<Boolean, EventSourceRepositoryErrors.Event.Save> =
@@ -55,16 +55,16 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
         snapshotStore.saveSnapshot(aggregate)
             .mapError { failure -> EventSourceRepositoryErrors.Snapshot.Save(failure) }
 
-    private fun loadSnapshot(id: ID): Result<AGGREGATE?, EventSourceRepositoryErrors.Snapshot.Load> =
-        snapshotStore.loadSnapshot(id)
+    private fun loadSnapshot(aggregateId: ID): Result<AGGREGATE?, EventSourceRepositoryErrors.Snapshot.Load> =
+        snapshotStore.loadSnapshot(aggregateId)
             .mapError { failure -> EventSourceRepositoryErrors.Snapshot.Load(failure) }
 
     private fun loadEvents(
-        id: ID,
+        aggregateId: ID,
         revision: Revision,
         maxCount: Int
     ): Result<List<EVENT>, EventSourceRepositoryErrors.Event.Load> =
-        eventStore.loadEvents(id, revision, maxCount)
+        eventStore.loadEvents(aggregateId, revision, maxCount)
             .mapError { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
 
     private fun List<EVENT>.replay(): Result<AGGREGATE?, EventSourceRepositoryErrors.Aggregate.Create> =

@@ -10,7 +10,7 @@ public interface EventStore<EVENT, ID>
     where EVENT : Event<ID>,
           ID : EntityId {
 
-    public fun loadEvents(id: ID, revision: Revision, maxCount: Int): Result<List<EVENT>, Failure>
-    public fun loadEvent(id: ID, revision: Revision): Result<EVENT?, Failure>
+    public fun loadEvents(aggregateId: ID, revision: Revision, maxCount: Int): Result<List<EVENT>, Failure>
+    public fun loadEvent(aggregateId: ID, revision: Revision): Result<EVENT?, Failure>
     public fun saveEvent(event: EVENT): Result<Boolean, Failure>
 }

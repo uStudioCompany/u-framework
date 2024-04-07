@@ -1,6 +1,9 @@
 package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 
-public interface Aggregate<out ID : Any> {
+import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
+
+public interface Aggregate<out ID>
+    where ID : EntityId {
     public val id: ID
     public val history: History
 }

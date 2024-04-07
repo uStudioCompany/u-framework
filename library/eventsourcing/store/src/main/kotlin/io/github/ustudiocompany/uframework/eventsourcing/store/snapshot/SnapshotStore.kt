@@ -9,6 +9,6 @@ public interface SnapshotStore<AGGREGATE, ID>
     where AGGREGATE : Aggregate<ID>,
           ID : EntityId {
 
-    public fun loadSnapshot(id: ID): Result<AGGREGATE?, Failure>
+    public fun loadSnapshot(aggregateId: ID): Result<AGGREGATE?, Failure>
     public fun saveSnapshot(aggregate: AGGREGATE): Result<Boolean, Failure>
 }

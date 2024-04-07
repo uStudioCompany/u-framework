@@ -1,6 +1,6 @@
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate {
 	public abstract fun getHistory-LHyGWSw ()Ljava/util/List;
-	public abstract fun getId ()Ljava/lang/Object;
+	public abstract fun getId ()Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/ExtensionsKt {
@@ -118,7 +118,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/entity/Entity {
-	public abstract fun getId ()Ljava/lang/Object;
+	public abstract fun getId ()Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/entity/EntityId {
