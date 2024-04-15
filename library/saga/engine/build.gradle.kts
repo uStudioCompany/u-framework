@@ -7,6 +7,7 @@ dependencies {
     api(project(":saga-core-library"))
 
     /* Libs section */
+    implementation(libs.airflux.commons.collections)
     implementation(libs.airflux.functional.core)
 
     /* Utils libs */

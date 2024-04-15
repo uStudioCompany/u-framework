@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.engine.state
 
-import io.github.airflux.functional.collection.NonEmptyList
+import io.github.airflux.commons.collections.list.NonEmptyList
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
@@ -11,7 +11,7 @@ public value class StepHistory(public val get: NonEmptyList<ProcessedStep>) {
     public operator fun plus(processedStep: ProcessedStep): StepHistory = StepHistory(get + processedStep)
 
     public operator fun contains(messageId: MessageId): Boolean =
-        get.exists { it.messageId == messageId }
+        get.any { it.messageId == messageId }
 }
 
 public operator fun StepHistory.get(messageId: MessageId): HistoricalStep? {
