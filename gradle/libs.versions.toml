@@ -4,6 +4,7 @@ coroutines = "1.7.3"
 
 #Libs
 airflux-functional = "0.0.1-SNAPSHOT"
+airflux-commons = "0.0.1-SNAPSHOT"
 jackson = "2.16.1"
 
 #Messaging
@@ -32,6 +33,7 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
 
 #Libs
 airflux-functional-core = { module = "io.github.airflux:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
+airflux-commons-collections = { module = "io.github.airflux:airflux-commons-collections-jdk8", version.ref = "airflux-commons" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
