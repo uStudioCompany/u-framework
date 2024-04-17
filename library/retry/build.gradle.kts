@@ -5,5 +5,5 @@ plugins {
 dependencies {
 
     /* Libs section */
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 }

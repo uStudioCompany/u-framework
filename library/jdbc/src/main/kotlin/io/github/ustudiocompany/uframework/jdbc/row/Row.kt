@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.getOrForward
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.getOrForward
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.exception.isUndefinedColumn
@@ -29,15 +29,15 @@ public value class Row(private val resultSet: ResultSet) {
                 val result = block(resultSet, index)
                 if (resultSet.wasNull()) Result.asNull else result.success()
             } catch (expected: ClassCastException) {
-                JDBCErrors.Row.ReadColumn(index, expected).error()
+                JDBCErrors.Row.ReadColumn(index, expected).failure()
             } catch (expected: SQLException) {
                 val error = if (expected.isConnectionError)
                     JDBCErrors.Connection(expected)
                 else
                     JDBCErrors.UnexpectedError(expected)
-                error.error()
+                error.failure()
             } catch (expected: Exception) {
-                JDBCErrors.UnexpectedError(expected).error()
+                JDBCErrors.UnexpectedError(expected).failure()
             }
 
         protected inline fun <T> Row.extract(columnName: String, block: ResultSet.(Int) -> T): Result<T?, JDBCErrors> =
@@ -50,17 +50,17 @@ public value class Row(private val resultSet: ResultSet) {
                         val result = block(resultSet, index)
                         if (resultSet.wasNull()) Result.asNull else result.success()
                     }
-                    ?: JDBCErrors.Row.UndefinedColumn(columnName).error()
+                    ?: JDBCErrors.Row.UndefinedColumn(columnName).failure()
             } catch (expected: ClassCastException) {
-                JDBCErrors.Row.ReadColumn(columnName, expected).error()
+                JDBCErrors.Row.ReadColumn(columnName, expected).failure()
             } catch (expected: SQLException) {
                 val error = if (expected.isConnectionError)
                     JDBCErrors.Connection(expected)
                 else
                     JDBCErrors.UnexpectedError(expected)
-                error.error()
+                error.failure()
             } catch (expected: Exception) {
-                JDBCErrors.UnexpectedError(expected).error()
+                JDBCErrors.UnexpectedError(expected).failure()
             }
 
         protected fun ResultSet.getColumnIndexOrNull(columnName: String): Int? = try {
@@ -71,14 +71,14 @@ public value class Row(private val resultSet: ResultSet) {
 
         protected fun ResultSetMetaData.checkIndex(index: Int): Result<Unit, JDBCErrors> =
             if (index < 1 || index > columnCount)
-                JDBCErrors.Row.UndefinedColumn(index).error()
+                JDBCErrors.Row.UndefinedColumn(index).failure()
             else
                 Result.asUnit
 
         protected fun ResultSetMetaData.checkType(index: Int): Result<Unit, JDBCErrors> {
             val actualType = getColumnType(index)
             return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(index, expectedType.name, actualType).error()
+                JDBCErrors.Row.TypeMismatch(index, expectedType.name, actualType).failure()
             else
                 Result.asUnit
         }
@@ -86,7 +86,7 @@ public value class Row(private val resultSet: ResultSet) {
         protected fun ResultSetMetaData.checkType(index: Int, columnName: String): Result<Unit, JDBCErrors> {
             val actualType = getColumnType(index)
             return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(columnName, expectedType.name, actualType).error()
+                JDBCErrors.Row.TypeMismatch(columnName, expectedType.name, actualType).failure()
             else
                 Result.asUnit
         }

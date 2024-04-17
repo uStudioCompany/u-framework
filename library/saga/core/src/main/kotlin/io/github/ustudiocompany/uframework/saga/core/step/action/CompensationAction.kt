@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.core.step.action
 
-import io.github.airflux.functional.Result
+import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.saga.core.MetaData
 import io.github.ustudiocompany.uframework.saga.core.request.RequestBuilder

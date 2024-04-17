@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.saga.engine
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.ResultWith
-import io.github.airflux.functional.error
-import io.github.airflux.functional.mapError
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.ResultWith
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.saga.core.message.CommandMessage
 import io.github.ustudiocompany.uframework.saga.core.message.ReplyMessage
@@ -67,26 +67,26 @@ public class SagaManager(
     private fun CommandMessage.getSaga() =
         sagaResolver.resolve(name, version)
             ?.success()
-            ?: SagaManagerErrors.SagaForCommandNotFound(correlationId, name, version).error()
+            ?: SagaManagerErrors.SagaForCommandNotFound(correlationId, name, version).failure()
 
     private fun SagaExecutionStateRecord.getSaga() =
         sagaResolver.resolve(label)
             ?.success()
-            ?: SagaManagerErrors.SagaForSagaInstanceNotFound(correlationId, label).error()
+            ?: SagaManagerErrors.SagaForSagaInstanceNotFound(correlationId, label).failure()
 
     private fun exists(correlationId: CorrelationId): Result<Boolean, SagaStorageErrors.Storage> =
-        repository.exists(correlationId).mapError { SagaStorageErrors.Storage(it) }
+        repository.exists(correlationId).mapFailure { SagaStorageErrors.Storage(it) }
 
     private fun load(
         correlationId: CorrelationId
     ): Result<SagaExecutionStateRecord, SagaErrors> = ResultWith {
-        val (state) = repository.load(correlationId).mapError { SagaStorageErrors.Storage(it) }
-        return state?.success() ?: SagaManagerErrors.SagaInstanceNotfound(correlationId).error()
+        val (state) = repository.load(correlationId).mapFailure { SagaStorageErrors.Storage(it) }
+        return state?.success() ?: SagaManagerErrors.SagaInstanceNotfound(correlationId).failure()
     }
 
     /**
      * Return false if a saga-instance is already.
      */
     private fun save(record: SagaExecutionStateRecord): Result<Boolean, SagaStorageErrors.Storage> =
-        repository.save(record).mapError { SagaStorageErrors.Storage(it) }
+        repository.save(record).mapFailure { SagaStorageErrors.Storage(it) }
 }

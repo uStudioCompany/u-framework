@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.header
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.flatMap
-import io.github.airflux.functional.mapError
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.flatMap
+import io.github.airflux.commons.types.result.mapFailure
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.message.header.Header
 import io.github.ustudiocompany.uframework.messaging.message.header.HeaderErrors
@@ -16,7 +16,7 @@ public fun Headers.correlationId(): Result<CorrelationId, HeaderErrors> =
     last(CORRELATION_ID_HEADER_NAME)
         .flatMap {
             CorrelationId.of(it.valueAsString())
-                .mapError { failure -> HeaderErrors.InvalidValue(it.name, failure) }
+                .mapFailure { failure -> HeaderErrors.InvalidValue(it.name, failure) }
         }
 
 public const val CORRELATION_ID_HEADER_NAME: String = "correlation-id"

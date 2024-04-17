@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.param
 
-import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.airflux.commons.types.assertions.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.createPreparedInsertStatement

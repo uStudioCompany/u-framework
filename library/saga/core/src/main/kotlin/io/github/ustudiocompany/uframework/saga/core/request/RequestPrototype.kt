@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.saga.core.request
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.map
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.map
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion

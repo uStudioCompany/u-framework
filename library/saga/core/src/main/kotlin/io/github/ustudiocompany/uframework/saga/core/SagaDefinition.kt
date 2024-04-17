@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.core
 
-import io.github.airflux.functional.orThrow
+import io.github.airflux.commons.types.result.orThrow
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStep
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepBuilder
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel

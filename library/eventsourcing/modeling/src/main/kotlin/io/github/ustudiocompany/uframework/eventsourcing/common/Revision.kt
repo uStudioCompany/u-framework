@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing.common
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
@@ -24,7 +24,7 @@ public value class Revision private constructor(public val get: Long) : Comparab
         @JvmStatic
         public fun of(value: Long): Result<Revision, Errors> =
             if (value < 0)
-                Errors.Negative(value = value).error()
+                Errors.Negative(value = value).failure()
             else
                 Revision(value).success()
     }

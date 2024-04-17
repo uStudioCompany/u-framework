@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":utils-library"))
 
     /* Libs section */
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 
     /* Utils libs */
     implementation(project(":utils-library"))

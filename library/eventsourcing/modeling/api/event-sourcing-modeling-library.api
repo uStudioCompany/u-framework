@@ -9,7 +9,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/E
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History {
 	public static final field Companion Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Companion;
-	public static final fun add-qRaq9Cw (Ljava/util/List;JLjava/lang/String;)Lio/github/airflux/functional/Result;
+	public static final fun add-qRaq9Cw (Ljava/util/List;JLjava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
@@ -19,16 +19,16 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public static final fun getRevision-xP0aac4 (Ljava/util/List;)J
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/util/List;)I
-	public static final fun plus-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/functional/Result;
+	public static final fun plus-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/commons/types/result/Result;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Companion {
-	public final fun of (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/functional/Result;
-	public final fun of (Ljava/util/List;)Lio/github/airflux/functional/Result;
-	public final fun of-qRaq9Cw (JLjava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun of (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event;)Lio/github/airflux/commons/types/result/Result;
+	public final fun of (Ljava/util/List;)Lio/github/airflux/commons/types/result/Result;
+	public final fun of-qRaq9Cw (JLjava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -88,7 +88,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public static final fun next-xP0aac4 (J)J
-	public static final fun of (J)Lio/github/airflux/functional/Result;
+	public static final fun of (J)Lio/github/airflux/commons/types/result/Result;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (J)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()J
@@ -96,7 +96,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revision$Companion {
 	public final fun getInitial-xP0aac4 ()J
-	public final fun of (J)Lio/github/airflux/functional/Result;
+	public final fun of (J)Lio/github/airflux/commons/types/result/Result;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/common/Revision$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {

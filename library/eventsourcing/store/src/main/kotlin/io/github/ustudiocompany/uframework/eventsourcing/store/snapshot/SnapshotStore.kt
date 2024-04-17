@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.eventsourcing.store.snapshot
 
-import io.github.airflux.functional.Result
+import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Aggregate
 import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.failure.Failure

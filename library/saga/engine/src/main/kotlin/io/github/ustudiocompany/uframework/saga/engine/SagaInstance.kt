@@ -1,12 +1,12 @@
 package io.github.ustudiocompany.uframework.saga.engine
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.ResultWith
-import io.github.airflux.functional.error
-import io.github.airflux.functional.fold
-import io.github.airflux.functional.map
-import io.github.airflux.functional.mapError
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.ResultWith
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.fold
+import io.github.airflux.commons.types.result.map
+import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.saga.core.Saga
 import io.github.ustudiocompany.uframework.saga.core.SagaLabel
 import io.github.ustudiocompany.uframework.saga.core.message.CommandMessage
@@ -123,22 +123,22 @@ public class SagaInstance<DATA>(
 
     private fun SerializedData.deserialize(): Result<DATA, SagaExecutorErrors.DataDeserialization> =
         saga.definition.serializer.deserialize(this.get)
-            .mapError { SagaExecutorErrors.DataDeserialization(it) }
+            .mapFailure { SagaExecutorErrors.DataDeserialization(it) }
 
     private fun DATA.serialize(): Result<SerializedData, SagaExecutorErrors.DataSerialization> =
         saga.definition.serializer.serialize(this)
             .fold(
                 onSuccess = { SerializedData(it).success() },
-                onError = { SagaExecutorErrors.DataSerialization(it).error() }
+                onFailure = { SagaExecutorErrors.DataSerialization(it).failure() }
             )
 
     private fun initializeData(command: CommandMessage): Result<DATA, SagaExecutorErrors.DataInitialize> =
         saga.dataInitializer(command)
-            .mapError { SagaExecutorErrors.DataInitialize(it) }
+            .mapFailure { SagaExecutorErrors.DataInitialize(it) }
 
     context(Logging, DiagnosticContext)
     private fun publish(command: Command): Result<Unit, SagaPublisherErrors.CommandPublishing> =
-        publisher.publish(command).mapError { SagaPublisherErrors.CommandPublishing(it) }
+        publisher.publish(command).mapFailure { SagaPublisherErrors.CommandPublishing(it) }
 
     private fun LifecycleHooks<DATA>.run() {
         when (this) {

@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.identity
+import io.github.airflux.commons.types.identity
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import java.sql.Connection
@@ -26,6 +26,6 @@ public inline fun <T, F> DataSource.useConnection(
     return try {
         connection.use(block)
     } catch (expected: Exception) {
-        errorConverter(JDBCErrors.UnexpectedError(expected)).error()
+        errorConverter(JDBCErrors.UnexpectedError(expected)).failure()
     }
 }

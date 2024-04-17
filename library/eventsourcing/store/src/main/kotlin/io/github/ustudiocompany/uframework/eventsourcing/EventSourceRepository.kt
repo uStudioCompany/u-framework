@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.eventsourcing
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.ResultWith
-import io.github.airflux.functional.mapError
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.ResultWith
+import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Aggregate
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.AggregateFactory
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
@@ -45,19 +45,19 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
 
     public fun loadEvent(aggregateId: ID, revision: Revision): Result<EVENT?, EventSourceRepositoryErrors.Event.Load> =
         eventStore.loadEvent(aggregateId, revision)
-            .mapError { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
 
     public fun saveEvent(event: EVENT): Result<Boolean, EventSourceRepositoryErrors.Event.Save> =
         eventStore.saveEvent(event)
-            .mapError { failure -> EventSourceRepositoryErrors.Event.Save(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Event.Save(failure) }
 
     public fun saveSnapshot(aggregate: AGGREGATE): Result<Boolean, EventSourceRepositoryErrors.Snapshot.Save> =
         snapshotStore.saveSnapshot(aggregate)
-            .mapError { failure -> EventSourceRepositoryErrors.Snapshot.Save(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Snapshot.Save(failure) }
 
     private fun loadSnapshot(aggregateId: ID): Result<AGGREGATE?, EventSourceRepositoryErrors.Snapshot.Load> =
         snapshotStore.loadSnapshot(aggregateId)
-            .mapError { failure -> EventSourceRepositoryErrors.Snapshot.Load(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Snapshot.Load(failure) }
 
     private fun loadEvents(
         aggregateId: ID,
@@ -65,7 +65,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
         maxCount: Int
     ): Result<List<EVENT>, EventSourceRepositoryErrors.Event.Load> =
         eventStore.loadEvents(aggregateId, revision, maxCount)
-            .mapError { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Event.Load(failure) }
 
     private fun List<EVENT>.replay(): Result<AGGREGATE?, EventSourceRepositoryErrors.Aggregate.Create> =
         iterator().replay(initial = { event -> factory.apply(null, event) }, factory = factory)
@@ -81,7 +81,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
         if (!events.hasNext()) return Result.asNull
         val event = events.next()
         val (aggregate: AGGREGATE) = initial(event)
-            .mapError { failure -> EventSourceRepositoryErrors.Aggregate.Create(failure) }
+            .mapFailure { failure -> EventSourceRepositoryErrors.Aggregate.Create(failure) }
 
         events.replay(aggregate, factory)
     }
@@ -94,7 +94,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
         val events = this@replay
         for (event in events) {
             aggregate = factory.apply(aggregate, event)
-                .mapError { failure -> EventSourceRepositoryErrors.Aggregate.Create(failure) }
+                .mapFailure { failure -> EventSourceRepositoryErrors.Aggregate.Create(failure) }
                 .bind()
         }
         aggregate

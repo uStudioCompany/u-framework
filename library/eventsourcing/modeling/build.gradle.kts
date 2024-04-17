@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 
     implementation(project(":failure-library"))
     implementation(project(":messaging-core-types-library"))

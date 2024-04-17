@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 
     /* Database */
     implementation(libs.bundles.database)

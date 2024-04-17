@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 
     /* Failure libs */
     implementation(project(":failure-library"))
@@ -20,7 +20,7 @@ dependencies {
     /* Tests */
     testImplementation(project(":jdbc-test-library"))
     testImplementation(libs.bundles.logging)
-    testImplementation(libs.airflux.functional.test)
+    testImplementation(libs.airflux.commons.types.test)
     testImplementation(project(":testing-library"))
 }
 

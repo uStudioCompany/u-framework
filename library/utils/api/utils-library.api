@@ -6,7 +6,7 @@ public final class io/github/ustudiocompany/uframework/utils/ContextKt {
 public abstract class io/github/ustudiocompany/uframework/utils/EnumElementProvider {
 	public static final field Companion Lio/github/ustudiocompany/uframework/utils/EnumElementProvider$Companion;
 	public fun <init> (Lio/github/ustudiocompany/uframework/utils/EnumElementProvider$EnumInfo;)V
-	public final fun of (Ljava/lang/String;)Lio/github/airflux/functional/Result;
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 	public final fun orNull (Ljava/lang/String;)Ljava/lang/Enum;
 }
 

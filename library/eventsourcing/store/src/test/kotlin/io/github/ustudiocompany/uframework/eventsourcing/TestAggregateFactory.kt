@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.mapError
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.mapFailure
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.AggregateFactory
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.eventsourcing.model.TestAggregate
@@ -15,14 +15,14 @@ internal class TestAggregateFactory : AggregateFactory<TestAggregate, TestEntity
     override fun apply(aggregate: TestAggregate?, event: TestEvent): Result<TestAggregate, Errors> =
         when (event) {
             is TestEvent.Registered -> if (aggregate == null)
-                TestAggregate.applyEvent(event).mapError { Errors.ApplyEvent(event) }
+                TestAggregate.applyEvent(event).mapFailure { Errors.ApplyEvent(event) }
             else
-                Errors.UnexpectedEvent(event).error()
+                Errors.UnexpectedEvent(event).failure()
 
             is TestEvent.Updated -> if (aggregate != null)
-                aggregate.applyEvent(event).mapError { Errors.ApplyEvent(event) }
+                aggregate.applyEvent(event).mapFailure { Errors.ApplyEvent(event) }
             else
-                Errors.UnexpectedEvent(event).error()
+                Errors.UnexpectedEvent(event).failure()
         }
 
     internal sealed class Errors : Failure {

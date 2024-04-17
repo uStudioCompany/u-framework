@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.eventsourcing.store.event
 
-import io.github.airflux.functional.Result
+import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.eventsourcing.event.Event

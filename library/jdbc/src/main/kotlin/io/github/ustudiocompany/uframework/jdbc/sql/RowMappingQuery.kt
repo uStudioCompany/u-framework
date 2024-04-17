@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.sql
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.fold
-import io.github.airflux.functional.identity
+import io.github.airflux.commons.types.identity
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.fold
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
@@ -39,6 +39,6 @@ public class RowMappingQuery<out T, out F>(
                         ?.let { row -> mapper(row) }
                         ?: Result.asNull
                 },
-                onError = { errorConverter(it).error() }
+                onFailure = { errorConverter(it).failure() }
             )
 }

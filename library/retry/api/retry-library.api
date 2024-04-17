@@ -23,7 +23,7 @@ public final class io/github/ustudiocompany/uframework/retry/BackOffPolicyKt {
 }
 
 public final class io/github/ustudiocompany/uframework/retry/RetryKt {
-	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/functional/Result;
+	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/commons/types/result/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/retry/RetryScope {

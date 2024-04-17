@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
@@ -35,9 +35,9 @@ private class PreparedQueryStatementImpl(
             JDBCErrors.Connection(expected)
         else
             JDBCErrors.UnexpectedError(expected)
-        error.error()
+        error.failure()
     } catch (expected: Exception) {
-        JDBCErrors.UnexpectedError(expected).error()
+        JDBCErrors.UnexpectedError(expected).failure()
     }
 
     private fun PreparedStatement.execute(values: Iterable<SqlParam>): Rows =

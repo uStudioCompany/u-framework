@@ -7,7 +7,7 @@ dependencies {
     implementation(libs.coroutines.core)
 
     /* Libs section */
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types)
 
     /* Failure libs */
     implementation(project(":failure-library"))

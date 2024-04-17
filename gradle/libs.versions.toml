@@ -32,8 +32,8 @@ pitest-junit = "1.0.0"
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
 
 #Libs
-airflux-functional-core = { module = "io.github.airflux:airflux-functional-core-jdk8", version.ref = "airflux-functional" }
 airflux-commons-collections = { module = "io.github.airflux:airflux-commons-collections-jdk8", version.ref = "airflux-commons" }
+airflux-commons-types = { module = "io.github.airflux:airflux-commons-types-jdk8", version.ref = "airflux-commons" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -51,7 +51,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 
 #Test
-airflux-functional-test = { module = "io.github.airflux:airflux-functional-test-jdk8", version.ref = "airflux-functional" }
+airflux-commons-types-test = { module = "io.github.airflux:airflux-commons-types-test-jdk8", version.ref = "airflux-commons" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }

@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
-import io.github.airflux.functional.kotest.shouldBeError
-import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.airflux.commons.types.assertions.shouldBeFailure
+import io.github.airflux.commons.types.assertions.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
@@ -55,7 +55,7 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
                     container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getLong(metadata.columnIndex).shouldBeError()
+                        val failure = getLong(metadata.columnIndex).shouldBeFailure()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
@@ -67,7 +67,7 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getLong(INVALID_COLUMN_INDEX).shouldBeError()
+                    val failure = getLong(INVALID_COLUMN_INDEX).shouldBeFailure()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
                 }
@@ -105,7 +105,7 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
                     container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getLong(metadata.columnName).shouldBeError()
+                        val failure = getLong(metadata.columnName).shouldBeFailure()
                         val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
@@ -117,7 +117,7 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getLong(INVALID_COLUMN_NAME).shouldBeError()
+                    val failure = getLong(INVALID_COLUMN_NAME).shouldBeFailure()
                     val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }

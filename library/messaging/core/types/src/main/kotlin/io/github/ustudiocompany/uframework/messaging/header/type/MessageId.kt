@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.header.type
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
@@ -42,7 +42,7 @@ public value class MessageId private constructor(public val get: String) {
             if (value.matches(regex))
                 MessageId(get = value).success()
             else
-                Errors.InvalidFormat(value = value).error()
+                Errors.InvalidFormat(value = value).failure()
 
         private const val PATTERN: String =
             """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""

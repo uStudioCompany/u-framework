@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
-import io.github.airflux.functional.Result
+import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
 import java.sql.Types

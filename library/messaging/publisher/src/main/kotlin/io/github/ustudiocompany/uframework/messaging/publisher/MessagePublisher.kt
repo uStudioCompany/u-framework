@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.messaging.publisher
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.mapError
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
@@ -63,7 +63,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
             logger.debug { "Publishing message..." }
             //TODO Fixed (runBlocking)
             return runBlocking { sender.send(channelName, message) }
-                .mapError { failure -> Errors.Publish(failure) }
+                .mapFailure { failure -> Errors.Publish(failure) }
         }
     }
 
