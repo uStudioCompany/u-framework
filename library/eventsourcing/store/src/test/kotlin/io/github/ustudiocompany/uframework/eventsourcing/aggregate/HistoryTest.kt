@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 
-import io.github.airflux.commons.types.assertions.getValue
-import io.github.airflux.commons.types.assertions.shouldBeFailure
-import io.github.airflux.commons.types.assertions.shouldBeSuccess
+import io.github.airflux.commons.types.result.getValue
+import io.github.airflux.commons.types.result.shouldBeFailure
+import io.github.airflux.commons.types.result.shouldBeSuccess
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.test.kotest.TestTags

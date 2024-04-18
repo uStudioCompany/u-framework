@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.assertions.shouldBeSuccess
 import io.github.airflux.commons.types.result.getOrForward
+import io.github.airflux.commons.types.result.shouldBeSuccess
 import io.github.airflux.commons.types.result.success
 import io.github.airflux.commons.types.result.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest

@@ -5,7 +5,9 @@ plugins {
 dependencies {
 
     /* Libs section */
-    implementation(libs.airflux.commons.types)
+    implementation(libs.airflux.commons.types) {
+        isChanging = true
+    }
 
     /* Utils libs */
     api(project(":utils-library"))

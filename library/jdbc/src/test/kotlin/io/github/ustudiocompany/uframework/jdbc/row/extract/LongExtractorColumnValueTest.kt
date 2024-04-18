@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
-import io.github.airflux.commons.types.assertions.shouldBeFailure
-import io.github.airflux.commons.types.assertions.shouldBeSuccess
+import io.github.airflux.commons.types.result.shouldBeFailure
+import io.github.airflux.commons.types.result.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME

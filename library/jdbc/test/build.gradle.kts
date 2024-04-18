@@ -3,7 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.commons.types)
+    implementation(libs.airflux.commons.types) {
+        isChanging = true
+    }
 
     /* Database */
     implementation(libs.bundles.database)
