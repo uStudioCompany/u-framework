@@ -11,6 +11,7 @@ internal enum class MultiColumnTable(val columnIndex: Int, val columnName: Strin
     BIGINT(columnIndex = 6, columnName = "bigint_column", dataType = "BIGINT"),
     TIMESTAMP(columnIndex = 7, columnName = "timestamp_column", dataType = "TIMESTAMP"),
     UUID(columnIndex = 8, columnName = "uuid_column", dataType = "UUID"),
+    JSON(columnIndex = 9, columnName = "jsonb_column", dataType = "JSONB"),
     ;
 
     companion object {
