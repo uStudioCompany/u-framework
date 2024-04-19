@@ -6,13 +6,13 @@ import io.github.ustudiocompany.uframework.jdbc.row.Row
 import org.postgresql.util.PGobject
 import java.sql.Types
 
-public fun Row.getJson(index: Int): Result<String?, JDBCErrors> =
-    JsonColumnExtractor.extract(this, index)
+public fun Row.getJsonb(index: Int): Result<String?, JDBCErrors> =
+    JsonbColumnExtractor.extract(this, index)
 
-public fun Row.getJson(columnName: String): Result<String?, JDBCErrors> =
-    JsonColumnExtractor.extract(this, columnName)
+public fun Row.getJsonb(columnName: String): Result<String?, JDBCErrors> =
+    JsonbColumnExtractor.extract(this, columnName)
 
-private object JsonColumnExtractor : Row.ColumnValueExtractor<String>(
+private object JsonbColumnExtractor : Row.ColumnValueExtractor<String>(
     ExpectedType("Json/Jsonb", Types.OTHER)
 ) {
 
