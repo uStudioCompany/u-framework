@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.functional.getOrForward
-import io.github.airflux.functional.kotest.shouldBeSuccess
-import io.github.airflux.functional.success
-import io.github.airflux.functional.traverse
+import io.github.airflux.commons.types.result.getOrForward
+import io.github.airflux.commons.types.result.shouldBeSuccess
+import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.result.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -26,8 +26,8 @@ internal class RowsTest : IntegrationTest() {
                 "then the result should be empty" {
                     val result = executeQuery()
 
-                    result.shouldBeSuccess()
-                    result.value.isEmpty() shouldBe true
+                    val success = result.shouldBeSuccess()
+                    success.value.isEmpty() shouldBe true
                 }
             }
 
@@ -45,9 +45,9 @@ internal class RowsTest : IntegrationTest() {
                 "then the result should contain all data from the database" {
                     val result = executeQuery()
 
-                    result.shouldBeSuccess()
-                    result.value.isEmpty() shouldBe false
-                    result.value shouldContainExactly listOf(
+                    val success = result.shouldBeSuccess()
+                    success.value.isEmpty() shouldBe false
+                    success.value shouldContainExactly listOf(
                         FIRST_ROW_ID to FIRST_ROW_TITLE,
                         SECOND_ROW_ID to SECOND_ROW_TITLE,
                     )

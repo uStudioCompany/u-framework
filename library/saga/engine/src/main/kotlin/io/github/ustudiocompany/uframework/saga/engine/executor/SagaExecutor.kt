@@ -2,12 +2,12 @@
 
 package io.github.ustudiocompany.uframework.saga.engine.executor
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.ResultWith
-import io.github.airflux.functional.error
-import io.github.airflux.functional.map
-import io.github.airflux.functional.mapError
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.ResultWith
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.map
+import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
@@ -147,13 +147,13 @@ private fun <DATA> SagaExecutionState.Continuation<DATA>.findNotCompletedStep(
     if (isActive)
         historicalStep.success()
     else
-        SagaExecutorErrors.SagaIsNotActive.error()
+        SagaExecutorErrors.SagaIsNotActive.failure()
 }
 
 private fun <DATA> SagaExecutionState.Continuation<DATA>.getHistoricalStep(
     messageId: MessageId
 ): Result<HistoricalStep, SagaExecutorErrors> =
-    history[messageId]?.success() ?: SagaExecutorErrors.ReplyNotRelevant.error()
+    history[messageId]?.success() ?: SagaExecutorErrors.ReplyNotRelevant.failure()
 
 private val SagaExecutionState.Continuation<*>.isActive: Boolean
     get() = this.status == SagaExecutionState.Status.ACTIVE
@@ -164,7 +164,7 @@ private fun <DATA> Saga<DATA>.getSagaStep(
     definition.steps
         .getOrNull(historicalStep.index)
         ?.let { sagaStep -> CurrentExecutionStep(position = historicalStep.index, get = sagaStep).success() }
-        ?: SagaExecutorErrors.UnknownStep(historicalStep.index, historicalStep.label).error()
+        ?: SagaExecutorErrors.UnknownStep(historicalStep.index, historicalStep.label).failure()
 
 private fun <DATA> CurrentExecutionStep<DATA>.invokeReplyHandler(
     direction: SagaExecutionState.Direction,
@@ -190,7 +190,7 @@ private fun <DATA> CurrentExecutionStep<DATA>.invokeReplyHandler(
                     .invoke(reply, data)
                     .map { ReplyHandlingState(COMPENSATION, data = it) }
 
-            is ReplyMessage.Error -> SagaExecutorErrors.CompensationCommandError.error()
+            is ReplyMessage.Error -> SagaExecutorErrors.CompensationCommandError.failure()
         }
     }
 
@@ -199,7 +199,7 @@ private fun <DATA> SuccessfulReplyHandler<DATA>?.invoke(
     data: DATA
 ): Result<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
-        handle(data, reply).mapError {
+        handle(data, reply).mapFailure {
             when (it) {
                 is ReplyHandlerErrors.ReplyBodyMissing ->
                     SagaExecutorErrors.Reply.ReplyBodyMissing(it)
@@ -218,7 +218,7 @@ private fun <DATA> ErrorReplyHandler<DATA>?.invoke(
     data: DATA
 ): Result<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
-        handle(data, reply).mapError {
+        handle(data, reply).mapFailure {
             when (it) {
                 is ReplyHandlerErrors.ReplyBodyMissing ->
                     SagaExecutorErrors.Reply.ReplyBodyMissing(it)
@@ -325,7 +325,7 @@ private fun <DATA> makeRequest(
     data: DATA
 ): Result<Request, SagaExecutorErrors.MakeRequest> =
     requestBuilder(data)
-        .mapError { error -> SagaExecutorErrors.MakeRequest(error) }
+        .mapFailure { error -> SagaExecutorErrors.MakeRequest(error) }
 
 private fun Request.toCommand(routingKey: MessageRoutingKey, correlationId: CorrelationId, messageId: MessageId) =
     Command(

@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.eventsourcing.model
 
-import io.github.airflux.functional.Result
+import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.Aggregate
 import io.github.ustudiocompany.uframework.eventsourcing.aggregate.History
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent

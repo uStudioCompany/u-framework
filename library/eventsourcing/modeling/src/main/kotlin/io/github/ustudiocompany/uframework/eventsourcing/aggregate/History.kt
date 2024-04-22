@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
@@ -25,7 +25,7 @@ public value class History private constructor(
 
         val error = compareRevisions(current = revision, next = event.revision)
             ?: checkUniqueMessageId(messageId = event.messageId)
-        if (error != null) return error.error()
+        if (error != null) return error.failure()
 
         return History(events + event).success()
     }
@@ -84,10 +84,10 @@ public value class History private constructor(
 
         public fun of(events: List<Event>): Result<History, Errors> =
             if (events.isNotEmpty())
-                events.checkEvents()?.error()
+                events.checkEvents()?.failure()
                     ?: History(events).success()
             else
-                Errors.HistoryIsEmpty.error()
+                Errors.HistoryIsEmpty.failure()
 
         private fun List<Event>.checkEvents(): Errors? {
             fun List<Event>.checkRevisionFirstEvent(): Errors.InvalidRevision? {

@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.eventsourcing
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.kotest.getValue
-import io.github.airflux.functional.kotest.shouldBeError
-import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.getValue
+import io.github.airflux.commons.types.result.shouldBeFailure
+import io.github.airflux.commons.types.result.shouldBeSuccess
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestRegistered
@@ -175,7 +175,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                             val result = repository.loadAggregate(entityId, 2)
-                            result.shouldBeError().cause
+                            result.shouldBeFailure().cause
                                 .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
                     }
@@ -212,7 +212,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                             val result = repository.loadAggregate(entityId, 2)
-                            result.shouldBeError().cause
+                            result.shouldBeFailure().cause
                                 .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
                     }
@@ -251,7 +251,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                         val result = repository.loadAggregate(entityId, 2)
-                        result.shouldBeError().cause
+                        result.shouldBeFailure().cause
                             .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                     }
                 }

@@ -7,8 +7,12 @@ dependencies {
     api(project(":saga-core-library"))
 
     /* Libs section */
-    implementation(libs.airflux.commons.collections)
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.collections) {
+        isChanging = true
+    }
+    implementation(libs.airflux.commons.types) {
+        isChanging = true
+    }
 
     /* Utils libs */
     implementation(project(":utils-library"))

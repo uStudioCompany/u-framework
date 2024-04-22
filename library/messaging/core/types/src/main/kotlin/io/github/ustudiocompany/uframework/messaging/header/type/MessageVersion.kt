@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.header.type
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
@@ -79,11 +79,11 @@ public class MessageVersion private constructor(
 
         public fun of(major: Int, minor: Int = 0, patch: Int = 0): Result<MessageVersion, Errors> =
             if (major < 0)
-                Errors.InvalidVersionSegmentValue.Major(value = major).error()
+                Errors.InvalidVersionSegmentValue.Major(value = major).failure()
             else if (minor < 0)
-                Errors.InvalidVersionSegmentValue.Minor(value = minor).error()
+                Errors.InvalidVersionSegmentValue.Minor(value = minor).failure()
             else if (patch < 0)
-                Errors.InvalidVersionSegmentValue.Patch(value = patch).error()
+                Errors.InvalidVersionSegmentValue.Patch(value = patch).failure()
             else
                 MessageVersion(major = major, minor = minor, patch = patch).success()
 
@@ -92,7 +92,7 @@ public class MessageVersion private constructor(
                 val segments: List<String> = value.split(".")
                 MessageVersion(major = major(segments), minor = minor(segments), patch = patch(segments)).success()
             } else
-                Errors.InvalidFormat(value = value).error()
+                Errors.InvalidFormat(value = value).failure()
 
         private fun major(segments: List<String>): Int = segments[MAJOR_INDEX].toInt()
 

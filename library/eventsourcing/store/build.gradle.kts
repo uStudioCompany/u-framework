@@ -9,13 +9,17 @@ repositories {
 dependencies {
     implementation(project(":event-sourcing-modeling-library"))
 
-    implementation(libs.airflux.functional.core)
+    implementation(libs.airflux.commons.types) {
+        isChanging = true
+    }
     implementation(project(":failure-library"))
     implementation(project(":diagnostic-context-library"))
     implementation(project(":logging-api-library"))
     implementation(project(":messaging-core-types-library"))
 
     /* Test */
-    testImplementation(libs.airflux.functional.test)
+    testImplementation(libs.airflux.commons.types.test) {
+        isChanging = true
+    }
     testImplementation(project(":testing-library"))
 }

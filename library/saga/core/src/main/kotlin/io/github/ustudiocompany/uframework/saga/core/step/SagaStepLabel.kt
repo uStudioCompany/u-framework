@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.saga.core.step
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeOf
 import io.github.ustudiocompany.uframework.failure.typeOf
@@ -24,7 +24,7 @@ public value class SagaStepLabel private constructor(public val get: String) {
 
         public fun of(value: String): Result<SagaStepLabel, Errors> =
             if (value.isBlank())
-                Errors.IsBlank.error()
+                Errors.IsBlank.failure()
             else
                 SagaStepLabel(value).success()
     }

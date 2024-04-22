@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.messaging.channel.deadletter
 
-import io.github.airflux.functional.onError
+import io.github.airflux.commons.types.result.onFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.handler.toMessageHandlerException
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
@@ -32,7 +32,7 @@ public class DeadLetterChannel<T>(public val name: ChannelName, private val send
 
         //TODO Fixed (runBlocking)
         runBlocking { sender.send(name, outgoingMessage) }
-            .onError { failure -> throw failure.toMessageHandlerException() }
+            .onFailure { failure -> throw failure.toMessageHandlerException() }
     }
 
     public class Stamp private constructor(public val get: String) {

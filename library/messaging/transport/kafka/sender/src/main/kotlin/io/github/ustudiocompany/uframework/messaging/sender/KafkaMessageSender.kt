@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.sender
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
@@ -60,7 +60,7 @@ public class KafkaMessageSender<T : Any>(property: Properties<T>) : MessageSende
                             channel = channelName,
                             key = message.routingKey,
                             exception = exception
-                        ).error()
+                        ).failure()
 
                     cont.resume(result)
                 }

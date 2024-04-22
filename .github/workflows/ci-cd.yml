@@ -1,6 +1,14 @@
 name: CI/CD
 
-on: workflow_dispatch
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -38,4 +46,4 @@ jobs:
         REPOSITORY_RELEASES_URL: ${{ vars.REPOSITORY_RELEASES_URL }}
         REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
         REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
-      run: ./gradlew build koverXmlReport publish -Dkotest.tags="Unit | Component"
+      run: ./gradlew build publish -Dkotest.tags="Unit | Component"

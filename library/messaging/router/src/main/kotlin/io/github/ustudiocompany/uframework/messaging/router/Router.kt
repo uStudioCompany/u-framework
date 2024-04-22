@@ -1,11 +1,11 @@
 package io.github.ustudiocompany.uframework.messaging.router
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.getOrForward
-import io.github.airflux.functional.mapError
-import io.github.airflux.functional.orThrow
-import io.github.airflux.functional.success
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.getOrForward
+import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.result.orThrow
+import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
@@ -42,17 +42,17 @@ public class Router<BODY, HANDLER> internal constructor(private val items: Map<R
     context(Logging, DiagnosticContext)
     private fun IncomingMessage<BODY>.name(): Result<MessageName, RouterErrors> {
         val header = getHeader(MESSAGE_NAME_HEADER_NAME)
-            ?: return RouterErrors.MessageNameHeader.Missing.error()
+            ?: return RouterErrors.MessageNameHeader.Missing.failure()
         return MessageName.of(header.valueAsString())
-            .mapError { failure -> RouterErrors.MessageNameHeader.InvalidValue(failure) }
+            .mapFailure { failure -> RouterErrors.MessageNameHeader.InvalidValue(failure) }
     }
 
     context(Logging, DiagnosticContext)
     private fun IncomingMessage<BODY>.version(): Result<MessageVersion, RouterErrors> {
         val header = getHeader(MESSAGE_VERSION_HEADER_NAME)
-            ?: return RouterErrors.MessageVersionHeader.Missing.error()
+            ?: return RouterErrors.MessageVersionHeader.Missing.failure()
         return MessageVersion.of(header.valueAsString())
-            .mapError { failure -> RouterErrors.MessageVersionHeader.InvalidValue(failure) }
+            .mapFailure { failure -> RouterErrors.MessageVersionHeader.InvalidValue(failure) }
     }
 
     context(Logging, DiagnosticContext)
@@ -60,7 +60,7 @@ public class Router<BODY, HANDLER> internal constructor(private val items: Map<R
         logger.debug { "Finding a message handler by selector ($selector)..." }
         return items[selector]
             ?.success()
-            ?: RouterErrors.RouteNotFound(selector).error()
+            ?: RouterErrors.RouteNotFound(selector).failure()
     }
 
     context(Logging, DiagnosticContext)

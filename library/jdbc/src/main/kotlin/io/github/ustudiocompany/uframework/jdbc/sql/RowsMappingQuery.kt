@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.sql
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.error
-import io.github.airflux.functional.fold
-import io.github.airflux.functional.identity
-import io.github.airflux.functional.traverse
+import io.github.airflux.commons.types.identity
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.fold
+import io.github.airflux.commons.types.result.traverse
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
@@ -36,6 +36,6 @@ public class RowsMappingQuery<out T, out F>(
         query.execute(connection, parameters)
             .fold(
                 onSuccess = { rows -> rows.traverse(mapper) },
-                onError = { errorConverter(it).error() }
+                onFailure = { errorConverter(it).failure() }
             )
 }

@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 
-import io.github.airflux.functional.kotest.getValue
-import io.github.airflux.functional.kotest.shouldBeError
-import io.github.airflux.functional.kotest.shouldBeSuccess
+import io.github.airflux.commons.types.result.getValue
+import io.github.airflux.commons.types.result.shouldBeFailure
+import io.github.airflux.commons.types.result.shouldBeSuccess
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.test.kotest.TestTags
@@ -25,7 +25,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
 
                     "then the factory method should return null value" {
                         val result = History.of(events)
-                        result.shouldBeError().cause
+                        result.shouldBeFailure().cause
                             .shouldBeInstanceOf<History.Errors.HistoryIsEmpty>()
                     }
                 }
@@ -48,7 +48,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                         val events = listOf(History.Event(secondRevision, firstMessageID))
 
                         "then the factory method should return an error" {
-                            val error = History.of(events).shouldBeError().cause
+                            val error = History.of(events).shouldBeFailure().cause
                                 .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                             error.expected shouldBe initialRevision
                             error.actual shouldBe secondRevision
@@ -86,7 +86,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                                 )
 
                                 "then the factory method should return an error" - {
-                                    val error = History.of(events).shouldBeError().cause
+                                    val error = History.of(events).shouldBeFailure().cause
                                         .shouldBeInstanceOf<History.Errors.NonUniqueMessageId>()
                                     error.id shouldBe firstMessageID
                                 }
@@ -100,7 +100,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                             )
 
                             "then the factory method should return an error" {
-                                val error = History.of(events).shouldBeError().cause
+                                val error = History.of(events).shouldBeFailure().cause
                                     .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                                 error.expected shouldBe secondRevision
                                 error.actual shouldBe thirdRevision
@@ -116,7 +116,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                         )
 
                         "then the factory method should return an error" {
-                            val error = History.of(events).shouldBeError().cause
+                            val error = History.of(events).shouldBeFailure().cause
                                 .shouldBeInstanceOf<History.Errors.InvalidRevision>()
                             error.expected shouldBe initialRevision
                             error.actual shouldBe secondRevision
@@ -145,7 +145,7 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
                     val result = history.add(revision = thirdRevision, messageId = secondMessageID)
 
                     "then the function should return an error" {
-                        val error = result.shouldBeError().cause
+                        val error = result.shouldBeFailure().cause
                             .shouldBeInstanceOf<History.Errors.NonUniqueMessageId>()
                         error.id shouldBe secondMessageID
                     }

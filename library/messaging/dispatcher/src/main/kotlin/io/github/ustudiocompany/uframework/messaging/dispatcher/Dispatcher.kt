@@ -2,8 +2,8 @@
 
 package io.github.ustudiocompany.uframework.messaging.dispatcher
 
-import io.github.airflux.functional.Result
-import io.github.airflux.functional.getOrForward
+import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.result.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.DeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.sendToDeadLetterChannel
