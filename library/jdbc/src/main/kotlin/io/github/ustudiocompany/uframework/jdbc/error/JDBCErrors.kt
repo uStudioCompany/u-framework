@@ -64,13 +64,13 @@ public sealed class JDBCErrors : Failure {
                 .let { Failure.Details.of(it) }
         }
 
-        public class TypeMismatch(public val label: ColumnLabel, public val expected: String, public val actual: Int) :
+        public class TypeMismatch(public val label: ColumnLabel, public val expected: String, public val actual: String) :
             Row() {
 
-            public constructor(name: String, expected: String, actual: Int) :
+            public constructor(name: String, expected: String, actual: String) :
                 this(ColumnLabel.Name(name), expected, actual)
 
-            public constructor(index: Int, expected: String, actual: Int) :
+            public constructor(index: Int, expected: String, actual: String) :
                 this(ColumnLabel.Index(index), expected, actual)
 
             override val number: String = "2"
@@ -81,7 +81,7 @@ public sealed class JDBCErrors : Failure {
                 .apply {
                     add(Failure.Details.Item(key = label.detailsKey, value = label.detailsValue))
                     add(Failure.Details.Item(key = EXPECTED_COLUMN_TYPE_DETAILS_KEY, value = expected))
-                    add(Failure.Details.Item(key = ACTUAL_COLUMN_TYPE_DETAILS_KEY, value = actual.toString()))
+                    add(Failure.Details.Item(key = ACTUAL_COLUMN_TYPE_DETAILS_KEY, value = actual))
                 }
                 .let { Failure.Details.of(it) }
         }

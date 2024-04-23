@@ -2,11 +2,13 @@ package io.github.ustudiocompany.uframework.jdbc.row
 
 import io.github.airflux.commons.types.result.Result
 import io.github.airflux.commons.types.result.failure
+import io.github.airflux.commons.types.result.fold
 import io.github.airflux.commons.types.result.getOrForward
 import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.exception.isUndefinedColumn
+import org.postgresql.util.PGobject
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.SQLException
@@ -63,6 +65,66 @@ public value class Row(private val resultSet: ResultSet) {
                 JDBCErrors.UnexpectedError(expected).failure()
             }
 
+        protected inline fun <T> Row.extractObject(
+            index: Int,
+            block: (PGobject) -> Result<T?, JDBCErrors>
+        ): Result<T?, JDBCErrors> =
+            try {
+                val resultSet = resultSet(this)
+                val metadata = resultSet.metaData
+                metadata.checkIndex(index).getOrForward { return it }
+                val pGobject = resultSet.getObject(index, PGobject::class.java)
+                block(pGobject).fold(
+                    onSuccess = {
+                        if (it == null || resultSet.wasNull()) Result.asNull else it.success()
+                    },
+                    onFailure = {
+                        it.failure()
+                    }
+                )
+            } catch (expected: ClassCastException) {
+                JDBCErrors.Row.ReadColumn(index, expected).failure()
+            } catch (expected: SQLException) {
+                val error = if (expected.isConnectionError)
+                    JDBCErrors.Connection(expected)
+                else
+                    JDBCErrors.UnexpectedError(expected)
+                error.failure()
+            } catch (expected: Exception) {
+                JDBCErrors.UnexpectedError(expected).failure()
+            }
+
+        protected inline fun <T> Row.extractObject(
+            columnName: String,
+            block: (PGobject) -> Result<T?, JDBCErrors>
+        ): Result<T?, JDBCErrors> =
+            try {
+                val resultSet = resultSet(this)
+                resultSet.getColumnIndexOrNull(columnName)
+                    ?.let { index ->
+                        val pGobject = resultSet.getObject(index, PGobject::class.java)
+                        block(pGobject).fold(
+                            onSuccess = {
+                                if (it == null || resultSet.wasNull()) Result.asNull else it.success()
+                            },
+                            onFailure = {
+                                it.failure()
+                            },
+                        )
+                    }
+                    ?: JDBCErrors.Row.UndefinedColumn(columnName).failure()
+            } catch (expected: ClassCastException) {
+                JDBCErrors.Row.ReadColumn(columnName, expected).failure()
+            } catch (expected: SQLException) {
+                val error = if (expected.isConnectionError)
+                    JDBCErrors.Connection(expected)
+                else
+                    JDBCErrors.UnexpectedError(expected)
+                error.failure()
+            } catch (expected: Exception) {
+                JDBCErrors.UnexpectedError(expected).failure()
+            }
+
         protected fun ResultSet.getColumnIndexOrNull(columnName: String): Int? = try {
             findColumn(columnName)
         } catch (expected: SQLException) {
@@ -78,7 +140,7 @@ public value class Row(private val resultSet: ResultSet) {
         protected fun ResultSetMetaData.checkType(index: Int): Result<Unit, JDBCErrors> {
             val actualType = getColumnType(index)
             return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(index, expectedType.name, actualType).failure()
+                JDBCErrors.Row.TypeMismatch(index, expectedType.name, actualType.toString()).failure()
             else
                 Result.asUnit
         }
@@ -86,7 +148,7 @@ public value class Row(private val resultSet: ResultSet) {
         protected fun ResultSetMetaData.checkType(index: Int, columnName: String): Result<Unit, JDBCErrors> {
             val actualType = getColumnType(index)
             return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(columnName, expectedType.name, actualType).failure()
+                JDBCErrors.Row.TypeMismatch(columnName, expectedType.name, actualType.toString()).failure()
             else
                 Result.asUnit
         }
