@@ -31,7 +31,7 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is is '${it.second}' then the function should return this value" },
+                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
                         listOf(
                             1 to VALID_VALUE,
                             2 to NULL_VALUE
@@ -60,7 +60,7 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
             }
 
-            "when column index is invalid then the function should return an error" - {
+            "when column index is invalid then the function should return an error" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
@@ -108,7 +108,7 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
             }
 
-            "when column name is invalid then the function should return an error" - {
+            "when column name is invalid then the function should return an error" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 

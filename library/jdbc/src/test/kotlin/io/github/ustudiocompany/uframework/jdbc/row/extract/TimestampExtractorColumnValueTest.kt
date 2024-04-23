@@ -62,7 +62,7 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                 }
             }
 
-            "when column index is invalid then the function should return an error" - {
+            "when column index is invalid then the function should return an error" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
@@ -111,7 +111,7 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                 }
             }
 
-            "when column name is invalid then the function should return an error" - {
+            "when column name is invalid then the function should return an error" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
