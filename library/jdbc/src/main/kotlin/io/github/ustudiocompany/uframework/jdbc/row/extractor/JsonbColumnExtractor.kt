@@ -5,7 +5,6 @@ import io.github.airflux.commons.types.result.failure
 import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
-import org.postgresql.util.PGobject
 import java.sql.Types
 
 public fun Row.getJsonb(index: Int): Result<String?, JDBCErrors> =
@@ -18,9 +17,22 @@ private object JsonbColumnExtractor : Row.ColumnValueExtractor<String>(
     ExpectedType("Json/Jsonb", Types.OTHER)
 ) {
 
+    private const val JSONB_TYPE = "jsonb"
+
     override fun extract(row: Row, index: Int): Result<String?, JDBCErrors> =
-        row.extract(index) { getObject(it, PGobject::class.java).value }
+        row.extractObject(index) {
+            if (it.type.equals(JSONB_TYPE, true))
+                if (it.value != null) it.value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(index, JSONB_TYPE, it.type).failure()
+        }
 
     override fun extract(row: Row, columnName: String): Result<String?, JDBCErrors> =
-        row.extract(columnName) { getObject(it, PGobject::class.java).value }
+        row.extractObject(columnName) {
+            if (it.type.equals(JSONB_TYPE, true))
+                if (it.value != null)
+                    it.value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnName, JSONB_TYPE, it.type).failure()
+        }
 }

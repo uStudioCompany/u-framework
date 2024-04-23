@@ -18,9 +18,21 @@ private object UUIDColumnExtractor : Row.ColumnValueExtractor<UUID>(
     ExpectedType("UUID", Types.JAVA_OBJECT, Types.OTHER)
 ) {
 
+    private const val UUID_TYPE = "uuid"
+
     override fun extract(row: Row, index: Int): Result<UUID?, JDBCErrors> =
-        row.extract(index) { getObject(it, UUID::class.java) }
+        row.extractObject(index) {
+            if (it.type.equals(UUID_TYPE, true))
+                if (it.value != null) UUID.fromString(it.value).success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(index, UUID_TYPE, it.type).failure()
+        }
 
     override fun extract(row: Row, columnName: String): Result<UUID?, JDBCErrors> =
-        row.extract(columnName) { getObject(it, UUID::class.java) }
+        row.extractObject(columnName) {
+            if (it.type.equals(UUID_TYPE, true))
+                if (it.value != null) UUID.fromString(it.value).success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnName, UUID_TYPE, it.type).failure()
+        }
 }
