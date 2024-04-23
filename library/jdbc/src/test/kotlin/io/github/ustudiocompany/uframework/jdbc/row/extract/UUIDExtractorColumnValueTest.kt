@@ -81,8 +81,8 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                     withData(
                         nameFn = { "when column value is '${it.second}' then the function should return this value" },
                         listOf(
-                            1 to VALID_VALUE,
-                            2 to NULL_VALUE
+                            1 to NULL_VALUE,
+                            2 to VALID_VALUE,
                         )
                     ) { (rowId, value) ->
                         insertData(rowId, metadata.columnName, value)
