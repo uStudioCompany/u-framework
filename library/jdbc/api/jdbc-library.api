@@ -113,8 +113,8 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnVal
 	protected final fun extractObject-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/result/Result;
 	protected final fun getColumnIndexOrNull (Ljava/sql/ResultSet;Ljava/lang/String;)Ljava/lang/Integer;
 	protected final fun getExpectedType ()Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;
-	public final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;I)Lio/github/airflux/commons/types/result/Result;
-	public final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;I)Lio/github/airflux/commons/types/result/Result;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
 }
 
