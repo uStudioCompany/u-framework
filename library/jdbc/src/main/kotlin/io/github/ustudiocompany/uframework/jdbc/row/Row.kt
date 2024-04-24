@@ -153,6 +153,18 @@ public value class Row(private val resultSet: ResultSet) {
                 Result.asUnit
         }
 
+        public fun PGobject.obtainValue(columnType: String, columnIndex: Int): Result<String?, JDBCErrors> =
+            if (type.equals(columnType, true))
+                if (value != null) value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnIndex, columnType, type).failure()
+
+        public fun PGobject.obtainValue(columnType: String, columnName: String): Result<String?, JDBCErrors> =
+            if (type.equals(columnType, true))
+                if (value != null) value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnName, columnType, type).failure()
+
         public class ExpectedType(public val name: String, public val codes: List<Int>) {
             public constructor(name: String, vararg types: Int) : this(name, types.toList())
         }
