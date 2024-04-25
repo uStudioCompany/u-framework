@@ -146,6 +146,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntCol
 	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonColumnExtractorKt {
+	public static final fun getJson-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getJson-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonbColumnExtractorKt {
 	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
 	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
@@ -261,6 +266,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/param/BooleanSql
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/IntSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/Integer;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/sql/param/JsonSqlParamKt {
+	public static final fun jsonAsSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun jsonSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/JsonbSqlParamKt {
