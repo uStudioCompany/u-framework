@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.jdbc.row.extractor
 import io.github.airflux.commons.types.result.Result
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
-import java.sql.Types
 
 public fun Row.getString(index: Int): Result<String?, JDBCErrors> =
     StringColumnExtractor.extract(this, index)
@@ -12,7 +11,7 @@ public fun Row.getString(columnName: String): Result<String?, JDBCErrors> =
     StringColumnExtractor.extract(this, columnName)
 
 private object StringColumnExtractor : Row.ColumnValueExtractor<String>(
-    ExpectedType("TEXT/VARCHAR/CHAR", Types.VARCHAR, Types.CHAR)
+    ExpectedTypes("text", "varchar", "bpchar")
 ) {
 
     override fun extract(row: Row, index: Int): Result<String?, JDBCErrors> =
