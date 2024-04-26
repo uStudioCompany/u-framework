@@ -7,14 +7,16 @@ import io.github.airflux.commons.types.result.success
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.exception.isUndefinedColumn
+import org.postgresql.util.PGobject
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.SQLException
 
 @JvmInline
+@Suppress("TooManyFunctions")
 public value class Row(private val resultSet: ResultSet) {
 
-    public abstract class ColumnValueExtractor<T>(protected val expectedType: ExpectedType) {
+    public abstract class ColumnValueExtractor<T>(protected val expectedTypes: ExpectedTypes) {
 
         public abstract fun extract(row: Row, index: Int): Result<T?, JDBCErrors>
         public abstract fun extract(row: Row, columnName: String): Result<T?, JDBCErrors>
@@ -76,23 +78,40 @@ public value class Row(private val resultSet: ResultSet) {
                 Result.asUnit
 
         protected fun ResultSetMetaData.checkType(index: Int): Result<Unit, JDBCErrors> {
-            val actualType = getColumnType(index)
-            return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(index, expectedType.name, actualType).failure()
-            else
+            val actualType = getColumnTypeName(index)
+            return if (actualType in expectedTypes)
                 Result.asUnit
+            else
+                JDBCErrors.Row.TypeMismatch(index, expectedTypes.toString(), actualType).failure()
         }
 
         protected fun ResultSetMetaData.checkType(index: Int, columnName: String): Result<Unit, JDBCErrors> {
-            val actualType = getColumnType(index)
-            return if (actualType !in expectedType.codes)
-                JDBCErrors.Row.TypeMismatch(columnName, expectedType.name, actualType).failure()
-            else
+            val actualType = getColumnTypeName(index)
+            return if (actualType in expectedTypes)
                 Result.asUnit
+            else
+                JDBCErrors.Row.TypeMismatch(columnName, expectedTypes.toString(), actualType).failure()
         }
 
-        public class ExpectedType(public val name: String, public val codes: List<Int>) {
-            public constructor(name: String, vararg types: Int) : this(name, types.toList())
+        protected fun PGobject.obtainValue(columnType: String, columnIndex: Int): Result<String?, JDBCErrors> =
+            if (type.equals(columnType, true))
+                if (value != null) value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnIndex, columnType, type).failure()
+
+        protected fun PGobject.obtainValue(columnType: String, columnName: String): Result<String?, JDBCErrors> =
+            if (type.equals(columnType, true))
+                if (value != null) value.success() else Result.asNull
+            else
+                JDBCErrors.Row.TypeMismatch(columnName, columnType, type).failure()
+
+        @JvmInline
+        public value class ExpectedTypes(private val names: List<String>) {
+            public constructor(vararg name: String) : this(name.toList())
+
+            public operator fun contains(type: String): Boolean = names.any { it.equals(type, true) }
+
+            override fun toString(): String = names.joinToString(", ")
         }
     }
 }

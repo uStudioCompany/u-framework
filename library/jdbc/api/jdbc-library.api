@@ -54,10 +54,10 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row$TypeMismatch : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row {
-	public fun <init> (ILjava/lang/String;I)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/String;I)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;I)V
-	public final fun getActual ()I
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/String;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getActual ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun getExpected ()Ljava/lang/String;
@@ -101,7 +101,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;)V
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	protected final fun checkIndex (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/result/Result;
 	protected final fun checkType (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/result/Result;
 	protected final fun checkType (Ljava/sql/ResultSetMetaData;ILjava/lang/String;)Lio/github/airflux/commons/types/result/Result;
@@ -110,15 +110,25 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnVal
 	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/result/Result;
 	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/result/Result;
 	protected final fun getColumnIndexOrNull (Ljava/sql/ResultSet;Ljava/lang/String;)Ljava/lang/Integer;
-	protected final fun getExpectedType ()Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType;
+	protected final fun getExpectedTypes-TydRhnI ()Ljava/util/List;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;I)Lio/github/airflux/commons/types/result/Result;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedType {
-	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
-	public fun <init> (Ljava/lang/String;[I)V
-	public final fun getCodes ()Ljava/util/List;
-	public final fun getName ()Ljava/lang/String;
+public final class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedTypes {
+	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor$ExpectedTypes;
+	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
+	public static fun constructor-impl ([Ljava/lang/String;)Ljava/util/List;
+	public static final fun contains-impl (Ljava/util/List;Ljava/lang/String;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/util/List;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Rows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
@@ -134,6 +144,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/Boolea
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntColumnExtractorKt {
 	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
 	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonbColumnExtractorKt {
+	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongColumnExtractorKt {
@@ -246,6 +261,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/param/BooleanSql
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/IntSqlParamKt {
 	public static final fun asSqlParam (Ljava/lang/Integer;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/sql/param/JsonbSqlParamKt {
+	public static final fun jsonbAsSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
+	public static final fun jsonbSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/LongSqlParamKt {
