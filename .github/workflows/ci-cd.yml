@@ -14,33 +14,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: Set up JDK
-      uses: actions/setup-java@v1.4.4
-      with:
-        java-version: 17
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v3
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v1.2.1
+    - name: Set up JDK ${{ vars.JDK_VERSION }} ${{ vars.JDK_DISTRIBUTION }}
+      uses: actions/setup-java@v4
       with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-        restore-keys: ${{ runner.os }}-gradle
+        java-version: ${{ vars.JDK_VERSION }}
+        distribution: ${{ vars.JDK_DISTRIBUTION }}
 
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1.2.1
+    - name: Cache Gradle
+      uses: actions/cache@v4
       with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
+        path: |
+          ~/.gradle/caches
+           ~/.gradle/wrapper
+        key: |
+          ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'gradle/*.versions.toml') }}
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
+    - name: Build and Publish
       env:
         REPOSITORY_SNAPSHOTS_URL: ${{ vars.REPOSITORY_SNAPSHOTS_URL }}
         REPOSITORY_RELEASES_URL: ${{ vars.REPOSITORY_RELEASES_URL }}
