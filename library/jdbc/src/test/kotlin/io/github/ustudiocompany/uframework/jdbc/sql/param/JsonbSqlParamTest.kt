@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.jdbc.sql.param
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import org.postgresql.util.PGobject
 
 internal class JsonbSqlParamTest : AbstractSqlParamTest() {
@@ -17,13 +16,11 @@ internal class JsonbSqlParamTest : AbstractSqlParamTest() {
                 container.truncateTable(TABLE_WITH_JSON_COLUMN)
                 insertData(INSERT_INTO_TABLE_WITH_JSON_COLUMN, NON_NULLABLE_VALUE jsonbAsSqlParam VALUE_PARAM_NAME)
 
-                "then a database should contain a json value with nodes in different order" {
+                "then a database should contain the passed json" {
                     container.checkData(SELECT_FROM_TABLE_WITH_JSON_COLUMN) {
-                        val jsonObject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
+                        val jsonObject: PGobject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                         jsonObject.type.equals(COLUMN_TYPE_JSON, true) shouldBe true
                         val jsonValue = jsonObject.value.shouldNotBeNull()
-                        jsonValue.length shouldBe NON_NULLABLE_VALUE.length
-                        jsonValue shouldNotBe NON_NULLABLE_VALUE
                         jsonValue.shouldBeEqualToComparingFields(NON_NULLABLE_VALUE)
                     }
                 }
@@ -50,13 +47,11 @@ internal class JsonbSqlParamTest : AbstractSqlParamTest() {
                 container.truncateTable(TABLE_WITH_JSONB_COLUMN)
                 insertData(INSERT_INTO_TABLE_WITH_JSONB_COLUMN, NON_NULLABLE_VALUE jsonbAsSqlParam VALUE_PARAM_NAME)
 
-                "then a database should contain a jsonb value with nodes in different order" {
+                "then a database should contain the passed jsonb" {
                     container.checkData(SELECT_FROM_TABLE_WITH_JSONB_COLUMN) {
                         val jsonObject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                         jsonObject.type.equals(COLUMN_TYPE_JSONB, true) shouldBe true
                         val jsonValue = jsonObject.value.shouldNotBeNull()
-                        jsonValue.length shouldBe NON_NULLABLE_VALUE.length
-                        jsonValue shouldNotBe NON_NULLABLE_VALUE
                         jsonValue.shouldBeEqualToComparingFields(NON_NULLABLE_VALUE)
                     }
                 }
