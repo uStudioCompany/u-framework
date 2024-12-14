@@ -8,7 +8,7 @@ tasks {
 
     configure<PitestPluginExtension> {
         threads.set(4)
-        junit5PluginVersion.set("1.0.0")
+        testPlugin.set("Kotest")
         pitestVersion.set("1.15.0")
         mutators.set(mutableListOf("STRONGER"))
         outputFormats.set(listOf("XML", "HTML"))

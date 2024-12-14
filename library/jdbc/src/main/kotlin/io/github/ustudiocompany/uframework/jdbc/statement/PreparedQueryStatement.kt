@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
@@ -18,8 +18,8 @@ public fun Connection.createPreparedQueryStatement(sql: ParametrizedSql): Prepar
 public interface PreparedQueryStatement {
     public val originalSql: String
     public fun clearParameters()
-    public fun execute(vararg values: SqlParam): Result<Rows, JDBCErrors> = execute(Iterable { values.iterator() })
-    public fun execute(values: Iterable<SqlParam>): Result<Rows, JDBCErrors>
+    public fun execute(vararg values: SqlParam): ResultK<Rows, JDBCErrors> = execute(Iterable { values.iterator() })
+    public fun execute(values: Iterable<SqlParam>): ResultK<Rows, JDBCErrors>
 }
 
 private class PreparedQueryStatementImpl(
@@ -28,16 +28,16 @@ private class PreparedQueryStatementImpl(
 ) : PreparedQueryStatement,
     AbstractPreparedStatement(connection, parametrizedSql) {
 
-    override fun execute(values: Iterable<SqlParam>): Result<Rows, JDBCErrors> = try {
-        statement.execute(values).success()
+    override fun execute(values: Iterable<SqlParam>): ResultK<Rows, JDBCErrors> = try {
+        statement.execute(values).asSuccess()
     } catch (expected: SQLException) {
         val error = if (expected.isConnectionError)
             JDBCErrors.Connection(expected)
         else
             JDBCErrors.UnexpectedError(expected)
-        error.failure()
+        error.asFailure()
     } catch (expected: Exception) {
-        JDBCErrors.UnexpectedError(expected).failure()
+        JDBCErrors.UnexpectedError(expected).asFailure()
     }
 
     private fun PreparedStatement.execute(values: Iterable<SqlParam>): Rows =

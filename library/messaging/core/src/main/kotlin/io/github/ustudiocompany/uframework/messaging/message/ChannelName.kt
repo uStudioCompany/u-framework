@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.message
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeOf
 import io.github.ustudiocompany.uframework.failure.typeOf
@@ -12,11 +12,11 @@ public value class ChannelName private constructor(public val get: String) {
 
     public companion object {
 
-        public fun of(value: String): Result<ChannelName, Errors> =
+        public fun of(value: String): ResultK<ChannelName, Errors> =
             if (value.isNotBlank())
-                ChannelName(value).success()
+                ChannelName(value).asSuccess()
             else
-                Errors.IsBlank.failure()
+                Errors.IsBlank.asFailure()
     }
 
     public sealed class Errors : TypeFailure<ChannelName> {

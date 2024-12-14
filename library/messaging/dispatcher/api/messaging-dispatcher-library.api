@@ -18,7 +18,7 @@ public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Disp
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler$Companion;
-	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Ljava/lang/Object;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler$Companion {
@@ -27,7 +27,7 @@ public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Disp
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler$Companion;
-	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/router/Route;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler$Companion {

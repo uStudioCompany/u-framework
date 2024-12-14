@@ -3,13 +3,13 @@ public final class io/github/ustudiocompany/uframework/jdbc/ConnectionKt {
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
-	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/result/Result;
-	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/RetryKt {
 	public static final fun isRecoverableError (Ljava/lang/Object;)Z
-	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -102,17 +102,17 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/row/Row$ColumnValueExtractor {
 	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	protected final fun checkIndex (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/result/Result;
-	protected final fun checkType (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/result/Result;
-	protected final fun checkType (Ljava/sql/ResultSetMetaData;ILjava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/result/Result;
-	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/result/Result;
+	protected final fun checkIndex (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun checkType (Ljava/sql/ResultSetMetaData;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun checkType (Ljava/sql/ResultSetMetaData;ILjava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun extract-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun extract-qwlIGiI (Ljava/sql/ResultSet;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	protected final fun getColumnIndexOrNull (Ljava/sql/ResultSet;Ljava/lang/String;)Ljava/lang/Integer;
 	protected final fun getExpectedTypes-TydRhnI ()Ljava/util/List;
-	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;I)Lio/github/airflux/commons/types/result/Result;
-	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun obtainValue (Lorg/postgresql/util/PGobject;Ljava/lang/String;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 	protected final fun resultSet-muLzamk (Ljava/sql/ResultSet;)Ljava/sql/ResultSet;
 }
 
@@ -137,38 +137,38 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/Rows : java/lang
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BooleanColumnExtractorKt {
-	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getBoolean-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntColumnExtractorKt {
-	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getInt-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonbColumnExtractorKt {
-	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getJsonb-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongColumnExtractorKt {
-	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getLong-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringColumnExtractorKt {
-	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getString-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampColumnExtractorKt {
-	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getTimestamp-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDColumnExtractorKt {
-	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/result/Result;
-	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getUUID-f7LE4Jo (Ljava/sql/ResultSet;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {
@@ -215,8 +215,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql$
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQuery {
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
-	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQueryKt {
@@ -226,8 +226,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/RowMappingQueryK
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery {
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
-	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQueryKt {
@@ -237,20 +237,20 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/RowsMappingQuery
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlInsert {
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)V
-	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlQuery {
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)V
-	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/SqlUpdate {
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)V
-	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public final fun execute (Ljava/sql/Connection;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute (Ljava/sql/Connection;[Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/param/BooleanSqlParamKt {
@@ -300,8 +300,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/param/UUIDSqlPar
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement {
 	public abstract fun clearParameters ()V
-	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getOriginalSql ()Ljava/lang/String;
 }
 
@@ -311,8 +311,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedIn
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedQueryStatement {
 	public abstract fun clearParameters ()V
-	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getOriginalSql ()Ljava/lang/String;
 }
 
@@ -322,8 +322,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedQu
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatement {
 	public abstract fun clearParameters ()V
-	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/result/Result;
-	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getOriginalSql ()Ljava/lang/String;
 }
 

@@ -18,7 +18,7 @@ dependencies {
     implementation(project(":messaging-core-types-library"))
 
     /* Test */
-    testImplementation(libs.airflux.commons.types.test) {
+    testImplementation(libs.airflux.commons.types.kotest.matchers) {
         isChanging = true
     }
     testImplementation(project(":testing-library"))

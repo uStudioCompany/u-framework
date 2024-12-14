@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.saga.core.request
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.map
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
@@ -42,10 +42,10 @@ public sealed class RequestPrototype(
         private val serializer: RequestBodySerializer<BODY>
     ) : RequestPrototype(channel, name, version) {
 
-        public fun createInstance(body: BODY): Result<Request, Failure> =
+        public fun createInstance(body: BODY): ResultK<Request, Failure> =
             createInstance(metadata = MetaData.Empty, body = body)
 
-        public fun createInstance(metadata: MetaData, body: BODY): Result<Request, Failure> =
+        public fun createInstance(metadata: MetaData, body: BODY): ResultK<Request, Failure> =
             serializer(body)
                 .map { serializedBody ->
                     Request(
@@ -64,13 +64,13 @@ public sealed class RequestPrototype(
         version: String,
     ) : RequestPrototype(channel, name, version) {
 
-        public fun createInstance(metadata: MetaData = MetaData.Empty): Result<Request, Failure> =
+        public fun createInstance(metadata: MetaData = MetaData.Empty): ResultK<Request, Failure> =
             Request(
                 channel = channel,
                 name = name,
                 version = version,
                 metadata = metadata,
                 body = null
-            ).success()
+            ).asSuccess()
     }
 }

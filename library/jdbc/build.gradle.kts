@@ -22,7 +22,7 @@ dependencies {
     /* Tests */
     testImplementation(project(":jdbc-test-library"))
     testImplementation(libs.bundles.logging)
-    testImplementation(libs.airflux.commons.types.test) {
+    testImplementation(libs.airflux.commons.types.kotest.matchers) {
         isChanging = true
     }
     testImplementation(project(":testing-library"))

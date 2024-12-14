@@ -1,16 +1,18 @@
 package io.github.ustudiocompany.uframework.retry
 
-import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.resultk.Failure
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
 
 public inline fun <T, F> retry(
     scope: RetryScope,
     predicate: (F) -> Boolean,
-    block: () -> Result<T, F>
-): Result<T, F> {
+    block: () -> ResultK<T, F>
+): ResultK<T, F> {
     while (true) {
         when (val result = block()) {
-            is Result.Success -> return result
-            is Result.Failure -> if (scope.next() && predicate(result.cause))
+            is Success -> return result
+            is Failure -> if (scope.next() && predicate(result.cause))
                 Thread.sleep(scope.delay.toMillis())
             else
                 return result

@@ -4,6 +4,7 @@ import Configuration.Publishing.mavenSonatypeRepository
 plugins {
     id("kotlin-common-conventions")
     id("java-conventions")
+    id("docs-convention")
 
     id("publishing-conventions")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")

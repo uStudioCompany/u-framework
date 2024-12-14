@@ -1,9 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.getValue
-import io.github.airflux.commons.types.result.shouldBeFailure
-import io.github.airflux.commons.types.result.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestRegistered
@@ -14,6 +13,7 @@ import io.github.ustudiocompany.uframework.eventsourcing.store.snapshot.Snapshot
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.test.kotest.TestTags
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -28,7 +28,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
 
             "when snapshot is missing" - {
                 val snapshotStore: SnapshotStore<TestAggregate, TestEntityId> = mock {
-                    on { loadSnapshot(any<TestEntityId>()) } doReturn Result.asNull
+                    on { loadSnapshot(any<TestEntityId>()) } doReturn Success.asNull
                 }
 
                 "when events is missing" - {
@@ -39,8 +39,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                         val result = repository.loadAggregate(entityId, 2)
-                        val aggregate = result.shouldBeSuccess().value
-                        aggregate shouldBe null
+                        result.shouldBeSuccess()
+                        result.value.shouldBeNull()
                     }
                 }
 
@@ -67,7 +67,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                         val result = repository.loadAggregate(entityId, 2)
-                        val aggregate = result.shouldBeSuccess().value
+                        result.shouldBeSuccess()
+                        val aggregate = result.value
                         aggregate.shouldNotBeNull()
                         aggregate.id shouldBe entityId
                         aggregate.entity.id shouldBe entityId
@@ -122,7 +123,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                             val result = repository.loadAggregate(entityId, 2)
-                            val aggregate = result.shouldBeSuccess().value
+                            result.shouldBeSuccess()
+                            val aggregate = result.value
                             aggregate.shouldNotBeNull()
                             aggregate.id shouldBe entityId
                             aggregate.entity.id shouldBe entityId
@@ -175,8 +177,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                             val result = repository.loadAggregate(entityId, 2)
-                            result.shouldBeFailure().cause
-                                .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                            result.shouldBeFailure()
+                            result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
                     }
 
@@ -212,8 +214,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                             val result = repository.loadAggregate(entityId, 2)
-                            result.shouldBeFailure().cause
-                                .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                            result.shouldBeFailure()
+                            result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
                     }
                 }
@@ -251,8 +253,8 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
                         val result = repository.loadAggregate(entityId, 2)
-                        result.shouldBeFailure().cause
-                            .shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
+                        result.shouldBeFailure()
+                        result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                     }
                 }
             }
@@ -266,9 +268,9 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
         private const val SECOND_UPDATE_MESSAGE_ID = "a8a73b5d-5951-4eb3-bcc3-d5d61f23d60e"
 
         private val entityId = TestEntityId(ENTITY_ID)
-        private val registerMessageId = MessageId.of(REGISTER_MESSAGE_ID).getValue()
-        private val firstUpdateMessageId = MessageId.of(FIRST_UPDATE_MESSAGE_ID).getValue()
-        private val secondUpdateMessageId = MessageId.of(SECOND_UPDATE_MESSAGE_ID).getValue()
+        private val registerMessageId = (MessageId.of(REGISTER_MESSAGE_ID) as Success).value
+        private val firstUpdateMessageId = (MessageId.of(FIRST_UPDATE_MESSAGE_ID) as Success).value
+        private val secondUpdateMessageId = (MessageId.of(SECOND_UPDATE_MESSAGE_ID) as Success).value
 
         private const val INITIAL_TITLE = "title-1"
         private const val UPDATED_TITLE = "title-2"

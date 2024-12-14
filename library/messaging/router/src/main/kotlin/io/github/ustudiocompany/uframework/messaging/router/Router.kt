@@ -1,11 +1,11 @@
 package io.github.ustudiocompany.uframework.messaging.router
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.getOrForward
-import io.github.airflux.commons.types.result.mapFailure
-import io.github.airflux.commons.types.result.orThrow
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.getOrForward
+import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
@@ -25,42 +25,42 @@ public fun <BODY, HANDLER> router(
 public class Router<BODY, HANDLER> internal constructor(private val items: Map<RouteSelector, Route<HANDLER>>) {
 
     context(Logging, DiagnosticContext)
-    public fun match(message: IncomingMessage<BODY>): Result<Route<HANDLER>, RouterErrors> {
+    public fun match(message: IncomingMessage<BODY>): ResultK<Route<HANDLER>, RouterErrors> {
         logger.debug { "A message routing..." }
         val selector = selector(message).getOrForward { return it }
         return findRoute(selector)
     }
 
     context(Logging, DiagnosticContext)
-    private fun selector(message: IncomingMessage<BODY>): Result<RouteSelector, RouterErrors> {
+    private fun selector(message: IncomingMessage<BODY>): ResultK<RouteSelector, RouterErrors> {
         logger.debug { "Extracting selector from headers of a message..." }
         val name = message.name().getOrForward { return it }
         val version = message.version().getOrForward { return it }
-        return RouteSelector(name, version).success()
+        return RouteSelector(name, version).asSuccess()
     }
 
     context(Logging, DiagnosticContext)
-    private fun IncomingMessage<BODY>.name(): Result<MessageName, RouterErrors> {
+    private fun IncomingMessage<BODY>.name(): ResultK<MessageName, RouterErrors> {
         val header = getHeader(MESSAGE_NAME_HEADER_NAME)
-            ?: return RouterErrors.MessageNameHeader.Missing.failure()
+            ?: return RouterErrors.MessageNameHeader.Missing.asFailure()
         return MessageName.of(header.valueAsString())
             .mapFailure { failure -> RouterErrors.MessageNameHeader.InvalidValue(failure) }
     }
 
     context(Logging, DiagnosticContext)
-    private fun IncomingMessage<BODY>.version(): Result<MessageVersion, RouterErrors> {
+    private fun IncomingMessage<BODY>.version(): ResultK<MessageVersion, RouterErrors> {
         val header = getHeader(MESSAGE_VERSION_HEADER_NAME)
-            ?: return RouterErrors.MessageVersionHeader.Missing.failure()
+            ?: return RouterErrors.MessageVersionHeader.Missing.asFailure()
         return MessageVersion.of(header.valueAsString())
             .mapFailure { failure -> RouterErrors.MessageVersionHeader.InvalidValue(failure) }
     }
 
     context(Logging, DiagnosticContext)
-    private fun findRoute(selector: RouteSelector): Result<Route<HANDLER>, RouterErrors> {
+    private fun findRoute(selector: RouteSelector): ResultK<Route<HANDLER>, RouterErrors> {
         logger.debug { "Finding a message handler by selector ($selector)..." }
         return items[selector]
-            ?.success()
-            ?: RouterErrors.RouteNotFound(selector).failure()
+            ?.asSuccess()
+            ?: RouterErrors.RouteNotFound(selector).asFailure()
     }
 
     context(Logging, DiagnosticContext)

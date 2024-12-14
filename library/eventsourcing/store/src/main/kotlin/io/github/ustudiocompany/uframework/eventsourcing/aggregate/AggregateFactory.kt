@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.eventsourcing.aggregate
 
-import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.eventsourcing.entity.EntityId
 import io.github.ustudiocompany.uframework.eventsourcing.event.Event
 import io.github.ustudiocompany.uframework.failure.Failure
@@ -10,5 +10,5 @@ public fun interface AggregateFactory<AGGREGATE, ID, EVENT>
           ID : EntityId,
           EVENT : Event<ID> {
 
-    public fun apply(aggregate: AGGREGATE?, event: EVENT): Result<AGGREGATE, Failure>
+    public fun apply(aggregate: AGGREGATE?, event: EVENT): ResultK<AGGREGATE, Failure>
 }

@@ -1,18 +1,18 @@
 public final class io/github/ustudiocompany/uframework/saga/engine/SagaInstance {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/Saga;Lio/github/ustudiocompany/uframework/saga/engine/publisher/CommandPublisher;)V
-	public final fun continueExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage;)Lio/github/airflux/commons/types/result/Result;
+	public final fun continueExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun getLabel--Ek4fEY ()Ljava/lang/String;
-	public final fun resumeExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/result/Result;
-	public final fun startExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;)Lio/github/airflux/commons/types/result/Result;
-	public final fun stopExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/result/Result;
+	public final fun resumeExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun startExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun stopExecution (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/SagaManager {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/engine/SagaResolver;Lio/github/ustudiocompany/uframework/saga/engine/repository/SagaRepository;Lio/github/ustudiocompany/uframework/saga/engine/publisher/CommandPublisher;)V
-	public final fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage;)Lio/github/airflux/commons/types/result/Result;
-	public final fun resume-EV41pes (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	public final fun start (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;)Lio/github/airflux/commons/types/result/Result;
-	public final fun stop-EV41pes (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public final fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun resume-EV41pes (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun start (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun stop-EV41pes (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/SagaResolver {
@@ -237,13 +237,13 @@ public final class io/github/ustudiocompany/uframework/saga/engine/publisher/Com
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/engine/publisher/CommandPublisher {
-	public abstract fun publish (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/publisher/Command;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun publish (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/saga/engine/publisher/Command;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/engine/repository/SagaRepository {
-	public abstract fun exists-QFXXaXk (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun load-QFXXaXk (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun save (Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun exists-QFXXaXk (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun load-QFXXaXk (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun save (Lio/github/ustudiocompany/uframework/saga/engine/state/SagaExecutionStateRecord;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/engine/state/HistoricalStep {

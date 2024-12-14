@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.messaging.publisher
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
@@ -27,7 +27,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
     ) : MessagePublisher<T>(sender) {
 
         context(Logging, DiagnosticContext)
-        public fun publish(message: OutgoingMessage<T>): Result<SentMessageMetadata, Errors> =
+        public fun publish(message: OutgoingMessage<T>): ResultK<SentMessageMetadata, Errors> =
             tryPublish(channelName, message)
     }
 
@@ -37,7 +37,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         public fun publish(
             channelName: ChannelName,
             message: OutgoingMessage<T>
-        ): Result<SentMessageMetadata, Errors> = tryPublish(channelName, message)
+        ): ResultK<SentMessageMetadata, Errors> = tryPublish(channelName, message)
     }
 
     public sealed class Errors : Failure {
@@ -55,7 +55,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
     protected fun tryPublish(
         channelName: ChannelName,
         message: OutgoingMessage<T>
-    ): Result<SentMessageMetadata, Errors> {
+    ): ResultK<SentMessageMetadata, Errors> {
         withDiagnosticContext(
             CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY to channelName.get,
             MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY to message.routingKey.get

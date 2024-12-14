@@ -1,5 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.entries
+
 internal fun columnTypes(vararg types: MultiColumnTable) = types.toList()
 
 internal enum class MultiColumnTable(val columnIndex: Int, val columnName: String, val dataType: String) {

@@ -1,12 +1,13 @@
 package io.github.ustudiocompany.uframework.saga.engine
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.ResultWith
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.fold
-import io.github.airflux.commons.types.result.map
-import io.github.airflux.commons.types.result.mapFailure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.fold
+import io.github.airflux.commons.types.resultk.map
+import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.saga.core.Saga
 import io.github.ustudiocompany.uframework.saga.core.SagaLabel
 import io.github.ustudiocompany.uframework.saga.core.message.CommandMessage
@@ -35,7 +36,7 @@ public class SagaInstance<DATA>(
         get() = saga.definition.label
 
     context(Logging, DiagnosticContext)
-    public fun startExecution(command: CommandMessage): Result<SagaExecutionStateRecord, SagaErrors> = ResultWith {
+    public fun startExecution(command: CommandMessage): ResultK<SagaExecutionStateRecord, SagaErrors> = resultWith {
         val (data) = initializeData(command)
 
         val state = SagaExecutionState.Initialization(
@@ -59,7 +60,7 @@ public class SagaInstance<DATA>(
     public fun continueExecution(
         record: SagaExecutionStateRecord,
         reply: ReplyMessage
-    ): Result<SagaExecutionStateRecord?, SagaErrors> = ResultWith {
+    ): ResultK<SagaExecutionStateRecord?, SagaErrors> = resultWith {
         val (data) = record.serializedData.deserialize()
 
         val state = SagaExecutionState.Continuation(
@@ -72,7 +73,7 @@ public class SagaInstance<DATA>(
             data = data
         )
 
-        val result = saga.execute(state, reply).bind() ?: return@ResultWith Result.asNull
+        val result = saga.execute(state, reply).bind() ?: return@resultWith Success.asNull
 
         if (result.command != null) publish(command = result.command)
 
@@ -85,20 +86,20 @@ public class SagaInstance<DATA>(
     context(Logging, DiagnosticContext)
     public fun stopExecution(
         record: SagaExecutionStateRecord
-    ): Result<SagaExecutionStateRecord?, SagaErrors> = ResultWith {
+    ): ResultK<SagaExecutionStateRecord?, SagaErrors> = resultWith {
         val (data) = record.serializedData.deserialize()
 
         //Calling lifecycle effect: onCompletedSuccessfully, onCompletedRollback
         val hook = LifecycleHooks.OnStopped(correlationId = record.correlationId, data = data)
         hook.run()
 
-        record.copy(status = SagaExecutionState.Status.STOP).success()
+        record.copy(status = SagaExecutionState.Status.STOP).asSuccess()
     }
 
     context(Logging, DiagnosticContext)
     public fun resumeExecution(
         record: SagaExecutionStateRecord
-    ): Result<SagaExecutionStateRecord?, SagaErrors> = ResultWith {
+    ): ResultK<SagaExecutionStateRecord?, SagaErrors> = resultWith {
         val (data) = record.serializedData.deserialize()
 
         val state = SagaExecutionState.Resume(
@@ -121,23 +122,23 @@ public class SagaInstance<DATA>(
         result.toSagaExecutionStateRecord()
     }
 
-    private fun SerializedData.deserialize(): Result<DATA, SagaExecutorErrors.DataDeserialization> =
+    private fun SerializedData.deserialize(): ResultK<DATA, SagaExecutorErrors.DataDeserialization> =
         saga.definition.serializer.deserialize(this.get)
             .mapFailure { SagaExecutorErrors.DataDeserialization(it) }
 
-    private fun DATA.serialize(): Result<SerializedData, SagaExecutorErrors.DataSerialization> =
+    private fun DATA.serialize(): ResultK<SerializedData, SagaExecutorErrors.DataSerialization> =
         saga.definition.serializer.serialize(this)
             .fold(
-                onSuccess = { SerializedData(it).success() },
-                onFailure = { SagaExecutorErrors.DataSerialization(it).failure() }
+                onSuccess = { SerializedData(it).asSuccess() },
+                onFailure = { SagaExecutorErrors.DataSerialization(it).asFailure() }
             )
 
-    private fun initializeData(command: CommandMessage): Result<DATA, SagaExecutorErrors.DataInitialize> =
+    private fun initializeData(command: CommandMessage): ResultK<DATA, SagaExecutorErrors.DataInitialize> =
         saga.dataInitializer(command)
             .mapFailure { SagaExecutorErrors.DataInitialize(it) }
 
     context(Logging, DiagnosticContext)
-    private fun publish(command: Command): Result<Unit, SagaPublisherErrors.CommandPublishing> =
+    private fun publish(command: Command): ResultK<Unit, SagaPublisherErrors.CommandPublishing> =
         publisher.publish(command).mapFailure { SagaPublisherErrors.CommandPublishing(it) }
 
     private fun LifecycleHooks<DATA>.run() {

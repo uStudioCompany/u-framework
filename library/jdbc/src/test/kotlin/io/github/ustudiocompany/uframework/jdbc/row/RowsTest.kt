@@ -1,14 +1,14 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.result.getOrForward
-import io.github.airflux.commons.types.result.shouldBeSuccess
-import io.github.airflux.commons.types.result.success
-import io.github.airflux.commons.types.result.traverse
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.getOrForward
+import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
-import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
 internal class RowsTest : IntegrationTest() {
@@ -26,8 +26,8 @@ internal class RowsTest : IntegrationTest() {
                 "then the result should be empty" {
                     val result = executeQuery()
 
-                    val success = result.shouldBeSuccess()
-                    success.value.isEmpty() shouldBe true
+                    result.shouldBeSuccess()
+                    result.value.shouldBeEmpty()
                 }
             }
 
@@ -45,9 +45,8 @@ internal class RowsTest : IntegrationTest() {
                 "then the result should contain all data from the database" {
                     val result = executeQuery()
 
-                    val success = result.shouldBeSuccess()
-                    success.value.isEmpty() shouldBe false
-                    success.value shouldContainExactly listOf(
+                    result.shouldBeSuccess()
+                    result.value shouldContainExactly listOf(
                         FIRST_ROW_ID to FIRST_ROW_TITLE,
                         SECOND_ROW_ID to SECOND_ROW_TITLE,
                     )
@@ -66,7 +65,7 @@ internal class RowsTest : IntegrationTest() {
                     .traverse { row ->
                         val id = row.getString("id").getOrForward { return@traverse it }
                         val title = row.getString("title").getOrForward { return@traverse it }
-                        Pair(id, title).success()
+                        Pair(id, title).asSuccess()
                     }
             }
 

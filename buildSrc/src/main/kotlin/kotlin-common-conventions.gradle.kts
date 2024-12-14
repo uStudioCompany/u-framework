@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,12 +9,16 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
 }
 
+dependencies {
+    testImplementation("io.kotest.extensions:kotest-extensions-pitest:1.2.0")
+}
+
 tasks {
 
     withType<KotlinCompile>()
         .configureEach {
-            kotlinOptions {
-                jvmTarget = Configuration.JVM.target
+            compilerOptions {
+                jvmTarget.set(JvmTarget.fromTarget(Configuration.JVM.target))
                 suppressWarnings = false
                 freeCompilerArgs = listOf(
                     "-Xjsr305=strict",

@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.header.type
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
@@ -39,11 +39,11 @@ public class MessageName private constructor(public val name: String) : Comparab
 
     public companion object {
 
-        public fun of(value: String): Result<MessageName, Errors> =
+        public fun of(value: String): ResultK<MessageName, Errors> =
             if (value.matches(regex))
-                MessageName(value.lowercase()).success()
+                MessageName(value.lowercase()).asSuccess()
             else
-                Errors.InvalidFormat(value = value).failure()
+                Errors.InvalidFormat(value = value).asFailure()
 
         private const val PATTERN: String = """^[a-zA-Z]([a-zA-Z0-9\-])*$"""
         private val regex = PATTERN.toRegex()

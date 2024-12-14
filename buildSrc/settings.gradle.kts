@@ -1,1 +1,9 @@
-rootProject.name="u-framework-conventions"
+rootProject.name = "u-framework-conventions"
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}

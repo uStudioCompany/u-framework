@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.core.step.action
 
-import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.saga.core.MetaData
 import io.github.ustudiocompany.uframework.saga.core.request.RequestBuilder
@@ -20,7 +20,7 @@ public class InvokeParticipantAction<DATA> private constructor(
 
         public fun <BODY> onReply(
             deserializer: ResponseBodyDeserializer<BODY>,
-            handler: (data: DATA, metadata: MetaData, body: BODY) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData, body: BODY) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (successfulReplyHandler != null) error("Re-definition of a successful reply handler.")
             successfulReplyHandler = SuccessfulReplyHandler(deserializer, handler)
@@ -28,7 +28,7 @@ public class InvokeParticipantAction<DATA> private constructor(
         }
 
         public fun onReply(
-            handler: (data: DATA, metadata: MetaData) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (successfulReplyHandler != null) error("Re-definition of a successful reply handler.")
             successfulReplyHandler = SuccessfulReplyHandler(handler)
@@ -37,7 +37,7 @@ public class InvokeParticipantAction<DATA> private constructor(
 
         public fun <BODY> onError(
             deserializer: ResponseBodyDeserializer<BODY>,
-            handler: (data: DATA, metadata: MetaData, body: BODY) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData, body: BODY) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (errorReplyHandler != null) error("Re-definition of an error reply handler.")
             errorReplyHandler = ErrorReplyHandler(deserializer, handler)
@@ -45,7 +45,7 @@ public class InvokeParticipantAction<DATA> private constructor(
         }
 
         public fun onError(
-            handler: (data: DATA, metadata: MetaData) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (errorReplyHandler != null) error("Re-definition of an error reply handler.")
             errorReplyHandler = ErrorReplyHandler(handler)

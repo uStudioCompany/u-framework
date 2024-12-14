@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.utils
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeOf
@@ -13,10 +13,10 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>) wher
 
     public fun orNull(value: String): T? = info.values.find { value.equals(it.key, ignoreCase = true) }
 
-    public fun of(value: String): Result<T, Errors.UnexpectedValue<T>> =
+    public fun of(value: String): ResultK<T, Errors.UnexpectedValue<T>> =
         orNull(value)
-            ?.success()
-            ?: Errors.UnexpectedValue(type = info.type, value = value, expected = info.values).failure()
+            ?.asSuccess()
+            ?: Errors.UnexpectedValue(type = info.type, value = value, expected = info.values).asFailure()
 
     public interface Key {
         public val key: String

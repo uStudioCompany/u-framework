@@ -26,8 +26,8 @@ public abstract interface class io/github/ustudiocompany/uframework/saga/core/Sa
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/core/SagaDataSerializer {
-	public abstract fun deserialize (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun serialize (Ljava/lang/Object;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun deserialize (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun serialize (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/SagaDefinition {
@@ -137,13 +137,13 @@ public abstract class io/github/ustudiocompany/uframework/saga/core/request/Requ
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/request/RequestPrototype$WithBody : io/github/ustudiocompany/uframework/saga/core/request/RequestPrototype {
-	public final fun createInstance (Lio/github/ustudiocompany/uframework/saga/core/MetaData;Ljava/lang/Object;)Lio/github/airflux/commons/types/result/Result;
-	public final fun createInstance (Ljava/lang/Object;)Lio/github/airflux/commons/types/result/Result;
+	public final fun createInstance (Lio/github/ustudiocompany/uframework/saga/core/MetaData;Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun createInstance (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/request/RequestPrototype$WithoutBody : io/github/ustudiocompany/uframework/saga/core/request/RequestPrototype {
-	public final fun createInstance (Lio/github/ustudiocompany/uframework/saga/core/MetaData;)Lio/github/airflux/commons/types/result/Result;
-	public static synthetic fun createInstance$default (Lio/github/ustudiocompany/uframework/saga/core/request/RequestPrototype$WithoutBody;Lio/github/ustudiocompany/uframework/saga/core/MetaData;ILjava/lang/Object;)Lio/github/airflux/commons/types/result/Result;
+	public final fun createInstance (Lio/github/ustudiocompany/uframework/saga/core/MetaData;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun createInstance$default (Lio/github/ustudiocompany/uframework/saga/core/request/RequestPrototype$WithoutBody;Lio/github/ustudiocompany/uframework/saga/core/MetaData;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/request/RequestPrototypeKt {
@@ -180,7 +180,7 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/SagaStepLa
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/SagaStepLabel$Companion {
-	public final fun of (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/saga/core/step/SagaStepLabel$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
@@ -223,7 +223,7 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/Inv
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ErrorReplyHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ErrorReplyHandler$Companion;
-	public abstract fun handle (Ljava/lang/Object;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage$Error;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun handle (Ljava/lang/Object;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage$Error;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ErrorReplyHandler$Companion {
@@ -257,7 +257,7 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/han
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/core/step/action/handler/SuccessfulReplyHandler {
 	public static final field Companion Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/SuccessfulReplyHandler$Companion;
-	public abstract fun handle (Ljava/lang/Object;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage$Success;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun handle (Ljava/lang/Object;Lio/github/ustudiocompany/uframework/saga/core/message/ReplyMessage$Success;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/SuccessfulReplyHandler$Companion {

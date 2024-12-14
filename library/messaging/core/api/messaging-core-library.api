@@ -36,7 +36,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/Channel
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Companion {
-	public final fun of (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public final fun of (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
@@ -145,7 +145,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public static final fun invoke (Ljava/util/List;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public static final fun invoke ([Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public fun iterator ()Ljava/util/Iterator;
-	public final fun last (Ljava/lang/String;)Lio/github/airflux/commons/types/result/Result;
+	public final fun last (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun lastOrNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Header;
 	public final fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 }

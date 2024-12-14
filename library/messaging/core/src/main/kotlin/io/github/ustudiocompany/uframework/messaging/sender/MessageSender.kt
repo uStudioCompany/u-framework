@@ -1,16 +1,16 @@
 package io.github.ustudiocompany.uframework.messaging.sender
 
-import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 
-public interface MessageSender<T> {
+public fun interface MessageSender<T> {
 
     context(Logging, DiagnosticContext)
-    public suspend fun send(channelName: ChannelName, message: OutgoingMessage<T>): Result<SentMessageMetadata, Errors>
+    public suspend fun send(channelName: ChannelName, message: OutgoingMessage<T>): ResultK<SentMessageMetadata, Errors>
 
     public sealed class Errors : Failure {
         override val domain: String = "MESSAGE-SENDER"

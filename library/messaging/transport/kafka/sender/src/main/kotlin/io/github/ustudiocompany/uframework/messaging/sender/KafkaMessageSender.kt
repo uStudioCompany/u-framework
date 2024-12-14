@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.sender
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
@@ -42,7 +42,7 @@ public class KafkaMessageSender<T : Any>(property: Properties<T>) : MessageSende
     override suspend fun send(
         channelName: ChannelName,
         message: OutgoingMessage<T>
-    ): Result<SentMessageMetadata, MessageSender.Errors.Send> =
+    ): ResultK<SentMessageMetadata, MessageSender.Errors.Send> =
         suspendCoroutine { cont ->
             withDiagnosticContext(
                 SENDER_MESSAGE_CHANNEL_NAME to channelName,
@@ -54,13 +54,13 @@ public class KafkaMessageSender<T : Any>(property: Properties<T>) : MessageSende
                 val record = ProducerRecord(channelName.get, null, message.routingKey.get, message.body, recordHeaders)
                 producer.send(record) { metadata, exception ->
                     val result = if (exception == null)
-                        KafkaSentMessageMetadata(metadata).success()
+                        KafkaSentMessageMetadata(metadata).asSuccess()
                     else
                         MessageSender.Errors.Send(
                             channel = channelName,
                             key = message.routingKey,
                             exception = exception
-                        ).failure()
+                        ).asFailure()
 
                     cont.resume(result)
                 }

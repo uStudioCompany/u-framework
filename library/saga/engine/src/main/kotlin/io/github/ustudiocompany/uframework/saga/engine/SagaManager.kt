@@ -1,10 +1,11 @@
 package io.github.ustudiocompany.uframework.saga.engine
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.ResultWith
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.mapFailure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.saga.core.message.CommandMessage
 import io.github.ustudiocompany.uframework.saga.core.message.ReplyMessage
@@ -24,69 +25,69 @@ public class SagaManager(
 ) {
 
     context(Logging, DiagnosticContext)
-    public tailrec fun start(command: CommandMessage): Result<Unit, SagaErrors> = ResultWith {
+    public tailrec fun start(command: CommandMessage): ResultK<Unit, SagaErrors> = resultWith {
         val (isExist) = exists(command.correlationId)
-        if (isExist) return@ResultWith Result.asUnit
+        if (isExist) return@resultWith Success.asUnit
         val (saga) = command.getSaga()
         val sagaInstance = SagaInstance(saga, publisher)
         val (state) = sagaInstance.startExecution(command = command)
         val (isSaved) = save(state)
-        return if (isSaved) Result.asUnit else start(command)
+        return if (isSaved) Success.asUnit else start(command)
     }
 
     context(Logging, DiagnosticContext)
-    public fun handle(reply: ReplyMessage): Result<Unit, SagaErrors> = ResultWith {
+    public fun handle(reply: ReplyMessage): ResultK<Unit, SagaErrors> = resultWith {
         val (state) = load(reply.correlationId)
         val (saga) = state.getSaga()
         val sagaInstance = SagaInstance(saga, publisher)
-        val newState = sagaInstance.continueExecution(record = state, reply = reply).bind() ?: return Result.asUnit
+        val newState = sagaInstance.continueExecution(record = state, reply = reply).bind() ?: return Success.asUnit
         val (isSaved) = save(newState)
-        return if (isSaved) Result.asUnit else handle(reply)
+        return if (isSaved) Success.asUnit else handle(reply)
     }
 
     context(Logging, DiagnosticContext)
-    public tailrec fun stop(correlationId: CorrelationId): Result<Unit, SagaErrors> = ResultWith {
+    public tailrec fun stop(correlationId: CorrelationId): ResultK<Unit, SagaErrors> = resultWith {
         val (state) = load(correlationId)
         val (saga) = state.getSaga()
         val sagaInstance = SagaInstance(saga, publisher)
-        val newState = sagaInstance.stopExecution(state).bind() ?: return Result.asUnit
+        val newState = sagaInstance.stopExecution(state).bind() ?: return Success.asUnit
         val (isSaved) = save(newState)
-        return if (isSaved) Result.asUnit else stop(correlationId)
+        return if (isSaved) Success.asUnit else stop(correlationId)
     }
 
     context(Logging, DiagnosticContext)
-    public tailrec fun resume(correlationId: CorrelationId): Result<Unit, SagaErrors> = ResultWith {
+    public tailrec fun resume(correlationId: CorrelationId): ResultK<Unit, SagaErrors> = resultWith {
         val (state) = load(correlationId)
         val (saga) = state.getSaga()
         val sagaInstance = SagaInstance(saga, publisher)
-        val newState = sagaInstance.resumeExecution(state).bind() ?: return Result.asUnit
+        val newState = sagaInstance.resumeExecution(state).bind() ?: return Success.asUnit
         val (isSaved) = save(newState)
-        return if (isSaved) Result.asUnit else resume(correlationId)
+        return if (isSaved) Success.asUnit else resume(correlationId)
     }
 
     private fun CommandMessage.getSaga() =
         sagaResolver.resolve(name, version)
-            ?.success()
-            ?: SagaManagerErrors.SagaForCommandNotFound(correlationId, name, version).failure()
+            ?.asSuccess()
+            ?: SagaManagerErrors.SagaForCommandNotFound(correlationId, name, version).asFailure()
 
     private fun SagaExecutionStateRecord.getSaga() =
         sagaResolver.resolve(label)
-            ?.success()
-            ?: SagaManagerErrors.SagaForSagaInstanceNotFound(correlationId, label).failure()
+            ?.asSuccess()
+            ?: SagaManagerErrors.SagaForSagaInstanceNotFound(correlationId, label).asFailure()
 
-    private fun exists(correlationId: CorrelationId): Result<Boolean, SagaStorageErrors.Storage> =
+    private fun exists(correlationId: CorrelationId): ResultK<Boolean, SagaStorageErrors.Storage> =
         repository.exists(correlationId).mapFailure { SagaStorageErrors.Storage(it) }
 
     private fun load(
         correlationId: CorrelationId
-    ): Result<SagaExecutionStateRecord, SagaErrors> = ResultWith {
+    ): ResultK<SagaExecutionStateRecord, SagaErrors> = resultWith {
         val (state) = repository.load(correlationId).mapFailure { SagaStorageErrors.Storage(it) }
-        return state?.success() ?: SagaManagerErrors.SagaInstanceNotfound(correlationId).failure()
+        return state?.asSuccess() ?: SagaManagerErrors.SagaInstanceNotfound(correlationId).asFailure()
     }
 
     /**
      * Return false if a saga-instance is already.
      */
-    private fun save(record: SagaExecutionStateRecord): Result<Boolean, SagaStorageErrors.Storage> =
+    private fun save(record: SagaExecutionStateRecord): ResultK<Boolean, SagaStorageErrors.Storage> =
         repository.save(record).mapFailure { SagaStorageErrors.Storage(it) }
 }

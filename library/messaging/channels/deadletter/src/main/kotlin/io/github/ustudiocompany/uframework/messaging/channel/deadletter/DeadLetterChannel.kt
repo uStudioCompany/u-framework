@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.messaging.channel.deadletter
 
-import io.github.airflux.commons.types.result.onFailure
+import io.github.airflux.commons.types.resultk.onFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.handler.toMessageHandlerException
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName

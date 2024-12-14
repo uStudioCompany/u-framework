@@ -2,8 +2,9 @@
 
 package io.github.ustudiocompany.uframework.messaging.dispatcher
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.getOrForward
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.DeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.sendToDeadLetterChannel
@@ -68,7 +69,7 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
     public fun interface RouteHandler<BODY, HANDLER, RESPONSE> {
 
         context(Logging, DiagnosticContext)
-        public fun handle(route: Route<HANDLER>, message: IncomingMessage<BODY>): Result<RESPONSE, Failure>
+        public fun handle(route: Route<HANDLER>, message: IncomingMessage<BODY>): ResultK<RESPONSE, Failure>
 
         public companion object {
 
@@ -76,7 +77,7 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
             public fun <BODY> messageHandler(): RouteHandler<BODY, MessageHandler<BODY>, Unit> =
                 RouteHandler { route, message ->
                     route.handler.handle(message)
-                    Result.asUnit
+                    Success.asUnit
                 }
         }
     }
@@ -88,13 +89,13 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
             route: Route<HANDLER>,
             message: IncomingMessage<BODY>,
             response: RESPONSE
-        ): Result<Unit, Failure>
+        ): ResultK<Unit, Failure>
 
         public companion object {
 
             context(Logging, DiagnosticContext)
             public fun <BODY, HANDLER, RESPONSE> none(): ResponsePostHandler<BODY, HANDLER, RESPONSE> =
-                ResponsePostHandler { _, _, _ -> Result.asUnit }
+                ResponsePostHandler { _, _, _ -> Success.asUnit }
         }
     }
 

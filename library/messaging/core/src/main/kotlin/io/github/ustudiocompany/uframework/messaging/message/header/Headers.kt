@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.message.header
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 
 public class Headers private constructor(private val items: List<Header>) : Iterable<Header> {
 
@@ -16,10 +16,10 @@ public class Headers private constructor(private val items: List<Header>) : Iter
     public operator fun get(name: String): Iterable<Header> =
         Iterable { FilterByNameIterator(name = name, ignoreCase = true, original = items.iterator()) }
 
-    public fun last(name: String): Result<Header, HeaderErrors> =
+    public fun last(name: String): ResultK<Header, HeaderErrors> =
         lastOrNull(name = name)
-            ?.success()
-            ?: HeaderErrors.Missing(name).failure()
+            ?.asSuccess()
+            ?: HeaderErrors.Missing(name).asFailure()
 
     public fun lastOrNull(name: String): Header? =
         items.findLast { header -> header.equals(name = name, ignoreCase = true) }

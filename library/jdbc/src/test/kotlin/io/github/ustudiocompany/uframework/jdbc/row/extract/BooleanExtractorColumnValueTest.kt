@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
-import io.github.airflux.commons.types.result.shouldBeFailure
-import io.github.airflux.commons.types.result.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BOOLEAN
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
@@ -54,8 +54,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
 
                     container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getBoolean(metadata.columnIndex).shouldBeFailure()
-                        val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                        val result = getBoolean(metadata.columnIndex)
+                        result.shouldBeFailure()
+                        val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                     }
                 }
@@ -66,8 +67,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                 container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getBoolean(INVALID_COLUMN_INDEX).shouldBeFailure()
-                    val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                    val result = getBoolean(INVALID_COLUMN_INDEX)
+                    result.shouldBeFailure()
+                    val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
                 }
             }
@@ -90,7 +92,8 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                         insertData(rowId, metadata.columnName, value)
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
                         executeQuery(selectSql) {
-                            getBoolean(metadata.columnName).shouldBeSuccess(value)
+                            val result = getBoolean(metadata.columnName)
+                            result shouldBeSuccess value
                         }
                     }
                 }
@@ -103,8 +106,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
 
                     container.executeSql(makeInsertEmptyRowSql())
                     executeQuery(makeSelectEmptyRowSql()) {
-                        val failure = getBoolean(metadata.columnName).shouldBeFailure()
-                        val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                        val result = getBoolean(metadata.columnName)
+                        result.shouldBeFailure()
+                        val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
                         cause.label shouldBe ColumnLabel.Name(metadata.columnName)
                     }
                 }
@@ -115,8 +119,9 @@ internal class BooleanExtractorColumnValueTest : AbstractExtractorColumnValueTes
                 container.executeSql(makeInsertEmptyRowSql())
 
                 executeQuery(makeSelectEmptyRowSql()) {
-                    val failure = getBoolean(INVALID_COLUMN_NAME).shouldBeFailure()
-                    val cause = failure.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                    val result = getBoolean(INVALID_COLUMN_NAME)
+                    result.shouldBeFailure()
+                    val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
                     cause.label shouldBe ColumnLabel.Name(INVALID_COLUMN_NAME)
                 }
             }

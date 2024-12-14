@@ -1,14 +1,16 @@
 package io.github.ustudiocompany.uframework.saga.engine.state
 
 import io.github.airflux.commons.collections.list.NonEmptyList
+import io.github.airflux.commons.collections.list.nonEmptyListOf
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
 public value class StepHistory(public val get: NonEmptyList<ProcessedStep>) {
 
-    public constructor(processedStep: ProcessedStep) : this(NonEmptyList(processedStep))
+    public constructor(processedStep: ProcessedStep) : this(nonEmptyListOf(processedStep))
 
-    public operator fun plus(processedStep: ProcessedStep): StepHistory = StepHistory(get + processedStep)
+    public operator fun plus(processedStep: ProcessedStep): StepHistory =
+        StepHistory(NonEmptyList.plus(get, processedStep))
 
     public operator fun contains(messageId: MessageId): Boolean =
         get.any { it.messageId == messageId }

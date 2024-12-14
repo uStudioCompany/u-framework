@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.eventsourcing.common
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
@@ -22,11 +22,11 @@ public value class Revision private constructor(public val get: Long) : Comparab
         public val initial: Revision = Revision(0)
 
         @JvmStatic
-        public fun of(value: Long): Result<Revision, Errors> =
+        public fun of(value: Long): ResultK<Revision, Errors> =
             if (value < 0)
-                Errors.Negative(value = value).failure()
+                Errors.Negative(value = value).asFailure()
             else
-                Revision(value).success()
+                Revision(value).asSuccess()
     }
 
     public sealed class Errors : TypeFailure<Revision> {

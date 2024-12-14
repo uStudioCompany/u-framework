@@ -1,9 +1,9 @@
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepository {
 	public fun <init> (Lio/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore;Lio/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore;Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/AggregateFactory;)V
-	public final fun loadAggregate (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;I)Lio/github/airflux/commons/types/result/Result;
-	public final fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/commons/types/result/Result;
-	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/result/Result;
-	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/commons/types/result/Result;
+	public final fun loadAggregate (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -63,17 +63,17 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/EventSource
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/aggregate/AggregateFactory {
-	public abstract fun apply (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun apply (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/event/EventStore {
-	public abstract fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun loadEvents-eZbUabw (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JI)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun loadEvent-p8PngJE (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;J)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun loadEvents-eZbUabw (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;JI)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun saveEvent (Lio/github/ustudiocompany/uframework/eventsourcing/event/Event;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/eventsourcing/store/snapshot/SnapshotStore {
-	public abstract fun loadSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;)Lio/github/airflux/commons/types/result/Result;
-	public abstract fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/commons/types/result/Result;
+	public abstract fun loadSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/entity/EntityId;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun saveSnapshot (Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/Aggregate;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

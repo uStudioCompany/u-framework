@@ -2,12 +2,13 @@
 
 package io.github.ustudiocompany.uframework.saga.engine.executor
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.ResultWith
-import io.github.airflux.commons.types.result.failure
-import io.github.airflux.commons.types.result.map
-import io.github.airflux.commons.types.result.mapFailure
-import io.github.airflux.commons.types.result.success
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.map
+import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
@@ -36,8 +37,8 @@ import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.
 context(Logging, DiagnosticContext)
 internal fun <DATA> Saga<DATA>.execute(
     state: SagaExecutionState.Initialization<DATA>
-): Result<ExecutionResult<DATA>, SagaExecutorErrors> =
-    ResultWith {
+): ResultK<ExecutionResult<DATA>, SagaExecutorErrors> =
+    resultWith {
         val firstStep = getFirstStep()
 
         //Request
@@ -48,7 +49,7 @@ internal fun <DATA> Saga<DATA>.execute(
         //Generate message-id
         val messageId: MessageId = generateMessageId(state.correlationId, firstStep.label, direction)
 
-        return@ResultWith ExecutionResult(
+        return@resultWith ExecutionResult(
             state = SagaExecutionState.Continuation<DATA>(
                 routingKey = state.routingKey,
                 correlationId = state.correlationId,
@@ -60,7 +61,7 @@ internal fun <DATA> Saga<DATA>.execute(
             ),
             command = request.toCommand(state.routingKey, state.correlationId, messageId),
             hook = LifecycleHooks.OnStarted(state.correlationId, state.data)
-        ).success()
+        ).asSuccess()
     }
 
 /**
@@ -70,17 +71,17 @@ context(Logging, DiagnosticContext)
 internal fun <DATA> Saga<DATA>.execute(
     state: SagaExecutionState.Continuation<DATA>,
     reply: ReplyMessage
-): Result<ExecutionResult<DATA>?, SagaExecutorErrors> =
-    ResultWith {
+): ResultK<ExecutionResult<DATA>?, SagaExecutorErrors> =
+    resultWith {
         val saga = this@execute
         val historicalStep = state.findNotCompletedStep(reply.messageId).bind()
-            ?: return@ResultWith Result.asNull
+            ?: return@resultWith Success.asNull
         val (currentExecutionStep) = getSagaStep(historicalStep)
         val (replyHandlingState) = currentExecutionStep.invokeReplyHandler(state.direction, reply, state.data)
 
         //Find the next step
         val (nextStep) = saga.getNextStep(replyHandlingState.direction, currentExecutionStep)
-        if (nextStep == null) return@ResultWith sagaCompleted(state, replyHandlingState).success()
+        if (nextStep == null) return@resultWith sagaCompleted(state, replyHandlingState).asSuccess()
 
         //Request
         val command = nextStep.makeRequest(replyHandlingState.data).bind()
@@ -90,27 +91,27 @@ internal fun <DATA> Saga<DATA>.execute(
                 request.toCommand(state.routingKey, state.correlationId, messageId)
             }
 
-        return@ResultWith ExecutionResult(
+        return@resultWith ExecutionResult(
             state = state.copy(
                 direction = nextStep.direction,
                 history = state.history + ProcessedStep(nextStep.position, nextStep.label, command.messageId),
                 data = replyHandlingState.data
             ),
             command = command
-        ).success()
+        ).asSuccess()
     }
 
 context(Logging, DiagnosticContext)
 internal fun <DATA> Saga<DATA>.execute(
     state: SagaExecutionState.Resume<DATA>
-): Result<ExecutionResult<DATA>, SagaExecutorErrors> =
-    ResultWith {
+): ResultK<ExecutionResult<DATA>, SagaExecutorErrors> =
+    resultWith {
         val (retryStep) = getRetryStep(state)
 
         val command = retryStep.makeRequest(state.data).bind()
             .toCommand(state.routingKey, state.correlationId, retryStep.messageId)
 
-        return@ResultWith ExecutionResult(
+        return@resultWith ExecutionResult(
             state = SagaExecutionState.Continuation<DATA>(
                 routingKey = state.routingKey,
                 correlationId = state.correlationId,
@@ -122,7 +123,7 @@ internal fun <DATA> Saga<DATA>.execute(
             ),
             command = command,
             hook = LifecycleHooks.OnResumed(state.correlationId, state.data)
-        ).success()
+        ).asSuccess()
     }
 
 private fun <DATA> Saga<DATA>.getFirstStep(): StepToExecution<DATA> =
@@ -141,36 +142,36 @@ private fun <DATA> Saga<DATA>.getFirstStep(): StepToExecution<DATA> =
  */
 private fun <DATA> SagaExecutionState.Continuation<DATA>.findNotCompletedStep(
     messageId: MessageId
-): Result<HistoricalStep.NotCompleted?, SagaExecutorErrors> = ResultWith {
+): ResultK<HistoricalStep.NotCompleted?, SagaExecutorErrors> = resultWith {
     val (historicalStep) = getHistoricalStep(messageId)
-    if (historicalStep.isCompleted()) return@ResultWith Result.asNull
+    if (historicalStep.isCompleted()) return@resultWith Success.asNull
     if (isActive)
-        historicalStep.success()
+        historicalStep.asSuccess()
     else
-        SagaExecutorErrors.SagaIsNotActive.failure()
+        SagaExecutorErrors.SagaIsNotActive.asFailure()
 }
 
 private fun <DATA> SagaExecutionState.Continuation<DATA>.getHistoricalStep(
     messageId: MessageId
-): Result<HistoricalStep, SagaExecutorErrors> =
-    history[messageId]?.success() ?: SagaExecutorErrors.ReplyNotRelevant.failure()
+): ResultK<HistoricalStep, SagaExecutorErrors> =
+    history[messageId]?.asSuccess() ?: SagaExecutorErrors.ReplyNotRelevant.asFailure()
 
 private val SagaExecutionState.Continuation<*>.isActive: Boolean
     get() = this.status == SagaExecutionState.Status.ACTIVE
 
 private fun <DATA> Saga<DATA>.getSagaStep(
     historicalStep: HistoricalStep.NotCompleted
-): Result<CurrentExecutionStep<DATA>, SagaExecutorErrors> =
+): ResultK<CurrentExecutionStep<DATA>, SagaExecutorErrors> =
     definition.steps
         .getOrNull(historicalStep.index)
-        ?.let { sagaStep -> CurrentExecutionStep(position = historicalStep.index, get = sagaStep).success() }
-        ?: SagaExecutorErrors.UnknownStep(historicalStep.index, historicalStep.label).failure()
+        ?.let { sagaStep -> CurrentExecutionStep(position = historicalStep.index, get = sagaStep).asSuccess() }
+        ?: SagaExecutorErrors.UnknownStep(historicalStep.index, historicalStep.label).asFailure()
 
 private fun <DATA> CurrentExecutionStep<DATA>.invokeReplyHandler(
     direction: SagaExecutionState.Direction,
     reply: ReplyMessage,
     data: DATA
-): Result<ReplyHandlingState<DATA>, SagaExecutorErrors> =
+): ResultK<ReplyHandlingState<DATA>, SagaExecutorErrors> =
     when (direction) {
         PROCESSING -> when (reply) {
             is ReplyMessage.Success ->
@@ -190,14 +191,14 @@ private fun <DATA> CurrentExecutionStep<DATA>.invokeReplyHandler(
                     .invoke(reply, data)
                     .map { ReplyHandlingState(COMPENSATION, data = it) }
 
-            is ReplyMessage.Error -> SagaExecutorErrors.CompensationCommandError.failure()
+            is ReplyMessage.Error -> SagaExecutorErrors.CompensationCommandError.asFailure()
         }
     }
 
 private fun <DATA> SuccessfulReplyHandler<DATA>?.invoke(
     reply: ReplyMessage.Success,
     data: DATA
-): Result<DATA, SagaExecutorErrors.Reply> =
+): ResultK<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
         handle(data, reply).mapFailure {
             when (it) {
@@ -211,12 +212,12 @@ private fun <DATA> SuccessfulReplyHandler<DATA>?.invoke(
             }
         }
     else
-        data.success()
+        data.asSuccess()
 
 private fun <DATA> ErrorReplyHandler<DATA>?.invoke(
     reply: ReplyMessage.Error,
     data: DATA
-): Result<DATA, SagaExecutorErrors.Reply> =
+): ResultK<DATA, SagaExecutorErrors.Reply> =
     if (this != null)
         handle(data, reply).mapFailure {
             when (it) {
@@ -231,12 +232,12 @@ private fun <DATA> ErrorReplyHandler<DATA>?.invoke(
             }
         }
     else
-        data.success()
+        data.asSuccess()
 
 private fun <DATA> Saga<DATA>.getNextStep(
     direction: SagaExecutionState.Direction,
     currentExecutionStep: CurrentExecutionStep<DATA>
-): Result<StepToExecution<DATA>?, SagaExecutorErrors> {
+): ResultK<StepToExecution<DATA>?, SagaExecutorErrors> {
     val shift = if (direction == PROCESSING) 1 else -1
     var position = currentExecutionStep.position + shift
     val steps = definition.steps
@@ -249,7 +250,7 @@ private fun <DATA> Saga<DATA>.getNextStep(
                     label = step.label,
                     direction = direction,
                     requestBuilder = step.participant.requestBuilder
-                ).success()
+                ).asSuccess()
 
             COMPENSATION -> {
                 val compensation = step.compensation
@@ -259,12 +260,12 @@ private fun <DATA> Saga<DATA>.getNextStep(
                         label = step.label,
                         direction = direction,
                         requestBuilder = compensation.requestBuilder
-                    ).success()
+                    ).asSuccess()
             }
         }
         position += shift
     }
-    return Result.asNull
+    return Success.asNull
 }
 
 private fun <DATA> sagaCompleted(
@@ -293,7 +294,7 @@ private fun <DATA> sagaCompleted(
 
 private fun <DATA> Saga<DATA>.getRetryStep(
     state: SagaExecutionState.Resume<DATA>
-): Result<StepToRetryExecution<DATA>, SagaExecutorErrors> = ResultWith {
+): ResultK<StepToRetryExecution<DATA>, SagaExecutorErrors> = resultWith {
     val lastHistoricalStep = state.history.last()
     val (currentExecutionStep) = getSagaStep(lastHistoricalStep)
     StepToRetryExecution(
@@ -302,7 +303,7 @@ private fun <DATA> Saga<DATA>.getRetryStep(
         direction = state.direction,
         requestBuilder = currentExecutionStep.get.participant.requestBuilder,
         messageId = lastHistoricalStep.messageId
-    ).success()
+    ).asSuccess()
 }
 
 private fun generateMessageId(
@@ -314,16 +315,16 @@ private fun generateMessageId(
         correlationId.get.lowercase() + ":" + label.get.lowercase() + ":" + direction.name.lowercase()
     )
 
-private fun <DATA> StepToExecution<DATA>.makeRequest(data: DATA): Result<Request, SagaExecutorErrors.MakeRequest> =
+private fun <DATA> StepToExecution<DATA>.makeRequest(data: DATA): ResultK<Request, SagaExecutorErrors.MakeRequest> =
     makeRequest(requestBuilder, data)
 
-private fun <DATA> StepToRetryExecution<DATA>.makeRequest(data: DATA): Result<Request, SagaExecutorErrors.MakeRequest> =
+private fun <DATA> StepToRetryExecution<DATA>.makeRequest(data: DATA): ResultK<Request, SagaExecutorErrors.MakeRequest> =
     makeRequest(requestBuilder, data)
 
 private fun <DATA> makeRequest(
     requestBuilder: RequestBuilder<DATA>,
     data: DATA
-): Result<Request, SagaExecutorErrors.MakeRequest> =
+): ResultK<Request, SagaExecutorErrors.MakeRequest> =
     requestBuilder(data)
         .mapFailure { error -> SagaExecutorErrors.MakeRequest(error) }
 

@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.header
 
-import io.github.airflux.commons.types.result.Result
-import io.github.airflux.commons.types.result.flatMap
-import io.github.airflux.commons.types.result.mapFailure
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.flatMap
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.messaging.message.header.Header
 import io.github.ustudiocompany.uframework.messaging.message.header.HeaderErrors
@@ -12,7 +12,7 @@ import kotlin.text.Charsets.UTF_8
 public fun Header.Companion.version(value: MessageVersion): Header =
     Header(MESSAGE_VERSION_HEADER_NAME, value.toString().toByteArray(UTF_8))
 
-public fun Headers.version(): Result<MessageVersion, HeaderErrors> =
+public fun Headers.version(): ResultK<MessageVersion, HeaderErrors> =
     last(MESSAGE_VERSION_HEADER_NAME)
         .flatMap {
             MessageVersion.of(it.valueAsString())

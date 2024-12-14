@@ -5,9 +5,9 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
-val detektVersion = "1.23.4"
+val detektVersion = "1.23.6"
 
-dependencies{
+dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${detektVersion}")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:${detektVersion}")
 }
@@ -23,6 +23,9 @@ configure<DetektExtension> {
 
 tasks.withType<Detekt>().configureEach {
     jvmTarget = Configuration.JVM.target
+    exclude("**/examples/**.kt")
+    exclude("**/examples/test/**.kt")
+
     reports {
         html.required.set(true)
         xml.required.set(true)
@@ -30,4 +33,3 @@ tasks.withType<Detekt>().configureEach {
         sarif.required.set(true)
     }
 }
-

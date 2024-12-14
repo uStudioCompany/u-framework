@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.core.step.action
 
-import io.github.airflux.commons.types.result.Result
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.saga.core.MetaData
 import io.github.ustudiocompany.uframework.saga.core.request.RequestBuilder
@@ -17,7 +17,7 @@ public class CompensationAction<DATA> private constructor(
 
         public fun <BODY> onReply(
             deserializer: ResponseBodyDeserializer<BODY>,
-            handler: (data: DATA, metadata: MetaData, body: BODY) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData, body: BODY) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (successfulReplyHandler != null) error("Re-definition of a successful reply handler.")
             successfulReplyHandler = SuccessfulReplyHandler(deserializer, handler)
@@ -25,7 +25,7 @@ public class CompensationAction<DATA> private constructor(
         }
 
         public fun onReply(
-            handler: (data: DATA, metadata: MetaData) -> Result<DATA, Failure>
+            handler: (data: DATA, metadata: MetaData) -> ResultK<DATA, Failure>
         ): Builder<DATA> {
             if (successfulReplyHandler != null) error("Re-definition of a successful reply handler.")
             successfulReplyHandler = SuccessfulReplyHandler(handler)

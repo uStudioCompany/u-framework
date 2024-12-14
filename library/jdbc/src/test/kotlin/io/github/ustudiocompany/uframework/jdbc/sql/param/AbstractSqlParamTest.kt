@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.param
 
-import io.github.airflux.commons.types.result.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.createPreparedInsertStatement
@@ -16,7 +16,7 @@ internal abstract class AbstractSqlParamTest : IntegrationTest() {
             .use { connection ->
                 val statement = connection.createPreparedInsertStatement(sql)
                 val result = statement.execute(param)
-                result.shouldBeSuccess(1)
+                result shouldBeSuccess 1
             }
     }
 
