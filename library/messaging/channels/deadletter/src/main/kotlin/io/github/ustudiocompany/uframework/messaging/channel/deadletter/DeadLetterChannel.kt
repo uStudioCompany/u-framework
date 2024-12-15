@@ -10,6 +10,7 @@ import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -62,8 +63,8 @@ public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
     val stamp = DeadLetterChannel.Stamp.generate(this)
     withDiagnosticContext(
         cause,
-        DeadLetterChannel.CHANNEL_NAME_KEY to channel.name,
-        DeadLetterChannel.STAMP_KEY to stamp.get
+        entry(DeadLetterChannel.CHANNEL_NAME_KEY, channel.name),
+        entry(DeadLetterChannel.STAMP_KEY, stamp.get)
     ) {
         logger.error(cause.getException()) {
             if (description != null)

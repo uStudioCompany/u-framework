@@ -1,28 +1,26 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context
 
-public inline fun <T> withDiagnosticContext(
-    block: DiagnosticContext.() -> T
-): T = block(DiagnosticContext.Empty)
+public fun entry(key: String, value: Any?): DiagnosticContext.Entry? =
+    value?.let { DiagnosticContext.Entry(key = key, value = it) }
+
+public fun <T, R> entry(key: String, value: T?, transform: (T) -> R & Any): DiagnosticContext.Entry? =
+    value?.let { DiagnosticContext.Entry(key = key, value = transform(it)) }
+
+public inline fun <T> withDiagnosticContext(block: DiagnosticContext.() -> T): T = block(DiagnosticContext.Empty)
 
 public inline fun <T> withDiagnosticContext(
-    vararg elements: Pair<String, Any>,
+    vararg entries: DiagnosticContext.Entry?,
     block: DiagnosticContext.() -> T
-): T = block(elements.fold(DiagnosticContext.Empty as DiagnosticContext) { acc, element -> acc + element })
-
-public inline fun <T> withDiagnosticContext(
-    vararg entries: DiagnosticContext.Entry,
-    block: DiagnosticContext.() -> T
-): T = block(entries.fold(DiagnosticContext.Empty as DiagnosticContext) { acc, element -> acc + element })
+): T = block(
+    entries.fold(DiagnosticContext.Empty as DiagnosticContext) { acc, element -> acc + element }
+)
 
 public inline fun <T> DiagnosticContext.withDiagnosticContext(
-    vararg elements: Pair<String, Any>,
+    vararg entries: DiagnosticContext.Entry?,
     block: DiagnosticContext.() -> T
-): T = block(elements.fold(this) { acc, element -> acc + element })
-
-public inline fun <T> DiagnosticContext.withDiagnosticContext(
-    vararg entries: DiagnosticContext.Entry,
-    block: DiagnosticContext.() -> T
-): T = block(entries.fold(this) { acc, element -> acc + element })
+): T = block(
+    entries.fold(this) { acc, element -> acc + element }
+)
 
 public sealed interface DiagnosticContext : Iterable<DiagnosticContext.Entry> {
 
@@ -31,11 +29,8 @@ public sealed interface DiagnosticContext : Iterable<DiagnosticContext.Entry> {
     public val isNotEmpty: Boolean
         get() = !isEmpty
 
-    public operator fun plus(element: Pair<String, Any>): DiagnosticContext =
-        plus(entry = Entry(key = element.first, value = element.second))
-
-    public operator fun plus(entry: Entry): DiagnosticContext =
-        Element(head = entry, tail = this)
+    public operator fun plus(entry: Entry?): DiagnosticContext =
+        if (entry != null) Element(head = entry, tail = this) else this
 
     public fun <R> foldLeft(initial: R, operation: (R, Entry) -> R): R {
         tailrec fun <R> foldLeft(initial: R, element: DiagnosticContext, operation: (R, Entry) -> R): R =

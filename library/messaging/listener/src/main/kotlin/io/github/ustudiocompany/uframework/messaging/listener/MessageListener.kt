@@ -11,6 +11,7 @@ import io.github.ustudiocompany.uframework.telemetry.logging.api.error
 import io.github.ustudiocompany.uframework.telemetry.logging.api.info
 import io.github.ustudiocompany.uframework.telemetry.logging.api.warn
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
@@ -59,28 +60,32 @@ public class MessageListener<T>(
     }
 
     context(Shutdown, Logging, DiagnosticContext)
-    private suspend fun run() = withDiagnosticContext(MESSAGES_LISTENER_NAME_DIAGNOSTIC_CONTEXT_KEY to name) {
-        logger.info { "Running message listener..." }
+    private suspend fun run() {
+        this@DiagnosticContext.withDiagnosticContext(entry(MESSAGES_LISTENER_NAME_DIAGNOSTIC_CONTEXT_KEY, name)) {
+            logger.info { "Running message listener..." }
 
-        var keepConsuming = true
-        while (keepConsuming) {
-            if (isShutdown) return
-            keepConsuming =
-                withDiagnosticContext(LISTENER_MESSAGE_CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY to properties.topics) {
-                    logger.info { "Creating message receiver..." }
+            var keepConsuming = true
+            while (keepConsuming) {
+                if (isShutdown) return
+                keepConsuming =
+                    withDiagnosticContext(
+                        entry(LISTENER_MESSAGE_CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY, properties.topics)
+                    ) {
+                        logger.info { "Creating message receiver..." }
 
-                    receiverFactory.create()
-                        .subscribeTo(properties.topics)
-                        .receive(handler)
+                        receiverFactory.create()
+                            .subscribeTo(properties.topics)
+                            .receive(handler)
+                    }
+
+                if (keepConsuming) {
+                    logger.warn { "Re-creating receiver..." }
+                    delay(properties.delayBeforeRecreatingReceiver.toMillis())
                 }
-
-            if (keepConsuming) {
-                logger.warn { "Re-creating receiver..." }
-                delay(properties.delayBeforeRecreatingReceiver.toMillis())
             }
-        }
 
-        logger.info { "Message receiver closed." }
+            logger.info { "Message receiver closed." }
+        }
     }
 
     private fun listenerName(properties: Properties): String {
@@ -147,15 +152,15 @@ public class MessageListener<T>(
             if (!records.isEmpty) {
                 val countMessages = records.count()
 
-                withDiagnosticContext(LISTENER_MESSAGES_COUNT_DIAGNOSTIC_CONTEXT_KEY to countMessages) {
+                withDiagnosticContext(entry(LISTENER_MESSAGES_COUNT_DIAGNOSTIC_CONTEXT_KEY, countMessages)) {
                     logger.debug { "Received a list of $countMessages message(s)." }
 
                     records.forEachIndexed { index, message ->
                         val messageIndex = index + 1
                         withDiagnosticContext(
-                            LISTENER_MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY to message.routingKey.get,
-                            LISTENER_MESSAGE_INDEX_DIAGNOSTIC_CONTEXT_KEY to messageIndex,
-                            LISTENER_MESSAGE_CHANNEL_PARTITION_DIAGNOSTIC_CONTEXT_KEY to message.channel.partition
+                            entry(LISTENER_MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY, message.routingKey) { it.get },
+                            entry(LISTENER_MESSAGE_INDEX_DIAGNOSTIC_CONTEXT_KEY, messageIndex),
+                            entry(LISTENER_MESSAGE_CHANNEL_PARTITION_DIAGNOSTIC_CONTEXT_KEY, message.channel.partition)
                         ) {
                             logger.debug { "Handling message ($messageIndex/$countMessages) from channel `${message.channel.name}[${message.channel.partition}]` with key `${message.routingKey}`" }
 

@@ -10,6 +10,7 @@ import io.github.ustudiocompany.uframework.messaging.sender.SentMessageMetadata
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import kotlinx.coroutines.runBlocking
 
@@ -57,8 +58,8 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         message: OutgoingMessage<T>
     ): ResultK<SentMessageMetadata, Errors> {
         withDiagnosticContext(
-            CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY to channelName.get,
-            MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY to message.routingKey.get
+            entry(CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY, channelName.get),
+            entry(MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY, message.routingKey) { it.get }
         ) {
             logger.debug { "Publishing message..." }
             //TODO Fixed (runBlocking)

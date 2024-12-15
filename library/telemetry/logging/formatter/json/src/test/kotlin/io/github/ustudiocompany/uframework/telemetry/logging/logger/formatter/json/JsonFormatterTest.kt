@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json
 
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
@@ -40,7 +41,7 @@ internal class JsonFormatterTest : UnitTest() {
             "when the `diagnosticContext` is not empty" - {
 
                 "when the `diagnosticContext` contains only one element" - {
-                    val diagnosticContext = DiagnosticContext.Empty + (FIRST_ELEMENT_KEY to FIRST_ELEMENT_VALUE)
+                    val diagnosticContext = DiagnosticContext.Empty + entry(FIRST_ELEMENT_KEY, FIRST_ELEMENT_VALUE)
 
                     "then the result should contain the `details` attribute with only one element" {
                         val result = JsonFormatter.format(MESSAGE, diagnosticContext, exception = null)
@@ -49,8 +50,9 @@ internal class JsonFormatterTest : UnitTest() {
                 }
 
                 "when the `diagnosticContext` contains some elements" - {
-                    val diagnosticContext =
-                        DiagnosticContext.Empty + (FIRST_ELEMENT_KEY to FIRST_ELEMENT_VALUE) + (SECOND_ELEMENT_KEY to SECOND_ELEMENT_VALUE)
+                    val diagnosticContext = DiagnosticContext.Empty +
+                        entry(FIRST_ELEMENT_KEY, FIRST_ELEMENT_VALUE) +
+                        entry(SECOND_ELEMENT_KEY, SECOND_ELEMENT_VALUE)
 
                     "then the result should contain the `details` attribute with all passed elements" {
                         val result = JsonFormatter.format(MESSAGE, diagnosticContext, exception = null)
@@ -61,8 +63,8 @@ internal class JsonFormatterTest : UnitTest() {
                 "when the `diagnosticContext` contains some element that is of type collection" - {
 
                     "when the value contains only one item" - {
-                        val diagnosticContext =
-                            DiagnosticContext.Empty + (FIRST_ELEMENT_KEY to listOf(FIRST_ELEMENT_VALUE))
+                        val diagnosticContext = DiagnosticContext.Empty +
+                            entry(FIRST_ELEMENT_KEY, listOf(FIRST_ELEMENT_VALUE))
 
                         "then the result should contain the `details` attribute with a value of the attribute as an array" {
                             val result = JsonFormatter.format(MESSAGE, diagnosticContext, exception = null)
@@ -71,9 +73,8 @@ internal class JsonFormatterTest : UnitTest() {
                     }
 
                     "when the value contains some items" - {
-                        val diagnosticContext =
-                            DiagnosticContext.Empty +
-                                (FIRST_ELEMENT_KEY to listOf(FIRST_ELEMENT_VALUE, SECOND_ELEMENT_VALUE))
+                        val diagnosticContext = DiagnosticContext.Empty +
+                            entry(FIRST_ELEMENT_KEY, listOf(FIRST_ELEMENT_VALUE, SECOND_ELEMENT_VALUE))
 
                         "then the result should contain the `details` attribute with a value of the attribute as an array" {
                             val result = JsonFormatter.format(MESSAGE, diagnosticContext, exception = null)

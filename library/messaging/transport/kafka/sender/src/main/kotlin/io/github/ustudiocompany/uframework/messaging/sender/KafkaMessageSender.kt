@@ -8,6 +8,7 @@ import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -45,13 +46,13 @@ public class KafkaMessageSender<T : Any>(property: Properties<T>) : MessageSende
     ): ResultK<SentMessageMetadata, MessageSender.Errors.Send> =
         suspendCoroutine { cont ->
             withDiagnosticContext(
-                SENDER_MESSAGE_CHANNEL_NAME to channelName,
-                SENDER_MESSAGE_ROUTING_KEY to message.routingKey
+                entry(SENDER_MESSAGE_CHANNEL_NAME, channelName.get),
+                entry(SENDER_MESSAGE_ROUTING_KEY, message.routingKey) { it.get }
             ) {
                 logger.debug { "Sending a message to a channel." }
                 val recordHeaders: List<RecordHeader> =
                     message.headers.map { RecordHeader(it.name, it.valueAsByteArray()) }
-                val record = ProducerRecord(channelName.get, null, message.routingKey.get, message.body, recordHeaders)
+                val record = ProducerRecord(channelName.get, null, message.routingKey?.get, message.body, recordHeaders)
                 producer.send(record) { metadata, exception ->
                     val result = if (exception == null)
                         KafkaSentMessageMetadata(metadata).asSuccess()

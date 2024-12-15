@@ -98,7 +98,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/Outgoin
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/Object;
 	public final fun getHeaders ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
-	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
+	public final fun getRoutingKey-9BWFTVQ ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Header {
