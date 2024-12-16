@@ -35,7 +35,9 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
 
                     @Suppress("DestructuringDeclarationWithTooManyEntries")
                     withData(
-                        nameFn = { "when column value is ${it.description} then the function should return this value" },
+                        nameFn = {
+                            "when column value is ${it.description} then the function should return this value"
+                        },
                         metadata.second
                     ) { (_, rowId, value, expected) ->
                         insertData(rowId, metadata.first.columnName, value)
@@ -84,7 +86,9 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
 
                     @Suppress("DestructuringDeclarationWithTooManyEntries")
                     withData(
-                        nameFn = { "when column value is ${it.description} then the function should return this value" },
+                        nameFn = {
+                            "when column value is ${it.description} then the function should return this value"
+                        },
                         metadata.second
                     ) { (_, rowId, value, expected) ->
                         insertData(rowId, metadata.first.columnName, value)
@@ -151,7 +155,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
         val sql = """
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
             | VALUES ($rowId, $rowValue);
-            """.trimMargin()
+        """.trimMargin()
         container.executeSql(sql)
     }
 

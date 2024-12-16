@@ -25,7 +25,11 @@ public class MessageVersion private constructor(
     }
 
     override fun equals(other: Any?): Boolean =
-        this === other || (other is MessageVersion && this.major == other.major && this.minor == other.minor && this.patch == other.patch)
+        this === other ||
+            other is MessageVersion &&
+            this.major == other.major &&
+            this.minor == other.minor &&
+            this.patch == other.patch
 
     override fun hashCode(): Int {
         var result = major
@@ -86,7 +90,7 @@ public class MessageVersion private constructor(
             }
 
         public fun of(value: String): ResultK<MessageVersion, Errors> =
-            if (value.matches(regex)) {
+            if (value.matches(REGEX)) {
                 val segments: List<String> = value.split(".")
                 MessageVersion(major = major(segments), minor = minor(segments), patch = patch(segments)).asSuccess()
             } else
@@ -101,7 +105,7 @@ public class MessageVersion private constructor(
             if (segments.size == PATCH_INDEX + 1) segments[PATCH_INDEX].toInt() else DEFAULT_VALUE_VERSION_SEGMENT
 
         private const val PATTERN: String = """^(0|[1-9]\d*)(\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?)?$"""
-        private val regex = PATTERN.toRegex()
+        private val REGEX = PATTERN.toRegex()
 
         private const val MAJOR_INDEX = 0
         private const val MINOR_INDEX = 1

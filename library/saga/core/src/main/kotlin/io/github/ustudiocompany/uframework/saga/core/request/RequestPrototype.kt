@@ -43,7 +43,7 @@ public sealed class RequestPrototype(
     ) : RequestPrototype(channel, name, version) {
 
         public fun createInstance(body: BODY): ResultK<Request, Failure> =
-            createInstance(metadata = MetaData.Empty, body = body)
+            createInstance(metadata = MetaData.EMPTY, body = body)
 
         public fun createInstance(metadata: MetaData, body: BODY): ResultK<Request, Failure> =
             serializer(body)
@@ -64,7 +64,7 @@ public sealed class RequestPrototype(
         version: String,
     ) : RequestPrototype(channel, name, version) {
 
-        public fun createInstance(metadata: MetaData = MetaData.Empty): ResultK<Request, Failure> =
+        public fun createInstance(metadata: MetaData = MetaData.EMPTY): ResultK<Request, Failure> =
             Request(
                 channel = channel,
                 name = name,

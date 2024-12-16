@@ -38,22 +38,22 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         val repository =
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                        val result = repository.loadAggregate(entityId, 2)
+                        val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                         result.shouldBeSuccess()
                         result.value.shouldBeNull()
                     }
                 }
 
                 "when the store contains only an initializing event" - {
-                    val initialRevision = Revision.initial
+                    val initialRevision = Revision.INITIAL
                     val eventStore = InMemoryEventStore(
                         mutableMapOf(
-                            entityId to listOf(
+                            ENTITY_ID_VALUE to listOf(
                                 TestEvent.Registered(
-                                    messageId = registerMessageId,
+                                    messageId = REGISTER_MESSAGE_ID_VALUE,
                                     revision = initialRevision,
                                     data = TestRegistered(
-                                        id = entityId,
+                                        id = ENTITY_ID_VALUE,
                                         title = INITIAL_TITLE,
                                         description = INITIAL_DESCRIPTION
                                     )
@@ -66,12 +66,12 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         val repository =
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                        val result = repository.loadAggregate(entityId, 2)
+                        val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                         result.shouldBeSuccess()
                         val aggregate = result.value
                         aggregate.shouldNotBeNull()
-                        aggregate.id shouldBe entityId
-                        aggregate.entity.id shouldBe entityId
+                        aggregate.id shouldBe ENTITY_ID_VALUE
+                        aggregate.entity.id shouldBe ENTITY_ID_VALUE
                         aggregate.entity.title shouldBe INITIAL_TITLE
                         aggregate.entity.description shouldBe INITIAL_DESCRIPTION
                         aggregate.history.revision shouldBe initialRevision
@@ -81,35 +81,35 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                 "when the store contains an initializing and an updating events" - {
 
                     "when events are ordered" - {
-                        val initialRevision = Revision.initial
+                        val initialRevision = Revision.INITIAL
                         val firstUpdateRevision = initialRevision.next()
                         val secondUpdateRevision = firstUpdateRevision.next()
                         val eventStore = InMemoryEventStore(
                             mutableMapOf(
-                                entityId to listOf(
+                                ENTITY_ID_VALUE to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerMessageId,
+                                        messageId = REGISTER_MESSAGE_ID_VALUE,
                                         revision = initialRevision,
                                         data = TestRegistered(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = INITIAL_TITLE,
                                             description = INITIAL_DESCRIPTION
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateMessageId,
+                                        messageId = FIRST_UPDATE_MESSAGE_ID_VALUE,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = UPDATED_TITLE,
                                             description = null
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = secondUpdateMessageId,
+                                        messageId = SECOND_UPDATE_MESSAGE_ID_VALUE,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = null,
                                             description = UPDATED_DESCRIPTION
                                         )
@@ -122,12 +122,12 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             val repository =
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                            val result = repository.loadAggregate(entityId, 2)
+                            val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                             result.shouldBeSuccess()
                             val aggregate = result.value
                             aggregate.shouldNotBeNull()
-                            aggregate.id shouldBe entityId
-                            aggregate.entity.id shouldBe entityId
+                            aggregate.id shouldBe ENTITY_ID_VALUE
+                            aggregate.entity.id shouldBe ENTITY_ID_VALUE
                             aggregate.entity.title shouldBe UPDATED_TITLE
                             aggregate.entity.description shouldBe UPDATED_DESCRIPTION
                             aggregate.history.revision shouldBe secondUpdateRevision
@@ -135,35 +135,35 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                     }
 
                     "when events are not ordered by revision" - {
-                        val initialRevision = Revision.initial
+                        val initialRevision = Revision.INITIAL
                         val firstUpdateRevision = initialRevision.next()
                         val secondUpdateRevision = firstUpdateRevision.next()
                         val eventStore = InMemoryEventStore(
                             mutableMapOf(
-                                entityId to listOf(
+                                ENTITY_ID_VALUE to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerMessageId,
+                                        messageId = REGISTER_MESSAGE_ID_VALUE,
                                         revision = initialRevision,
                                         data = TestRegistered(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = INITIAL_TITLE,
                                             description = INITIAL_DESCRIPTION
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateMessageId,
+                                        messageId = FIRST_UPDATE_MESSAGE_ID_VALUE,
                                         revision = secondUpdateRevision,
                                         data = TestUpdated(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = null,
                                             description = UPDATED_DESCRIPTION
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = secondUpdateMessageId,
+                                        messageId = SECOND_UPDATE_MESSAGE_ID_VALUE,
                                         revision = firstUpdateRevision,
                                         data = TestUpdated(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = UPDATED_TITLE,
                                             description = null
                                         )
@@ -176,31 +176,31 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             val repository =
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                            val result = repository.loadAggregate(entityId, 2)
+                            val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                             result.shouldBeFailure()
                             result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
                     }
 
                     "when two events have the same revision" - {
-                        val initialRevision = Revision.initial
+                        val initialRevision = Revision.INITIAL
                         val eventStore = InMemoryEventStore(
                             mutableMapOf(
-                                entityId to listOf(
+                                ENTITY_ID_VALUE to listOf(
                                     TestEvent.Registered(
-                                        messageId = registerMessageId,
+                                        messageId = REGISTER_MESSAGE_ID_VALUE,
                                         revision = initialRevision,
                                         data = TestRegistered(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = INITIAL_TITLE,
                                             description = INITIAL_DESCRIPTION
                                         )
                                     ),
                                     TestEvent.Updated(
-                                        messageId = firstUpdateMessageId,
+                                        messageId = FIRST_UPDATE_MESSAGE_ID_VALUE,
                                         revision = initialRevision,
                                         data = TestUpdated(
-                                            id = entityId,
+                                            id = ENTITY_ID_VALUE,
                                             title = UPDATED_TITLE,
                                             description = null
                                         )
@@ -213,7 +213,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                             val repository =
                                 EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                            val result = repository.loadAggregate(entityId, 2)
+                            val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                             result.shouldBeFailure()
                             result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                         }
@@ -221,25 +221,25 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                 }
 
                 "when the store contains two initializing events" - {
-                    val initialRevision = Revision.initial
+                    val initialRevision = Revision.INITIAL
                     val firstRevision = initialRevision.next()
                     val eventStore = InMemoryEventStore(
                         mutableMapOf(
-                            entityId to listOf(
+                            ENTITY_ID_VALUE to listOf(
                                 TestEvent.Registered(
-                                    messageId = registerMessageId,
+                                    messageId = REGISTER_MESSAGE_ID_VALUE,
                                     revision = initialRevision,
                                     data = TestRegistered(
-                                        id = entityId,
+                                        id = ENTITY_ID_VALUE,
                                         title = INITIAL_TITLE,
                                         description = INITIAL_DESCRIPTION
                                     )
                                 ),
                                 TestEvent.Registered(
-                                    messageId = registerMessageId,
+                                    messageId = REGISTER_MESSAGE_ID_VALUE,
                                     revision = firstRevision,
                                     data = TestRegistered(
-                                        id = entityId,
+                                        id = ENTITY_ID_VALUE,
                                         title = UPDATED_TITLE,
                                         description = null
                                     )
@@ -252,7 +252,7 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
                         val repository =
                             EventSourceRepository(snapshotStore, eventStore, TestAggregateFactory())
 
-                        val result = repository.loadAggregate(entityId, 2)
+                        val result = repository.loadAggregate(ENTITY_ID_VALUE, 2)
                         result.shouldBeFailure()
                         result.cause.shouldBeInstanceOf<EventSourceRepositoryErrors.Aggregate.Create>()
                     }
@@ -267,10 +267,10 @@ internal class EventSourceRepositoryTest : FreeSpec({ tags(TestTags.All, TestTag
         private const val FIRST_UPDATE_MESSAGE_ID = "1542b339-2f80-4bf4-bd95-b7cddd512483"
         private const val SECOND_UPDATE_MESSAGE_ID = "a8a73b5d-5951-4eb3-bcc3-d5d61f23d60e"
 
-        private val entityId = TestEntityId(ENTITY_ID)
-        private val registerMessageId = (MessageId.of(REGISTER_MESSAGE_ID) as Success).value
-        private val firstUpdateMessageId = (MessageId.of(FIRST_UPDATE_MESSAGE_ID) as Success).value
-        private val secondUpdateMessageId = (MessageId.of(SECOND_UPDATE_MESSAGE_ID) as Success).value
+        private val ENTITY_ID_VALUE = TestEntityId(ENTITY_ID)
+        private val REGISTER_MESSAGE_ID_VALUE = (MessageId.of(REGISTER_MESSAGE_ID) as Success).value
+        private val FIRST_UPDATE_MESSAGE_ID_VALUE = (MessageId.of(FIRST_UPDATE_MESSAGE_ID) as Success).value
+        private val SECOND_UPDATE_MESSAGE_ID_VALUE = (MessageId.of(SECOND_UPDATE_MESSAGE_ID) as Success).value
 
         private const val INITIAL_TITLE = "title-1"
         private const val UPDATED_TITLE = "title-2"

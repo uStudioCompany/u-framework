@@ -78,7 +78,7 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details :
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Details$Companion {
-	public final fun getNone ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getNONE ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun of (Ljava/util/List;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun of ([Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun of ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;

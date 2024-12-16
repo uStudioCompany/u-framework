@@ -11,14 +11,14 @@ public sealed interface ReplyMessage {
     public class Success(
         override val correlationId: CorrelationId,
         override val messageId: MessageId,
-        public val metadata: MetaData = MetaData.Empty,
+        public val metadata: MetaData = MetaData.EMPTY,
         public val body: String?
     ) : ReplyMessage
 
     public class Error(
         override val correlationId: CorrelationId,
         override val messageId: MessageId,
-        public val metadata: MetaData = MetaData.Empty,
+        public val metadata: MetaData = MetaData.EMPTY,
         public val body: String?
     ) : ReplyMessage
 }

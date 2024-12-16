@@ -80,7 +80,7 @@ internal class JsonbSqlParamTest : AbstractSqlParamTest() {
 
         private val NON_NULLABLE_VALUE: String = """
             {"string": "string value", "number": 1, "boolean": true}
-            """.trimIndent()
+        """.trimIndent()
         private val NULLABLE_VALUE: String? = null
 
         @JvmStatic

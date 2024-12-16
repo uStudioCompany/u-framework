@@ -12,7 +12,7 @@ internal class UUIDSqlParamTest : AbstractSqlParamTest() {
 
             "when inserting a non-null value" - {
                 container.truncateTable(TABLE_NAME)
-                insertData(parametrizedSql, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
+                insertData(PARAMETRIZED_SQL, NON_NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a passed value" {
                     container.checkData(SELECT_QUERY) {
@@ -23,7 +23,7 @@ internal class UUIDSqlParamTest : AbstractSqlParamTest() {
 
             "when inserting a null value" - {
                 container.truncateTable(TABLE_NAME)
-                insertData(parametrizedSql, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
+                insertData(PARAMETRIZED_SQL, NULLABLE_VALUE asSqlParam VALUE_PARAM_NAME)
 
                 "then a database should contain a null value" {
                     container.checkData(SELECT_QUERY) {
@@ -47,6 +47,6 @@ internal class UUIDSqlParamTest : AbstractSqlParamTest() {
         private val SELECT_QUERY = selectSql(TABLE_NAME)
 
         @JvmStatic
-        private val parametrizedSql = parametrizedSql(TABLE_NAME)
+        private val PARAMETRIZED_SQL = parametrizedSql(TABLE_NAME)
     }
 }

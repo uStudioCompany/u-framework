@@ -36,7 +36,7 @@ internal abstract class AbstractSqlParamTest : IntegrationTest() {
             |    $ID_COLUMN_NAME    INTEGER PRIMARY KEY,
             |    $VALUE_COLUMN_NAME $type
             | );
-            """.trimMargin()
+        """.trimMargin()
 
         @JvmStatic
         fun selectSql(tableName: String) = """
@@ -47,8 +47,8 @@ internal abstract class AbstractSqlParamTest : IntegrationTest() {
 
         fun parametrizedSql(tableName: String) = ParametrizedSql.of(
             """
-            | INSERT INTO $tableName($ID_COLUMN_NAME, $VALUE_COLUMN_NAME)
-            |      VALUES (1, :$VALUE_PARAM_NAME);
+                | INSERT INTO $tableName($ID_COLUMN_NAME, $VALUE_COLUMN_NAME)
+                |      VALUES (1, :$VALUE_PARAM_NAME);
             """.trimMargin()
         )
     }

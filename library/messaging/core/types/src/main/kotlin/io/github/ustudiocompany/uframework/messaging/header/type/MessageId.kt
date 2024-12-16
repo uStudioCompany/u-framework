@@ -39,13 +39,13 @@ public value class MessageId private constructor(public val get: String) {
         }
 
         public fun of(value: String): ResultK<MessageId, Errors> =
-            if (value.matches(regex))
+            if (value.matches(REGEX))
                 MessageId(get = value).asSuccess()
             else
                 Errors.InvalidFormat(value = value).asFailure()
 
         private const val PATTERN: String =
             """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
-        private val regex = PATTERN.toRegex()
+        private val REGEX = PATTERN.toRegex()
     }
 }

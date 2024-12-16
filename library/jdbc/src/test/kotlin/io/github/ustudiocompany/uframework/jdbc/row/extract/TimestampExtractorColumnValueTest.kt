@@ -134,7 +134,7 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
         val sql = """
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
             | VALUES ($rowId, $rowValue);
-            """.trimMargin()
+        """.trimMargin()
         container.executeSql(sql)
     }
 

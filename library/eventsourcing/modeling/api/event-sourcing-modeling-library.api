@@ -84,7 +84,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 	public static fun equals-impl (JLjava/lang/Object;)Z
 	public static final fun equals-impl0 (JJ)Z
 	public final fun getGet ()J
-	public static final fun getInitial-xP0aac4 ()J
+	public static final fun getINITIAL-xP0aac4 ()J
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public static final fun next-xP0aac4 (J)J
@@ -95,7 +95,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revision$Companion {
-	public final fun getInitial-xP0aac4 ()J
+	public final fun getINITIAL-xP0aac4 ()J
 	public final fun of (J)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

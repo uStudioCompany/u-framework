@@ -42,17 +42,17 @@ internal class MessageListenerTest : ComponentTest() {
             routingKey = FIRST_MESSAGE_KEY,
             body = FIRST_MESSAGE_BODY,
             channel = IncomingMessage.Channel(name = FIRST_TOPIC, partition = FIRST_MESSAGE_PARTITION),
-            headers = Headers.Empty
+            headers = Headers.EMPTY
         )
 
         private val SECOND_MESSAGE = IncomingMessage(
             routingKey = SECOND_MESSAGE_KEY,
             body = SECOND_MESSAGE_BODY,
             channel = IncomingMessage.Channel(name = SECOND_TOPIC, partition = SECOND_MESSAGE_PARTITION),
-            headers = Headers.Empty
+            headers = Headers.EMPTY
         )
 
-        private val logging: Logging = object : Logging {
+        private val LOGGING: Logging = object : Logging {
             override val logger: Logger
                 get() = LogbackLogger("Test", JsonFormatter)
         }
@@ -80,7 +80,7 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(logging) {
+                    with(LOGGING) {
                         withDiagnosticContext {
                             val worker = messageListener(workerProps, factory, messageHandler).run()
                             delay(1000)
@@ -138,7 +138,7 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(logging) {
+                    with(LOGGING) {
                         withDiagnosticContext {
                             val worker = messageListener(workerProps, factory, messageHandler).run()
                             delay(1000)
@@ -204,7 +204,7 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(logging) {
+                    with(LOGGING) {
                         val worker = withDiagnosticContext {
                             messageListener(workerProps, factory, messageHandler).run()
                         }
@@ -263,7 +263,7 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(logging) {
+                    with(LOGGING) {
                         withDiagnosticContext {
                             val worker = messageListener(workerProps, factory, messageHandler).run()
                             delay(1000)
@@ -307,8 +307,8 @@ internal class MessageListenerTest : ComponentTest() {
 
     private fun messages(vararg items: IncomingMessage<String>): IncomingMessages<String> =
         object : IncomingMessages<String> {
-            private val items: List<IncomingMessage<String>> = items.toList()
+            private val ITEMS: List<IncomingMessage<String>> = items.toList()
             override val isEmpty: Boolean = false
-            override fun iterator(): Iterator<IncomingMessage<String>> = this.items.iterator()
+            override fun iterator(): Iterator<IncomingMessage<String>> = this.ITEMS.iterator()
         }
 }

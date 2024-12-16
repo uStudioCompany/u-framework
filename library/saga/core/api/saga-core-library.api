@@ -11,7 +11,7 @@ public final class io/github/ustudiocompany/uframework/saga/core/MetaData {
 public final class io/github/ustudiocompany/uframework/saga/core/MetaData$Companion {
 	public final fun from (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/saga/core/MetaData;
 	public final fun from ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/saga/core/MetaData;
-	public final fun getEmpty ()Lio/github/ustudiocompany/uframework/saga/core/MetaData;
+	public final fun getEMPTY ()Lio/github/ustudiocompany/uframework/saga/core/MetaData;
 	public final fun with (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/core/MetaData;
 }
 

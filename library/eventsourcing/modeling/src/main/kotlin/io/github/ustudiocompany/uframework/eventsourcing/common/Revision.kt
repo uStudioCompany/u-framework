@@ -19,7 +19,7 @@ public value class Revision private constructor(public val get: Long) : Comparab
     public companion object {
 
         @JvmStatic
-        public val initial: Revision = Revision(0)
+        public val INITIAL: Revision = Revision(0)
 
         @JvmStatic
         public fun of(value: Long): ResultK<Revision, Errors> =

@@ -31,14 +31,14 @@ public class Headers private constructor(private val items: List<Header>) : Iter
 
     public companion object {
 
-        public val Empty: Headers = Headers(emptyList())
+        public val EMPTY: Headers = Headers(emptyList())
 
         @JvmStatic
         public operator fun invoke(vararg headers: Header): Headers = invoke(headers.toList())
 
         @JvmStatic
         public operator fun invoke(headers: List<Header>): Headers =
-            if (headers.isNotEmpty()) Headers(headers) else Empty
+            if (headers.isNotEmpty()) Headers(headers) else EMPTY
     }
 
     private class FilterByNameIterator(

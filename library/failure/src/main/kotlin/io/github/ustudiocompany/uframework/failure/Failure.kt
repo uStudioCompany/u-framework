@@ -4,7 +4,7 @@ public interface Failure {
     public val domain: String
     public val number: String
     public val description: String get() = ""
-    public val details: Details get() = Details.None
+    public val details: Details get() = Details.NONE
     public val cause: Cause get() = Cause.None
 
     public fun code(): String {
@@ -122,14 +122,14 @@ public interface Failure {
         }
 
         public companion object {
-            public val None: Details = Details(emptyList())
+            public val NONE: Details = Details(emptyList())
 
             public fun of(vararg items: Item): Details = of(items.toList())
 
             public fun of(vararg items: Pair<String, String>): Details =
                 of(items.map { Item(key = it.first, value = it.second) })
 
-            public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else None
+            public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else NONE
         }
     }
 

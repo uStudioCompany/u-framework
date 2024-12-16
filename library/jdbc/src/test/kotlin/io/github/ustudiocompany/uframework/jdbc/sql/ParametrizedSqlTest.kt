@@ -77,11 +77,11 @@ internal class ParametrizedSqlTest : UnitTest() {
             sqlWithParameters = """
                 | SELECT * 
                 |   FROM table
-                """.trimMargin(),
+            """.trimMargin(),
             sqlWithoutParameters = """
                 | SELECT * 
                 |   FROM table
-                """.trimMargin(),
+            """.trimMargin(),
             parameters = mapOf()
         ),
         TestDataItem(
@@ -90,12 +90,12 @@ internal class ParametrizedSqlTest : UnitTest() {
                 | SELECT * 
                 |   FROM table
                 |  WHERE id = :$PARAM_1 
-                """.trimMargin(),
+            """.trimMargin(),
             sqlWithoutParameters = """
                 | SELECT * 
                 |   FROM table
                 |  WHERE id = ? 
-                """.trimMargin(),
+            """.trimMargin(),
             parameters = mapOf(PARAM_1 to 1)
         ),
         TestDataItem(
@@ -105,13 +105,13 @@ internal class ParametrizedSqlTest : UnitTest() {
                 |   FROM table
                 |  WHERE id = :$PARAM_1
                 |    AND name = :$PARAM_2
-                """.trimMargin(),
+            """.trimMargin(),
             sqlWithoutParameters = """
                 | SELECT * 
                 |   FROM table
                 |  WHERE id = ?
                 |    AND name = ?
-                """.trimMargin(),
+            """.trimMargin(),
             parameters = mapOf(PARAM_1 to 1, PARAM_2 to 2)
         ),
     )

@@ -47,7 +47,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         public class Publish(failure: MessageSender.Errors) : Errors() {
             override val number: String = "1"
             override val description: String = "A message publishing error."
-            override val details: Failure.Details = Failure.Details.None
+            override val details: Failure.Details = Failure.Details.NONE
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }

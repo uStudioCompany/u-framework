@@ -28,7 +28,7 @@ public class EventSourceRepository<AGGREGATE, ID, EVENT>(
         resultWith {
             val (snapshot) = loadSnapshot(aggregateId)
 
-            val initialRevision = snapshot?.history?.revision?.next() ?: Revision.initial
+            val initialRevision = snapshot?.history?.revision?.next() ?: Revision.INITIAL
             var (events) = loadEvents(aggregateId, initialRevision, maxCount)
             var aggregate = if (snapshot != null)
                 snapshot.apply(events).bind()

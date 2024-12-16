@@ -47,7 +47,7 @@ public class SagaResolver private constructor(
     ) : Comparable<CommandResolverKey> {
 
         override fun equals(other: Any?): Boolean =
-            this === other || (other is CommandResolverKey && this.name == other.name && this.version == other.version)
+            this === other || other is CommandResolverKey && this.name == other.name && this.version == other.version
 
         override fun hashCode(): Int {
             var result = name.hashCode()

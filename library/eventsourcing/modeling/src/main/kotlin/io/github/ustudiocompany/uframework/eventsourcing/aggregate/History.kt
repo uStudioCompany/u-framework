@@ -92,8 +92,8 @@ public value class History private constructor(
         private fun List<Event>.checkEvents(): Errors? {
             fun List<Event>.checkRevisionFirstEvent(): Errors.InvalidRevision? {
                 val revision = first().revision
-                return if (revision != Revision.initial)
-                    Errors.InvalidRevision(expected = Revision.initial, actual = revision)
+                return if (revision != Revision.INITIAL)
+                    Errors.InvalidRevision(expected = Revision.INITIAL, actual = revision)
                 else
                     null
             }

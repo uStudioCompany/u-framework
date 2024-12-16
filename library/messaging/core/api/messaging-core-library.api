@@ -151,7 +151,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers$Companion {
-	public final fun getEmpty ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun getEMPTY ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public final fun invoke (Ljava/util/List;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 	public final fun invoke ([Lio/github/ustudiocompany/uframework/messaging/message/header/Header;)Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
 }

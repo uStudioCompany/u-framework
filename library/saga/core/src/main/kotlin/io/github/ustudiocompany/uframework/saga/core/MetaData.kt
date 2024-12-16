@@ -13,10 +13,10 @@ public class MetaData(public val values: Map<String, String>) {
 
     public companion object {
 
-        public val Empty: MetaData = MetaData(emptyMap())
+        public val EMPTY: MetaData = MetaData(emptyMap())
 
         public fun from(items: Map<String, String>): MetaData =
-            if (items.isEmpty()) Empty else MetaData(items)
+            if (items.isEmpty()) EMPTY else MetaData(items)
 
         public fun from(vararg items: Pair<String, String>): MetaData = MetaData(items.toMap())
 

@@ -15,7 +15,7 @@ public class MessageName private constructor(public val name: String) : Comparab
     override fun compareTo(other: MessageName): Int = name.compareTo(other.name)
 
     override fun equals(other: Any?): Boolean =
-        this === other || (other is MessageName && this.name == other.name)
+        this === other || other is MessageName && this.name == other.name
 
     override fun hashCode(): Int = name.hashCode()
 
@@ -40,12 +40,12 @@ public class MessageName private constructor(public val name: String) : Comparab
     public companion object {
 
         public fun of(value: String): ResultK<MessageName, Errors> =
-            if (value.matches(regex))
+            if (value.matches(REGEX))
                 MessageName(value.lowercase()).asSuccess()
             else
                 Errors.InvalidFormat(value = value).asFailure()
 
         private const val PATTERN: String = """^[a-zA-Z]([a-zA-Z0-9\-])*$"""
-        private val regex = PATTERN.toRegex()
+        private val REGEX = PATTERN.toRegex()
     }
 }

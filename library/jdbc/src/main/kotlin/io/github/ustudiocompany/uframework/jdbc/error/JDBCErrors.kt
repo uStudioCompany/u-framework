@@ -28,7 +28,7 @@ public sealed class JDBCErrors : Failure {
             if (exception is SQLException)
                 Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
-                Failure.Details.None
+                Failure.Details.NONE
     }
 
     public class Connection(exception: Exception) : JDBCErrors() {
@@ -42,7 +42,7 @@ public sealed class JDBCErrors : Failure {
             if (exception is SQLException)
                 Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
-                Failure.Details.None
+                Failure.Details.NONE
     }
 
     public sealed class Row : JDBCErrors() {
@@ -64,8 +64,11 @@ public sealed class JDBCErrors : Failure {
                 .let { Failure.Details.of(it) }
         }
 
-        public class TypeMismatch(public val label: ColumnLabel, public val expected: String, public val actual: String) :
-            Row() {
+        public class TypeMismatch(
+            public val label: ColumnLabel,
+            public val expected: String,
+            public val actual: String
+        ) : Row() {
 
             public constructor(name: String, expected: String, actual: String) :
                 this(ColumnLabel.Name(name), expected, actual)
@@ -119,7 +122,7 @@ public sealed class JDBCErrors : Failure {
                 if (exception is SQLException)
                     Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
                 else
-                    Failure.Details.None
+                    Failure.Details.NONE
         }
     }
 

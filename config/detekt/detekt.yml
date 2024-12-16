@@ -1,11 +1,11 @@
 build:
   maxIssues: 0
   excludeCorrectable: false
-  weights:
-  # complexity: 2
-  # LongParameterList: 1
-  # style: 1
-  # comments: 1
+#  weights:
+#    complexity: 2
+#    LongParameterList: 1
+#    style: 1
+#    comments: 1
 
 config:
   validation: true
@@ -47,13 +47,11 @@ output-reports:
 #    - 'TxtOutputReport'
 #    - 'XmlOutputReport'
 #    - 'HtmlOutputReport'
-#    - 'MdOutputReport'
-#    - 'SarifOutputReport'
 
 comments:
   active: true
   AbsentOrWrongFileLicense:
-    active: true
+    active: false
     licenseTemplateFile: 'license.template'
     licenseTemplateIsRegex: false
   CommentOverPrivateFunction:
@@ -65,9 +63,6 @@ comments:
   EndOfSentenceFormat:
     active: false
     endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
-  KDocReferencesNonPublicProperty:
-    active: false
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**']
   OutdatedDocumentation:
     active: false
     matchTypeParameters: true
@@ -75,19 +70,17 @@ comments:
     allowParamOnConstructorProperties: false
   UndocumentedPublicClass:
     active: false
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**']
+    excludes: [ '**/test/**' ]
     searchInNestedClass: true
     searchInInnerClass: true
     searchInInnerObject: true
     searchInInnerInterface: true
-    searchInProtectedClass: true
   UndocumentedPublicFunction:
     active: false
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**']
-    searchProtectedFunction: true
+    excludes: [ '**/test/**' ]
   UndocumentedPublicProperty:
     active: false
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**']
+    excludes: [ '**/test/**' ]
     searchProtectedProperty: true
 
 complexity:
@@ -103,7 +96,7 @@ complexity:
     threshold: 10
     includeStaticDeclarations: true
     includePrivateDeclarations: true
-    ignoreOverloaded: false
+    ignoreOverloaded: true
   CyclomaticComplexMethod:
     active: true
     threshold: 15
@@ -146,7 +139,7 @@ complexity:
   NestedBlockDepth:
     active: true
     threshold: 4
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
   NestedScopeFunctions:
     active: true
     threshold: 1
@@ -160,14 +153,14 @@ complexity:
     active: true
   StringLiteralDuplication:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     threshold: 3
     ignoreAnnotation: true
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
@@ -244,9 +237,9 @@ exceptions:
       - 'toString'
   InstanceOfCheckForException:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
   NotImplementedDeclaration:
-    active: false
+    active: true
   ObjectExtendsThrowable:
     active: true
   PrintStackTrace:
@@ -270,7 +263,7 @@ exceptions:
     active: false
   ThrowingExceptionsWithoutMessageOrCause:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     exceptions:
       - 'ArrayIndexOutOfBoundsException'
       - 'Exception'
@@ -285,7 +278,7 @@ exceptions:
     active: true
   TooGenericExceptionCaught:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     exceptionNames:
       - 'ArrayIndexOutOfBoundsException'
       - 'Error'
@@ -331,7 +324,7 @@ naming:
     minimumFunctionNameLength: 3
   FunctionNaming:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     functionPattern: '[a-z][a-zA-Z0-9]*'
     excludeClassPattern: '$^'
   FunctionParameterNaming:
@@ -389,10 +382,10 @@ performance:
     threshold: 3
   ForEachOnRange:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
   SpreadOperator:
-    active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    active: false
+    excludes: [ '**/test/**' ]
   UnnecessaryPartOfBinaryExpression:
     active: true
   UnnecessaryTemporaryInstantiation:
@@ -440,17 +433,10 @@ potential-bugs:
     active: true
     restrictToConfig: true
     returnValueAnnotations:
-      - 'CheckResult'
       - '*.CheckResult'
-      - 'CheckReturnValue'
       - '*.CheckReturnValue'
     ignoreReturnValueAnnotations:
-      - 'CanIgnoreReturnValue'
       - '*.CanIgnoreReturnValue'
-    returnValueTypes:
-      - 'kotlin.sequences.Sequence'
-      - 'kotlinx.coroutines.flow.*Flow'
-      - 'java.util.stream.*Stream'
     ignoreFunctionCall: []
   ImplicitDefaultLocale:
     active: true
@@ -465,13 +451,13 @@ potential-bugs:
     active: true
   LateinitUsage:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
     ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
     active: true
   MissingPackageDeclaration:
     active: true
-    excludes: ['**/*.kts']
+    excludes: [ '**/*.kts' ]
   NullCheckOnMutableProperty:
     active: true
   NullableToStringCall:
@@ -492,13 +478,13 @@ potential-bugs:
     active: true
   UnsafeCallOnNullableType:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**']
+    excludes: [ '**/test/**' ]
   UnsafeCast:
     active: true
   UnusedUnaryOperator:
     active: true
   UselessPostfixExpression:
-    active: true
+    active: false
   WrongEqualsTypeParameter:
     active: true
 
@@ -517,7 +503,7 @@ style:
   CanBeNonNullable:
     active: true
   CascadingCallWrapping:
-    active: false
+    active: true
     includeElvis: true
   ClassOrdering:
     active: false
@@ -527,7 +513,7 @@ style:
     active: true
     conversionFunctionPrefix:
       - 'to'
-    allowOperators: true
+    allowOperators: false
   DataClassShouldBeImmutable:
     active: true
   DestructuringDeclarationWithTooManyEntries:
@@ -609,7 +595,7 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: ['**/test/**', '**/commonTest/**', '**/jvmTest/**', '**/*.kts']
+    excludes: [ '**/test/**' ]
     ignoreNumbers:
       - '-1'
       - '0'
@@ -644,7 +630,7 @@ style:
   MultilineLambdaItParameter:
     active: true
   MultilineRawStringIndentation:
-    active: false
+    active: true
     indentSize: 4
     trimmingMethods:
       - 'trimIndent'
@@ -674,8 +660,8 @@ style:
   RedundantVisibilityModifierRule:
     active: false
   ReturnCount:
-    active: false
-    max: 2
+    active: true
+    max: 3
     excludedFunctions:
       - 'equals'
     excludeLabeled: false
@@ -725,8 +711,7 @@ style:
   UnnecessaryLet:
     active: true
   UnnecessaryParentheses:
-    active: false
-    allowForUnclearPrecedence: false
+    active: true
   UntilInsteadOfRangeTo:
     active: true
   UnusedImports:
@@ -741,7 +726,7 @@ style:
     allowedNames: ''
   UnusedPrivateProperty:
     active: true
-    allowedNames: '_|ignored|expected|serialVersionUID'
+    allowedNames: ''
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:
@@ -781,17 +766,18 @@ style:
     ignoreLateinitVar: false
   WildcardImport:
     active: true
+    excludes: [ '**/test/**' ]
     excludeImports:
       - 'java.util.*'
+
 
 formatting:
   active: true
   android: false
   autoCorrect: false
   AnnotationOnSeparateLine:
-    active: true
+    active: false
     autoCorrect: false
-    indentSize: 4
   AnnotationSpacing:
     active: true
     autoCorrect: false
@@ -802,13 +788,12 @@ formatting:
     maxLineLength: 120
   BlockCommentInitialStarAlignment:
     active: true
-    autoCorrect: false
   ChainWrapping:
     active: true
     autoCorrect: false
     indentSize: 4
   ClassName:
-    active: true
+    active: false
   CommentSpacing:
     active: false
     autoCorrect: false
@@ -870,7 +855,7 @@ formatting:
   ImportOrdering:
     active: true
     autoCorrect: false
-    layout: '*,java.**,javax.**,kotlin.**,^'
+    layout: 'idea'
   Indentation:
     active: false
     autoCorrect: false
@@ -881,6 +866,7 @@ formatting:
     indentSize: 4
   MaximumLineLength:
     active: false
+    autoCorrect: false
     maxLineLength: 120
     ignoreBackTickedIdentifier: false
   ModifierListSpacing:
@@ -910,7 +896,7 @@ formatting:
     active: true
     autoCorrect: false
   NoConsecutiveComments:
-    active: false
+    active: true
   NoEmptyClassBody:
     active: true
     autoCorrect: false
@@ -948,7 +934,7 @@ formatting:
     autoCorrect: false
   NoWildcardImports:
     active: true
-    packagesToUseImportOnDemandProperty: 'java.util.*,kotlinx.android.synthetic.**'
+    packagesToUseImportOnDemandProperty: 'java.util.*'
   NullableTypeSpacing:
     active: true
     autoCorrect: false
@@ -969,7 +955,7 @@ formatting:
     indentSize: 4
     maxLineLength: 120
   PropertyName:
-    active: false
+    active: true
   PropertyWrapping:
     active: true
     autoCorrect: false
@@ -1021,7 +1007,7 @@ formatting:
     active: true
     autoCorrect: false
   StringTemplateIndent:
-    active: true
+    active: false
     autoCorrect: true
     indentSize: 4
   TrailingCommaOnCallSite:
@@ -1056,12 +1042,15 @@ formatting:
 libraries:
   active: true
   ForbiddenPublicDataClass:
-    active: false
+    active: true
+    excludes: [ '**' ]
     ignorePackages:
       - '*.internal'
       - '*.internal.*'
   LibraryCodeMustSpecifyReturnType:
     active: true
     allowOmitUnit: false
+    excludes: [ '**' ]
   LibraryEntitiesShouldNotBePublic:
-    active: false
+    active: true
+    excludes: [ '**' ]

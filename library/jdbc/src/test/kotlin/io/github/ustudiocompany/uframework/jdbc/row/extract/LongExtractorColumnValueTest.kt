@@ -132,8 +132,8 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
     private fun insertData(rowId: Int, columnName: String, value: Long?) {
         val sql = """
-        | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
-        | VALUES ($rowId, $value);
+            | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
+            | VALUES ($rowId, $value);
         """.trimMargin()
         container.executeSql(sql)
     }

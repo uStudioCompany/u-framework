@@ -35,10 +35,10 @@ internal class RowsTest : IntegrationTest() {
                 container.truncateTable(TABLE_NAME)
                 container.executeSql(
                     """
-                       | INSERT INTO $TABLE_NAME($ID_COLUMN_NAME, $TITLE_COLUMN_NAME)
-                       |      VALUES ('$FIRST_ROW_ID', '$FIRST_ROW_TITLE');
-                       | INSERT INTO $TABLE_NAME($ID_COLUMN_NAME, $TITLE_COLUMN_NAME)
-                       |      VALUES ('$SECOND_ROW_ID', '$SECOND_ROW_TITLE');
+                        | INSERT INTO $TABLE_NAME($ID_COLUMN_NAME, $TITLE_COLUMN_NAME)
+                        |      VALUES ('$FIRST_ROW_ID', '$FIRST_ROW_TITLE');
+                        | INSERT INTO $TABLE_NAME($ID_COLUMN_NAME, $TITLE_COLUMN_NAME)
+                        |      VALUES ('$SECOND_ROW_ID', '$SECOND_ROW_TITLE');
                     """.trimMargin()
                 )
 
@@ -87,7 +87,7 @@ internal class RowsTest : IntegrationTest() {
             |    $TITLE_COLUMN_NAME TEXT NOT NULL,
             |    PRIMARY KEY ($ID_COLUMN_NAME)
             | );
-            """.trimMargin()
+        """.trimMargin()
 
         @JvmStatic
         @Language("Postgresql")

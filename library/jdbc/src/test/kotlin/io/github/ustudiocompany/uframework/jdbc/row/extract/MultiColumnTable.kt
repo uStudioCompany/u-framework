@@ -22,10 +22,10 @@ internal enum class MultiColumnTable(val columnIndex: Int, val columnName: Strin
         const val ROW_ID_COLUMN_NAME = "row_id"
         const val MULTI_COLUMN_TABLE_NAME = "public.multi_column_table"
 
-        private val columns = entries.sortedBy { it.columnIndex }
+        private val COLUMNS = entries.sortedBy { it.columnIndex }
             .map { Triple(it.columnIndex, it.columnName, it.dataType) }
 
-        fun makeCreateTableSql() = columns.joinToString(
+        fun makeCreateTableSql() = COLUMNS.joinToString(
             prefix = "CREATE TABLE $MULTI_COLUMN_TABLE_NAME ($ROW_ID_COLUMN_NAME INTEGER PRIMARY KEY,",
             postfix = ");",
         ) { (_, columnName, type) ->
@@ -35,12 +35,12 @@ internal enum class MultiColumnTable(val columnIndex: Int, val columnName: Strin
         fun makeInsertEmptyRowSql() =
             "INSERT INTO $MULTI_COLUMN_TABLE_NAME ($ROW_ID_COLUMN_NAME) VALUES ($EMPTY_ROW_ID)"
 
-        fun makeSelectEmptyRowSql() = columns.joinToString(
+        fun makeSelectEmptyRowSql() = COLUMNS.joinToString(
             prefix = "SELECT ",
             postfix = " FROM $MULTI_COLUMN_TABLE_NAME WHERE $ROW_ID_COLUMN_NAME = $EMPTY_ROW_ID;",
         ) { (_, columnName, _) -> columnName }
 
-        fun makeSelectAllColumnsSql(rowId: Int) = columns.joinToString(
+        fun makeSelectAllColumnsSql(rowId: Int) = COLUMNS.joinToString(
             prefix = "SELECT ",
             postfix = " FROM $MULTI_COLUMN_TABLE_NAME WHERE $ROW_ID_COLUMN_NAME = $rowId;",
         ) { (_, columnName, _) -> columnName }
