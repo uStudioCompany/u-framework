@@ -7,6 +7,19 @@ public final class io/github/ustudiocompany/uframework/messaging/sender/KafkaMes
 	public static final field Companion Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Companion;
 	public fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component10 ()Ljava/util/Map;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;
+	public final fun component3 ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/Integer;
+	public final fun component6 ()Ljava/lang/Long;
+	public final fun component7 ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;
+	public final fun component8 ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;
+	public final fun component9 ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;
+	public final fun copy (Ljava/util/List;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;Ljava/util/Map;)Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties;Ljava/util/List;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Long;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;Ljava/util/Map;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAcks ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;
 	public final fun getBatchSize ()Ljava/lang/Integer;
 	public final fun getBootstrapServers ()Ljava/util/List;
@@ -17,15 +30,9 @@ public final class io/github/ustudiocompany/uframework/messaging/sender/KafkaMes
 	public final fun getProperties ()Ljava/util/Map;
 	public final fun getRetries ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;
 	public final fun getSerializers ()Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Serializers;
-	public final fun setAcks (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks;)V
-	public final fun setBatchSize (Ljava/lang/Integer;)V
-	public final fun setBootstrapServers (Ljava/util/List;)V
-	public final fun setBufferMemory (Ljava/lang/Long;)V
-	public final fun setCompressionType (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$CompressionType;)V
-	public final fun setPeriods (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Periods;)V
-	public final fun setProperties (Ljava/util/Map;)V
-	public final fun setRetries (Lio/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Retries;)V
+	public fun hashCode ()I
 	public final fun toProperties ()Ljava/util/Properties;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/sender/KafkaMessageSender$Properties$Asks : java/lang/Enum {

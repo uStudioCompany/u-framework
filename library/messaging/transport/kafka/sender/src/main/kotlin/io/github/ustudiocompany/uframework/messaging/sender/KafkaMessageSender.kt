@@ -68,17 +68,17 @@ public class KafkaMessageSender<T : Any>(property: Properties<T>) : MessageSende
             }
         }
 
-    public class Properties<T>(
-        public var bootstrapServers: List<String>,
+    public data class Properties<T>(
+        public val bootstrapServers: List<String>,
         public val serializers: Serializers<T>,
-        public var acks: Asks,
+        public val acks: Asks,
         public val clientId: String? = null,
-        public var batchSize: Int? = null,
-        public var bufferMemory: Long? = null,
-        public var compressionType: CompressionType? = null,
-        public var retries: Retries? = null,
-        public var periods: Periods? = null,
-        public var properties: Map<String, String> = HashMap()
+        public val batchSize: Int? = null,
+        public val bufferMemory: Long? = null,
+        public val compressionType: CompressionType? = null,
+        public val retries: Retries? = null,
+        public val periods: Periods? = null,
+        public val properties: Map<String, String> = HashMap()
     ) {
 
         public fun toProperties(): java.util.Properties = Properties().apply {

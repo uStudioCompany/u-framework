@@ -105,6 +105,7 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
         public fun handle(failure: DispatcherErrors, message: IncomingMessage<BODY>)
 
         public companion object {
+            private const val ERROR_DESCRIPTOR = "The message dispatching error."
 
             context(Logging, DiagnosticContext)
             public fun <BODY> none(): FailureHandler<BODY> = FailureHandler { _, _ -> }
@@ -132,8 +133,6 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
                         ERROR_DESCRIPTOR
                     message.sendToDeadLetterChannel(deadLetterChannel, description, failure)
                 }
-
-            private const val ERROR_DESCRIPTOR = "The message dispatching error."
 
             context(Logging, DiagnosticContext)
             private fun Failure.logging(description: String? = null) {

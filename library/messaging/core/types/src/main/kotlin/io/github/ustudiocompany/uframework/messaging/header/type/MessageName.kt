@@ -38,14 +38,13 @@ public class MessageName private constructor(public val name: String) : Comparab
     }
 
     public companion object {
+        private const val PATTERN: String = """^[a-zA-Z]([a-zA-Z0-9\-])*$"""
+        private val REGEX = PATTERN.toRegex()
 
         public fun of(value: String): ResultK<MessageName, Errors> =
             if (value.matches(REGEX))
                 MessageName(value.lowercase()).asSuccess()
             else
                 Errors.InvalidFormat(value = value).asFailure()
-
-        private const val PATTERN: String = """^[a-zA-Z]([a-zA-Z0-9\-])*$"""
-        private val REGEX = PATTERN.toRegex()
     }
 }

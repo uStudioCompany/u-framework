@@ -80,6 +80,12 @@ public class MessageVersion private constructor(
     }
 
     public companion object {
+        private const val PATTERN: String = """^(0|[1-9]\d*)(\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?)?$"""
+        private val REGEX = PATTERN.toRegex()
+        private const val MAJOR_INDEX = 0
+        private const val MINOR_INDEX = 1
+        private const val PATCH_INDEX = 2
+        private const val DEFAULT_VALUE_VERSION_SEGMENT = 0
 
         public fun of(major: Int, minor: Int = 0, patch: Int = 0): ResultK<MessageVersion, Errors> =
             when {
@@ -103,13 +109,5 @@ public class MessageVersion private constructor(
 
         private fun patch(segments: List<String>): Int =
             if (segments.size == PATCH_INDEX + 1) segments[PATCH_INDEX].toInt() else DEFAULT_VALUE_VERSION_SEGMENT
-
-        private const val PATTERN: String = """^(0|[1-9]\d*)(\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?)?$"""
-        private val REGEX = PATTERN.toRegex()
-
-        private const val MAJOR_INDEX = 0
-        private const val MINOR_INDEX = 1
-        private const val PATCH_INDEX = 2
-        private const val DEFAULT_VALUE_VERSION_SEGMENT = 0
     }
 }

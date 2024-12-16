@@ -318,7 +318,9 @@ private fun generateMessageId(
 private fun <DATA> StepToExecution<DATA>.makeRequest(data: DATA): ResultK<Request, SagaExecutorErrors.MakeRequest> =
     makeRequest(requestBuilder, data)
 
-private fun <DATA> StepToRetryExecution<DATA>.makeRequest(data: DATA): ResultK<Request, SagaExecutorErrors.MakeRequest> =
+private fun <DATA> StepToRetryExecution<DATA>.makeRequest(
+    data: DATA
+): ResultK<Request, SagaExecutorErrors.MakeRequest> =
     makeRequest(requestBuilder, data)
 
 private fun <DATA> makeRequest(

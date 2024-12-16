@@ -6,6 +6,8 @@ public class ParametrizedSql private constructor(
 ) {
 
     public companion object {
+        private const val PARAMETER_NAME_PLACEHOLDER = "?"
+        private const val PREFIX_PARAMETER_NAME = ':'
 
         public fun of(sql: String): ParametrizedSql = parse(sql)
 
@@ -56,12 +58,10 @@ public class ParametrizedSql private constructor(
             val previous = this.put(name, size + 1)
             if (previous != null) error("The parameter `$name` is duplicated.")
         }
-
-        private const val PARAMETER_NAME_PLACEHOLDER = "?"
-        private const val PREFIX_PARAMETER_NAME = ':'
     }
 
     private class Stream(private val value: String) {
+        private var position = 0
         val currentChar: Char
             get() = value[position]
 
@@ -70,7 +70,5 @@ public class ParametrizedSql private constructor(
         }
 
         fun hasNextChar(): Boolean = position < value.length
-
-        private var position = 0
     }
 }

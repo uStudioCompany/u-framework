@@ -19,7 +19,8 @@ public fun interface ErrorReplyHandler<DATA> {
             deserializer: ResponseBodyDeserializer<BODY>,
             handler: (data: DATA, metadata: MetaData, body: BODY) -> ResultK<DATA, Failure>
         ): ErrorReplyHandler<DATA> = ErrorReplyHandler { data, reply ->
-            val serializedBody = reply.body ?: return@ErrorReplyHandler ReplyHandlerErrors.ReplyBodyMissing().asFailure()
+            val serializedBody = reply.body
+                ?: return@ErrorReplyHandler ReplyHandlerErrors.ReplyBodyMissing().asFailure()
             val body: BODY = deserializer(serializedBody)
                 .getOrForward { (failure) ->
                     return@ErrorReplyHandler ReplyHandlerErrors.ReplyBodyDeserialization(failure).asFailure()

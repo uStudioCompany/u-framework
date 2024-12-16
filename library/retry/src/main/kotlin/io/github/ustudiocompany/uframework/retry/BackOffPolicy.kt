@@ -17,12 +17,11 @@ public class BackOffPolicy internal constructor(
     }
 
     public companion object {
-
-        public fun default(): BackOffPolicy =
-            BackOffPolicy(min = MIN_DELAY_DEFAULT, max = MAX_DELAY_DEFAULT, step = STEP_DEFAULT)
-
         private val MIN_DELAY_DEFAULT: Duration = Duration.ofMillis(100)
         private val MAX_DELAY_DEFAULT: Duration = Duration.ofMinutes(1)
         private val STEP_DEFAULT: TimeStep = TimeStep.factor(1.5)
+
+        public fun default(): BackOffPolicy =
+            BackOffPolicy(min = MIN_DELAY_DEFAULT, max = MAX_DELAY_DEFAULT, step = STEP_DEFAULT)
     }
 }

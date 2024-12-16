@@ -29,15 +29,14 @@ public value class CorrelationId private constructor(public val get: String) {
     }
 
     public companion object {
+        private const val PATTERN: String =
+            """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
+        private val REGEX = PATTERN.toRegex()
 
         public fun of(value: String): ResultK<CorrelationId, Errors> =
             if (value.matches(REGEX))
                 CorrelationId(get = value).asSuccess()
             else
                 Errors.InvalidFormat(value = value).asFailure()
-
-        private const val PATTERN: String =
-            """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
-        private val REGEX = PATTERN.toRegex()
     }
 }

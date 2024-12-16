@@ -8,8 +8,9 @@ import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeOf
 import io.github.ustudiocompany.uframework.failure.typeOf
 
-public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>) where T : Enum<T>,
-                                                                                  T : EnumElementProvider.Key {
+public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>)
+    where T : Enum<T>,
+          T : EnumElementProvider.Key {
 
     public fun orNull(value: String): T? = info.values.find { value.equals(it.key, ignoreCase = true) }
 
@@ -22,8 +23,9 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>) wher
         public val key: String
     }
 
-    public class EnumInfo<T>(public val type: TypeOf<T>, public val values: Array<T>) where T : Enum<T>,
-                                                                                            T : Key
+    public class EnumInfo<T>(public val type: TypeOf<T>, public val values: Array<T>)
+        where T : Enum<T>,
+              T : Key
 
     public sealed class Errors<T> : TypeFailure<T>
         where T : Enum<T>,
@@ -50,8 +52,9 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>) wher
 
     public companion object {
 
-        public inline fun <reified T> info(): EnumInfo<T> where T : Enum<T>,
-                                                                T : Key =
+        public inline fun <reified T> info(): EnumInfo<T>
+            where T : Enum<T>,
+                  T : Key =
             EnumInfo(type = typeOf(), values = enumValues())
     }
 }

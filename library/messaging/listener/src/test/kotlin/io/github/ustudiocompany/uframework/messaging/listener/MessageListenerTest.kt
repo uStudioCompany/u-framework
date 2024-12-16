@@ -27,37 +27,6 @@ import java.time.Duration
 
 internal class MessageListenerTest : ComponentTest() {
 
-    companion object {
-        private const val FIRST_TOPIC = "topic-1"
-        private val FIRST_MESSAGE_KEY = MessageRoutingKey.of("key-1")
-        private const val FIRST_MESSAGE_BODY = "message-1"
-        private const val FIRST_MESSAGE_PARTITION = 1
-
-        private const val SECOND_TOPIC = "topic-2"
-        private val SECOND_MESSAGE_KEY = MessageRoutingKey.of("key-2")
-        private const val SECOND_MESSAGE_BODY = "message-1"
-        private const val SECOND_MESSAGE_PARTITION = 2
-
-        private val FIRST_MESSAGE = IncomingMessage(
-            routingKey = FIRST_MESSAGE_KEY,
-            body = FIRST_MESSAGE_BODY,
-            channel = IncomingMessage.Channel(name = FIRST_TOPIC, partition = FIRST_MESSAGE_PARTITION),
-            headers = Headers.EMPTY
-        )
-
-        private val SECOND_MESSAGE = IncomingMessage(
-            routingKey = SECOND_MESSAGE_KEY,
-            body = SECOND_MESSAGE_BODY,
-            channel = IncomingMessage.Channel(name = SECOND_TOPIC, partition = SECOND_MESSAGE_PARTITION),
-            headers = Headers.EMPTY
-        )
-
-        private val LOGGING: Logging = object : Logging {
-            override val logger: Logger
-                get() = LogbackLogger("Test", JsonFormatter)
-        }
-    }
-
     init {
 
         "Test receiver" - {
@@ -311,4 +280,35 @@ internal class MessageListenerTest : ComponentTest() {
             override val isEmpty: Boolean = false
             override fun iterator(): Iterator<IncomingMessage<String>> = this.ITEMS.iterator()
         }
+
+    companion object {
+        private const val FIRST_TOPIC = "topic-1"
+        private val FIRST_MESSAGE_KEY = MessageRoutingKey.of("key-1")
+        private const val FIRST_MESSAGE_BODY = "message-1"
+        private const val FIRST_MESSAGE_PARTITION = 1
+
+        private const val SECOND_TOPIC = "topic-2"
+        private val SECOND_MESSAGE_KEY = MessageRoutingKey.of("key-2")
+        private const val SECOND_MESSAGE_BODY = "message-1"
+        private const val SECOND_MESSAGE_PARTITION = 2
+
+        private val FIRST_MESSAGE = IncomingMessage(
+            routingKey = FIRST_MESSAGE_KEY,
+            body = FIRST_MESSAGE_BODY,
+            channel = IncomingMessage.Channel(name = FIRST_TOPIC, partition = FIRST_MESSAGE_PARTITION),
+            headers = Headers.EMPTY
+        )
+
+        private val SECOND_MESSAGE = IncomingMessage(
+            routingKey = SECOND_MESSAGE_KEY,
+            body = SECOND_MESSAGE_BODY,
+            channel = IncomingMessage.Channel(name = SECOND_TOPIC, partition = SECOND_MESSAGE_PARTITION),
+            headers = Headers.EMPTY
+        )
+
+        private val LOGGING: Logging = object : Logging {
+            override val logger: Logger
+                get() = LogbackLogger("Test", JsonFormatter)
+        }
+    }
 }

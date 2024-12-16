@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.saga.core.MetaData
 
-public class Command(
+public data class Command(
     public val channel: ChannelName,
     public val routingKey: MessageRoutingKey,
     public val correlationId: CorrelationId,

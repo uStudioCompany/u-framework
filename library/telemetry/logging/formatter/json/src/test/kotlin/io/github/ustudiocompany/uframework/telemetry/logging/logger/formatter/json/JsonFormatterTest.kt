@@ -6,14 +6,6 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
 internal class JsonFormatterTest : UnitTest() {
-    companion object {
-        private const val MESSAGE = "Unknown error."
-        private const val FIRST_ELEMENT_KEY = "key-1"
-        private const val FIRST_ELEMENT_VALUE = "value-1"
-        private const val SECOND_ELEMENT_KEY = "key-2"
-        private const val SECOND_ELEMENT_VALUE = "value-2"
-    }
-
     init {
         "The JsonFormatter" - {
 
@@ -84,5 +76,13 @@ internal class JsonFormatterTest : UnitTest() {
                 }
             }
         }
+    }
+
+    companion object {
+        private const val MESSAGE = "Unknown error."
+        private const val FIRST_ELEMENT_KEY = "key-1"
+        private const val FIRST_ELEMENT_VALUE = "value-1"
+        private const val SECOND_ELEMENT_KEY = "key-2"
+        private const val SECOND_ELEMENT_VALUE = "value-2"
     }
 }

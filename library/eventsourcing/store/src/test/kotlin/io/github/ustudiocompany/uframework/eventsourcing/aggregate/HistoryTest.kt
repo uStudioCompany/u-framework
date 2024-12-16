@@ -139,12 +139,12 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
             }
 
             "the function appending a new history event" - {
-                val history = (History.of(
+                val history = History.of(
                     listOf(
                         History.Event(INITIAL_REVISION, FIRST_MESSAGE_ID_VALUE),
                         History.Event(SECOND_REVISION, SECOND_MESSAGE_ID_VALUE)
                     )
-                ) as Success).value
+                ).let { (it as Success).value }
 
                 "when a new history event contains an unique message id" - {
                     val result = history.add(revision = THIRD_REVISION, messageId = THIRD_MESSAGE_ID_VALUE)
@@ -169,12 +169,12 @@ internal class HistoryTest : FreeSpec({ tags(TestTags.All, TestTags.Unit) }) {
             }
 
             "the function searching for a revision by message id" - {
-                val history = (History.of(
+                val history = History.of(
                     listOf(
                         History.Event(INITIAL_REVISION, FIRST_MESSAGE_ID_VALUE),
                         History.Event(SECOND_REVISION, SECOND_MESSAGE_ID_VALUE)
                     )
-                ) as Success).value
+                ).let { (it as Success).value }
 
                 "when history contains the message id" - {
 

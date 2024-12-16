@@ -32,6 +32,9 @@ public value class MessageId private constructor(public val get: String) {
     }
 
     public companion object {
+        private const val PATTERN: String =
+            """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
+        private val REGEX = PATTERN.toRegex()
 
         public fun generate(base: String): MessageId {
             val uuid = UUID.nameUUIDFromBytes(base.toByteArray())
@@ -43,9 +46,5 @@ public value class MessageId private constructor(public val get: String) {
                 MessageId(get = value).asSuccess()
             else
                 Errors.InvalidFormat(value = value).asFailure()
-
-        private const val PATTERN: String =
-            """^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"""
-        private val REGEX = PATTERN.toRegex()
     }
 }

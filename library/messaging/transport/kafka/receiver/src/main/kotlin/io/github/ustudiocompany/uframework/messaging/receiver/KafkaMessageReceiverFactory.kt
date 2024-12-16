@@ -31,7 +31,7 @@ public fun <T> kafkaMessageReceiverFactory(
 
 public fun interface KafkaMessageReceiverFactory<T> : MessageReceiverFactory<T> {
 
-    public class Properties<T>(
+    public data class Properties<T>(
         public val bootstrapServers: List<String>,
         public val groupId: String,
         public val deserializers: Deserializers<T>,

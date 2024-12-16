@@ -2,10 +2,10 @@ build:
   maxIssues: 0
   excludeCorrectable: false
 #  weights:
-#    complexity: 2
-#    LongParameterList: 1
-#    style: 1
-#    comments: 1
+#   complexity: 2
+#   LongParameterList: 1
+#   style: 1
+#   comments: 1
 
 config:
   validation: true
@@ -36,8 +36,8 @@ console-reports:
   exclude:
     #    - 'ProjectStatisticsReport'
     #    - 'ComplexityReport'
-    - 'NotificationReport'
-    - 'FindingsReport'
+    #    - 'NotificationReport'
+    #    - 'FindingsReport'
     #    - 'FileBasedFindingsReport'
     - 'LiteFindingsReport'
 
@@ -47,6 +47,8 @@ output-reports:
 #    - 'TxtOutputReport'
 #    - 'XmlOutputReport'
 #    - 'HtmlOutputReport'
+#    - 'MdOutputReport'
+#    - 'SarifOutputReport'
 
 comments:
   active: true
@@ -63,6 +65,9 @@ comments:
   EndOfSentenceFormat:
     active: false
     endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
+  KDocReferencesNonPublicProperty:
+    active: false
+    excludes: [ '**/test/**' ]
   OutdatedDocumentation:
     active: false
     matchTypeParameters: true
@@ -75,9 +80,11 @@ comments:
     searchInInnerClass: true
     searchInInnerObject: true
     searchInInnerInterface: true
+    searchInProtectedClass: true
   UndocumentedPublicFunction:
     active: false
     excludes: [ '**/test/**' ]
+    searchProtectedFunction: true
   UndocumentedPublicProperty:
     active: false
     excludes: [ '**/test/**' ]
@@ -115,7 +122,7 @@ complexity:
       - 'with'
   LabeledExpression:
     active: false
-    ignoredLabels: []
+    ignoredLabels: [ ]
   LargeClass:
     active: true
     threshold: 600
@@ -123,12 +130,12 @@ complexity:
     active: true
     threshold: 60
   LongParameterList:
-    active: false
+    active: true
     functionThreshold: 6
     constructorThreshold: 7
     ignoreDefaultParameters: false
     ignoreDataClasses: true
-    ignoreAnnotatedParameter: []
+    ignoreAnnotatedParameter: [ ]
   MethodOverloading:
     active: false
     threshold: 6
@@ -169,6 +176,7 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
+    ignoreAnnotatedFunctions: [ ]
 
 coroutines:
   active: true
@@ -315,7 +323,7 @@ naming:
     enumEntryPattern: '[A-Z][_a-zA-Z0-9]*'
   ForbiddenClassName:
     active: false
-    forbiddenName: []
+    forbiddenName: [ ]
   FunctionMaxLength:
     active: false
     maximumFunctionNameLength: 30
@@ -384,7 +392,7 @@ performance:
     active: true
     excludes: [ '**/test/**' ]
   SpreadOperator:
-    active: false
+    active: true
     excludes: [ '**/test/**' ]
   UnnecessaryPartOfBinaryExpression:
     active: true
@@ -418,7 +426,7 @@ potential-bugs:
       - 'java.util.HashMap'
   ElseCaseInsteadOfExhaustiveWhen:
     active: true
-    ignoredSubjectTypes: []
+    ignoredSubjectTypes: [ ]
   EqualsAlwaysReturnsTrueOrFalse:
     active: true
   EqualsWithHashCodeExist:
@@ -433,11 +441,18 @@ potential-bugs:
     active: true
     restrictToConfig: true
     returnValueAnnotations:
+      - 'CheckResult'
       - '*.CheckResult'
+      - 'CheckReturnValue'
       - '*.CheckReturnValue'
     ignoreReturnValueAnnotations:
+      - 'CanIgnoreReturnValue'
       - '*.CanIgnoreReturnValue'
-    ignoreFunctionCall: []
+    returnValueTypes:
+      - 'kotlin.sequences.Sequence'
+      - 'kotlinx.coroutines.flow.*Flow'
+      - 'java.util.stream.*Stream'
+    ignoreFunctionCall: [ ]
   ImplicitDefaultLocale:
     active: true
   ImplicitUnitReturnType:
@@ -484,7 +499,7 @@ potential-bugs:
   UnusedUnaryOperator:
     active: true
   UselessPostfixExpression:
-    active: false
+    active: true
   WrongEqualsTypeParameter:
     active: true
 
@@ -506,7 +521,7 @@ style:
     active: true
     includeElvis: true
   ClassOrdering:
-    active: false
+    active: true
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:
@@ -569,7 +584,7 @@ style:
     allowedPatterns: ''
   ForbiddenImport:
     active: false
-    imports: []
+    imports: [ ]
     forbiddenPatterns: ''
   ForbiddenMethodCall:
     active: true
@@ -580,7 +595,7 @@ style:
         value: 'kotlin.io.println'
   ForbiddenSuppress:
     active: true
-    rules: []
+    rules: [ ]
   ForbiddenVoid:
     active: true
     ignoreOverridden: false
@@ -589,7 +604,7 @@ style:
     active: true
     ignoreOverridableFunction: true
     ignoreActualFunction: true
-    excludedFunctions: []
+    excludedFunctions: [ ]
   LoopWithTooManyJumpStatements:
     active: true
     maxJumpCount: 1
@@ -617,12 +632,13 @@ style:
     active: true
     maxChainedCalls: 5
   MaxLineLength:
-    active: false
+    active: true
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
     excludeRawStrings: true
+    excludes: [ '**/test/**' ]
   MayBeConst:
     active: true
   ModifierOrder:
@@ -676,7 +692,7 @@ style:
   StringShouldBeRawString:
     active: true
     maxEscapedCharacterCount: 2
-    ignoredCharacters: []
+    ignoredCharacters: [ ]
   ThrowsCount:
     active: true
     max: 2
@@ -712,6 +728,7 @@ style:
     active: true
   UnnecessaryParentheses:
     active: true
+    allowForUnclearPrecedence: true
   UntilInsteadOfRangeTo:
     active: true
   UnusedImports:
@@ -726,7 +743,7 @@ style:
     allowedNames: ''
   UnusedPrivateProperty:
     active: true
-    allowedNames: ''
+    allowedNames: '_|ignored|expected|serialVersionUID'
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:
@@ -766,10 +783,8 @@ style:
     ignoreLateinitVar: false
   WildcardImport:
     active: true
-    excludes: [ '**/test/**' ]
     excludeImports:
       - 'java.util.*'
-
 
 formatting:
   active: true
@@ -778,6 +793,7 @@ formatting:
   AnnotationOnSeparateLine:
     active: false
     autoCorrect: false
+    indentSize: 4
   AnnotationSpacing:
     active: true
     autoCorrect: false
@@ -788,6 +804,7 @@ formatting:
     maxLineLength: 120
   BlockCommentInitialStarAlignment:
     active: true
+    autoCorrect: false
   ChainWrapping:
     active: true
     autoCorrect: false
@@ -855,9 +872,9 @@ formatting:
   ImportOrdering:
     active: true
     autoCorrect: false
-    layout: 'idea'
+    layout: '*,java.**,javax.**,kotlin.**,^'
   Indentation:
-    active: false
+    active: true
     autoCorrect: false
     indentSize: 4
   KdocWrapping:
@@ -1034,7 +1051,7 @@ formatting:
     active: true
     autoCorrect: false
   Wrapping:
-    active: false
+    active: true
     autoCorrect: false
     indentSize: 4
     maxLineLength: 120
@@ -1042,15 +1059,12 @@ formatting:
 libraries:
   active: true
   ForbiddenPublicDataClass:
-    active: true
-    excludes: [ '**' ]
+    active: false
     ignorePackages:
       - '*.internal'
       - '*.internal.*'
   LibraryCodeMustSpecifyReturnType:
     active: true
     allowOmitUnit: false
-    excludes: [ '**' ]
   LibraryEntitiesShouldNotBePublic:
-    active: true
-    excludes: [ '**' ]
+    active: false

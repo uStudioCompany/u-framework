@@ -162,7 +162,11 @@ public class MessageListener<T>(
                             entry(LISTENER_MESSAGE_INDEX_DIAGNOSTIC_CONTEXT_KEY, messageIndex),
                             entry(LISTENER_MESSAGE_CHANNEL_PARTITION_DIAGNOSTIC_CONTEXT_KEY, message.channel.partition)
                         ) {
-                            logger.debug { "Handling message ($messageIndex/$countMessages) from channel `${message.channel.name}[${message.channel.partition}]` with key `${message.routingKey}`" }
+                            logger.debug {
+                                "Handling message ($messageIndex/$countMessages) from channel " +
+                                    "`${message.channel.name}[${message.channel.partition}]` " +
+                                    "with key `${message.routingKey}`"
+                            }
 
                             try {
                                 handler.handle(message)

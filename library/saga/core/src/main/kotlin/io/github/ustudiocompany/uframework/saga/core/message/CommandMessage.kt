@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.saga.core.MetaData
 
-public class CommandMessage(
+public data class CommandMessage(
     public val routingKey: MessageRoutingKey,
     public val correlationId: CorrelationId,
     public val messageId: MessageId,

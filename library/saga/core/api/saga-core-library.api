@@ -84,6 +84,16 @@ public final class io/github/ustudiocompany/uframework/saga/core/extension/Messa
 
 public final class io/github/ustudiocompany/uframework/saga/core/message/CommandMessage {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/core/MetaData;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-N3_JE24 ()Ljava/lang/String;
+	public final fun component2-nc0Dkak ()Ljava/lang/String;
+	public final fun component3-e-GfBr8 ()Ljava/lang/String;
+	public final fun component4 ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
+	public final fun component5 ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
+	public final fun component6 ()Lio/github/ustudiocompany/uframework/saga/core/MetaData;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy-QMwh9WI (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/core/MetaData;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;
+	public static synthetic fun copy-QMwh9WI$default (Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lio/github/ustudiocompany/uframework/saga/core/MetaData;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/saga/core/message/CommandMessage;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBody ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
 	public final fun getMessageId-e-GfBr8 ()Ljava/lang/String;
@@ -91,6 +101,8 @@ public final class io/github/ustudiocompany/uframework/saga/core/message/Command
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/core/message/ReplyMessage {
