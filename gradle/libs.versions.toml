@@ -3,9 +3,10 @@
 coroutines = "1.7.3"
 
 #Libs
-airflux-functional = "0.0.1-SNAPSHOT"
 airflux-commons = "0.0.1-SNAPSHOT"
+feel-engine = "1.18.1"
 jackson = "2.16.1"
+json-path = "2.9.0"
 
 #Messaging
 kafka = "3.6.0"
@@ -43,6 +44,8 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
 #Libs
 airflux-commons-collections = { module = "io.github.airflux:airflux-commons-collections-jdk8", version.ref = "airflux-commons" }
 airflux-commons-types = { module = "io.github.airflux:airflux-commons-types-jdk8", version.ref = "airflux-commons" }
+feel-engine = { module = "org.camunda.feel:feel-engine", version.ref = "feel-engine" }
+json-path = { module = "com.jayway.jsonpath:json-path", version.ref = "json-path" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -58,6 +61,9 @@ logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback"
 logstash-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+
+#Docs
+knit-test = { module = "org.jetbrains.kotlinx:kotlinx-knit-test", version.ref = "knit" }
 
 #Test
 airflux-commons-types-kotest-matchers = { module = "io.github.airflux:airflux-commons-types-kotest-matchers-jdk8", version.ref = "airflux-commons" }
