@@ -45,10 +45,10 @@ object Configuration {
         fun RepositoryHandler.mavenSonatypeRepository(project: Project) {
             maven {
                 name = "mvn-repository"
-                url = if (project.version.toString().endsWith("SNAPSHOT", true))
-                    project.uri(System.getenv("REPOSITORY_SNAPSHOTS_URL") ?: DEFAULT_REPOSITORY_URL)
-                else
+                url = if (project.isReleaseBuild())
                     project.uri(System.getenv("REPOSITORY_RELEASES_URL") ?: DEFAULT_REPOSITORY_URL)
+                else
+                    project.uri(System.getenv("REPOSITORY_SNAPSHOTS_URL") ?: DEFAULT_REPOSITORY_URL)
 
                 credentials {
                     username = System.getenv("REPOSITORY_USERNAME")
