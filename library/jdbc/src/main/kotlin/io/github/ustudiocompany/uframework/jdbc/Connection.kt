@@ -6,23 +6,23 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 @OptIn(ExperimentalContracts::class)
+@Suppress("TooGenericExceptionCaught")
 public inline fun <T> Connection.withTransaction(block: Connection.() -> T): T {
     contract {
         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
     }
 
-    val exception: Throwable?
     return try {
         autoCommit = false
         val result = block(this)
         commit()
         result
-    } catch (expected: Exception) {
-        exception = expected
+    } catch (commitException: Throwable) {
         try {
             rollback()
-        } catch (ignore: Exception) {
+        } catch (rollbackException: Throwable) {
+            commitException.addSuppressed(rollbackException)
         }
-        throw exception
+        throw commitException
     }
 }
