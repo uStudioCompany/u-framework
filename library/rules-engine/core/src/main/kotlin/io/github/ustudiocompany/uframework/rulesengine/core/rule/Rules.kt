@@ -1,5 +1,4 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
-public data class Rules(
-    public val rules: List<Rule>
-)
+@JvmInline
+public value class Rules(private val get: List<Rule>) : List<Rule> by get
