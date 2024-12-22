@@ -1,5 +1,6 @@
 public final class io/github/ustudiocompany/uframework/jdbc/ConnectionKt {
-	public static final fun withTransaction (Ljava/sql/Connection;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withTransaction (Ljava/sql/Connection;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun withTransaction (Ljava/sql/Connection;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
@@ -31,7 +32,7 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Data$DuplicateKeyValue : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Data {
-	public fun <init> (Ljava/lang/Exception;)V
+	public fun <init> (Ljava/lang/Throwable;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
@@ -43,9 +44,9 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row$ReadColumn : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row {
-	public fun <init> (ILjava/lang/Exception;)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/Exception;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
+	public fun <init> (ILjava/lang/Throwable;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
@@ -76,7 +77,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$UnexpectedError : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
-	public fun <init> (Ljava/lang/Exception;)V
+	public fun <init> (Ljava/lang/Throwable;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;

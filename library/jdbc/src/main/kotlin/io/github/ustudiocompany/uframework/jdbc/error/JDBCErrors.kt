@@ -17,7 +17,7 @@ public sealed class JDBCErrors : Failure {
             "details=$details" +
             ")"
 
-    public class UnexpectedError(exception: Exception) : JDBCErrors() {
+    public class UnexpectedError(exception: Throwable) : JDBCErrors() {
         override val number: String = "1"
 
         override val description: String = "Unexpected error: '${exception.message}'."
@@ -84,7 +84,7 @@ public sealed class JDBCErrors : Failure {
                 this(ColumnLabel.Index(index), expected, actual)
         }
 
-        public class ReadColumn(public val label: ColumnLabel, cause: Exception) : Row() {
+        public class ReadColumn(public val label: ColumnLabel, cause: Throwable) : Row() {
             override val number: String = "3"
             override val description: String = "The error of reading column value"
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
@@ -96,8 +96,8 @@ public sealed class JDBCErrors : Failure {
                 }
                 .let { Failure.Details.of(it) }
 
-            public constructor(name: String, cause: Exception) : this(ColumnLabel.Name(name), cause)
-            public constructor(index: Int, cause: Exception) : this(ColumnLabel.Index(index), cause)
+            public constructor(name: String, cause: Throwable) : this(ColumnLabel.Name(name), cause)
+            public constructor(index: Int, cause: Throwable) : this(ColumnLabel.Index(index), cause)
         }
     }
 
@@ -105,7 +105,7 @@ public sealed class JDBCErrors : Failure {
         override val domain: String
             get() = super.domain + "-DATA"
 
-        public class DuplicateKeyValue(exception: Exception) : Data() {
+        public class DuplicateKeyValue(exception: Throwable) : Data() {
             override val number: String = "1"
             override val description: String = "The duplicate key value violates a unique constraint."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)

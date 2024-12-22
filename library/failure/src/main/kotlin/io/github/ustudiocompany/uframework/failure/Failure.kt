@@ -65,8 +65,8 @@ public interface Failure {
 
     public fun joinDescriptions(separator: String = " "): String = descriptions().joinToString(separator = separator)
 
-    public fun getException(): Exception? {
-        tailrec fun getException(failure: Failure): Exception? =
+    public fun getException(): Throwable? {
+        tailrec fun getException(failure: Failure): Throwable? =
             when (val cause = failure.cause) {
                 is Cause.None -> null
                 is Cause.Exception -> cause.get
@@ -88,11 +88,10 @@ public interface Failure {
                 }
             }
 
-        val allDetails = mutableListOf<Details.Item>()
-            .apply {
-                addAll(details)
-                appendDetailsFromCause(cause)
-            }
+        val allDetails = buildList<Details.Item> {
+            addAll(details)
+            appendDetailsFromCause(cause)
+        }
         return Details.of(allDetails)
     }
 
@@ -102,7 +101,7 @@ public interface Failure {
             override fun toString(): String = "None"
         }
 
-        public class Exception(public val get: kotlin.Exception) : Cause {
+        public class Exception(public val get: Throwable) : Cause {
             override fun toString(): String = "Exception: $get"
         }
 

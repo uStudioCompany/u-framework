@@ -61,7 +61,7 @@ public inline fun Logger.warn(diagnosticContext: DiagnosticContext = Empty, bloc
 }
 
 context (DiagnosticContext)
-public inline fun Logger.error(exception: Exception? = null, block: () -> String): Unit =
+public inline fun Logger.error(exception: Throwable? = null, block: () -> String): Unit =
     error(diagnosticContext = this@DiagnosticContext, exception = exception, block)
 
 public inline fun Logger.error(

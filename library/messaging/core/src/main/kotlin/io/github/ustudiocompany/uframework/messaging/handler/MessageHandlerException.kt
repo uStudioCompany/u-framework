@@ -15,7 +15,7 @@ public fun Exception.toMessageHandlerException(description: String): MessageHand
 public class MessageHandlerException private constructor(
     public val description: String,
     public val diagnosticContext: DiagnosticContext,
-    cause: Exception?
+    cause: Throwable?
 ) : RuntimeException(description, cause) {
 
     public companion object {
@@ -33,7 +33,7 @@ public class MessageHandlerException private constructor(
         }
 
         context(DiagnosticContext)
-        public fun make(exception: Exception, description: String): MessageHandlerException =
+        public fun make(exception: Throwable, description: String): MessageHandlerException =
             MessageHandlerException(
                 description = description,
                 diagnosticContext = this@DiagnosticContext,
