@@ -92,3 +92,6 @@ project(":event-sourcing-store-library").projectDir = file("./library/eventsourc
 /* Rules Engine */
 include(":rules-engine-core")
 project(":rules-engine-core").projectDir = file("./library/rules-engine/core")
+
+include(":rules-engine-executor")
+project(":rules-engine-executor").projectDir = file("./library/rules-engine/executor")
