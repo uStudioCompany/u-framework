@@ -7,7 +7,7 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public abstract fun getDomain ()Ljava/lang/String;
-	public fun getException ()Ljava/lang/Exception;
+	public fun getException ()Ljava/lang/Throwable;
 	public abstract fun getNumber ()Ljava/lang/String;
 	public fun joinDescriptions (Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun joinDescriptions$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
@@ -17,8 +17,8 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Exception : io/github/ustudiocompany/uframework/failure/Failure$Cause {
-	public fun <init> (Ljava/lang/Exception;)V
-	public final fun getGet ()Ljava/lang/Exception;
+	public fun <init> (Ljava/lang/Throwable;)V
+	public final fun getGet ()Ljava/lang/Throwable;
 	public fun toString ()Ljava/lang/String;
 }
 
