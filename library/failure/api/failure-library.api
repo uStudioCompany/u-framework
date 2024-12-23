@@ -1,7 +1,7 @@
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure {
-	public fun code ()Ljava/lang/String;
 	public fun descriptions ()Ljava/util/List;
 	public fun first ()Lio/github/ustudiocompany/uframework/failure/Failure;
+	public fun fullCode ()Ljava/lang/String;
 	public fun fullDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getDescription ()Ljava/lang/String;

@@ -11,7 +11,7 @@ public sealed class JDBCErrors : Failure {
 
     override fun toString(): String =
         "JDBCErrors(" +
-            "code=`${code()}`, " +
+            "code=`${fullCode()}`, " +
             "description='${joinDescriptions()}', " +
             "cause=`$cause`, " +
             "details=$details" +

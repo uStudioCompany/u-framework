@@ -7,7 +7,7 @@ public interface Failure {
     public val details: Details get() = Details.NONE
     public val cause: Cause get() = Cause.None
 
-    public fun code(): String {
+    public fun fullCode(): String {
         fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
             if (failure.domain.isNotEmpty()) {
                 append(failure.domain)
