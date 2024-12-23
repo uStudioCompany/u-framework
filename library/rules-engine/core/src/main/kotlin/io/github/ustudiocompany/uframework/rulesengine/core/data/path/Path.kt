@@ -43,8 +43,3 @@ public value class Path private constructor(public val get: JsonPath) {
         }
     }
 }
-
-internal fun main() {
-    val type = typeOf<Path>()
-    println(type.name + "-1")
-}
