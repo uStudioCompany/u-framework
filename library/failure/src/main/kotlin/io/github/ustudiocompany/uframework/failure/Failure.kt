@@ -9,8 +9,10 @@ public interface Failure {
 
     public fun code(): String {
         fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
-            append(failure.domain)
-            append(CODE_DELIMITER)
+            if (failure.domain.isNotEmpty()) {
+                append(failure.domain)
+                append(CODE_DELIMITER)
+            }
             append(failure.number)
         }
 
