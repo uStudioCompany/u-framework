@@ -23,6 +23,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.RequirementError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 public typealias ExecutionResult = ResultK<Unit, RuleEngineError>
@@ -92,12 +93,11 @@ public class RulesEngineExecutor(
         resultWith {
             val (target) = target.compute(context)
             val (compareWith) = compareWith.compute(context)
-
             val result = comparator.compare(target, compareWith)
             if (result)
                 Success.asUnit
             else
-                TODO("Refactored (return error if a comparator return false)")
+                RequirementError(this@execute.errorCode).asFailure()
         }
 
     private fun Step.Action.execute(context: Context): ExecutionResult =
