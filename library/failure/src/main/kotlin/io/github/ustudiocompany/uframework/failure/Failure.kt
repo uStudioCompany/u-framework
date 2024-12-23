@@ -115,6 +115,7 @@ public interface Failure {
     public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
         public operator fun plus(details: Details): Details = Details(this.items + details)
         public operator fun plus(item: Item): Details = Details(this.items + item)
+        public operator fun get(key: String): String? = items.find { it.key == key }?.value
 
         override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
 
