@@ -39,15 +39,14 @@ public value class History private constructor(
     )
 
     public sealed class Errors : Failure {
-        override val domain: String = "HISTORY"
 
         public data object HistoryIsEmpty : Errors() {
-            override val number: String = "1"
+            override val code: String = PREFIX + "1"
             override val description: String = "The history is empty."
         }
 
         public class InvalidRevision(public val expected: Revision, public val actual: Revision) : Errors() {
-            override val number: String = "2"
+            override val code: String = PREFIX + "2"
             override val description: String =
                 "Invalid revision. Expected: `${expected.get}`, actual: `${actual.get}`"
             override val details: Failure.Details = Failure.Details.of(
@@ -62,7 +61,7 @@ public value class History private constructor(
         }
 
         public class NonUniqueMessageId(public val id: MessageId) : Errors() {
-            override val number: String = "3"
+            override val code: String = PREFIX + "3"
             override val description: String =
                 "Non-unique message id. The message id: `${id.get}`"
             override val details: Failure.Details = Failure.Details.of(
@@ -76,6 +75,7 @@ public value class History private constructor(
     }
 
     public companion object {
+        private const val PREFIX = "HISTORY-"
 
         public fun of(revision: Revision, messageId: MessageId): ResultK<History, Errors> =
             of(Event(revision = revision, messageId = messageId))

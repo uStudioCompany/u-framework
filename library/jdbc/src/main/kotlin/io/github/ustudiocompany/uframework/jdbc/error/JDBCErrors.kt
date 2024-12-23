@@ -6,9 +6,6 @@ import java.sql.SQLException
 
 public sealed class JDBCErrors : Failure {
 
-    override val domain: String
-        get() = "JDBC"
-
     override fun toString(): String =
         "JDBCErrors(" +
             "code=`${fullCode()}`, " +
@@ -18,7 +15,7 @@ public sealed class JDBCErrors : Failure {
             ")"
 
     public class UnexpectedError(exception: Throwable) : JDBCErrors() {
-        override val number: String = "1"
+        override val code: String = PREFIX + "1"
 
         override val description: String = "Unexpected error: '${exception.message}'."
 
@@ -32,10 +29,7 @@ public sealed class JDBCErrors : Failure {
     }
 
     public class Connection(exception: Exception) : JDBCErrors() {
-        override val domain: String
-            get() = super.domain + "-CONNECTION"
-
-        override val number: String = "1"
+        override val code: String = PREFIX + "CONNECTION-1"
         override val description: String = "The connection error."
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
         override val details: Failure.Details =
@@ -46,11 +40,9 @@ public sealed class JDBCErrors : Failure {
     }
 
     public sealed class Row : JDBCErrors() {
-        override val domain: String
-            get() = super.domain + "-ROW"
 
         public class UndefinedColumn(public val label: ColumnLabel) : Row() {
-            override val number: String = "1"
+            override val code: String = PREFIX + "ROW-1"
             override val description: String = "Undefined column."
             override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
                 .apply {
@@ -67,7 +59,7 @@ public sealed class JDBCErrors : Failure {
             public val expected: String,
             public val actual: String
         ) : Row() {
-            override val number: String = "2"
+            override val code: String = PREFIX + "ROW-2"
             override val description: String = "The type of a column is mismatched."
             override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
                 .apply {
@@ -85,7 +77,7 @@ public sealed class JDBCErrors : Failure {
         }
 
         public class ReadColumn(public val label: ColumnLabel, cause: Throwable) : Row() {
-            override val number: String = "3"
+            override val code: String = PREFIX + "ROW-3"
             override val description: String = "The error of reading column value"
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
             override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
@@ -102,11 +94,9 @@ public sealed class JDBCErrors : Failure {
     }
 
     public sealed class Data : JDBCErrors() {
-        override val domain: String
-            get() = super.domain + "-DATA"
 
         public class DuplicateKeyValue(exception: Throwable) : Data() {
-            override val number: String = "1"
+            override val code: String = PREFIX + "DATA-1"
             override val description: String = "The duplicate key value violates a unique constraint."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
             override val details: Failure.Details =
@@ -118,6 +108,7 @@ public sealed class JDBCErrors : Failure {
     }
 
     private companion object {
+        private const val PREFIX = "JDBC-"
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
         private const val EXPECTED_COLUMN_TYPE_DETAILS_KEY = "expected-column-type"
         private const val ACTUAL_COLUMN_TYPE_DETAILS_KEY = "actual-column-type"

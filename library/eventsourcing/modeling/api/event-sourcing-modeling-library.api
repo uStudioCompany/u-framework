@@ -32,14 +32,13 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 }
 
 public abstract class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun getDomain ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors$HistoryIsEmpty : io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors {
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors$HistoryIsEmpty;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -47,18 +46,18 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors$InvalidRevision : io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors {
 	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getActual-xP0aac4 ()J
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun getExpected-xP0aac4 ()J
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors$NonUniqueMessageId : io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Errors {
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun getId-e-GfBr8 ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/History$Event {
@@ -109,9 +108,9 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 	public final fun copy (J)Lio/github/ustudiocompany/uframework/eventsourcing/common/Revision$Errors$Negative;
 	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/eventsourcing/common/Revision$Errors$Negative;JILjava/lang/Object;)Lio/github/ustudiocompany/uframework/eventsourcing/common/Revision$Errors$Negative;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 	public final fun getValue ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

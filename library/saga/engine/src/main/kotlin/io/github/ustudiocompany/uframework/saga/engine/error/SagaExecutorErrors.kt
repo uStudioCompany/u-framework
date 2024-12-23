@@ -5,14 +5,12 @@ import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ReplyHandlerErrors
 
 public sealed class SagaExecutorErrors : SagaErrors {
-    override val domain: String
-        get() = "SAGA-EXECUTOR"
 
     /**
      * Екземпляр саги не активний (S-2)
      */
     public data object SagaIsNotActive : SagaExecutorErrors() {
-        override val number: String = "1"
+        override val code: String = PREFIX + "1"
         override val description: String = "The saga instance is not active."
     }
 
@@ -20,7 +18,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Помилка ініціалізації початкових даних екземпляру саги (D-0).
      */
     public class DataInitialize(cause: Failure) : SagaExecutorErrors() {
-        override val number: String = "2"
+        override val code: String = PREFIX + "2"
         override val description: String = "An error of initialize the saga instance initial data."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
@@ -29,7 +27,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Помилка десеріалізації даних екземпляру саги (D-1)
      */
     public class DataDeserialization(cause: Failure) : SagaExecutorErrors() {
-        override val number: String = "3"
+        override val code: String = PREFIX + "3"
         override val description: String = "An error of deserialization the saga instance data."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
@@ -38,7 +36,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      *  Помилка серіалізації даних екземпляру саги (D-2)
      */
     public class DataSerialization(cause: Failure) : SagaExecutorErrors() {
-        override val number: String = "4"
+        override val code: String = PREFIX + "4"
         override val description: String = "An error of serialization the saga instance data."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
@@ -47,7 +45,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Неочікувана відповідь, не знайдена команда в історії кроків на яку прийшла відповідь (R-2)
      */
     public data object ReplyNotRelevant : SagaExecutorErrors() {
-        override val number: String = "5"
+        override val code: String = PREFIX + "5"
         override val description: String = "The reply is not relevant."
     }
 
@@ -59,17 +57,17 @@ public sealed class SagaExecutorErrors : SagaErrors {
         override val description: String = "An error of handling a reply."
 
         public class ReplyBodyMissing(cause: ReplyHandlerErrors.ReplyBodyMissing) : Reply() {
-            override val number: String = "6"
+            override val code: String = PREFIX + "REPLY-1"
             override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         }
 
         public class ReplyBodyDeserialization(cause: ReplyHandlerErrors.ReplyBodyDeserialization) : Reply() {
-            override val number: String = "7"
+            override val code: String = PREFIX + "REPLY-2"
             override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         }
 
         public class ReplyHandle(cause: ReplyHandlerErrors.ReplyHandle) : Reply() {
-            override val number: String = "8"
+            override val code: String = PREFIX + "REPLY-3"
             override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         }
     }
@@ -78,7 +76,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Сага не містить крок на який посилається крок з історії (R-3)
      */
     public class UnknownStep(index: Int, label: SagaStepLabel) : SagaExecutorErrors() {
-        override val number: String = "9"
+        override val code: String = PREFIX + "6"
         override val description: String = "The saga does not contain a step that is referenced by a step in history."
 
         override val details: Failure.Details = Failure.Details.of(
@@ -88,7 +86,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     }
 
     public data object CompensationCommandError : SagaExecutorErrors() {
-        override val number: String = "10"
+        override val code: String = PREFIX + "7"
         override val description: String = "An error of compensation command."
     }
 
@@ -96,12 +94,13 @@ public sealed class SagaExecutorErrors : SagaErrors {
      * Помилка створення запиту (MRFC-1)
      */
     public class MakeRequest(cause: Failure) : SagaExecutorErrors() {
-        override val number: String = "11"
+        override val code: String = PREFIX + "8"
         override val description: String = "An error of create a request."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     public companion object {
+        private const val PREFIX = "SAGA-EXECUTOR-"
         public const val STEP_INDEX_DETAIL_KEY: String = "step-index"
         public const val STEP_LABEL_DETAIL_KEY: String = "step-label"
     }

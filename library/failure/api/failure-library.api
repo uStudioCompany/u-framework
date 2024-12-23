@@ -4,11 +4,10 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 	public fun fullCode ()Ljava/lang/String;
 	public fun fullDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public abstract fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public abstract fun getDomain ()Ljava/lang/String;
 	public fun getException ()Ljava/lang/Throwable;
-	public abstract fun getNumber ()Ljava/lang/String;
 	public fun joinDescriptions (Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun joinDescriptions$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
@@ -102,7 +101,6 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Type
 	public static final field ACTUAL_VALUE_DETAIL_KEY Ljava/lang/String;
 	public static final field Companion Lio/github/ustudiocompany/uframework/failure/TypeFailure$Companion;
 	public static final field PATTERN_DETAIL_KEY Ljava/lang/String;
-	public fun getDomain ()Ljava/lang/String;
 	public abstract fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 

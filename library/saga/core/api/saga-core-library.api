@@ -202,8 +202,8 @@ public abstract class io/github/ustudiocompany/uframework/saga/core/step/SagaSte
 public final class io/github/ustudiocompany/uframework/saga/core/step/SagaStepLabel$Errors$IsBlank : io/github/ustudiocompany/uframework/saga/core/step/SagaStepLabel$Errors {
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/saga/core/step/SagaStepLabel$Errors$IsBlank;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -244,27 +244,26 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/han
 }
 
 public abstract class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun getDomain ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyDeserialization : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyMissing : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> ()V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyHandle : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/core/step/action/handler/SuccessfulReplyHandler {

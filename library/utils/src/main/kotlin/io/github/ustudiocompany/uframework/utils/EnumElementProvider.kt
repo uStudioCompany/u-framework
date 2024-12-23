@@ -34,7 +34,7 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>)
         public class UnexpectedValue<T>(override val type: TypeOf<T>, value: String, expected: Array<T>) : Errors<T>()
             where T : Enum<T>,
                   T : Key {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
             override val description: String =
                 "Unexpected value. Actual value: `$value`, expected values: ${expected.joinToString { it.key }}"
 

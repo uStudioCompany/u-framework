@@ -24,7 +24,7 @@ public value class ChannelName private constructor(public val get: String) {
             get() = typeOf<ChannelName>()
 
         public data object IsBlank : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
             override val description: String = "The value of the channel name is blank."
         }
     }

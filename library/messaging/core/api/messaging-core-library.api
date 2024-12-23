@@ -46,8 +46,8 @@ public abstract class io/github/ustudiocompany/uframework/messaging/message/Chan
 public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$IsBlank : io/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors {
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/messaging/message/ChannelName$Errors$IsBlank;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -114,25 +114,24 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun getDomain ()Ljava/lang/String;
 	public abstract fun getName ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$InvalidValue : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
 	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getName ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$Missing : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
 	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getName ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/Headers : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
@@ -172,15 +171,14 @@ public abstract interface class io/github/ustudiocompany/uframework/messaging/se
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun getDomain ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors$Send : io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Exception;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/sender/SentMessageMetadata {

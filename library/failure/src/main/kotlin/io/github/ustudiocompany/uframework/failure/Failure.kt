@@ -1,21 +1,12 @@
 package io.github.ustudiocompany.uframework.failure
 
 public interface Failure {
-    public val domain: String
-    public val number: String
+    public val code: String
     public val description: String get() = ""
     public val details: Details get() = Details.NONE
     public val cause: Cause get() = Cause.None
 
     public fun fullCode(): String {
-        fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
-            if (failure.domain.isNotEmpty()) {
-                append(failure.domain)
-                append(CODE_DELIMITER)
-            }
-            append(failure.number)
-        }
-
         tailrec fun StringBuilder.appendCodeFromCause(cause: Cause): StringBuilder =
             when (cause) {
                 is Cause.None -> this
@@ -23,13 +14,13 @@ public interface Failure {
                 is Cause.Failure -> {
                     val error = cause.get
                     append(CHAIN_DELIMITER)
-                        .appendCurrentCode(error)
+                        .append(error.code)
                         .appendCodeFromCause(error.cause)
                 }
             }
 
         return StringBuilder()
-            .appendCurrentCode(this)
+            .append(this.code)
             .appendCodeFromCause(cause)
             .toString()
     }
@@ -136,7 +127,6 @@ public interface Failure {
     }
 
     private companion object {
-        private const val CODE_DELIMITER = "-"
         private const val CHAIN_DELIMITER = "."
     }
 }

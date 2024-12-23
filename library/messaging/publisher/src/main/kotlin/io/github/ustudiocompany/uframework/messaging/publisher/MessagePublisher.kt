@@ -42,13 +42,16 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
     }
 
     public sealed class Errors : Failure {
-        override val domain: String = "MESSAGE-PUBLISHER"
 
         public class Publish(failure: MessageSender.Errors) : Errors() {
-            override val number: String = "1"
+            override val code: String = PREFIX + "1"
             override val description: String = "A message publishing error."
             override val details: Failure.Details = Failure.Details.NONE
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
+        }
+
+        private companion object {
+            private const val PREFIX = "MESSAGE-PUBLISHER-"
         }
     }
 

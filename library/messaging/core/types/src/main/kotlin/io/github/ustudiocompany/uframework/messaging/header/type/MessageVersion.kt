@@ -45,30 +45,32 @@ public class MessageVersion private constructor(
             get() = typeOf<MessageVersion>()
 
         public sealed class InvalidVersionSegmentValue : Errors() {
-            override val domain: String
-                get() = super.domain + "-SEGMENT"
 
             public class Major(public val value: Int) : InvalidVersionSegmentValue() {
-                override val number: String = "1"
+                override val code: String = type.name + PREFIX + "1"
                 override val description: String
                     get() = "Invalid value `$value` of the major segment."
             }
 
             public class Minor(public val value: Int) : InvalidVersionSegmentValue() {
-                override val number: String = "2"
+                override val code: String = type.name + PREFIX + "2"
                 override val description: String
                     get() = "Invalid value `$value` of the minor segment."
             }
 
             public class Patch(public val value: Int) : InvalidVersionSegmentValue() {
-                override val number: String = "3"
+                override val code: String = type.name + PREFIX + "3"
                 override val description: String
                     get() = "Invalid value `$value` of the patch segment."
+            }
+
+            private companion object {
+                private const val PREFIX = "-SEGMENT-"
             }
         }
 
         public class InvalidFormat(value: String) : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
 
             override val description: String = "The value `$value` mismatches the pattern `$PATTERN`."
 

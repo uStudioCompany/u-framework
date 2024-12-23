@@ -26,16 +26,19 @@ internal class TestAggregateFactory : AggregateFactory<TestAggregate, TestEntity
         }
 
     internal sealed class Errors : Failure {
-        override val domain: String = "TEST-AGGREGATE-FACTORY"
 
         class UnexpectedEvent(private val event: TestEvent) : Errors() {
-            override val number: String = "1"
+            override val code: String = PREFIX + "1"
             override val description: String = "The unexpected event."
         }
 
         class ApplyEvent(private val event: TestEvent) : Errors() {
-            override val number: String = "2"
+            override val code: String = PREFIX + "2"
             override val description: String = "The applying event error."
+        }
+
+        private companion object {
+            private const val PREFIX = "TEST-AGGREGATE-FACTORY-"
         }
     }
 }

@@ -82,7 +82,7 @@ public class SagaManager(
         correlationId: CorrelationId
     ): ResultK<SagaExecutionStateRecord, SagaErrors> = resultWith {
         val (state) = repository.load(correlationId).mapFailure { SagaStorageErrors.Storage(it) }
-        return state?.asSuccess() ?: SagaManagerErrors.SagaInstanceNotfound(correlationId).asFailure()
+        return state?.asSuccess() ?: SagaManagerErrors.SagaInstanceNotFound(correlationId).asFailure()
     }
 
     /**
