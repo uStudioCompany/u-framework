@@ -26,7 +26,7 @@ public class MessageName private constructor(public val name: String) : Comparab
             get() = typeOf<MessageName>()
 
         public class InvalidFormat(value: String) : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
 
             override val description: String = "The value `$value` mismatches the pattern `$PATTERN`."
 

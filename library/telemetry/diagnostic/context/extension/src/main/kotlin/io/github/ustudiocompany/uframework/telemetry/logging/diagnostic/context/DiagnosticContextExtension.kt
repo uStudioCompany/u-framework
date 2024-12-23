@@ -21,4 +21,4 @@ public inline fun <T, E : Failure> DiagnosticContext.withDiagnosticContext(
 public operator fun <E : Failure> DiagnosticContext.plus(error: E): DiagnosticContext =
     error.details
         .fold(this) { acc, detail -> acc + DiagnosticContext.Entry(key = detail.key, value = detail.value) }
-        .plus(entry(ERROR_CODE_DIAGNOSTIC_CONTEXT_KEY, error.code()))
+        .plus(entry(ERROR_CODE_DIAGNOSTIC_CONTEXT_KEY, error.fullCode()))

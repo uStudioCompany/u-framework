@@ -20,7 +20,7 @@ public value class MessageId private constructor(public val get: String) {
             get() = typeOf<MessageId>()
 
         public class InvalidFormat(value: String) : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
 
             override val description: String = "The value is an invalid format."
 

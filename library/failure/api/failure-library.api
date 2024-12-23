@@ -1,14 +1,13 @@
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure {
-	public fun code ()Ljava/lang/String;
 	public fun descriptions ()Ljava/util/List;
 	public fun first ()Lio/github/ustudiocompany/uframework/failure/Failure;
+	public fun fullCode ()Ljava/lang/String;
 	public fun fullDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public abstract fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public abstract fun getDomain ()Ljava/lang/String;
 	public fun getException ()Ljava/lang/Throwable;
-	public abstract fun getNumber ()Ljava/lang/String;
 	public fun joinDescriptions (Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun joinDescriptions$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
@@ -18,13 +17,23 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Fail
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Exception : io/github/ustudiocompany/uframework/failure/Failure$Cause {
 	public fun <init> (Ljava/lang/Throwable;)V
+	public final fun component1 ()Ljava/lang/Throwable;
+	public final fun copy (Ljava/lang/Throwable;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Ljava/lang/Throwable;
+	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Failure : io/github/ustudiocompany/uframework/failure/Failure$Cause {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/failure/Failure;
+	public final fun copy (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;Lio/github/ustudiocompany/uframework/failure/Failure;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Lio/github/ustudiocompany/uframework/failure/Failure;
+	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -50,6 +59,7 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details :
 	public fun containsAll (Ljava/util/Collection;)Z
 	public fun get (I)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
 	public synthetic fun get (I)Ljava/lang/Object;
+	public final fun get (Ljava/lang/String;)Ljava/lang/String;
 	public fun getSize ()I
 	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)I
 	public final fun indexOf (Ljava/lang/Object;)I
@@ -86,8 +96,14 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details$C
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Details$Item {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getKey ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -95,7 +111,6 @@ public abstract interface class io/github/ustudiocompany/uframework/failure/Type
 	public static final field ACTUAL_VALUE_DETAIL_KEY Ljava/lang/String;
 	public static final field Companion Lio/github/ustudiocompany/uframework/failure/TypeFailure$Companion;
 	public static final field PATTERN_DETAIL_KEY Ljava/lang/String;
-	public fun getDomain ()Ljava/lang/String;
 	public abstract fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 

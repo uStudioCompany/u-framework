@@ -34,7 +34,7 @@ public value class Revision private constructor(public val get: Long) : Comparab
             get() = typeOf<Revision>()
 
         public data class Negative(val value: Long) : Errors() {
-            override val number: String get() = "1"
+            override val code: String = type.name + "1"
 
             override val description: String
                 get() = "The value is negative."

@@ -24,9 +24,9 @@ public abstract class io/github/ustudiocompany/uframework/utils/EnumElementProvi
 
 public final class io/github/ustudiocompany/uframework/utils/EnumElementProvider$Errors$UnexpectedValue : io/github/ustudiocompany/uframework/utils/EnumElementProvider$Errors {
 	public synthetic fun <init> (Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Enum;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 	public fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 

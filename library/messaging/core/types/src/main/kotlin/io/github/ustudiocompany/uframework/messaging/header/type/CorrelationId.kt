@@ -19,7 +19,7 @@ public value class CorrelationId private constructor(public val get: String) {
             get() = typeOf<CorrelationId>()
 
         public class InvalidFormat(value: String) : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
             override val description: String = "Value has an invalid format."
             override val details: Failure.Details = Failure.Details.of(
                 PATTERN_DETAIL_KEY to PATTERN,

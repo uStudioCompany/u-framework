@@ -7,14 +7,12 @@ import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
 import io.github.ustudiocompany.uframework.saga.core.SagaLabel
 
 public sealed class SagaManagerErrors : SagaErrors {
-    override val domain: String
-        get() = "SAGA-MANAGER"
 
     /**
      * SI-1
      */
-    public class SagaInstanceNotfound(public val correlationId: CorrelationId) : SagaManagerErrors() {
-        override val number: String = "1"
+    public class SagaInstanceNotFound(public val correlationId: CorrelationId) : SagaManagerErrors() {
+        override val code: String = PREFIX + "1"
         override val details: Failure.Details = Failure.Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get
         )
@@ -29,7 +27,7 @@ public sealed class SagaManagerErrors : SagaErrors {
         public val name: MessageName,
         public val version: MessageVersion
     ) : SagaManagerErrors() {
-        override val number: String = "2"
+        override val code: String = PREFIX + "2"
         override val details: Failure.Details = Failure.Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get,
             MESSAGE_ACTION_DETAIL_KEY to name.name,
@@ -41,7 +39,7 @@ public sealed class SagaManagerErrors : SagaErrors {
         public val correlationId: CorrelationId,
         public val label: SagaLabel
     ) : SagaManagerErrors() {
-        override val number: String = "3"
+        override val code: String = PREFIX + "3"
         override val details: Failure.Details = Failure.Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get,
             SAGA_LABEL_DETAIL_KEY to label.get
@@ -49,6 +47,7 @@ public sealed class SagaManagerErrors : SagaErrors {
     }
 
     public companion object {
+        private const val PREFIX = "SAGA-MANAGER-"
         public const val CORRELATION_ID_DETAIL_KEY: String = "correlation-id"
         public const val MESSAGE_ACTION_DETAIL_KEY: String = "message-action"
         public const val MESSAGE_VERSION_DETAIL_KEY: String = "message-version"

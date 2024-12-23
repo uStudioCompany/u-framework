@@ -1,19 +1,12 @@
 package io.github.ustudiocompany.uframework.failure
 
 public interface Failure {
-    public val domain: String
-    public val number: String
+    public val code: String
     public val description: String get() = ""
     public val details: Details get() = Details.NONE
     public val cause: Cause get() = Cause.None
 
-    public fun code(): String {
-        fun StringBuilder.appendCurrentCode(failure: Failure): StringBuilder = apply {
-            append(failure.domain)
-            append(CODE_DELIMITER)
-            append(failure.number)
-        }
-
+    public fun fullCode(): String {
         tailrec fun StringBuilder.appendCodeFromCause(cause: Cause): StringBuilder =
             when (cause) {
                 is Cause.None -> this
@@ -21,13 +14,13 @@ public interface Failure {
                 is Cause.Failure -> {
                     val error = cause.get
                     append(CHAIN_DELIMITER)
-                        .appendCurrentCode(error)
+                        .append(error.code)
                         .appendCodeFromCause(error.cause)
                 }
             }
 
         return StringBuilder()
-            .appendCurrentCode(this)
+            .append(this.code)
             .appendCodeFromCause(cause)
             .toString()
     }
@@ -58,9 +51,10 @@ public interface Failure {
                 }
             }
 
-        return mutableListOf<String>()
-            .appendCurrentDescription(this)
-            .appendDescriptionFromCause(cause)
+        return buildList<String> {
+            appendCurrentDescription(this@Failure)
+            appendDescriptionFromCause(cause)
+        }
     }
 
     public fun joinDescriptions(separator: String = " "): String = descriptions().joinToString(separator = separator)
@@ -101,22 +95,23 @@ public interface Failure {
             override fun toString(): String = "None"
         }
 
-        public class Exception(public val get: Throwable) : Cause {
-            override fun toString(): String = "Exception: $get"
+        public data class Exception(public val get: Throwable) : Cause {
+            override fun toString(): String = "Exception: `$get`"
         }
 
-        public class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
-            override fun toString(): String = "Failure: $get"
+        public data class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
+            override fun toString(): String = "Failure: `$get`"
         }
     }
 
     public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
         public operator fun plus(details: Details): Details = Details(this.items + details)
         public operator fun plus(item: Item): Details = Details(this.items + item)
+        public operator fun get(key: String): String? = items.find { it.key == key }?.value
 
         override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
 
-        public class Item(public val key: String, public val value: String) {
+        public data class Item(public val key: String, public val value: String) {
             override fun toString(): String = "$key=`$value`"
         }
 
@@ -133,7 +128,6 @@ public interface Failure {
     }
 
     private companion object {
-        private const val CODE_DELIMITER = "-"
         private const val CHAIN_DELIMITER = "."
     }
 }

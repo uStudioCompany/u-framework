@@ -22,9 +22,9 @@ public abstract class io/github/ustudiocompany/uframework/messaging/header/type/
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/header/type/CorrelationId$Errors {
 	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageId {
@@ -52,9 +52,9 @@ public abstract class io/github/ustudiocompany/uframework/messaging/header/type/
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageId$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/header/type/MessageId$Errors {
 	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageName : java/lang/Comparable {
@@ -78,9 +78,9 @@ public abstract class io/github/ustudiocompany/uframework/messaging/header/type/
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageName$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/header/type/MessageName$Errors {
 	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageStatus : java/lang/Enum, io/github/ustudiocompany/uframework/utils/EnumElementProvider$Key {
@@ -135,33 +135,32 @@ public abstract class io/github/ustudiocompany/uframework/messaging/header/type/
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidFormat : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors {
 	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getNumber ()Ljava/lang/String;
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors {
-	public fun getDomain ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue$Major : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue {
 	public fun <init> (I)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public final fun getValue ()I
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue$Minor : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue {
 	public fun <init> (I)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public final fun getValue ()I
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue$Patch : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue {
 	public fun <init> (I)V
+	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getNumber ()Ljava/lang/String;
 	public final fun getValue ()I
 }
 

@@ -15,7 +15,7 @@ public value class SagaStepLabel private constructor(public val get: String) {
             get() = typeOf<SagaStepLabel>()
 
         public data object IsBlank : Errors() {
-            override val number: String = "1"
+            override val code: String = type.name + "1"
             override val description: String = "The step label is blank."
         }
     }
