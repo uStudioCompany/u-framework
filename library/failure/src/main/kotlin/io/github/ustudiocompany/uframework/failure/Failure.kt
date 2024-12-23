@@ -118,7 +118,7 @@ public interface Failure {
 
         override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
 
-        public class Item(public val key: String, public val value: String) {
+        public data class Item(public val key: String, public val value: String) {
             override fun toString(): String = "$key=`$value`"
         }
 
