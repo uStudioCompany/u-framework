@@ -30,44 +30,47 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/UriB
 	public final fun queryParams (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getCause ()Ljava/lang/Throwable;
-	public fun getMessage ()Ljava/lang/String;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$SourceAlreadyExists : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$SourceMissing : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getCause ()Ljava/lang/Throwable;
-	public fun getMessage ()Ljava/lang/String;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$PathMissing : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
-	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$PathParsing : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RequirementError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Ljava/lang/String;)V
-	public fun getCause ()Ljava/lang/Throwable;
-	public final fun getCode ()Ljava/lang/String;
-	public fun getMessage ()Ljava/lang/String;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public abstract fun getCause ()Ljava/lang/Throwable;
-	public abstract fun getMessage ()Ljava/lang/String;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
