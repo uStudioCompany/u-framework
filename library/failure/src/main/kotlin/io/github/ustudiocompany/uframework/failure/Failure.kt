@@ -51,9 +51,10 @@ public interface Failure {
                 }
             }
 
-        return mutableListOf<String>()
-            .appendCurrentDescription(this)
-            .appendDescriptionFromCause(cause)
+        return buildList<String> {
+            appendCurrentDescription(this@Failure)
+            appendDescriptionFromCause(cause)
+        }
     }
 
     public fun joinDescriptions(separator: String = " "): String = descriptions().joinToString(separator = separator)
@@ -94,12 +95,12 @@ public interface Failure {
             override fun toString(): String = "None"
         }
 
-        public class Exception(public val get: Throwable) : Cause {
-            override fun toString(): String = "Exception: $get"
+        public data class Exception(public val get: Throwable) : Cause {
+            override fun toString(): String = "Exception: `$get`"
         }
 
-        public class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
-            override fun toString(): String = "Failure: $get"
+        public data class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
+            override fun toString(): String = "Failure: `$get`"
         }
     }
 
