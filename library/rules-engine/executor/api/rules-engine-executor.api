@@ -58,13 +58,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$PathParsing : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
-	public fun <init> (Ljava/lang/String;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RequirementError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;

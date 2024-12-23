@@ -144,14 +144,16 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/pat
 	public final fun compile (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
-	public abstract fun getMessage ()Ljava/lang/String;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors : io/github/ustudiocompany/uframework/failure/TypeFailure {
+	public fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$PathParsing : io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public final fun getCause ()Ljava/lang/Exception;
-	public fun getMessage ()Ljava/lang/String;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ArgType : java/lang/Enum {

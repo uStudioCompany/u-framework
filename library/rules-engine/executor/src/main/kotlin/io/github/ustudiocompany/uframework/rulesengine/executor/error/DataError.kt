@@ -14,14 +14,6 @@ public sealed interface DataError : RuleEngineError {
         )
     }
 
-    public class PathParsing(path: String) : DataError {
-        override val code: String = PREFIX + "2"
-        override val description: String = "The error of parsing a path: `$path`."
-        override val details: Failure.Details = Failure.Details.of(
-            DETAILS_KEY_PATH to path.toString()
-        )
-    }
-
     private companion object {
         private const val PREFIX = "RULES-ENGINE-DATA-"
         private const val DETAILS_KEY_PATH = "data-path"
