@@ -17,10 +17,10 @@ public value class Path private constructor(public val get: JsonPath) {
     public companion object {
 
         @JvmStatic
-        public fun compile(path: String): ResultK<Path, Errors.PathParsing> = try {
+        public fun compile(path: String): ResultK<Path, Errors.Parsing> = try {
             Path(JsonPath.compile(path)).asSuccess()
         } catch (expected: Exception) {
-            Errors.PathParsing(path, expected).asFailure()
+            Errors.Parsing(path, expected).asFailure()
         }
     }
 
@@ -29,7 +29,7 @@ public value class Path private constructor(public val get: JsonPath) {
         override val type: TypeOf<Path>
             get() = typeOf<Path>()
 
-        public class PathParsing(path: String, cause: Exception) : Errors {
+        public class Parsing(path: String, cause: Exception) : Errors {
             override val code: String = type.name + "-1"
             override val description: String = "Error of parsing json path: `$path`."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)

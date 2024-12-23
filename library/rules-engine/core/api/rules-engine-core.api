@@ -148,7 +148,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$PathParsing : io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
