@@ -9,9 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 
-public class Context {
-
-    private val data = mutableMapOf<Source, DataElement>()
+public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
     public fun insert(source: Source, value: DataElement): ResultK<Unit, ContextError> {
         if (source in data)
@@ -34,4 +32,9 @@ public class Context {
             ?: failure(ContextError.SourceMissing(source))
 
     public operator fun contains(source: Source): Boolean = source in data
+
+    public companion object {
+        public fun empty(): Context = Context(mutableMapOf<Source, DataElement>())
+        public operator fun invoke(elements: Map<Source, DataElement>): Context = Context(elements.toMutableMap())
+    }
 }

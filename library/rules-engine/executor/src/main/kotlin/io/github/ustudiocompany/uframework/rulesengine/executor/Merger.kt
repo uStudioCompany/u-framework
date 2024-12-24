@@ -5,5 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 public fun interface Merger {
-    public fun merge(origin: DataElement, target: DataElement): ResultK<DataElement, RuleEngineError>
+    public fun merge(origin: DataElement, target: DataElement): ResultK<DataElement, Error>
+
+    public interface Error : RuleEngineError
 }

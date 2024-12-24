@@ -46,6 +46,9 @@ airflux-commons-collections = { module = "io.github.airflux:airflux-commons-coll
 airflux-commons-types = { module = "io.github.airflux:airflux-commons-types-jdk17", version.ref = "airflux-commons" }
 feel-engine = { module = "org.camunda.feel:feel-engine", version.ref = "feel-engine" }
 json-path = { module = "com.jayway.jsonpath:json-path", version.ref = "json-path" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jsckson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -94,3 +97,4 @@ database = ["hikaricp", "postgresql"]
 testcontainers-core = ["testcontainers-junit"]
 testcontainers-postgresql = ["testcontainers-postgresql", "liquibase-core"]
 testcontainers-kafka = ["testcontainers-kafka"]
+jackson = ["jackson-core", "jackson-databind", "jsckson-module-kotlin"]

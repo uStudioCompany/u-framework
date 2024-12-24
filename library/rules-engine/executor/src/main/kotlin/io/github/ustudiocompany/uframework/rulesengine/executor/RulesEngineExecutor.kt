@@ -13,7 +13,6 @@ import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverseTo
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ArgType
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Predicate
@@ -21,8 +20,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Predicates
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Step
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RequirementError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
@@ -61,7 +59,7 @@ public class RulesEngineExecutor(
             val argValues = mutableMapOf<String, DataElement>()
             forEach { arg ->
                 if (arg.type == argType) {
-                    val result = arg.value.compute(context)
+                    val result = arg.value.compute(context, configuration)
                     if (result.isFailure()) return result
                     argValues[arg.name] = result.value
                 }
@@ -91,8 +89,8 @@ public class RulesEngineExecutor(
 
     private fun Step.Requirement.execute(context: Context): ExecutionResult =
         resultWith {
-            val (target) = target.compute(context)
-            val (compareWith) = compareWith.compute(context)
+            val (target) = target.compute(context, configuration)
+            val (compareWith) = compareWith.compute(context, configuration)
             val result = comparator.compare(target, compareWith)
             if (result)
                 Success.asUnit
@@ -128,43 +126,31 @@ public class RulesEngineExecutor(
         }.asSuccess()
 
     private fun Predicate.isFulfilled(context: Context): ResultK<Boolean, RuleEngineError> = result {
-        val (target) = target.compute(context)
-        val (compareWith) = compareWith.compute(context)
+        val (target) = target.compute(context, configuration)
+        val (compareWith) = compareWith.compute(context, configuration)
         comparator.compare(target, compareWith)
     }
 
-    private fun DataElement.select(path: Path): ResultK<DataElement, DataError> = try {
-        path.get.read<DataElement>(this, configuration).asSuccess()
-    } catch (expected: Exception) {
-        DataError.PathMissing(path, expected).asFailure()
-    }
-
-    public fun Value.compute(context: Context): ResultK<DataElement, RuleEngineError> = when (this) {
-        is Value.Literal -> fact.asSuccess()
-        is Value.Reference -> context[source].andThen { element -> element.select(path) }
-        is Value.Expression -> expression.asSuccess()
-    }
-
-    public fun DataScheme.build(context: Context): ResultK<DataElement, RuleEngineError> {
+    private fun DataScheme.build(context: Context): ResultK<DataElement, RuleEngineError> {
         return when (this) {
             is DataScheme.Struct -> properties.toStruct(context)
             is DataScheme.Array -> items.toArray(context)
         }
     }
 
-    public fun DataScheme.Property.build(context: Context): ResultK<Pair<String, DataElement>, RuleEngineError> {
+    private fun DataScheme.Property.build(context: Context): ResultK<Pair<String, DataElement>, RuleEngineError> {
         return when (this) {
             is DataScheme.Property.Struct -> properties.toStruct(context).map { struct -> name to struct }
             is DataScheme.Property.Array -> items.toArray(context).map { array -> name to array }
-            is DataScheme.Property.Element -> value.compute(context).map { value -> name to value }
+            is DataScheme.Property.Element -> value.compute(context, configuration).map { value -> name to value }
         }
     }
 
-    public fun DataScheme.Item.build(context: Context): ResultK<DataElement, RuleEngineError> {
+    private fun DataScheme.Item.build(context: Context): ResultK<DataElement, RuleEngineError> {
         return when (this) {
             is DataScheme.Item.Struct -> properties.toStruct(context)
             is DataScheme.Item.Array -> items.toArray(context)
-            is DataScheme.Item.Element -> value.compute(context)
+            is DataScheme.Item.Element -> value.compute(context, configuration)
         }
     }
 

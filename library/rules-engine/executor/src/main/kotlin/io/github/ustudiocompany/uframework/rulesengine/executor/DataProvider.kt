@@ -6,5 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngine
 import java.net.URI
 
 public fun interface DataProvider {
-    public fun call(uri: URI, headers: Map<String, DataElement>): ResultK<DataElement, RuleEngineError>
+    public fun call(uri: URI, headers: Map<String, DataElement>): ResultK<DataElement, Error>
+
+    public interface Error : RuleEngineError
 }
