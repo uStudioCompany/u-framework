@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor.path
+package io.github.ustudiocompany.uframework.rulesengine.core.data.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jayway.jsonpath.Configuration
@@ -6,7 +6,7 @@ import com.jayway.jsonpath.TypeRef
 import com.jayway.jsonpath.spi.mapper.MappingException
 import com.jayway.jsonpath.spi.mapper.MappingProvider
 
-public class DataElementMappingProvider(private val objectMapper: ObjectMapper) : MappingProvider {
+internal class DataElementMappingProvider(private val objectMapper: ObjectMapper) : MappingProvider {
 
     override fun <T> map(source: Any?, targetType: Class<T>, configuration: Configuration): T? {
         if (source == null) return null

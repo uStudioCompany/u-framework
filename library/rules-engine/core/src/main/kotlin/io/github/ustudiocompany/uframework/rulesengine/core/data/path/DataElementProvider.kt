@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor.path
+package io.github.ustudiocompany.uframework.rulesengine.core.data.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
@@ -14,7 +14,7 @@ import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
 
 @Suppress("TooManyFunctions")
-public class DataElementProvider(
+internal class DataElementProvider(
     private val objectMapper: ObjectMapper,
     private val objectReader: ObjectReader
 ) : JsonProvider {
@@ -121,7 +121,7 @@ public class DataElementProvider(
         else if (isArray(obj)) {
             val array = obj as DataElement.Array
             val index = if (key != null)
-                if (key is Int) key else key.toString().toInt()
+                key as? Int ?: key.toString().toInt()
             else
                 array.size
 

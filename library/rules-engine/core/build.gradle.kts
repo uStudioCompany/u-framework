@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.airflux.commons.types) {
         isChanging = true
     }
+    implementation(libs.bundles.jackson)
 
     /* Test */
     testImplementation(libs.bundles.kotest)

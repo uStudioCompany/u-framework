@@ -16,18 +16,12 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun call (Ljava/net/URI;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Error : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
 	public abstract fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Error : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
-	public fun <init> (Lcom/jayway/jsonpath/Configuration;Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/executor/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
@@ -36,6 +30,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/UriB
 	public final fun build ()Ljava/net/URI;
 	public final fun pathParams (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder;
 	public final fun queryParams (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
@@ -58,12 +59,18 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$PathMissing : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
-	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Ljava/lang/Throwable;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$Search;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/MergeError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RequirementError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
@@ -73,38 +80,5 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/path/DataElementMappingProvider : com/jayway/jsonpath/spi/mapper/MappingProvider {
-	public fun <init> (Lcom/fasterxml/jackson/databind/ObjectMapper;)V
-	public fun map (Ljava/lang/Object;Lcom/jayway/jsonpath/TypeRef;Lcom/jayway/jsonpath/Configuration;)Ljava/lang/Object;
-	public fun map (Ljava/lang/Object;Ljava/lang/Class;Lcom/jayway/jsonpath/Configuration;)Ljava/lang/Object;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/path/DataElementProvider : com/jayway/jsonpath/spi/json/JsonProvider {
-	public fun <init> (Lcom/fasterxml/jackson/databind/ObjectMapper;Lcom/fasterxml/jackson/databind/ObjectReader;)V
-	public fun createArray ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array;
-	public synthetic fun createArray ()Ljava/lang/Object;
-	public fun createMap ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct;
-	public synthetic fun createMap ()Ljava/lang/Object;
-	public fun getArrayIndex (Ljava/lang/Object;I)Ljava/lang/Object;
-	public fun getArrayIndex (Ljava/lang/Object;IZ)Ljava/lang/Object;
-	public fun getMapValue (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
-	public fun getPropertyKeys (Ljava/lang/Object;)Ljava/util/Collection;
-	public fun isArray (Ljava/lang/Object;)Z
-	public fun isMap (Ljava/lang/Object;)Z
-	public fun length (Ljava/lang/Object;)I
-	public fun parse (Ljava/io/InputStream;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
-	public synthetic fun parse (Ljava/io/InputStream;Ljava/lang/String;)Ljava/lang/Object;
-	public fun parse (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
-	public synthetic fun parse (Ljava/lang/String;)Ljava/lang/Object;
-	public fun parse ([B)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
-	public synthetic fun parse ([B)Ljava/lang/Object;
-	public fun removeProperty (Ljava/lang/Object;Ljava/lang/Object;)V
-	public fun setArrayIndex (Ljava/lang/Object;ILjava/lang/Object;)V
-	public fun setProperty (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V
-	public fun toIterable (Ljava/lang/Object;)Ljava/lang/Iterable;
-	public fun toJson (Ljava/lang/Object;)Ljava/lang/String;
-	public fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 

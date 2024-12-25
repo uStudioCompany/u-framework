@@ -5,17 +5,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
 
 public sealed interface DataError : RuleEngineError {
 
-    public class PathMissing(path: Path, exception: Throwable) : DataError {
-        override val code: String = PREFIX + "1"
-        override val description: String = "The path: `$path` is missing."
-        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-        override val details: Failure.Details = Failure.Details.of(
-            DETAILS_KEY_PATH to path.toString()
-        )
-    }
-
-    private companion object {
-        private const val PREFIX = "RULES-ENGINE-DATA-"
-        private const val DETAILS_KEY_PATH = "data-path"
+    public class Search(cause: Path.Errors.Search) : DataError {
+        override val code: String = "RULES-ENGINE-DATA-SEARCH"
+        override val description: String = "The error of searching."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 }

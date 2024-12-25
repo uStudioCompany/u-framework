@@ -3,6 +3,8 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule
 public sealed interface Step {
     public val predicate: Predicates?
 
+    public data class ErrorCode(val get: String)
+
     public data class Call(
         public override val predicate: Predicates?,
         public val uri: String,
@@ -22,7 +24,7 @@ public sealed interface Step {
         public val target: Value,
         public val compareWith: Value,
         public val comparator: Comparator,
-        public val errorCode: String
+        public val errorCode: ErrorCode
     ) : Step
 
     public data class Action(
