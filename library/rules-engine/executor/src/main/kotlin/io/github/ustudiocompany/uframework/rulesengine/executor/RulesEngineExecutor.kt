@@ -5,6 +5,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.flatMap
+import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.mapFailure
@@ -44,14 +45,12 @@ public class RulesEngineExecutor(
         return Success.asNull
     }
 
-    private fun Rule.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> {
-        val result = predicate.isSatisfied(context)
-        if (result.isFailure()) return result
-        return if (result.value)
-            this.steps.execute(context)
-        else
-            Success.asNull
-    }
+    private fun Rule.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> =
+        predicate.isSatisfied(context)
+            .flatMapBoolean(
+                ifTrue = { this.steps.execute(context) },
+                ifFalse = { Success.asNull }
+            )
 
     private fun Steps.execute(context: Context): ResultK<ErrorCode?, RuleEngineError> {
         for (step in this) {
@@ -61,18 +60,18 @@ public class RulesEngineExecutor(
         return Success.asNull
     }
 
-    private fun Step.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> {
-        val result = predicate.isSatisfied(context)
-        if (result.isFailure()) return result
-        return if (result.value)
-            when (this) {
-                is Step.Call -> this.execute(context)
-                is Step.Requirement -> this.execute(context)
-                is Step.Action -> this.execute(context)
-            }
-        else
-            Success.asNull
-    }
+    private fun Step.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> =
+        predicate.isSatisfied(context)
+            .flatMapBoolean(
+                ifTrue = {
+                    when (this) {
+                        is Step.Call -> this.execute(context)
+                        is Step.Requirement -> this.execute(context)
+                        is Step.Action -> this.execute(context)
+                    }
+                },
+                ifFalse = { Success.asNull },
+            )
 
     private fun Step.Call.execute(context: Context): ExecutionResult {
         fun List<Step.Call.Arg>.get(argType: ArgType): ResultK<Map<String, DataElement>, RuleEngineError> {
