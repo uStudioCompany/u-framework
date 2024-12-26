@@ -13,8 +13,4 @@ public sealed interface Value {
         public val source: Source,
         public val path: Path
     ) : Value
-
-    public data class Expression(
-        val expression: DataElement
-    ) : Value
 }

@@ -23,9 +23,9 @@ subprojects {
     version = "0.0.1-SNAPSHOT"
     group = "io.github.ustudiocompany"
 
-//    configurations.all {
-//        resolutionStrategy.cacheChangingModulesFor(0, "seconds")
-//    }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(0, "seconds")
+    }
 }
 
 dependencies {
@@ -54,4 +54,6 @@ dependencies {
     kover(project(":jdbc-test-library"))
     kover(project(":event-sourcing-modeling-library"))
     kover(project(":event-sourcing-store-library"))
+    kover(project(":rules-engine-core"))
+    kover(project(":rules-engine-executor"))
 }

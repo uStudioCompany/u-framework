@@ -12,5 +12,4 @@ internal fun Value.compute(context: Context): ResultK<DataElement, RuleEngineErr
     when (this) {
         is Value.Literal -> fact.asSuccess()
         is Value.Reference -> context[source].andThen { element -> element.search(path) }
-        is Value.Expression -> expression.asSuccess()
     }
