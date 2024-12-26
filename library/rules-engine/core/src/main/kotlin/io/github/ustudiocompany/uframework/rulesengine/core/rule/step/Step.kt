@@ -1,7 +1,14 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-public sealed interface Step {
-    public val predicate: Predicates?
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.ArgType
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Conditional
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicates
+
+public sealed interface Step : Conditional {
 
     public data class ErrorCode(val get: String)
 

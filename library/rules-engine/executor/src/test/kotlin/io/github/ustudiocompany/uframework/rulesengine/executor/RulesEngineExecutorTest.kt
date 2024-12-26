@@ -9,8 +9,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -29,13 +30,15 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     listOf(
                         Rule(
                             predicate = null,
-                            steps = listOf(
-                                Step.Requirement(
-                                    predicate = null,
-                                    target = Value.Literal(fact = DataElement.Text("test")),
-                                    compareWith = Value.Literal(fact = DataElement.Text("test")),
-                                    comparator = EQ,
-                                    errorCode = Step.ErrorCode("err-1")
+                            steps = Steps(
+                                listOf(
+                                    Step.Requirement(
+                                        predicate = null,
+                                        target = Value.Literal(fact = DataElement.Text("test")),
+                                        compareWith = Value.Literal(fact = DataElement.Text("test")),
+                                        comparator = EQ,
+                                        errorCode = Step.ErrorCode("err-1")
+                                    )
                                 )
                             )
                         )
@@ -54,13 +57,15 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     listOf(
                         Rule(
                             predicate = null,
-                            steps = listOf(
-                                Step.Requirement(
-                                    predicate = null,
-                                    target = Value.Literal(fact = DataElement.Text("test")),
-                                    compareWith = Value.Literal(fact = DataElement.Text("test2")),
-                                    comparator = EQ,
-                                    errorCode = Step.ErrorCode("err-1")
+                            steps = Steps(
+                                listOf(
+                                    Step.Requirement(
+                                        predicate = null,
+                                        target = Value.Literal(fact = DataElement.Text("test")),
+                                        compareWith = Value.Literal(fact = DataElement.Text("test2")),
+                                        comparator = EQ,
+                                        errorCode = Step.ErrorCode("err-1")
+                                    )
                                 )
                             )
                         )

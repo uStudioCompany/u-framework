@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate
 
 @JvmInline
 public value class Predicates(private val get: List<Predicate>) : List<Predicate> by get
