@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor
+package io.github.ustudiocompany.uframework.rulesengine.executor.rule.context
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
@@ -16,7 +16,7 @@ public class Context private constructor(private val data: MutableMap<Source, Da
             return ContextError.SourceAlreadyExists(source).asFailure()
         else
             data[source] = value
-        return Success.asUnit
+        return Success.Companion.asUnit
     }
 
     public fun update(source: Source, value: DataElement): ResultK<Unit, ContextError> {
@@ -24,7 +24,7 @@ public class Context private constructor(private val data: MutableMap<Source, Da
             return ContextError.SourceMissing(source).asFailure()
         else
             data[source] = value
-        return Success.asUnit
+        return Success.Companion.asUnit
     }
 
     public operator fun get(source: Source): ResultK<DataElement, ContextError> =

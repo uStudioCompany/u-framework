@@ -7,9 +7,9 @@ import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.data.path.defaultPathConfiguration
-import io.github.ustudiocompany.uframework.rulesengine.executor.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
+import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.Context
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
