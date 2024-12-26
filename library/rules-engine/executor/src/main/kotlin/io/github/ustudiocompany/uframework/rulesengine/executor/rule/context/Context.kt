@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextErr
 
 public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
-    public fun insert(source: Source, value: DataElement): ResultK<Unit, ContextError> {
+    public fun add(source: Source, value: DataElement): ResultK<Unit, ContextError> {
         if (source in data)
             return ContextError.SourceAlreadyExists(source).asFailure()
         else
@@ -19,7 +19,7 @@ public class Context private constructor(private val data: MutableMap<Source, Da
         return Success.Companion.asUnit
     }
 
-    public fun update(source: Source, value: DataElement): ResultK<Unit, ContextError> {
+    public fun replace(source: Source, value: DataElement): ResultK<Unit, ContextError> {
         if (source in data)
             return ContextError.SourceMissing(source).asFailure()
         else

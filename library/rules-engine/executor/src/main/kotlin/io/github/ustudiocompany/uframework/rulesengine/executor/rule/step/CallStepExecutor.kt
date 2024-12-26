@@ -17,7 +17,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.UriBuilder
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.apply
+import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.update
 
 internal fun Step.Call.execute(context: Context, provider: DataProvider, merger: Merger): ExecutionResult {
     val self = this
@@ -27,7 +27,7 @@ internal fun Step.Call.execute(context: Context, provider: DataProvider, merger:
         val (result) = provider.call(uri, headers).mapFailure { CallError(it) }
         val source = this@execute.result.source
         val action = this@execute.result.action
-        context.apply(source, action, result, merger)
+        context.update(source, action, result, merger::merge)
     }
 }
 

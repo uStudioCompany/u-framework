@@ -12,14 +12,14 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.apply
+import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.update
 
 internal fun Step.Action.execute(context: Context, merger: Merger): ExecutionResult =
     this.dataScheme.build(context)
         .andThen { value ->
             val source = this@execute.result.source
             val action = this@execute.result.action
-            context.apply(source, action, value, merger)
+            context.update(source, action, value, merger::merge)
         }
 
 private fun DataScheme.build(context: Context): ResultK<DataElement, RuleEngineError> {
