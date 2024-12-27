@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 
 public sealed interface ContextError : RuleEngineError {
 
-    public class SourceMissing(source: Source) : ContextError {
+    public class SourceMissing(public val source: Source) : ContextError {
         override val code: String = PREFIX + "1"
         override val description: String = "The source `${source.get}` is not found."
         override val details: Failure.Details = Failure.Details.of(
@@ -13,7 +13,7 @@ public sealed interface ContextError : RuleEngineError {
         )
     }
 
-    public class SourceAlreadyExists(source: Source) : ContextError {
+    public class SourceAlreadyExists(public val source: Source) : ContextError {
         override val code: String = PREFIX + "2"
         override val description: String = "The source `${source.get}` is already exists."
         override val details: Failure.Details = Failure.Details.of(
