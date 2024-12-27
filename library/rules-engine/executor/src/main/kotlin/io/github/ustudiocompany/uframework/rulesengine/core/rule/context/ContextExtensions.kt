@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor.rule.context
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.context
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success

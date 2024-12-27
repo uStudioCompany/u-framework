@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor.rule.step
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.andThen
@@ -7,12 +7,11 @@ import io.github.airflux.commons.types.resultk.traverseTo
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
-import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.executor.rule.context.update
 
 internal fun Step.Action.execute(context: Context, merger: Merger): ExecutionResult =
     this.dataScheme.build(context)
