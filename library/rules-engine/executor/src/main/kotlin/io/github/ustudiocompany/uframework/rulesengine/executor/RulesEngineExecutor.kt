@@ -42,8 +42,8 @@ public class RulesEngineExecutor(
     private fun Steps.execute(context: Context): ResultK<ErrorCode?, RuleEngineError> {
         for (step in this) {
             val result = when (step) {
-                is Step.Action -> step.execute(context, merger)
                 is Step.Call -> step.execute(context, provider, merger)
+                is Step.Data -> step.execute(context, merger)
                 is Step.Requirement -> step.execute(context)
             }
             if (result.isFailure() || result.value != null) return result

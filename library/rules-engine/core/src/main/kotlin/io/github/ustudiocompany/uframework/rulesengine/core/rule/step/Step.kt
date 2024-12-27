@@ -34,7 +34,7 @@ public sealed interface Step : Conditional {
         public val errorCode: ErrorCode
     ) : Step
 
-    public data class Action(
+    public data class Data(
         public override val predicate: Predicates?,
         public val dataScheme: DataScheme,
         public val result: Result

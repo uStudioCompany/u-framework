@@ -483,21 +483,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/pre
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step : io/github/ustudiocompany/uframework/rulesengine/core/rule/predicate/Conditional {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Action : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
-	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-kCh6loU ()Ljava/util/List;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
-	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public final fun copy-LjeiJMc (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Action;
-	public static synthetic fun copy-LjeiJMc$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Action;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Action;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDataScheme ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
-	public fun getPredicate-kCh6loU ()Ljava/util/List;
-	public final fun getResult ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Call : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-kCh6loU ()Ljava/util/List;
@@ -526,6 +511,21 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public final fun getName ()Ljava/lang/String;
 	public final fun getType ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/ArgType;
 	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Data : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
+	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-kCh6loU ()Ljava/util/List;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
+	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
+	public final fun copy-LjeiJMc (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Data;
+	public static synthetic fun copy-LjeiJMc$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Data;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Data;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDataScheme ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
+	public fun getPredicate-kCh6loU ()Ljava/util/List;
+	public final fun getResult ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
