@@ -1,12 +1,20 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.data.path.defaultPathConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 
 internal class DataSchemeBuilderTest : UnitTest() {
 
@@ -237,21 +245,45 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     }
                 }
             }
+
+            "when occurs an error" - {
+                val dataScheme = DataScheme.Struct(
+                    properties = listOf(
+                        DataScheme.Property.Element(
+                            name = DATA_KEY_1,
+                            value = Value.Reference(
+                                source = SOURCE,
+                                path = "path".compile()
+                            )
+                        )
+                    )
+                )
+
+                "then the builder should return a failure" {
+                    val result = dataScheme.build(Context.empty())
+                    result.shouldBeFailure()
+                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                }
+            }
         }
     }
 
     private companion object {
         private val CONTEXT = Context.empty()
+        private val SOURCE = Source("output")
 
-        const val DATA_KEY_1 = "key-1"
-        const val DATA_VALUE_1 = "data-1"
+        private const val DATA_KEY_1 = "key-1"
+        private const val DATA_VALUE_1 = "data-1"
 
-        const val DATA_KEY_2 = "key-2"
-        const val DATA_VALUE_2 = "data-2"
+        private const val DATA_KEY_2 = "key-2"
+        private const val DATA_VALUE_2 = "data-2"
 
-        const val ARRAY_ITEM_1 = "item-1"
-        const val ARRAY_ITEM_2 = "item-2"
-        const val ARRAY_ITEM_3 = "item-3"
-        const val ARRAY_ITEM_4 = "item-4"
+        private const val ARRAY_ITEM_1 = "item-1"
+        private const val ARRAY_ITEM_2 = "item-2"
+        private const val ARRAY_ITEM_3 = "item-3"
+        private const val ARRAY_ITEM_4 = "item-4"
+
+        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
     }
 }
