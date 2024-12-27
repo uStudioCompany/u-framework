@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor.error
 
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public sealed interface DataError : RuleEngineError {
 

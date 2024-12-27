@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.data.path
+package io.github.ustudiocompany.uframework.rulesengine.core.path
 
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath

@@ -125,25 +125,25 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/DefaultPathConfigurationKt {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathConfigurationKt {
 	public static final fun defaultPathConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lcom/jayway/jsonpath/Configuration;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
 	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Lcom/jayway/jsonpath/Configuration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Compiler {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler {
 	public fun <init> (Lcom/jayway/jsonpath/Configuration;)V
 	public final fun compile (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$Compiling : io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Compiling : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
@@ -151,7 +151,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/pat
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/core/data/path/Path$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
@@ -387,13 +387,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Val
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path;
-	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/path/Path;
+	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

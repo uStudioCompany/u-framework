@@ -1,13 +1,13 @@
-package io.github.ustudiocompany.rulesengine.core.data.path
+package io.github.ustudiocompany.rulesengine.core.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path.Errors
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.Errors
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf

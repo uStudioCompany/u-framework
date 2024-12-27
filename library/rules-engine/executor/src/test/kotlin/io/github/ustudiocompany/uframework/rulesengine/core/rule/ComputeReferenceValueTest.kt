@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError

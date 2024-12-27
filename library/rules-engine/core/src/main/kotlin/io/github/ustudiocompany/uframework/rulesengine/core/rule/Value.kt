@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.data.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public sealed interface Value {
 
