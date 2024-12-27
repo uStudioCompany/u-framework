@@ -25,4 +25,8 @@ dependencies {
     /* Test */
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.knit.test)
+    testImplementation(libs.airflux.commons.types.kotest.matchers) {
+        isChanging = true
+    }
+    testImplementation(project(":testing-library"))
 }
