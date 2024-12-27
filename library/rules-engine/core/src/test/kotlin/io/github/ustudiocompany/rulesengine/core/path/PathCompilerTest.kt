@@ -3,9 +3,8 @@ package io.github.ustudiocompany.rulesengine.core.path
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.Errors
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -35,7 +34,7 @@ internal class PathCompilerTest : UnitTest() {
     }
 
     private companion object {
-        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
         private const val VALID_PATH = "$.id"
         private const val INVALID_PATH = "[[]"
     }

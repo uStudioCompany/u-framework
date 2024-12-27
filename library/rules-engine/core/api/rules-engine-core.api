@@ -125,6 +125,10 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerKt {
+	public static final fun defaultPathCompiler (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathConfigurationKt {
 	public static final fun defaultPathConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lcom/jayway/jsonpath/Configuration;
 }

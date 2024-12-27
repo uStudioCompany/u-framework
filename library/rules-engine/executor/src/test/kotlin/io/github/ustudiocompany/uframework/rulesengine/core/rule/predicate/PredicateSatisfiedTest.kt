@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -110,7 +110,7 @@ internal class PredicateSatisfiedTest : UnitTest() {
 
     companion object {
         private val CONTEXT = Context.empty()
-        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
 
         private const val SOURCE_NAME = "input.body"
         private val SOURCE = Source(SOURCE_NAME)

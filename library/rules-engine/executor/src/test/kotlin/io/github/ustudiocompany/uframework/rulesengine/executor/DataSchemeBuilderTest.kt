@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -283,7 +283,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_3 = "item-3"
         private const val ARRAY_ITEM_4 = "item-4"
 
-        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
         private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
     }
 }

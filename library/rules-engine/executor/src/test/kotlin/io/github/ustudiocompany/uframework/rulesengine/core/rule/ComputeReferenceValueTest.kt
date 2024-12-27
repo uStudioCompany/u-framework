@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
@@ -64,7 +64,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
     }
 
     companion object {
-        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
 
         private const val SOURCE_NAME = "input.body"
         private val SOURCE = Source(SOURCE_NAME)

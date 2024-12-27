@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.Errors
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -41,7 +41,7 @@ internal class PathSearchTest : UnitTest() {
     }
 
     private companion object {
-        private val PATH_COMPILER = Path.Compiler(defaultPathConfiguration(ObjectMapper()))
+        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
         private const val DATA_KEY_1 = "id"
         private const val DATA_VALUE_1 = "data-1"
         private val DATA = DataElement.Struct(
