@@ -41,22 +41,13 @@ public class RulesEngineExecutor(
 
     private fun Steps.execute(context: Context): ResultK<ErrorCode?, RuleEngineError> {
         for (step in this) {
-            val result = step.executeIfSatisfied(context)
+            val result = when (step) {
+                is Step.Action -> step.execute(context, merger)
+                is Step.Call -> step.execute(context, provider, merger)
+                is Step.Requirement -> step.execute(context)
+            }
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
-
-    private fun Step.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> =
-        predicate.isSatisfied(context)
-            .flatMapBoolean(
-                ifTrue = {
-                    when (this) {
-                        is Step.Call -> this.execute(context, provider, merger)
-                        is Step.Requirement -> this.execute(context)
-                        is Step.Action -> this.execute(context, merger)
-                    }
-                },
-                ifFalse = { Success.asNull },
-            )
 }
