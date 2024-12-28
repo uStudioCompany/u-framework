@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.ArgType
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -15,16 +15,9 @@ public sealed interface Step : Conditional {
     public data class Call(
         public override val predicate: Predicates?,
         public val uri: String,
-        public val args: List<Arg>,
+        public val args: Args,
         public val result: Result
-    ) : Step {
-
-        public data class Arg(
-            public val name: String,
-            public val type: ArgType,
-            public val value: Value
-        )
-    }
+    ) : Step
 
     public data class Requirement(
         public override val predicate: Predicates?,
