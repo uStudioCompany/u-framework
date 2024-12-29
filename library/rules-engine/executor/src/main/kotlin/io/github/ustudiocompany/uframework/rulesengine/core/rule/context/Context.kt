@@ -13,11 +13,8 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextErr
 public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
     public operator fun get(source: Source): ResultK<DataElement, ContextError> {
-        val origin = data[source]
-        return if (origin != null)
-            origin.asSuccess()
-        else
-            ContextError.SourceMissing(source).asFailure()
+        val origin = data[source] ?: return ContextError.SourceMissing(source).asFailure()
+        return origin.asSuccess()
     }
 
     public fun add(source: Source, value: DataElement): ResultK<Unit, ContextError> =
