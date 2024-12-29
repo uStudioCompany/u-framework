@@ -6,5 +6,16 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import java.net.URI
 
 public fun interface DataProvider {
-    public fun call(uri: URI, headers: Map<String, DataElement>): ResultK<DataElement, Failure>
+    public fun call(request: Request): ResultK<DataElement, Failure>
+
+    public class Request(
+        public val uri: URI,
+        public val headers: List<Header>
+    ) {
+
+        public data class Header(
+            public val name: String,
+            public val value: String
+        )
+    }
 }

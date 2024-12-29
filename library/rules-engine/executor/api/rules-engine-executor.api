@@ -12,8 +12,31 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/con
 	public final fun invoke (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/context/Context;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriBuilderKt {
+	public static final fun build-9lHStMU (Ljava/lang/String;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider {
-	public abstract fun call (Ljava/net/URI;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun call (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request {
+	public fun <init> (Ljava/net/URI;Ljava/util/List;)V
+	public final fun getHeaders ()Ljava/util/List;
+	public final fun getUri ()Ljava/net/URI;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request$Header {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request$Header;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request$Header;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Request$Header;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
@@ -23,13 +46,6 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun build ()Ljava/net/URI;
-	public final fun pathParams (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder;
-	public final fun queryParams (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/executor/UriBuilder;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
@@ -82,5 +98,23 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$InvalidUriTemplate : io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public final fun getTemplate ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$ParamMissing : io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
 }
 
