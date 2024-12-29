@@ -42,10 +42,10 @@ public class Context private constructor(private val data: MutableMap<Source, Da
         return Success.asUnit
     }
 
-    public operator fun contains(source: Source): Boolean = source.isPresent()
+    public operator fun contains(source: Source): Boolean = source in data
 
-    private fun Source.isPresent(): Boolean = this in data
-    private fun Source.isNotPresent(): Boolean = this !in data
+    private fun Source.isPresent(): Boolean = contains(this)
+    private fun Source.isNotPresent(): Boolean = !contains(this)
 
     public companion object {
         public fun empty(): Context = Context(mutableMapOf<Source, DataElement>())
