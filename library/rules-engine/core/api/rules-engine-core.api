@@ -415,6 +415,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/hea
 	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Headers;
 	public fun clear ()V
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
+	public static fun constructor-impl ([Lkotlin/Pair;)Ljava/util/List;
 	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Z
 	public final fun contains (Ljava/lang/Object;)Z
 	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Z
@@ -730,6 +731,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParams;
 	public fun clear ()V
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
+	public static fun constructor-impl ([Lkotlin/Pair;)Ljava/util/List;
 	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Z
 	public final fun contains (Ljava/lang/Object;)Z
 	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Z

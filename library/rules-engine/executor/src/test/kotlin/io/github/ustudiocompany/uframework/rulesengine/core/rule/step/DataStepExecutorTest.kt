@@ -28,7 +28,7 @@ internal class DataStepExecutorTest : UnitTest() {
 
                 "then the executor should perform the step" - {
                     val context = Context.empty()
-                    val step = requirementIsTrue(predicate)
+                    val step = createStep(predicate)
                     val result = step.execute(context, TestMerger())
 
                     "then the executor should return a success result" {
@@ -51,7 +51,7 @@ internal class DataStepExecutorTest : UnitTest() {
 
                     "then the executor should perform the step" - {
                         val context = Context.empty()
-                        val step = requirementIsTrue(predicate)
+                        val step = createStep(predicate)
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
@@ -72,7 +72,7 @@ internal class DataStepExecutorTest : UnitTest() {
 
                     "then the executor should  not perform the step" - {
                         val context = Context.empty()
-                        val step = requirementIsTrue(predicate)
+                        val step = createStep(predicate)
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
@@ -89,7 +89,7 @@ internal class DataStepExecutorTest : UnitTest() {
         }
     }
 
-    companion object {
+    private companion object {
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
         private const val ID_DATA_KEY = "id"
@@ -123,7 +123,7 @@ internal class DataStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun requirementIsTrue(predicate: Predicates?) =
+        private fun createStep(predicate: Predicates?) =
             Step.Data(
                 predicate = predicate,
                 dataScheme = DataScheme.Struct(

@@ -21,8 +21,8 @@ internal class RequirementStepExecutorTest : UnitTest() {
             "when predicate is missing" - {
                 val predicate: Predicates? = null
 
-                "when the requirement is true" - {
-                    val step = requirementIsTrue(predicate)
+                "when execution of the step is successful" - {
+                    val step = successfulStep(predicate)
 
                     "then the executor should return a success result" {
                         val result = step.execute(CONTEXT)
@@ -31,8 +31,8 @@ internal class RequirementStepExecutorTest : UnitTest() {
                     }
                 }
 
-                "when the requirement is false" - {
-                    val step = requirementIfFalse(predicate)
+                "when execution of the step is fail" - {
+                    val step = failStep(predicate)
 
                     "then the executor should return an error result" {
                         val result = step.execute(CONTEXT)
@@ -48,8 +48,8 @@ internal class RequirementStepExecutorTest : UnitTest() {
                 "when predicate is satisfied" - {
                     val predicate: Predicates = satisfiedPredicate()
 
-                    "when the requirement is true" - {
-                        val step = requirementIsTrue(predicate)
+                    "when execution of the step is successful" - {
+                        val step = successfulStep(predicate)
 
                         "then the executor should return a success result" {
                             val result = step.execute(CONTEXT)
@@ -58,8 +58,8 @@ internal class RequirementStepExecutorTest : UnitTest() {
                         }
                     }
 
-                    "when the requirement is false" - {
-                        val step = requirementIfFalse(predicate)
+                    "when execution of the step is fail" - {
+                        val step = failStep(predicate)
 
                         "then the executor should return an error result" {
                             val result = step.execute(CONTEXT)
@@ -73,8 +73,8 @@ internal class RequirementStepExecutorTest : UnitTest() {
                 "when predicate is not satisfied" - {
                     val predicate: Predicates = notSatisfiedPredicate()
 
-                    "then the requirement check is not performed." - {
-                        val step = requirementIfFalse(predicate)
+                    "then the step is not performed" - {
+                        val step = failStep(predicate)
 
                         val result = step.execute(CONTEXT)
                         result.shouldBeSuccess()
@@ -85,7 +85,7 @@ internal class RequirementStepExecutorTest : UnitTest() {
         }
     }
 
-    companion object {
+    private companion object {
         private val CONTEXT = Context.empty()
         private val ERROR_CODE = Step.ErrorCode("err-1")
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
@@ -111,7 +111,7 @@ internal class RequirementStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun requirementIsTrue(predicate: Predicates?) =
+        private fun successfulStep(predicate: Predicates?) =
             Step.Requirement(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
@@ -120,7 +120,7 @@ internal class RequirementStepExecutorTest : UnitTest() {
                 errorCode = ERROR_CODE
             )
 
-        private fun requirementIfFalse(predicate: Predicates?) =
+        private fun failStep(predicate: Predicates?) =
             Step.Requirement(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
