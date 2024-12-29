@@ -624,6 +624,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action : java/lang/Enum {
 	public static final field MERGE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static final field PUT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
+	public static final field REPLACE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;

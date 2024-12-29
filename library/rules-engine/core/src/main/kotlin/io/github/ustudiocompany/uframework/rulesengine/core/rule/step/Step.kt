@@ -40,6 +40,7 @@ public sealed interface Step : Conditional {
 
         public enum class Action {
             PUT,
+            REPLACE,
             MERGE
         }
     }

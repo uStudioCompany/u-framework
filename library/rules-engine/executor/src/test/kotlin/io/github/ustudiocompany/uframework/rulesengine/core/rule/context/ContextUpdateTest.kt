@@ -7,8 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action.MERGE
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action.PUT
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -21,6 +20,7 @@ internal class ContextUpdateTest : UnitTest() {
         "The extension function `update` for `Context` type" - {
 
             "when the action is PUT" - {
+                val action = Step.Result.Action.PUT
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -28,7 +28,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                     val result = context.update(
                         source = SOURCE,
-                        action = PUT,
+                        action = action,
                         value = value,
                         merge = { _, _ -> Errors.TestMergerError.asFailure() }
                     )
@@ -44,7 +44,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                     val result = context.update(
                         source = SOURCE,
-                        action = PUT,
+                        action = action,
                         value = value,
                         merge = { _, _ -> Errors.TestMergerError.asFailure() }
                     )
@@ -56,13 +56,51 @@ internal class ContextUpdateTest : UnitTest() {
                 }
             }
 
-            "when the action is MERGE" - {
+            "when the action is REPLACE" - {
+                val action = Step.Result.Action.REPLACE
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
                     val value = DataElement.Text(ORIGIN_VALUE)
 
-                    val result = context.update(source = SOURCE, action = MERGE, value = value, merge = MERGER)
+                    val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
+
+                    "then call the function should be failed" {
+                        result.shouldBeFailure()
+                        result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    }
+                }
+
+                "when the context is contain the source" - {
+                    val context = Context(mapOf(SOURCE to DataElement.Text(ORIGIN_VALUE)))
+                    val value = DataElement.Text(NEW_VALUE)
+
+                    val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
+
+                    "then call the function should be successful" {
+                        result.shouldBeSuccess()
+                    }
+
+                    "then the context should contain the source" {
+                        context.contains(SOURCE) shouldBe true
+                    }
+
+                    "then the context should return the new value" {
+                        val result = context[SOURCE]
+                        result.shouldBeSuccess()
+                        result.value shouldBe DataElement.Text(NEW_VALUE)
+                    }
+                }
+            }
+
+            "when the action is MERGE" - {
+                val action = Step.Result.Action.MERGE
+
+                "when the context is not contain the source" - {
+                    val context = Context.empty()
+                    val value = DataElement.Text(ORIGIN_VALUE)
+
+                    val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
 
                     "then call the function should be failed" {
                         result.shouldBeFailure()
@@ -76,7 +114,7 @@ internal class ContextUpdateTest : UnitTest() {
                         val context = Context(mapOf(SOURCE to DataElement.Text(ORIGIN_VALUE)))
                         val value = DataElement.Text(NEW_VALUE)
 
-                        val result = context.update(source = SOURCE, action = MERGE, value = value, merge = MERGER)
+                        val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
 
                         "then call the function should be successful" {
                             result.shouldBeSuccess()
@@ -86,7 +124,7 @@ internal class ContextUpdateTest : UnitTest() {
                             context.contains(SOURCE) shouldBe true
                         }
 
-                        "then the context should return the value" {
+                        "then the context should return the merged value" {
                             val result = context[SOURCE]
                             result.shouldBeSuccess()
                             result.value shouldBe DataElement.Text(ORIGIN_VALUE + NEW_VALUE)
@@ -97,7 +135,7 @@ internal class ContextUpdateTest : UnitTest() {
                         val context = Context(mapOf(SOURCE to DataElement.Text(ORIGIN_VALUE)))
                         val newValue = DataElement.Text(NEW_VALUE)
 
-                        val result = context.update(source = SOURCE, action = MERGE, value = newValue) { _, _ ->
+                        val result = context.update(source = SOURCE, action = action, value = newValue) { _, _ ->
                             Errors.TestMergerError.asFailure()
                         }
 

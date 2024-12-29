@@ -16,5 +16,6 @@ internal fun Context.update(
     merge: (DataElement, DataElement) -> ResultK<DataElement, Failure>
 ): ExecutionResult = when (action) {
     Step.Result.Action.PUT -> this.add(source, value)
+    Step.Result.Action.REPLACE -> this.replace(source, value)
     Step.Result.Action.MERGE -> this.merge(source, value, merge)
 }.flatMap { Success.asNull }
