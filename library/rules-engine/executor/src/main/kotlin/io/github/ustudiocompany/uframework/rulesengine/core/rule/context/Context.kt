@@ -12,6 +12,14 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextErr
 
 public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
+    public operator fun get(source: Source): ResultK<DataElement, ContextError> {
+        val origin = data[source]
+        return if (origin != null)
+            origin.asSuccess()
+        else
+            ContextError.SourceMissing(source).asFailure()
+    }
+
     public fun add(source: Source, value: DataElement): ResultK<Unit, ContextError> =
         if (source.isNotPresent()) {
             data[source] = value
@@ -26,14 +34,6 @@ public class Context private constructor(private val data: MutableMap<Source, Da
         } else
             ContextError.SourceMissing(source).asFailure()
 
-    public operator fun get(source: Source): ResultK<DataElement, ContextError> {
-        val origin = data[source]
-        return if (origin != null)
-            origin.asSuccess()
-        else
-            ContextError.SourceMissing(source).asFailure()
-    }
-
     public fun merge(
         source: Source,
         value: DataElement,
@@ -45,7 +45,7 @@ public class Context private constructor(private val data: MutableMap<Source, Da
         return Success.asUnit
     }
 
-    public operator fun contains(source: Source): Boolean = source in data
+    public operator fun contains(source: Source): Boolean = source.isPresent()
 
     private fun Source.isPresent(): Boolean = this in data
     private fun Source.isNotPresent(): Boolean = this !in data
