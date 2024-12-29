@@ -48,7 +48,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Rule
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
@@ -87,12 +87,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/MergeError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RequirementError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }

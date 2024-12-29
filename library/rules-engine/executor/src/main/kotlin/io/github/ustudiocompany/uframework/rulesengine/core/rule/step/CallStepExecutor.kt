@@ -16,7 +16,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallError
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 
 internal fun Step.Call.execute(context: Context, provider: DataProvider, merger: Merger): ExecutionResult =
     predicate.isSatisfied(context)
@@ -25,7 +25,7 @@ internal fun Step.Call.execute(context: Context, provider: DataProvider, merger:
                 val step = this
                 resultWith {
                     val (request) = step.buildRequest(context)
-                    val (value) = provider.call(request).mapFailure { CallError(it) }
+                    val (value) = provider.call(request).mapFailure { CallStepError(it) }
                     val source = step.result.source
                     val action = step.result.action
                     context.update(source, action, value, merger::merge)
