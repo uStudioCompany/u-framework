@@ -4,6 +4,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/con
 	public final fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Z
 	public final fun get (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun replace (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
@@ -58,6 +59,15 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$SourceAlreadyExists : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)V
 	public fun getCode ()Ljava/lang/String;
@@ -79,13 +89,6 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/MergeError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

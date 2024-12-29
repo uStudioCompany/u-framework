@@ -10,7 +10,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action.MERGE
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action.PUT
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.MergeError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -104,7 +103,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                         "then call the function should be failed" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<MergeError>()
+                            result.cause.shouldBeInstanceOf<ContextError.Merge>()
                         }
                     }
                 }

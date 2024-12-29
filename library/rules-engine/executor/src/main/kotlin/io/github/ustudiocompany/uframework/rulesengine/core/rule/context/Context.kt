@@ -2,8 +2,11 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.context
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
@@ -32,6 +35,18 @@ public class Context private constructor(private val data: MutableMap<Source, Da
         else
             ContextError.SourceMissing(source).asFailure()
     }
+
+    public fun merge(
+        source: Source,
+        value: DataElement,
+        merge: (origin: DataElement, target: DataElement) -> ResultK<DataElement, Failure>
+    ): ResultK<Unit, ContextError> =
+        this[source]
+            .andThen { origin -> merge(origin, value).mapFailure { ContextError.Merge(source, it) } }
+            .andThen { newValue ->
+                data[source] = newValue
+                Success.asUnit
+            }
 
     public operator fun contains(source: Source): Boolean = source in data
 

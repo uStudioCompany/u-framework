@@ -23,7 +23,6 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.MergeError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
@@ -205,7 +204,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<MergeError>()
+                            result.cause.shouldBeInstanceOf<ContextError.Merge>()
                         }
                     }
                 }

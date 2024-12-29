@@ -21,6 +21,15 @@ public sealed interface ContextError : RuleEngineError {
         )
     }
 
+    public class Merge(public val source: Source, cause: Failure) : ContextError {
+        override val code: String = PREFIX + "3"
+        override val description: String = "The error of updating the source `${source.get}`."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val details: Failure.Details = Failure.Details.of(
+            DETAILS_KEY_SOURCE to source.get
+        )
+    }
+
     private companion object {
         private const val PREFIX = "RULES-ENGINE-CONTEXT-"
         private const val DETAILS_KEY_SOURCE = "context-source-name"
