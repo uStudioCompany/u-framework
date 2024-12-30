@@ -4,17 +4,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
 internal data object InComparator : AbstractComparator() {
 
-    override fun invoke(target: DataElement?, value: DataElement?): Boolean = when (target) {
-        null -> false
-        is DataElement.Null -> target.compareWith(value)
-        is DataElement.Bool -> target.compareWith(value)
-        is DataElement.Text -> target.compareWith(value)
-        is DataElement.Decimal -> target.compareWith(value)
-        is DataElement.Struct -> target.compareWith(value)
-        is DataElement.Array -> target.compareWith(value)
-    }
-
-    private fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
@@ -24,7 +14,7 @@ internal data object InComparator : AbstractComparator() {
         is DataElement.Array -> value.any { it is DataElement.Null }
     }
 
-    private fun DataElement.Bool.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Bool.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
@@ -34,7 +24,7 @@ internal data object InComparator : AbstractComparator() {
         is DataElement.Array -> value.any { it is DataElement.Bool && this == it }
     }
 
-    private fun DataElement.Text.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Text.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
@@ -44,7 +34,7 @@ internal data object InComparator : AbstractComparator() {
         is DataElement.Array -> value.any { it is DataElement.Text && this == it }
     }
 
-    private fun DataElement.Decimal.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Decimal.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
@@ -54,7 +44,7 @@ internal data object InComparator : AbstractComparator() {
         is DataElement.Array -> value.any { it is DataElement.Decimal && this == it }
     }
 
-    private fun DataElement.Struct.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Struct.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
@@ -64,7 +54,7 @@ internal data object InComparator : AbstractComparator() {
         is DataElement.Array -> value.any { it is DataElement.Struct && this == it }
     }
 
-    private fun DataElement.Array.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun DataElement.Array.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false
         is DataElement.Null -> false
         is DataElement.Bool -> false
