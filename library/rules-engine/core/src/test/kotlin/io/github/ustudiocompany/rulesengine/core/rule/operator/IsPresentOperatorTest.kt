@@ -9,7 +9,7 @@ import java.math.BigDecimal
 internal class IsPresentOperatorTest : AbstractOperatorTest() {
 
     init {
-        "The `is present` comparator" - {
+        "The `is present` operator" - {
             withData(
                 nameFn = ::testDescription,
                 listOf(

@@ -10,7 +10,7 @@ import java.math.BigDecimal
 internal class InOperatorTest : AbstractOperatorTest() {
 
     init {
-        "The equal comparator" - {
+        "The `in` operator" - {
             withData(
                 nameFn = ::testDescription,
                 flatten(

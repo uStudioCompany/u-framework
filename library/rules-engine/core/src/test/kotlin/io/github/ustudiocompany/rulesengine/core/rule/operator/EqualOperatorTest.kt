@@ -9,7 +9,7 @@ import java.math.BigDecimal
 internal class EqualOperatorTest : AbstractOperatorTest() {
 
     init {
-        "The equal comparator" - {
+        "The `equal` operator" - {
             withData(
                 nameFn = ::testDescription,
                 flatten(

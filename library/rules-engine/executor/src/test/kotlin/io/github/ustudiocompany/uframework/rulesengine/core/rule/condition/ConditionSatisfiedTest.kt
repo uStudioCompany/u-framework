@@ -48,12 +48,12 @@ internal class ConditionSatisfiedTest : UnitTest() {
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
                                 compareWith = Value.Literal(fact = DataElement.Text(VALUE_1)),
-                                comparator = EQ
+                                operator = EQ
                             ),
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_2)),
                                 compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                comparator = EQ
+                                operator = EQ
                             )
                         )
                     )
@@ -70,12 +70,12 @@ internal class ConditionSatisfiedTest : UnitTest() {
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
                                 compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                comparator = EQ
+                                operator = EQ
                             ),
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_2)),
                                 compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                comparator = EQ
+                                operator = EQ
                             )
                         )
                     )
@@ -92,7 +92,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                             Predicate(
                                 target = Value.Reference(source = SOURCE, path = PATH),
                                 compareWith = Value.Literal(DataElement.Text(VALUE_1)),
-                                comparator = EQ
+                                operator = EQ
                             )
                         )
                     )

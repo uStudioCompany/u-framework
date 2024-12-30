@@ -5,6 +5,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Operat
 
 public data class Predicate(
     public val target: Value,
-    public val comparator: Operator,
+    public val operator: Operator,
     public val compareWith: Value
 )

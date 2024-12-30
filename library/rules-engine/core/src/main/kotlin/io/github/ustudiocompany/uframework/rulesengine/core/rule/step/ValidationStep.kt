@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Error
 public data class ValidationStep(
     public override val condition: Condition?,
     public val target: Value,
+    public val operator: Operator,
     public val compareWith: Value,
-    public val comparator: Operator,
     public val errorCode: ErrorCode
 ) : Step

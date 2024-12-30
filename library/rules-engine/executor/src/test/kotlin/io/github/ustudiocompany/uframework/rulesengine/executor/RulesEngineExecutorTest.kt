@@ -39,7 +39,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                         condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test")),
-                                        comparator = EQ,
+                                        operator = EQ,
                                         errorCode = Step.ErrorCode("err-1")
                                     )
                                 )
@@ -69,7 +69,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                         condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test2")),
-                                        comparator = EQ,
+                                        operator = EQ,
                                         errorCode = Step.ErrorCode("err-1")
                                     )
                                 )
