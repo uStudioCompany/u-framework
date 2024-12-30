@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value

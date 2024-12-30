@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure

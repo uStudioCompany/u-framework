@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.Headers
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 

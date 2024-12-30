@@ -6,10 +6,10 @@ import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build

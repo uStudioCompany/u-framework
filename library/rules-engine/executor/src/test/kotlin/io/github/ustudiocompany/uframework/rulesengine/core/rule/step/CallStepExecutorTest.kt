@@ -13,10 +13,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathComp
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.Headers
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Condition
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider

@@ -6,8 +6,8 @@ import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.CallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step

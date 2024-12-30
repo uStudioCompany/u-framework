@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Conditional
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Conditional
 
 public sealed interface Step : Conditional {
 
