@@ -9,8 +9,8 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicates
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -23,12 +23,12 @@ internal class DataStepExecutorTest : UnitTest() {
 
         "The data step executor" - {
 
-            "when predicate is missing" - {
-                val predicate: Predicates? = null
+            "when condition is missing" - {
+                val condition: Condition? = null
 
                 "then the executor should perform the step" - {
                     val context = Context.empty()
-                    val step = createStep(predicate)
+                    val step = createStep(condition)
                     val result = step.execute(context, TestMerger())
 
                     "then the executor should return a success result" {
@@ -44,14 +44,14 @@ internal class DataStepExecutorTest : UnitTest() {
                 }
             }
 
-            "when predicate is present" - {
+            "when condition is present" - {
 
-                "when predicate is satisfied" - {
-                    val predicate: Predicates = satisfiedPredicate()
+                "when condition is satisfied" - {
+                    val condition: Condition = satisfiedCondition()
 
                     "then the executor should perform the step" - {
                         val context = Context.empty()
-                        val step = createStep(predicate)
+                        val step = createStep(condition)
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
@@ -67,12 +67,12 @@ internal class DataStepExecutorTest : UnitTest() {
                     }
                 }
 
-                "when predicate is not satisfied" - {
-                    val predicate: Predicates = notSatisfiedPredicate()
+                "when condition is not satisfied" - {
+                    val condition: Condition = notSatisfiedCondition()
 
                     "then the executor should  not perform the step" - {
                         val context = Context.empty()
-                        val step = createStep(predicate)
+                        val step = createStep(condition)
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
@@ -103,7 +103,7 @@ internal class DataStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun satisfiedPredicate() = Predicates(
+        private fun satisfiedCondition() = Condition(
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
@@ -113,7 +113,7 @@ internal class DataStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun notSatisfiedPredicate() = Predicates(
+        private fun notSatisfiedCondition() = Condition(
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
@@ -123,9 +123,9 @@ internal class DataStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun createStep(predicate: Predicates?) =
+        private fun createStep(condition: Condition?) =
             DataStep(
-                predicate = predicate,
+                condition = condition,
                 dataScheme = DataScheme.Struct(
                     properties = listOf(
                         DataScheme.Property.Element(

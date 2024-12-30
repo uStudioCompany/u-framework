@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.isSat
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 
 internal fun ValidationStep.execute(context: Context): ExecutionResult =
-    predicate.isSatisfied(context)
+    condition.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {
                 resultWith {

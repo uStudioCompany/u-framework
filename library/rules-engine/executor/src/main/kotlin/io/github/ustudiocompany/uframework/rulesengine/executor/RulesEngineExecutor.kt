@@ -36,7 +36,7 @@ public class RulesEngineExecutor(
     }
 
     private fun Rule.executeIfSatisfied(context: Context): ResultK<ErrorCode?, RuleEngineError> =
-        predicate.isSatisfied(context)
+        condition.isSatisfied(context)
             .flatMapBoolean(
                 ifTrue = { this.steps.execute(context) },
                 ifFalse = { Success.asNull }

@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicates
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Condition
 
 public data class DataStep(
-    public override val predicate: Predicates?,
+    override val condition: Condition?,
     public val dataScheme: DataScheme,
     public val result: Step.Result
 ) : Step

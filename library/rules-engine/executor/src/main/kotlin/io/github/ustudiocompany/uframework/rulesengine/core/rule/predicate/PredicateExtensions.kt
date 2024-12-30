@@ -8,10 +8,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
-internal fun Predicates?.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> =
+internal fun Condition?.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> =
     if (this != null) isSatisfied(context) else Success.asTrue
 
-private fun Predicates.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> {
+private fun Condition.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> {
     val isAllSatisfied = all { predicate ->
         val isSatisfied = predicate.isSatisfied(context).getOrForward { return it }
         isSatisfied == true

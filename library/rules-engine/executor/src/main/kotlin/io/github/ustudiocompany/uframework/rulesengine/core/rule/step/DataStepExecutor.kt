@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.build
 
 internal fun DataStep.execute(context: Context, merger: Merger): ExecutionResult =
-    predicate.isSatisfied(context)
+    condition.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {
                 val step = this

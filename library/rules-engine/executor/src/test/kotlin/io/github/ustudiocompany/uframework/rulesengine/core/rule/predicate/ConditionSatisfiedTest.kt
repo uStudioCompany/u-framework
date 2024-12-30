@@ -16,34 +16,34 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class PredicateSatisfiedTest : UnitTest() {
+internal class ConditionSatisfiedTest : UnitTest() {
 
     init {
 
-        "The extension function `isSatisfied` for the `Predicates` type" - {
+        "The extension function `isSatisfied` for the `Condition` type" - {
 
-            "when the predicates are null" - {
-                val predicates: Predicates? = null
+            "when the condition is null" - {
+                val condition: Condition? = null
 
                 "then the function should return the value true" {
-                    val result = predicates.isSatisfied(CONTEXT)
+                    val result = condition.isSatisfied(CONTEXT)
                     result shouldBeSuccess true
                 }
             }
 
-            "when the predicates are empty" - {
-                val predicates = Predicates(emptyList())
+            "when the condition is empty" - {
+                val condition = Condition(emptyList())
 
                 "then the function should return the value true" {
-                    val result = predicates.isSatisfied(CONTEXT)
+                    val result = condition.isSatisfied(CONTEXT)
                     result shouldBeSuccess true
                 }
             }
 
-            "when the predicates are not empty" - {
+            "when the condition is not empty" - {
 
                 "when all predicate are satisfied" - {
-                    val predicates = Predicates(
+                    val condition = Condition(
                         listOf(
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
@@ -59,13 +59,13 @@ internal class PredicateSatisfiedTest : UnitTest() {
                     )
 
                     "then the function should return the value true" {
-                        val result = predicates.isSatisfied(CONTEXT)
+                        val result = condition.isSatisfied(CONTEXT)
                         result shouldBeSuccess true
                     }
                 }
 
                 "when any predicate are not satisfied" - {
-                    val predicates = Predicates(
+                    val condition = Condition(
                         listOf(
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
@@ -81,13 +81,13 @@ internal class PredicateSatisfiedTest : UnitTest() {
                     )
 
                     "then the function should return the value false" {
-                        val result = predicates.isSatisfied(CONTEXT)
+                        val result = condition.isSatisfied(CONTEXT)
                         result shouldBeSuccess false
                     }
                 }
 
                 "when any predicate returns an error" - {
-                    val predicates = Predicates(
+                    val condition = Condition(
                         listOf(
                             Predicate(
                                 target = Value.Reference(source = SOURCE, path = PATH),
@@ -98,7 +98,7 @@ internal class PredicateSatisfiedTest : UnitTest() {
                     )
 
                     "then function should return an error" {
-                        val result = predicates.isSatisfied(CONTEXT)
+                        val result = condition.isSatisfied(CONTEXT)
                         result.shouldBeFailure()
                         val error = result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
                         error.source shouldBe SOURCE

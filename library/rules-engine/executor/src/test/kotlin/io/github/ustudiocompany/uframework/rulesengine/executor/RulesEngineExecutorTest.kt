@@ -31,11 +31,11 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
-                            predicate = null,
+                            condition = null,
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
-                                        predicate = null,
+                                        condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test")),
                                         comparator = EQ,
@@ -58,11 +58,11 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
-                            predicate = null,
+                            condition = null,
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
-                                        predicate = null,
+                                        condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test2")),
                                         comparator = EQ,

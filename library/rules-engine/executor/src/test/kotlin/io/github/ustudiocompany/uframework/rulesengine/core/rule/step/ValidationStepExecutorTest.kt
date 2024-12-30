@@ -5,8 +5,8 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.Predicates
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -18,11 +18,11 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
         "The validation step executor" - {
 
-            "when predicate is missing" - {
-                val predicate: Predicates? = null
+            "when condition is missing" - {
+                val condition: Condition? = null
 
                 "when execution of the step is successful" - {
-                    val step = successfulStep(predicate)
+                    val step = successfulStep(condition)
 
                     "then the executor should return a success result" {
                         val result = step.execute(CONTEXT)
@@ -32,7 +32,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                 }
 
                 "when execution of the step is fail" - {
-                    val step = failStep(predicate)
+                    val step = failStep(condition)
 
                     "then the executor should return an error result" {
                         val result = step.execute(CONTEXT)
@@ -43,13 +43,13 @@ internal class ValidationStepExecutorTest : UnitTest() {
                 }
             }
 
-            "when predicate is present" - {
+            "when condition is present" - {
 
-                "when predicate is satisfied" - {
-                    val predicate: Predicates = satisfiedPredicate()
+                "when condition is satisfied" - {
+                    val condition: Condition = satisfiedCondition()
 
                     "when execution of the step is successful" - {
-                        val step = successfulStep(predicate)
+                        val step = successfulStep(condition)
 
                         "then the executor should return a success result" {
                             val result = step.execute(CONTEXT)
@@ -59,7 +59,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     }
 
                     "when execution of the step is fail" - {
-                        val step = failStep(predicate)
+                        val step = failStep(condition)
 
                         "then the executor should return an error result" {
                             val result = step.execute(CONTEXT)
@@ -70,11 +70,11 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     }
                 }
 
-                "when predicate is not satisfied" - {
-                    val predicate: Predicates = notSatisfiedPredicate()
+                "when condition is not satisfied" - {
+                    val condition: Condition = notSatisfiedCondition()
 
                     "then the step is not performed" - {
-                        val step = failStep(predicate)
+                        val step = failStep(condition)
 
                         val result = step.execute(CONTEXT)
                         result.shouldBeSuccess()
@@ -91,7 +91,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
 
-        private fun satisfiedPredicate() = Predicates(
+        private fun satisfiedCondition() = Condition(
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
@@ -101,7 +101,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun notSatisfiedPredicate() = Predicates(
+        private fun notSatisfiedCondition() = Condition(
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
@@ -111,18 +111,18 @@ internal class ValidationStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun successfulStep(predicate: Predicates?) =
+        private fun successfulStep(condition: Condition?) =
             ValidationStep(
-                predicate = predicate,
+                condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_1),
                 comparator = EQ,
                 errorCode = ERROR_CODE
             )
 
-        private fun failStep(predicate: Predicates?) =
+        private fun failStep(condition: Condition?) =
             ValidationStep(
-                predicate = predicate,
+                condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_2),
                 comparator = EQ,
