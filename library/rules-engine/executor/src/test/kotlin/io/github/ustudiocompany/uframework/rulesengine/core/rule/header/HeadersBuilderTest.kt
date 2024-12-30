@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathComp
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -34,7 +34,7 @@ internal class HeadersBuilderTest : UnitTest() {
 
                 "then the function should return the build args" {
                     result shouldBeSuccess listOf(
-                        DataProvider.Request.Header(
+                        CallProvider.Request.Header(
                             name = HEADER_NAME_1,
                             value = HEADER_VALUE_1
                         )

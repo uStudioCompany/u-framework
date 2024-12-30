@@ -13,19 +13,19 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
-import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 
-internal fun CallStep.execute(context: Context, provider: DataProvider, merger: Merger): ExecutionResult =
+internal fun CallStep.execute(context: Context, callProvider: CallProvider, merger: Merger): ExecutionResult =
     condition.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {
                 val step = this
                 resultWith {
                     val (request) = step.buildRequest(context)
-                    val (value) = provider.call(request).mapFailure { CallStepError(it) }
+                    val (value) = callProvider.call(request).mapFailure { CallStepError(it) }
                     val source = step.result.source
                     val action = step.result.action
                     context.update(source, action, value, merger::merge)
@@ -37,7 +37,7 @@ internal fun CallStep.execute(context: Context, provider: DataProvider, merger: 
 private fun CallStep.buildRequest(context: Context) = result {
     val (uri) = uri.build(context, params)
     val (headers) = headers.build(context)
-    DataProvider.Request(uri, headers)
+    CallProvider.Request(uri, headers)
 }
 
 private fun UriTemplate.build(context: Context, params: UriTemplateParams) =

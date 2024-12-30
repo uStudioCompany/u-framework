@@ -21,7 +21,7 @@ public typealias ExecutionResult = ResultK<Step.ErrorCode?, RuleEngineError>
 
 @Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
-    private val provider: DataProvider,
+    private val callProvider: CallProvider,
     private val merger: Merger
 ) {
 
@@ -45,7 +45,7 @@ public class RulesEngineExecutor(
     private fun Steps.execute(context: Context): ResultK<ErrorCode?, RuleEngineError> {
         for (step in this) {
             val result = when (step) {
-                is CallStep -> step.execute(context, provider, merger)
+                is CallStep -> step.execute(context, callProvider, merger)
                 is DataStep -> step.execute(context, merger)
                 is ValidationStep -> step.execute(context)
             }

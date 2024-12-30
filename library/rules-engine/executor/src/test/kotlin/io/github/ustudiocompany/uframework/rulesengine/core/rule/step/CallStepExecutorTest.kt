@@ -19,7 +19,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.Headers
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
-import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
@@ -61,7 +61,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                provider = DataProvider { CALL_RESULT.asSuccess() },
+                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
                                 merger = Merger { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
@@ -86,7 +86,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                provider = DataProvider { CALL_RESULT.asSuccess() },
+                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
                                 merger = Merger { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
@@ -109,7 +109,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                provider = DataProvider { CALL_RESULT.asSuccess() },
+                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
                                 merger = Merger { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
@@ -140,7 +140,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                provider = DataProvider { CALL_RESULT.asSuccess() },
+                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
                                 merger = Merger { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
@@ -169,7 +169,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                provider = DataProvider { Errors.TestDataProviderError.asFailure() },
+                                callProvider = CallProvider { Errors.TestDataProviderError.asFailure() },
                                 merger = Merger { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
@@ -198,7 +198,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            provider = DataProvider { CALL_RESULT.asSuccess() },
+                            callProvider = CallProvider { CALL_RESULT.asSuccess() },
                             merger = Merger { _, _ -> Errors.TestMergerError.asFailure() }
                         )
 
@@ -224,7 +224,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     val result = step.execute(
                         context = context,
-                        provider = DataProvider { CALL_RESULT.asSuccess() },
+                        callProvider = CallProvider { CALL_RESULT.asSuccess() },
                         merger = Merger { origin, _ -> origin.asSuccess() }
                     )
 
@@ -267,7 +267,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            provider = DataProvider { CALL_RESULT.asSuccess() },
+                            callProvider = CallProvider { CALL_RESULT.asSuccess() },
                             merger = Merger { origin, _ -> origin.asSuccess() }
                         )
 
@@ -301,7 +301,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = CONTEXT,
-                            provider = DataProvider { Errors.TestDataProviderError.asFailure() },
+                            callProvider = CallProvider { Errors.TestDataProviderError.asFailure() },
                             merger = Merger { _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeSuccess()
