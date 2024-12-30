@@ -2,9 +2,9 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object IsPresentComparator : ComparatorFun {
+internal data object IsPresentComparator : AbstractComparator() {
 
-    override fun invoke(target: DataElement?, compareWith: DataElement?): Boolean = when (target) {
+    override fun invoke(target: DataElement?, value: DataElement?): Boolean = when (target) {
         null -> false
         is DataElement.Null -> true
         is DataElement.Bool -> true

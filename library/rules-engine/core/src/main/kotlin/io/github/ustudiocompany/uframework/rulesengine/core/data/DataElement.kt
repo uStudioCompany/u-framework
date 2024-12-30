@@ -18,6 +18,11 @@ public sealed interface DataElement {
 
     public data class Decimal(val get: BigDecimal) : DataElement {
         override fun toString(): String = get.toString()
+
+        override fun equals(other: Any?): Boolean =
+            this === other || other is Decimal && this.get.compareTo(other.get) == 0
+
+        override fun hashCode(): Int = get.hashCode()
     }
 
     public data class Array(

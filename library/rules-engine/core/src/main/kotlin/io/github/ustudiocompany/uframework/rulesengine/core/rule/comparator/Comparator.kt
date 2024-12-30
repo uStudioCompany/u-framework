@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.entries
 
-public enum class Comparator(private val tag: String, private val block: ComparatorFun) {
+public enum class Comparator(private val tag: String, private val block: AbstractComparator) {
     CONTAINS(tag = "contains", block = ContainsComparator),
     EQ(tag = "eq", block = EqualComparator),
     IN(tag = "in", block = InComparator),

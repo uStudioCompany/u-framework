@@ -2,71 +2,76 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object EqualComparator : ComparatorFun {
+internal data object EqualComparator : AbstractComparator() {
 
-    @Suppress("CyclomaticComplexMethod")
-    override fun invoke(target: DataElement?, compareWith: DataElement?): Boolean = when (target) {
+    override fun invoke(target: DataElement?, value: DataElement?): Boolean = when (target) {
         null -> false
+        is DataElement.Null -> target.compareWith(value)
+        is DataElement.Bool -> target.compareWith(value)
+        is DataElement.Text -> target.compareWith(value)
+        is DataElement.Decimal -> target.compareWith(value)
+        is DataElement.Struct -> target.compareWith(value)
+        is DataElement.Array -> target.compareWith(value)
+    }
 
-        is DataElement.Null -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> true
-            is DataElement.Bool -> false
-            is DataElement.Text -> false
-            is DataElement.Decimal -> false
-            is DataElement.Struct -> false
-            is DataElement.Array -> false
-        }
+    private fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> true
+        is DataElement.Bool -> false
+        is DataElement.Text -> false
+        is DataElement.Decimal -> false
+        is DataElement.Struct -> false
+        is DataElement.Array -> false
+    }
 
-        is DataElement.Bool -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> false
-            is DataElement.Bool -> target.get == compareWith.get
-            is DataElement.Text -> false
-            is DataElement.Decimal -> false
-            is DataElement.Struct -> false
-            is DataElement.Array -> false
-        }
+    private fun DataElement.Bool.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> false
+        is DataElement.Bool -> this == value
+        is DataElement.Text -> false
+        is DataElement.Decimal -> false
+        is DataElement.Struct -> false
+        is DataElement.Array -> false
+    }
 
-        is DataElement.Text -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> false
-            is DataElement.Bool -> false
-            is DataElement.Text -> target.get == compareWith.get
-            is DataElement.Decimal -> false
-            is DataElement.Struct -> false
-            is DataElement.Array -> false
-        }
+    private fun DataElement.Text.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> false
+        is DataElement.Bool -> false
+        is DataElement.Text -> this == value
+        is DataElement.Decimal -> false
+        is DataElement.Struct -> false
+        is DataElement.Array -> false
+    }
 
-        is DataElement.Decimal -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> false
-            is DataElement.Bool -> false
-            is DataElement.Text -> false
-            is DataElement.Decimal -> target.get.compareTo(compareWith.get) == 0
-            is DataElement.Struct -> false
-            is DataElement.Array -> false
-        }
+    private fun DataElement.Decimal.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> false
+        is DataElement.Bool -> false
+        is DataElement.Text -> false
+        is DataElement.Decimal -> this == value
+        is DataElement.Struct -> false
+        is DataElement.Array -> false
+    }
 
-        is DataElement.Struct -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> false
-            is DataElement.Bool -> false
-            is DataElement.Text -> false
-            is DataElement.Decimal -> false
-            is DataElement.Struct -> compareStructs(target, compareWith)
-            is DataElement.Array -> false
-        }
+    private fun DataElement.Struct.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> false
+        is DataElement.Bool -> false
+        is DataElement.Text -> false
+        is DataElement.Decimal -> false
+        is DataElement.Struct -> compareStructs(this, value)
+        is DataElement.Array -> false
+    }
 
-        is DataElement.Array -> when (compareWith) {
-            null -> false
-            is DataElement.Null -> false
-            is DataElement.Bool -> false
-            is DataElement.Text -> false
-            is DataElement.Decimal -> false
-            is DataElement.Struct -> false
-            is DataElement.Array -> compareArrays(target, compareWith)
-        }
+    private fun DataElement.Array.compareWith(value: DataElement?): Boolean = when (value) {
+        null -> false
+        is DataElement.Null -> false
+        is DataElement.Bool -> false
+        is DataElement.Text -> false
+        is DataElement.Decimal -> false
+        is DataElement.Struct -> false
+        is DataElement.Array -> compareArrays(this, value)
     }
 
     private fun compareStructs(target: DataElement.Struct, compareWith: DataElement.Struct): Boolean {

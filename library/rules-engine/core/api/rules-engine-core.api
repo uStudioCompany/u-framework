@@ -390,10 +390,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/com
 	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/ComparatorFun {
-	public abstract fun invoke (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Condition : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
 	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;)V
 	public synthetic fun add (ILjava/lang/Object;)V
