@@ -12,8 +12,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 
 public sealed interface Step : Conditional {
 
-    public data class ErrorCode(val get: String)
-
     public data class Call(
         public override val predicate: Predicates?,
         public val uri: UriTemplate,
@@ -22,7 +20,7 @@ public sealed interface Step : Conditional {
         public val result: Result
     ) : Step
 
-    public data class Requirement(
+    public data class Validation(
         public override val predicate: Predicates?,
         public val target: Value,
         public val compareWith: Value,
@@ -35,6 +33,8 @@ public sealed interface Step : Conditional {
         public val dataScheme: DataScheme,
         public val result: Result
     ) : Step
+
+    public data class ErrorCode(val get: String)
 
     public data class Result(val source: Source, val action: Action) {
 

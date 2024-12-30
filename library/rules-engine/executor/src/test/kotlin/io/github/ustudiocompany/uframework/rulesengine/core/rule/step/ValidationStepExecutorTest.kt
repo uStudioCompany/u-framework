@@ -12,11 +12,11 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class RequirementStepExecutorTest : UnitTest() {
+internal class ValidationStepExecutorTest : UnitTest() {
 
     init {
 
-        "The requirement step executor" - {
+        "The validation step executor" - {
 
             "when predicate is missing" - {
                 val predicate: Predicates? = null
@@ -112,7 +112,7 @@ internal class RequirementStepExecutorTest : UnitTest() {
         )
 
         private fun successfulStep(predicate: Predicates?) =
-            Step.Requirement(
+            Step.Validation(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_1),
@@ -121,7 +121,7 @@ internal class RequirementStepExecutorTest : UnitTest() {
             )
 
         private fun failStep(predicate: Predicates?) =
-            Step.Requirement(
+            Step.Validation(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_2),

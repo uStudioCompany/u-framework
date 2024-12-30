@@ -44,7 +44,7 @@ public class RulesEngineExecutor(
             val result = when (step) {
                 is Step.Call -> step.execute(context, provider, merger)
                 is Step.Data -> step.execute(context, merger)
-                is Step.Requirement -> step.execute(context)
+                is Step.Validation -> step.execute(context)
             }
             if (result.isFailure() || result.value != null) return result
         }

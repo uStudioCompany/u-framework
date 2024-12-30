@@ -33,7 +33,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             predicate = null,
                             steps = Steps(
                                 listOf(
-                                    Step.Requirement(
+                                    Step.Validation(
                                         predicate = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test")),
@@ -60,7 +60,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             predicate = null,
                             steps = Steps(
                                 listOf(
-                                    Step.Requirement(
+                                    Step.Validation(
                                         predicate = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test2")),
