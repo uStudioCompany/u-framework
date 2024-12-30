@@ -3,15 +3,14 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.entries
 
-public enum class Comparator(private val tag: String, private val compareFun: ComparatorFun) {
-    CONTAINS(tag = "contains", compareFun = COMPARATOR_CONTAINS),
-    EQ(tag = "eq", compareFun = EqualComparator),
-    IN(tag = "in", compareFun = COMPARATOR_IN),
-    IS_PRESENT(tag = "isPresent", compareFun = IsPresentComparator),
+public enum class Comparator(private val tag: String, private val block: ComparatorFun) {
+    CONTAINS(tag = "contains", block = ContainsComparator),
+    EQ(tag = "eq", block = EqualComparator),
+    IN(tag = "in", block = InComparator),
+    IS_PRESENT(tag = "isPresent", block = IsPresentComparator),
     ;
 
-    public fun compare(target: DataElement?, compareWith: DataElement?): Boolean =
-        compareFun.compare(target, compareWith)
+    public fun compare(target: DataElement?, compareWith: DataElement?): Boolean = block(target, compareWith)
 
     public companion object {
 

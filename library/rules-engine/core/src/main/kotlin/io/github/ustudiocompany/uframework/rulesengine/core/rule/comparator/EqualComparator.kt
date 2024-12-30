@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 internal data object EqualComparator : ComparatorFun {
 
     @Suppress("CyclomaticComplexMethod")
-    override fun compare(target: DataElement?, compareWith: DataElement?): Boolean = when (target) {
+    override fun invoke(target: DataElement?, compareWith: DataElement?): Boolean = when (target) {
         null -> false
 
         is DataElement.Null -> when (compareWith) {
@@ -74,7 +74,7 @@ internal data object EqualComparator : ComparatorFun {
         target.forEach { (key, value) ->
             val compareWithValue = compareWith[key]
             if (compareWithValue == null) return false
-            if (!compare(value, compareWithValue)) return false
+            if (!invoke(value, compareWithValue)) return false
         }
         return true
     }
