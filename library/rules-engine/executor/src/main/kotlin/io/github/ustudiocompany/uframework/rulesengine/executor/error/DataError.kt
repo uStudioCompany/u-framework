@@ -5,9 +5,13 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public sealed interface DataError : RuleEngineError {
 
-    public class Search(cause: Path.Errors.Search) : DataError {
-        override val code: String = "RULES-ENGINE-DATA-SEARCH"
+    public class Search(cause: Path.Errors) : DataError {
+        override val code: String = PREFIX + "SEARCH"
         override val description: String = "The error of searching."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    public companion object {
+        private const val PREFIX = "RULES-ENGINE-DATA-"
     }
 }

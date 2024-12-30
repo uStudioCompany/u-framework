@@ -2,7 +2,9 @@ package io.github.ustudiocompany.uframework.rulesengine.core.path
 
 import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
+import com.jayway.jsonpath.PathNotFoundException
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
@@ -15,8 +17,16 @@ public class Path private constructor(
 
     override fun toString(): String = get.path.toString()
 
-    public fun search(data: DataElement): ResultK<DataElement, Errors.Search> = try {
+    public fun search(data: DataElement): ResultK<DataElement, Errors> = try {
         get.read<DataElement>(data, config).asSuccess()
+    } catch (expected: Exception) {
+        Errors.Search(get.path, expected).asFailure()
+    }
+
+    public fun searchOrNull(data: DataElement): ResultK<DataElement?, Errors> = try {
+        get.read<DataElement>(data, config).asSuccess()
+    } catch (ignored: PathNotFoundException) {
+        Success.asNull
     } catch (expected: Exception) {
         Errors.Search(get.path, expected).asFailure()
     }

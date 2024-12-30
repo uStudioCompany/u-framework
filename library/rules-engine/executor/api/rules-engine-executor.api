@@ -85,10 +85,14 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$Companion;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$Companion {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataError {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

@@ -8,6 +8,9 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
 internal fun DataElement.search(path: Path): ResultK<DataElement, DataError> =
     path.search(this).mapFailure { DataError.Search(it) }
 
+internal fun DataElement.searchOrNull(path: Path): ResultK<DataElement?, DataError> =
+    path.searchOrNull(this).mapFailure { DataError.Search(it) }
+
 internal fun DataElement.toPlainString() = when (this) {
     is DataElement.Text -> this.get
     is DataElement.Decimal -> this.get.toPlainString()

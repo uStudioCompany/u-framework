@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.airflux.commons.types.resultk.result
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.computeOrNull
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
@@ -20,7 +20,7 @@ private fun Condition.isSatisfied(context: Context): ResultK<Boolean, RuleEngine
 }
 
 private fun Predicate.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> = result {
-    val (target) = target.compute(context)
-    val (compareWith) = compareWith.compute(context)
+    val (target) = target.computeOrNull(context)
+    val (compareWith) = compareWith.computeOrNull(context)
     comparator.compare(target, compareWith)
 }

@@ -136,6 +136,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Def
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
 	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Lcom/jayway/jsonpath/Configuration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun searchOrNull (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun toString ()Ljava/lang/String;
 }
 
