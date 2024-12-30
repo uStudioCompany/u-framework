@@ -2,12 +2,11 @@ package io.github.ustudiocompany.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator
-import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 
-internal class EqualComparatorTest : UnitTest() {
+internal class EqualComparatorTest : AbstractComparatorTest() {
 
     init {
         "The equal comparator" - {
@@ -33,25 +32,6 @@ internal class EqualComparatorTest : UnitTest() {
             }
         }
     }
-
-    private fun flatten(vararg lists: List<TestData>) = lists.flatMap { it }
-    private fun testDescription(data: TestData): String {
-        val targetValue = "${data.target::class.simpleName}(${data.target})"
-        val compareWithValue = if (data.compareWith == null)
-            "null"
-        else
-            "${data.compareWith::class.simpleName}(${data.compareWith})"
-        val expectedValue = if (data.expected) "should be equal" else "should not be equal"
-        return "$targetValue $expectedValue $compareWithValue"
-    }
-
-    private fun text(value: String) = DataElement.Text(value)
-    private fun decimal(value: Number) = DataElement.Decimal(BigDecimal(value.toString()))
-    private fun bool(value: Boolean) = DataElement.Bool(value)
-    private fun struct(vararg properties: Pair<String, DataElement>) =
-        DataElement.Struct(properties.toMap().toMutableMap())
-
-    private fun array(vararg items: DataElement) = DataElement.Array(items.toMutableList())
 
     private fun compareNullWithNull(): List<TestData> = listOf(
         TestData(target = DataElement.Null, compareWith = DataElement.Null, expected = true)
@@ -225,10 +205,4 @@ internal class EqualComparatorTest : UnitTest() {
         private const val KEY_1 = "key-1"
         private const val KEY_2 = "key-2"
     }
-
-    private data class TestData(
-        val target: DataElement,
-        val compareWith: DataElement?,
-        val expected: Boolean
-    )
 }
