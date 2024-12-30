@@ -6,7 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Comparator.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Operators.EQ
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe

@@ -22,5 +22,5 @@ private fun Condition.isSatisfied(context: Context): ResultK<Boolean, RuleEngine
 private fun Predicate.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> = result {
     val (target) = target.computeOrNull(context)
     val (compareWith) = compareWith.computeOrNull(context)
-    comparator.compare(target, compareWith)
+    comparator.apply(target = target, value = compareWith)
 }

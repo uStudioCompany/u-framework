@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Comparator
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Operators.EQ
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
@@ -28,7 +28,7 @@ internal class EqualOperatorTest : AbstractOperatorTest() {
                     compareArrayWithOther()
                 )
             ) { (target, compareWith, expected) ->
-                val actual = Comparator.EQ.compare(target, compareWith)
+                val actual = EQ.apply(target, compareWith)
                 actual shouldBe expected
             }
         }

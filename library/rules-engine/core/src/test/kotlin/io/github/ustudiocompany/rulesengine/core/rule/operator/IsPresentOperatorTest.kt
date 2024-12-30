@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Comparator
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Operators.IS_PRESENT
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
@@ -23,7 +23,7 @@ internal class IsPresentOperatorTest : AbstractOperatorTest() {
                     TestData(target = array(), compareWith = null, expected = true)
                 )
             ) { (target, compareWith, expected) ->
-                val actual = Comparator.IS_PRESENT.compare(target, compareWith)
+                val actual = IS_PRESENT.apply(target, compareWith)
                 actual shouldBe expected
             }
         }

@@ -69,7 +69,7 @@ internal data object EqualOperator : AbstractOperator() {
         target.forEach { (key, value) ->
             val compareWithValue = compareWith[key]
             if (compareWithValue == null) return false
-            if (!invoke(value, compareWithValue)) return false
+            if (!apply(value, compareWithValue)) return false
         }
         return true
     }
