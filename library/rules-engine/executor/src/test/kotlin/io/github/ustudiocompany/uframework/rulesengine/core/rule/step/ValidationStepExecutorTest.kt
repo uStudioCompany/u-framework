@@ -2,8 +2,8 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context

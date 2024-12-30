@@ -1,15 +1,14 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
-import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
@@ -17,7 +16,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Validation
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import java.net.URI
 
 internal class RulesEngineExecutorTest : UnitTest() {
 

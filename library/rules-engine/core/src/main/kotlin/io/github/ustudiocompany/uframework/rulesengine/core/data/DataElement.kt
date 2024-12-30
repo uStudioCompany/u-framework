@@ -17,7 +17,6 @@ public sealed interface DataElement {
     }
 
     public data class Decimal(val get: BigDecimal) : DataElement {
-
         override fun toString(): String = get.toString()
     }
 

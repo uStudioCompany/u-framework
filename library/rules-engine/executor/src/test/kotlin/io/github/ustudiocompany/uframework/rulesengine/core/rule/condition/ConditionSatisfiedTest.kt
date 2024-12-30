@@ -7,9 +7,9 @@ import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
