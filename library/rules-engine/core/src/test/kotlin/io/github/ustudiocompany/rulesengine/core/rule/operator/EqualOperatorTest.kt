@@ -1,7 +1,7 @@
-package io.github.ustudiocompany.rulesengine.core.rule.comparator
+package io.github.ustudiocompany.rulesengine.core.rule.operator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Comparator
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal

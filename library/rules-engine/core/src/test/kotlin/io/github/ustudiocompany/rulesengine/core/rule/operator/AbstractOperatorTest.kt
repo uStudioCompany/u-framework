@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.rulesengine.core.rule.comparator
+package io.github.ustudiocompany.rulesengine.core.rule.operator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest

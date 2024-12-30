@@ -1,7 +1,7 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.operator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.entries
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Comparator.entries
 
 public enum class Comparator(private val tag: String, private val block: AbstractOperator) {
     CONTAINS(tag = "contains", block = ContainsOperator),
