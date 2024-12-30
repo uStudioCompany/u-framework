@@ -12,3 +12,6 @@ internal val SQLException.isDuplicate: Boolean
 
 internal val SQLException.isUndefinedColumn: Boolean
     get() = sqlState == PSQLState.UNDEFINED_COLUMN.state
+
+internal val SQLException.isCustom: Boolean
+    get() = sqlState.startsWith("U")

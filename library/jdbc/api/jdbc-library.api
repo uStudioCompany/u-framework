@@ -25,6 +25,15 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Con
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Custom : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getState ()Ljava/lang/String;
+}
+
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Data : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
 }
 
