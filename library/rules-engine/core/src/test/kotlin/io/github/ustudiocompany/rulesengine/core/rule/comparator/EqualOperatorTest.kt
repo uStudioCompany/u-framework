@@ -6,7 +6,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 
-internal class EqualComparatorTest : AbstractComparatorTest() {
+internal class EqualOperatorTest : AbstractOperatorTest() {
 
     init {
         "The equal comparator" - {

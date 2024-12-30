@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object EqualComparator : AbstractComparator() {
+internal data object EqualOperator : AbstractOperator() {
 
     override fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false

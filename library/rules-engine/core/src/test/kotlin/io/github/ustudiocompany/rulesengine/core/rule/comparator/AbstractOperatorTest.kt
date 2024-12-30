@@ -4,7 +4,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import java.math.BigDecimal
 
-internal abstract class AbstractComparatorTest : UnitTest() {
+internal abstract class AbstractOperatorTest : UnitTest() {
     protected fun flatten(vararg lists: List<TestData>) = lists.flatMap { it }
     protected fun testDescription(data: TestData): String {
         val targetValue = if (data.target == null)

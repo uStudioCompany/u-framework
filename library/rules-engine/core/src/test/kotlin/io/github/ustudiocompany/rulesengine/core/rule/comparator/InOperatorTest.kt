@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 
 @Suppress("CyclomaticComplexMethod")
-internal class InComparatorTest : AbstractComparatorTest() {
+internal class InOperatorTest : AbstractOperatorTest() {
 
     init {
         "The equal comparator" - {

@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object ContainsComparator : AbstractComparator() {
+internal data object ContainsOperator : AbstractOperator() {
     override fun DataElement.Null.compareWith(value: DataElement?): Boolean = false
     override fun DataElement.Bool.compareWith(value: DataElement?): Boolean = false
     override fun DataElement.Text.compareWith(value: DataElement?): Boolean = false

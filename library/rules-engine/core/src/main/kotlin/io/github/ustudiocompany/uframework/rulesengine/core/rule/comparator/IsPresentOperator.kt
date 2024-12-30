@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object IsPresentComparator : AbstractComparator() {
+internal data object IsPresentOperator : AbstractOperator() {
 
     override fun invoke(target: DataElement?, value: DataElement?): Boolean = when (target) {
         null -> false

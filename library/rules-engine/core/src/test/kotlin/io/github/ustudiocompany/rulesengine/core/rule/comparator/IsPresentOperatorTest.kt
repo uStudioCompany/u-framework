@@ -6,7 +6,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 
-internal class IsPresentComparatorTest : AbstractComparatorTest() {
+internal class IsPresentOperatorTest : AbstractOperatorTest() {
 
     init {
         "The `is present` comparator" - {

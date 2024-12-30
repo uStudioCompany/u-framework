@@ -3,11 +3,11 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.comparator.Comparator.entries
 
-public enum class Comparator(private val tag: String, private val block: AbstractComparator) {
-    CONTAINS(tag = "contains", block = ContainsComparator),
-    EQ(tag = "eq", block = EqualComparator),
-    IN(tag = "in", block = InComparator),
-    IS_PRESENT(tag = "isPresent", block = IsPresentComparator),
+public enum class Comparator(private val tag: String, private val block: AbstractOperator) {
+    CONTAINS(tag = "contains", block = ContainsOperator),
+    EQ(tag = "eq", block = EqualOperator),
+    IN(tag = "in", block = InOperator),
+    IS_PRESENT(tag = "isPresent", block = IsPresentOperator),
     ;
 
     public fun compare(target: DataElement?, compareWith: DataElement?): Boolean = block(target, compareWith)
