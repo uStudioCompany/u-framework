@@ -9,7 +9,7 @@ public enum class Comparator(private val tag: String, private val compareFun: Co
     IN(tag = "in", compareFun = COMPARATOR_IN),
     ;
 
-    public fun compare(target: DataElement, compareWith: DataElement?): Boolean =
+    public fun compare(target: DataElement?, compareWith: DataElement?): Boolean =
         compareFun.compare(target, compareWith)
 
     public companion object {

@@ -13,6 +13,7 @@ internal class EqualComparatorTest : AbstractComparatorTest() {
             withData(
                 nameFn = ::testDescription,
                 flatten(
+                    compareNone(),
                     compareNullWithNull(),
                     compareNullWithOther(),
                     compareBooleanWithBoolean(),
@@ -32,6 +33,17 @@ internal class EqualComparatorTest : AbstractComparatorTest() {
             }
         }
     }
+
+    private fun compareNone() = listOf(
+        TestData(target = null, compareWith = null, expected = false),
+        TestData(target = null, compareWith = DataElement.Null, expected = false),
+        TestData(target = null, compareWith = bool(true), expected = false),
+        TestData(target = null, compareWith = bool(false), expected = false),
+        TestData(target = null, compareWith = decimal(NUMBER_VALUE_1), expected = false),
+        TestData(target = null, compareWith = text(TEXT_VALUE_1), expected = false),
+        TestData(target = null, compareWith = struct(), expected = false),
+        TestData(target = null, compareWith = array(), expected = false)
+    )
 
     private fun compareNullWithNull(): List<TestData> = listOf(
         TestData(target = DataElement.Null, compareWith = DataElement.Null, expected = true)

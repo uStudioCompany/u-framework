@@ -7,9 +7,12 @@ import java.math.BigDecimal
 internal abstract class AbstractComparatorTest : UnitTest() {
     protected fun flatten(vararg lists: List<TestData>) = lists.flatMap { it }
     protected fun testDescription(data: TestData): String {
-        val targetValue = "${data.target::class.simpleName}(${data.target})"
+        val targetValue = if (data.target == null)
+            "none"
+        else
+            "${data.target::class.simpleName}(${data.target})"
         val compareWithValue = if (data.compareWith == null)
-            "null"
+            "none"
         else
             "${data.compareWith::class.simpleName}(${data.compareWith})"
         val expectedValue = if (data.expected) "should be equal" else "should not be equal"
@@ -25,7 +28,7 @@ internal abstract class AbstractComparatorTest : UnitTest() {
     protected fun array(vararg items: DataElement) = DataElement.Array(items.toMutableList())
 
     protected data class TestData(
-        val target: DataElement,
+        val target: DataElement?,
         val compareWith: DataElement?,
         val expected: Boolean
     )
