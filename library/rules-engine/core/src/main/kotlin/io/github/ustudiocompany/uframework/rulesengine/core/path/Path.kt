@@ -25,7 +25,7 @@ public class Path private constructor(
 
     public fun searchOrNull(data: DataElement): ResultK<DataElement?, Errors> = try {
         get.read<DataElement>(data, config).asSuccess()
-    } catch (ignored: PathNotFoundException) {
+    } catch (_: PathNotFoundException) {
         Success.asNull
     } catch (expected: Exception) {
         Errors.Search(get.path, expected).asFailure()
