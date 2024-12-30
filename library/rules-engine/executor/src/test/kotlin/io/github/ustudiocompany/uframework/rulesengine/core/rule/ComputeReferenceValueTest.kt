@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataError
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -44,7 +44,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                         )
                         val result = value.compute(context)
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<DataError.Search>()
+                        result.cause.shouldBeInstanceOf<DataErrors.Missing>()
                     }
                 }
 

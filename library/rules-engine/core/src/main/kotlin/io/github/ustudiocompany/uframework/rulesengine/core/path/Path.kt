@@ -17,14 +17,10 @@ public class Path private constructor(
 
     override fun toString(): String = get.path.toString()
 
-    public fun search(data: DataElement): ResultK<DataElement, Errors> = try {
-        get.read<DataElement>(data, config).asSuccess()
-    } catch (expected: Exception) {
-        Errors.Search(get.path, expected).asFailure()
-    }
-
-    public fun searchOrNull(data: DataElement): ResultK<DataElement?, Errors> = try {
-        get.read<DataElement>(data, config).asSuccess()
+    public fun search(data: DataElement): ResultK<DataElement?, Errors> = try {
+        val result: DataElement = get.read<DataElement>(data, config)
+            ?: return Success.asNull
+        result.asSuccess()
     } catch (_: PathNotFoundException) {
         Success.asNull
     } catch (expected: Exception) {

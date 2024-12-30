@@ -126,17 +126,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerConfigurationKt {
-	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lcom/jayway/jsonpath/Configuration;
+	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
+	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerKt {
-	public static final fun defaultPathCompiler (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler;
+	public static final fun defaultPathCompiler (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
 	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Lcom/jayway/jsonpath/Configuration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public final fun searchOrNull (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun toString ()Ljava/lang/String;
 }
 
