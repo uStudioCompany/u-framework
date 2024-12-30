@@ -7,6 +7,7 @@ public enum class Comparator(private val tag: String, private val compareFun: Co
     CONTAINS(tag = "contains", compareFun = COMPARATOR_CONTAINS),
     EQ(tag = "eq", compareFun = EqualComparator),
     IN(tag = "in", compareFun = COMPARATOR_IN),
+    IS_PRESENT(tag = "isPresent", compareFun = IsPresentComparator),
     ;
 
     public fun compare(target: DataElement?, compareWith: DataElement?): Boolean =

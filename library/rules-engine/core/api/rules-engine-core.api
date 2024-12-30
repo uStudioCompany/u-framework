@@ -378,6 +378,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/com
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator$Companion;
 	public static final field EQ Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator;
 	public static final field IN Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator;
+	public static final field IS_PRESENT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator;
 	public final fun compare (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/comparator/Comparator;
