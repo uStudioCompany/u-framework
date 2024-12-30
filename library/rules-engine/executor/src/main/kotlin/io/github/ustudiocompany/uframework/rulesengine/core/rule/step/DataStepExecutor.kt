@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.build
 
-internal fun Step.Data.execute(context: Context, merger: Merger): ExecutionResult =
+internal fun DataStep.execute(context: Context, merger: Merger): ExecutionResult =
     predicate.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {

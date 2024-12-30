@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.predicate.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 
-internal fun Step.Validation.execute(context: Context): ExecutionResult =
+internal fun ValidationStep.execute(context: Context): ExecutionResult =
     predicate.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {

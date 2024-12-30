@@ -124,7 +124,7 @@ internal class DataStepExecutorTest : UnitTest() {
         )
 
         private fun createStep(predicate: Predicates?) =
-            Step.Data(
+            DataStep(
                 predicate = predicate,
                 dataScheme = DataScheme.Struct(
                     properties = listOf(

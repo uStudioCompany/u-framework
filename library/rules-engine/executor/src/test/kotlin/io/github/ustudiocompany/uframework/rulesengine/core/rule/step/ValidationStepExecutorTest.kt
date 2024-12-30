@@ -112,7 +112,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
         )
 
         private fun successfulStep(predicate: Predicates?) =
-            Step.Validation(
+            ValidationStep(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_1),
@@ -121,7 +121,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             )
 
         private fun failStep(predicate: Predicates?) =
-            Step.Validation(
+            ValidationStep(
                 predicate = predicate,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 compareWith = Value.Literal(fact = TEXT_VALUE_2),

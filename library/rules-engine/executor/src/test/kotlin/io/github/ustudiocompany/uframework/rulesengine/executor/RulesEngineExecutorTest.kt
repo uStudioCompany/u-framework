@@ -13,6 +13,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -33,7 +34,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             predicate = null,
                             steps = Steps(
                                 listOf(
-                                    Step.Validation(
+                                    ValidationStep(
                                         predicate = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test")),
@@ -60,7 +61,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             predicate = null,
                             steps = Steps(
                                 listOf(
-                                    Step.Validation(
+                                    ValidationStep(
                                         predicate = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         compareWith = Value.Literal(fact = DataElement.Text("test2")),

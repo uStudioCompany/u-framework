@@ -18,7 +18,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 
-internal fun Step.Call.execute(context: Context, provider: DataProvider, merger: Merger): ExecutionResult =
+internal fun CallStep.execute(context: Context, provider: DataProvider, merger: Merger): ExecutionResult =
     predicate.isSatisfied(context)
         .flatMapBoolean(
             ifTrue = {
@@ -34,7 +34,7 @@ internal fun Step.Call.execute(context: Context, provider: DataProvider, merger:
             ifFalse = { Success.asNull }
         )
 
-private fun Step.Call.buildRequest(context: Context) = result {
+private fun CallStep.buildRequest(context: Context) = result {
     val (uri) = uri.build(context, params)
     val (headers) = headers.build(context)
     DataProvider.Request(uri, headers)

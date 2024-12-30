@@ -41,7 +41,7 @@ internal class CallStepExecutorTest : UnitTest() {
                 "when execution of the step is fail" - {
 
                     "when uri template is invalid" - {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = INVALID_URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -70,7 +70,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     }
 
                     "when an error computing some parameter for uri-template" - {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -95,7 +95,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     }
 
                     "when some param is missing for building a URI by a template" - {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(emptyList()),
@@ -118,7 +118,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     }
 
                     "when an error computing some header" - {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -149,7 +149,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     }
 
                     "when an external call error" - {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -179,7 +179,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     "when an error of merging" - {
                         val context = Context(mapOf(RESULT_SOURCE to DataElement.Text(ORIGIN_VALUE)))
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -211,7 +211,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                 "when execution of the step is successful" - {
                     val context = Context.empty()
-                    val step = Step.Call(
+                    val step = CallStep(
                         predicate = predicate,
                         uri = URI_TEMPLATE,
                         params = UriTemplateParams(ID_PARAM_NAME to Value.Literal(fact = DataElement.Text(ID_PARAM_VALUE))),
@@ -248,7 +248,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     "when execution of the step is successful" - {
                         val context = Context.empty()
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
@@ -288,7 +288,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     val predicate: Predicates = notSatisfiedPredicate()
 
                     "then the step is not performed" {
-                        val step = Step.Call(
+                        val step = CallStep(
                             predicate = predicate,
                             uri = INVALID_URI_TEMPLATE,
                             params = UriTemplateParams(),
