@@ -19,18 +19,15 @@ internal class PreparedInsertStatementTest : IntegrationTest() {
             container.executeSql(CREATE_TABLE)
             container.executeSql(CREATE_TRIGGER)
 
-            "when table with custom error trigger and data was inserted" - {
+            "when the table with custom error trigger and data was inserted" - {
                 val connection = container.dataSource.connection
-                val result = connection.createPreparedInsertStatement(
-                    ParametrizedSql.of("INSERT INTO $TABLE_NAME (id) VALUES(1)")
-                )
-                    .execute()
+                val result = connection.createPreparedInsertStatement(ParametrizedSql.of(INSERT_TEST_DATA)).execute()
 
-                "then JDBCErrors.Custom should be with appropriate error" - {
+                "then result should be JDBCErrors.Custom type with custom error code" {
                     result.shouldBeFailure()
 
-                    val customError = result.cause.shouldBeInstanceOf<JDBCErrors.Custom>()
-                    customError.state shouldBe CUSTOM_ERROR_CODE
+                    val error = result.cause.shouldBeInstanceOf<JDBCErrors.Custom>()
+                    error.state shouldBe CUSTOM_ERROR_CODE
                 }
             }
         }
@@ -47,6 +44,13 @@ internal class PreparedInsertStatementTest : IntegrationTest() {
             | CREATE TABLE $TABLE_NAME (
             |    id INTEGER PRIMARY KEY
             | );
+        """.trimMargin()
+
+        @JvmStatic
+        @Language("Postgresql")
+        private val INSERT_TEST_DATA = """
+            | INSERT INTO $TABLE_NAME (id) 
+            |    VALUES (1);
         """.trimMargin()
 
         @JvmStatic
