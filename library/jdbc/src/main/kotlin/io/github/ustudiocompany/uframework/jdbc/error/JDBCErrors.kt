@@ -107,6 +107,17 @@ public sealed class JDBCErrors : Failure {
         }
     }
 
+    public class Custom(public val state: String, exception: Throwable) : JDBCErrors() {
+        override val code: String = PREFIX + "CUSTOM"
+        override val description: String = ""
+        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
+        override val details: Failure.Details =
+            if (exception is SQLException)
+                Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+            else
+                Failure.Details.NONE
+    }
+
     private companion object {
         private const val PREFIX = "JDBC-"
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
