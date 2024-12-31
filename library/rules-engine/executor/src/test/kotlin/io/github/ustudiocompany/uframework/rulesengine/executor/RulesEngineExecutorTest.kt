@@ -85,15 +85,18 @@ internal class RulesEngineExecutorTest : UnitTest() {
         }
     }
 
-    private class TestMerger : Merger {
-        override fun merge(origin: DataElement, target: DataElement): ResultK<DataElement, Failure> {
-            val result = (origin as DataElement.Text).get + (target as DataElement.Text).get
-            return DataElement.Text(result).asSuccess()
-        }
+    private companion object {
+        private val CALL_RESULT = DataElement.Text("data")
     }
 
-    private class TestDataProvider : DataProvider {
-        override fun call(uri: URI, headers: Map<String, DataElement>): ResultK<DataElement, Failure> =
-            DataElement.Text("test").asSuccess()
+    private sealed interface Errors : Failure {
+
+        data object TestDataProviderError : Errors {
+            override val code: String = "DATA_PROVIDER_ERROR"
+        }
+
+        data object TestMergerError : Errors {
+            override val code: String = "MERGER_ERROR"
+        }
     }
 }
