@@ -1,10 +1,10 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.operator
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
 internal abstract class AbstractOperator : Operator {
 
-    override fun apply(target: DataElement?, value: DataElement?): Boolean = when (target) {
+    override fun compute(target: DataElement?, value: DataElement?): Boolean = when (target) {
         null -> false
         is DataElement.Null -> target.compareWith(value)
         is DataElement.Bool -> target.compareWith(value)

@@ -1,6 +1,6 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.operator
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation
 
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operator.Operators.entries
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operators.entries
 
 public enum class Operators(private val tag: String, private val operator: Operator) : Operator by operator {
     CONTAINS(tag = "contains", operator = ContainsOperator),

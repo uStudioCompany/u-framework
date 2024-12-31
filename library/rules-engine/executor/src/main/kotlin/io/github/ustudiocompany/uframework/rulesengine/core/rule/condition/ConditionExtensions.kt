@@ -3,8 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
-import io.github.airflux.commons.types.resultk.result
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.computeOrNull
+import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
@@ -19,8 +18,4 @@ private fun Condition.isSatisfied(context: Context): ResultK<Boolean, RuleEngine
     return if (isAllSatisfied) Success.asTrue else Success.asFalse
 }
 
-private fun Predicate.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> = result {
-    val (target) = target.computeOrNull(context)
-    val (value) = value.computeOrNull(context)
-    operator.apply(target = target, value = value)
-}
+private fun Predicate.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> = this.calculate(context)

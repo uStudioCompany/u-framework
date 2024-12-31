@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.rulesengine.core.rule.operator
+package io.github.ustudiocompany.rulesengine.core.rule.operation
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
