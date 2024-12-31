@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.BooleanOperators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep

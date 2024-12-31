@@ -436,14 +436,14 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate : io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Predicate;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
+	public fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public fun hashCode ()I
@@ -522,31 +522,31 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/hea
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators : java/lang/Enum, io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator {
-	public static final field CONTAINS Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators$Companion;
-	public static final field EQ Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public static final field IN Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public static final field IS_PRESENT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Boolean;
-	public synthetic fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators$Companion {
-	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation {
-	public abstract fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
+	public abstract fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public abstract fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public abstract fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators : java/lang/Enum, io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator {
+	public static final field CONTAINS Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators$Companion;
+	public static final field EQ Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public static final field IN Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public static final field IS_PRESENT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Boolean;
+	public synthetic fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators$Companion {
+	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator {
 	public abstract fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
 }
 
@@ -679,18 +679,18 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation, io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
-	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
 	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
+	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public final fun component4 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public final fun component5 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
-	public final fun copy-KU6tOVM (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
-	public static synthetic fun copy-KU6tOVM$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
+	public final fun copy-KU6tOVM (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
+	public static synthetic fun copy-KU6tOVM$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCondition-znD00Y0 ()Ljava/util/List;
 	public final fun getErrorCode ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
-	public fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
+	public fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public fun hashCode ()I

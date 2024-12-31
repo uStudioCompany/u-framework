@@ -1,6 +1,6 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.BooleanOperators.entries
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.entries
 
 public enum class BooleanOperators(
     private val tag: String,
