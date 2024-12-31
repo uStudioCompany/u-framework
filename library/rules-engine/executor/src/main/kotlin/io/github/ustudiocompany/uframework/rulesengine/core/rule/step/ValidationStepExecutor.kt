@@ -15,8 +15,8 @@ internal fun ValidationStep.execute(context: Context): ExecutionResult =
             ifTrue = {
                 resultWith {
                     val (target) = target.computeOrNull(context)
-                    val (compareWith) = compareWith.computeOrNull(context)
-                    val result = operator.apply(target = target, value = compareWith)
+                    val (value) = value.computeOrNull(context)
+                    val result = operator.apply(target = target, value = value)
                     if (result)
                         Success.asNull
                     else

@@ -47,12 +47,12 @@ internal class ConditionSatisfiedTest : UnitTest() {
                         listOf(
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
-                                compareWith = Value.Literal(fact = DataElement.Text(VALUE_1)),
+                                value = Value.Literal(fact = DataElement.Text(VALUE_1)),
                                 operator = EQ
                             ),
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
                                 operator = EQ
                             )
                         )
@@ -69,12 +69,12 @@ internal class ConditionSatisfiedTest : UnitTest() {
                         listOf(
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_1)),
-                                compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
                                 operator = EQ
                             ),
                             Predicate(
                                 target = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                compareWith = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
                                 operator = EQ
                             )
                         )
@@ -91,7 +91,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                         listOf(
                             Predicate(
                                 target = Value.Reference(source = SOURCE, path = PATH),
-                                compareWith = Value.Literal(DataElement.Text(VALUE_1)),
+                                value = Value.Literal(DataElement.Text(VALUE_1)),
                                 operator = EQ
                             )
                         )

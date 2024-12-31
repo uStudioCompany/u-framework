@@ -95,7 +95,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
-                    compareWith = Value.Literal(fact = TEXT_VALUE_1),
+                    value = Value.Literal(fact = TEXT_VALUE_1),
                     operator = EQ
                 )
             )
@@ -105,7 +105,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
-                    compareWith = Value.Literal(fact = TEXT_VALUE_2),
+                    value = Value.Literal(fact = TEXT_VALUE_2),
                     operator = EQ
                 )
             )
@@ -115,7 +115,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             ValidationStep(
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
-                compareWith = Value.Literal(fact = TEXT_VALUE_1),
+                value = Value.Literal(fact = TEXT_VALUE_1),
                 operator = EQ,
                 errorCode = ERROR_CODE
             )
@@ -124,7 +124,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             ValidationStep(
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
-                compareWith = Value.Literal(fact = TEXT_VALUE_2),
+                value = Value.Literal(fact = TEXT_VALUE_2),
                 operator = EQ,
                 errorCode = ERROR_CODE
             )

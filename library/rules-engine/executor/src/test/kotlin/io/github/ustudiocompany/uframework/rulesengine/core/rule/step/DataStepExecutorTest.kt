@@ -107,7 +107,7 @@ internal class DataStepExecutorTest : UnitTest() {
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
-                    compareWith = Value.Literal(fact = TEXT_VALUE_1),
+                    value = Value.Literal(fact = TEXT_VALUE_1),
                     operator = EQ
                 )
             )
@@ -117,7 +117,7 @@ internal class DataStepExecutorTest : UnitTest() {
             listOf(
                 Predicate(
                     target = Value.Literal(fact = TEXT_VALUE_1),
-                    compareWith = Value.Literal(fact = TEXT_VALUE_2),
+                    value = Value.Literal(fact = TEXT_VALUE_2),
                     operator = EQ
                 )
             )

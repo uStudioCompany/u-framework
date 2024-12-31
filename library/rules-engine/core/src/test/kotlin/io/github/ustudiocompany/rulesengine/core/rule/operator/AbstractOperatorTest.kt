@@ -11,10 +11,10 @@ internal abstract class AbstractOperatorTest : UnitTest() {
             "none"
         else
             "${data.target::class.simpleName}(${data.target})"
-        val compareWithValue = if (data.compareWith == null)
+        val compareWithValue = if (data.value == null)
             "none"
         else
-            "${data.compareWith::class.simpleName}(${data.compareWith})"
+            "${data.value::class.simpleName}(${data.value})"
         val expectedValue = if (data.expected) "should be equal" else "should not be equal"
         return "$targetValue $expectedValue $compareWithValue"
     }
@@ -29,7 +29,7 @@ internal abstract class AbstractOperatorTest : UnitTest() {
 
     protected data class TestData(
         val target: DataElement?,
-        val compareWith: DataElement?,
+        val value: DataElement?,
         val expected: Boolean
     )
 }

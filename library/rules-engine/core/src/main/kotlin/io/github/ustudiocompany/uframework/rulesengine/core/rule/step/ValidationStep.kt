@@ -9,6 +9,6 @@ public data class ValidationStep(
     public override val condition: Condition?,
     public val target: Value,
     public val operator: Operator,
-    public val compareWith: Value,
+    public val value: Value,
     public val errorCode: ErrorCode
 ) : Step

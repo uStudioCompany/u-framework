@@ -22,129 +22,129 @@ internal class InOperatorTest : AbstractOperatorTest() {
                     compareStruct(),
                     compareArray()
                 )
-            ) { (target, compareWith, expected) ->
-                val actual = IN.apply(target, compareWith)
+            ) { (target, value, expected) ->
+                val actual = IN.apply(target = target, value = value)
                 actual shouldBe expected
             }
         }
     }
 
     private fun compareNone() = listOf(
-        TestData(target = null, compareWith = null, expected = false),
-        TestData(target = null, compareWith = DataElement.Null, expected = false),
-        TestData(target = null, compareWith = bool(true), expected = false),
-        TestData(target = null, compareWith = bool(false), expected = false),
-        TestData(target = null, compareWith = text(TEXT_VALUE_1), expected = false),
-        TestData(target = null, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-        TestData(target = null, compareWith = struct(KEY_1 to text(TEXT_VALUE_1)), expected = false),
-        TestData(target = null, compareWith = array(text(TEXT_VALUE_1)), expected = false)
+        TestData(target = null, value = null, expected = false),
+        TestData(target = null, value = DataElement.Null, expected = false),
+        TestData(target = null, value = bool(true), expected = false),
+        TestData(target = null, value = bool(false), expected = false),
+        TestData(target = null, value = text(TEXT_VALUE_1), expected = false),
+        TestData(target = null, value = decimal(NUMBER_VALUE_1), expected = false),
+        TestData(target = null, value = struct(KEY_1 to text(TEXT_VALUE_1)), expected = false),
+        TestData(target = null, value = array(text(TEXT_VALUE_1)), expected = false)
     )
 
     private fun compareNull(): List<TestData> {
         val target = DataElement.Null
         return listOf(
-            TestData(target = target, compareWith = null, expected = false),
-            TestData(target = target, compareWith = DataElement.Null, expected = false),
-            TestData(target = target, compareWith = bool(true), expected = false),
-            TestData(target = target, compareWith = bool(false), expected = false),
-            TestData(target = target, compareWith = text(TEXT_VALUE_1), expected = false),
-            TestData(target = target, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-            TestData(target = target, compareWith = struct(), expected = false),
-            TestData(target = target, compareWith = array(), expected = false),
-            TestData(target = target, compareWith = array(DataElement.Null), expected = true)
+            TestData(target = target, value = null, expected = false),
+            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = bool(true), expected = false),
+            TestData(target = target, value = bool(false), expected = false),
+            TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
+            TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
+            TestData(target = target, value = struct(), expected = false),
+            TestData(target = target, value = array(), expected = false),
+            TestData(target = target, value = array(DataElement.Null), expected = true)
         )
     }
 
     private fun compareBoolean(): List<TestData> = listOf(
-        TestData(target = bool(true), compareWith = null, expected = false),
-        TestData(target = bool(false), compareWith = null, expected = false),
-        TestData(target = bool(true), compareWith = bool(true), expected = false),
-        TestData(target = bool(false), compareWith = bool(false), expected = false),
-        TestData(target = bool(true), compareWith = bool(false), expected = false),
-        TestData(target = bool(false), compareWith = bool(true), expected = false),
-        TestData(target = bool(true), compareWith = DataElement.Null, expected = false),
-        TestData(target = bool(false), compareWith = DataElement.Null, expected = false),
-        TestData(target = bool(true), compareWith = text(TEXT_VALUE_1), expected = false),
-        TestData(target = bool(false), compareWith = text(TEXT_VALUE_1), expected = false),
-        TestData(target = bool(true), compareWith = decimal(NUMBER_VALUE_1), expected = false),
-        TestData(target = bool(false), compareWith = decimal(NUMBER_VALUE_1), expected = false),
-        TestData(target = bool(true), compareWith = struct(), expected = false),
-        TestData(target = bool(false), compareWith = struct(), expected = false),
-        TestData(target = bool(true), compareWith = array(), expected = false),
-        TestData(target = bool(false), compareWith = array(), expected = false),
-        TestData(target = bool(true), compareWith = array(bool(true)), expected = true),
-        TestData(target = bool(true), compareWith = array(bool(false)), expected = false),
-        TestData(target = bool(true), compareWith = array(text(TEXT_VALUE_1), bool(true)), expected = true),
-        TestData(target = bool(false), compareWith = array(bool(false)), expected = true),
-        TestData(target = bool(false), compareWith = array(bool(true)), expected = false),
-        TestData(target = bool(false), compareWith = array(text(TEXT_VALUE_1), bool(false)), expected = true)
+        TestData(target = bool(true), value = null, expected = false),
+        TestData(target = bool(false), value = null, expected = false),
+        TestData(target = bool(true), value = bool(true), expected = false),
+        TestData(target = bool(false), value = bool(false), expected = false),
+        TestData(target = bool(true), value = bool(false), expected = false),
+        TestData(target = bool(false), value = bool(true), expected = false),
+        TestData(target = bool(true), value = DataElement.Null, expected = false),
+        TestData(target = bool(false), value = DataElement.Null, expected = false),
+        TestData(target = bool(true), value = text(TEXT_VALUE_1), expected = false),
+        TestData(target = bool(false), value = text(TEXT_VALUE_1), expected = false),
+        TestData(target = bool(true), value = decimal(NUMBER_VALUE_1), expected = false),
+        TestData(target = bool(false), value = decimal(NUMBER_VALUE_1), expected = false),
+        TestData(target = bool(true), value = struct(), expected = false),
+        TestData(target = bool(false), value = struct(), expected = false),
+        TestData(target = bool(true), value = array(), expected = false),
+        TestData(target = bool(false), value = array(), expected = false),
+        TestData(target = bool(true), value = array(bool(true)), expected = true),
+        TestData(target = bool(true), value = array(bool(false)), expected = false),
+        TestData(target = bool(true), value = array(text(TEXT_VALUE_1), bool(true)), expected = true),
+        TestData(target = bool(false), value = array(bool(false)), expected = true),
+        TestData(target = bool(false), value = array(bool(true)), expected = false),
+        TestData(target = bool(false), value = array(text(TEXT_VALUE_1), bool(false)), expected = true)
     )
 
     private fun compareText(): List<TestData> {
         val target = text(TEXT_VALUE_1)
         return listOf(
-            TestData(target = target, compareWith = null, expected = false),
-            TestData(target = target, compareWith = DataElement.Null, expected = false),
-            TestData(target = target, compareWith = bool(true), expected = false),
-            TestData(target = target, compareWith = bool(false), expected = false),
-            TestData(target = target, compareWith = text(TEXT_VALUE_1), expected = false),
-            TestData(target = target, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-            TestData(target = target, compareWith = struct(), expected = false),
-            TestData(target = target, compareWith = array(), expected = false),
-            TestData(target = target, compareWith = array(text(TEXT_VALUE_1)), expected = true)
+            TestData(target = target, value = null, expected = false),
+            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = bool(true), expected = false),
+            TestData(target = target, value = bool(false), expected = false),
+            TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
+            TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
+            TestData(target = target, value = struct(), expected = false),
+            TestData(target = target, value = array(), expected = false),
+            TestData(target = target, value = array(text(TEXT_VALUE_1)), expected = true)
         )
     }
 
     private fun compareNumber(): List<TestData> {
         val target = decimal(NUMBER_VALUE_1)
         return listOf(
-            TestData(target = target, compareWith = null, expected = false),
-            TestData(target = target, compareWith = DataElement.Null, expected = false),
-            TestData(target = target, compareWith = bool(true), expected = false),
-            TestData(target = target, compareWith = bool(false), expected = false),
-            TestData(target = target, compareWith = text(TEXT_VALUE_1), expected = false),
-            TestData(target = target, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-            TestData(target = target, compareWith = struct(), expected = false),
-            TestData(target = target, compareWith = array(), expected = false),
-            TestData(target = target, compareWith = array(decimal(NUMBER_VALUE_1)), expected = true),
+            TestData(target = target, value = null, expected = false),
+            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = bool(true), expected = false),
+            TestData(target = target, value = bool(false), expected = false),
+            TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
+            TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
+            TestData(target = target, value = struct(), expected = false),
+            TestData(target = target, value = array(), expected = false),
+            TestData(target = target, value = array(decimal(NUMBER_VALUE_1)), expected = true),
             TestData(
                 target = target,
-                compareWith = array(text(TEXT_VALUE_1), decimal(NUMBER_VALUE_1)),
+                value = array(text(TEXT_VALUE_1), decimal(NUMBER_VALUE_1)),
                 expected = true
             ),
-            TestData(target = target, compareWith = array(text(TEXT_VALUE_1)), expected = false),
+            TestData(target = target, value = array(text(TEXT_VALUE_1)), expected = false),
         )
     }
 
     private fun compareStruct(): List<TestData> {
         val target = struct()
         return listOf(
-            TestData(target = target, compareWith = null, expected = false),
-            TestData(target = target, compareWith = DataElement.Null, expected = false),
-            TestData(target = target, compareWith = bool(true), expected = false),
-            TestData(target = target, compareWith = bool(false), expected = false),
-            TestData(target = target, compareWith = text(TEXT_VALUE_1), expected = false),
-            TestData(target = target, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-            TestData(target = target, compareWith = struct(), expected = false),
-            TestData(target = target, compareWith = array(), expected = false),
-            TestData(target = target, compareWith = array(struct()), expected = true),
+            TestData(target = target, value = null, expected = false),
+            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = bool(true), expected = false),
+            TestData(target = target, value = bool(false), expected = false),
+            TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
+            TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
+            TestData(target = target, value = struct(), expected = false),
+            TestData(target = target, value = array(), expected = false),
+            TestData(target = target, value = array(struct()), expected = true),
             TestData(
                 target = struct(KEY_1 to text(TEXT_VALUE_1)),
-                compareWith = array(
+                value = array(
                     struct(KEY_1 to text(TEXT_VALUE_1))
                 ),
                 expected = true
             ),
             TestData(
                 target = struct(KEY_1 to text(TEXT_VALUE_1)),
-                compareWith = array(
+                value = array(
                     struct(KEY_2 to text(TEXT_VALUE_1))
                 ),
                 expected = false
             ),
             TestData(
                 target = struct(KEY_1 to text(TEXT_VALUE_1)),
-                compareWith = array(
+                value = array(
                     struct(KEY_1 to text(TEXT_VALUE_2))
                 ),
                 expected = false
@@ -155,33 +155,33 @@ internal class InOperatorTest : AbstractOperatorTest() {
     private fun compareArray(): List<TestData> {
         val target = array(text(TEXT_VALUE_1))
         return listOf(
-            TestData(target = target, compareWith = null, expected = false),
-            TestData(target = target, compareWith = DataElement.Null, expected = false),
-            TestData(target = target, compareWith = bool(true), expected = false),
-            TestData(target = target, compareWith = bool(false), expected = false),
-            TestData(target = target, compareWith = text(TEXT_VALUE_1), expected = false),
-            TestData(target = target, compareWith = decimal(NUMBER_VALUE_1), expected = false),
-            TestData(target = target, compareWith = struct(), expected = false),
-            TestData(target = target, compareWith = array(), expected = false),
-            TestData(target = array(text(TEXT_VALUE_1)), compareWith = array(text(TEXT_VALUE_1)), expected = true),
+            TestData(target = target, value = null, expected = false),
+            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = bool(true), expected = false),
+            TestData(target = target, value = bool(false), expected = false),
+            TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
+            TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
+            TestData(target = target, value = struct(), expected = false),
+            TestData(target = target, value = array(), expected = false),
+            TestData(target = array(text(TEXT_VALUE_1)), value = array(text(TEXT_VALUE_1)), expected = true),
             TestData(
                 target = array(text(TEXT_VALUE_1)),
-                compareWith = array(bool(true), text(TEXT_VALUE_1)),
+                value = array(bool(true), text(TEXT_VALUE_1)),
                 expected = true
             ),
             TestData(
                 target = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2), text(TEXT_VALUE_1)),
-                compareWith = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2)),
+                value = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2)),
                 expected = false
             ),
             TestData(
                 target = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2), text(TEXT_VALUE_1)),
-                compareWith = array(text(TEXT_VALUE_1), text(TEXT_VALUE_1), text(TEXT_VALUE_2)),
+                value = array(text(TEXT_VALUE_1), text(TEXT_VALUE_1), text(TEXT_VALUE_2)),
                 expected = true
             ),
             TestData(
                 target = array(text(TEXT_VALUE_1), text(TEXT_VALUE_1)),
-                compareWith = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2), text(TEXT_VALUE_1)),
+                value = array(text(TEXT_VALUE_1), text(TEXT_VALUE_2), text(TEXT_VALUE_1)),
                 expected = true
             ),
         )

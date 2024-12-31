@@ -66,22 +66,21 @@ internal data object EqualOperator : AbstractOperator() {
 
     private fun compareStructs(target: DataElement.Struct, compareWith: DataElement.Struct): Boolean {
         if (target.size != compareWith.size) return false
-        target.forEach { (key, value) ->
+        target.forEach { (key, targetValue) ->
             val compareWithValue = compareWith[key]
-            if (compareWithValue == null) return false
-            if (!apply(value, compareWithValue)) return false
+            if (compareWithValue == null || !apply(targetValue, compareWithValue)) return false
         }
         return true
     }
 
-    private fun compareArrays(target: DataElement.Array, compareWith: DataElement.Array): Boolean {
-        if (target.size != compareWith.size) return false
+    private fun compareArrays(target: DataElement.Array, value: DataElement.Array): Boolean {
+        if (target.size != value.size) return false
         val groupedTarget = target.groupBy(keySelector = { it }, valueTransform = { it })
-        val groupedCompareWith = compareWith.groupBy(keySelector = { it }, valueTransform = { it })
+        val groupedValue = value.groupBy(keySelector = { it }, valueTransform = { it })
 
-        groupedTarget.forEach { (key, value) ->
-            val compareWithValue = groupedCompareWith[key]
-            if (compareWithValue == null || value.size != compareWithValue.size) return false
+        groupedTarget.forEach { (key, targetValues) ->
+            val values = groupedValue[key]
+            if (values == null || targetValues.size != values.size) return false
         }
         return true
     }

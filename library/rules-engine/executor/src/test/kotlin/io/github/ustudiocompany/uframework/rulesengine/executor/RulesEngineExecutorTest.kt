@@ -38,7 +38,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                     ValidationStep(
                                         condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
-                                        compareWith = Value.Literal(fact = DataElement.Text("test")),
+                                        value = Value.Literal(fact = DataElement.Text("test")),
                                         operator = EQ,
                                         errorCode = Step.ErrorCode("err-1")
                                     )
@@ -68,7 +68,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                     ValidationStep(
                                         condition = null,
                                         target = Value.Literal(fact = DataElement.Text("test")),
-                                        compareWith = Value.Literal(fact = DataElement.Text("test2")),
+                                        value = Value.Literal(fact = DataElement.Text("test2")),
                                         operator = EQ,
                                         errorCode = Step.ErrorCode("err-1")
                                     )

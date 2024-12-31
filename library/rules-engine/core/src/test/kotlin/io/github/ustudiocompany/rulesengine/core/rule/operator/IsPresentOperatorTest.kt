@@ -13,17 +13,17 @@ internal class IsPresentOperatorTest : AbstractOperatorTest() {
             withData(
                 nameFn = ::testDescription,
                 listOf(
-                    TestData(target = null, compareWith = null, expected = false),
-                    TestData(target = DataElement.Null, compareWith = null, expected = true),
-                    TestData(target = bool(true), compareWith = null, expected = true),
-                    TestData(target = bool(false), compareWith = null, expected = true),
-                    TestData(target = text(TEXT_VALUE_1), compareWith = null, expected = true),
-                    TestData(target = decimal(NUMBER_VALUE_1), compareWith = null, expected = true),
-                    TestData(target = struct(), compareWith = null, expected = true),
-                    TestData(target = array(), compareWith = null, expected = true)
+                    TestData(target = null, value = null, expected = false),
+                    TestData(target = DataElement.Null, value = null, expected = true),
+                    TestData(target = bool(true), value = null, expected = true),
+                    TestData(target = bool(false), value = null, expected = true),
+                    TestData(target = text(TEXT_VALUE_1), value = null, expected = true),
+                    TestData(target = decimal(NUMBER_VALUE_1), value = null, expected = true),
+                    TestData(target = struct(), value = null, expected = true),
+                    TestData(target = array(), value = null, expected = true)
                 )
-            ) { (target, compareWith, expected) ->
-                val actual = IS_PRESENT.apply(target, compareWith)
+            ) { (target, value, expected) ->
+                val actual = IS_PRESENT.apply(target = target, value = value)
                 actual shouldBe expected
             }
         }
