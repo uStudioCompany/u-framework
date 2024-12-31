@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object InOperator : AbstractOperator() {
+internal data object InOperator : AbstractBooleanOperator() {
 
     override fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
         null -> false

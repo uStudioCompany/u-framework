@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operation
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
-internal fun Operation.calculate(context: Context): ResultK<Boolean, RuleEngineError> = result {
+internal fun <T> Operation<T>.calculate(context: Context): ResultK<T, RuleEngineError> = result {
     val (target) = target.computeOrNull(context)
     val (value) = value.computeOrNull(context)
     operator.compute(target = target, value = value)

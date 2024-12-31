@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Error
 public data class ValidationStep(
     public override val condition: Condition?,
     override val target: Value,
-    override val operator: Operator,
+    override val operator: Operator<Boolean>,
     override val value: Value,
     public val errorCode: ErrorCode
-) : Step, Operation
+) : Step, Operation<Boolean>

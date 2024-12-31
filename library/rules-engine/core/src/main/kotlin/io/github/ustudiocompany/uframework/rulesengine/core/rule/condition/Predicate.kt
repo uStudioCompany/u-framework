@@ -6,6 +6,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Opera
 
 public data class Predicate(
     override val target: Value,
-    override val operator: Operator,
+    override val operator: Operator<Boolean>,
     override val value: Value
-) : Operation
+) : Operation<Boolean>

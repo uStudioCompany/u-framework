@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
-internal data object IsPresentOperator : AbstractOperator() {
+internal data object IsPresentOperator : AbstractBooleanOperator() {
 
     override fun compute(target: DataElement?, value: DataElement?): Boolean = when (target) {
         null -> false

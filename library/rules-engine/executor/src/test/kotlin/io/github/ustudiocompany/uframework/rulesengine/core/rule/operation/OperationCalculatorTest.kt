@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathComp
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -69,7 +69,7 @@ internal class OperationCalculatorTest : UnitTest() {
 
     private data class TestOperation(
         override val target: Value,
-        override val operator: Operator,
+        override val operator: Operator<Boolean>,
         override val value: Value
-    ) : Operation
+    ) : Operation<Boolean>
 }

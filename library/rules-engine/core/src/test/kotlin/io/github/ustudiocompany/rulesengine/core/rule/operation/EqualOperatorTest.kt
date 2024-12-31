@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operation
 
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.BooleanOperators.EQ
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.math.BigDecimal

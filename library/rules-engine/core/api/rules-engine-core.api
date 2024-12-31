@@ -522,6 +522,24 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/hea
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators : java/lang/Enum, io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator {
+	public static final field CONTAINS Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators$Companion;
+	public static final field EQ Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public static final field IN Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public static final field IS_PRESENT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Boolean;
+	public synthetic fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators$Companion {
+	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/BooleanOperators;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation {
 	public abstract fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator;
 	public abstract fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
@@ -529,24 +547,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator {
-	public abstract fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators : java/lang/Enum, io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operator {
-	public static final field CONTAINS Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators$Companion;
-	public static final field EQ Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public static final field IN Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public static final field IS_PRESENT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators$Companion {
-	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operators;
+	public abstract fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
