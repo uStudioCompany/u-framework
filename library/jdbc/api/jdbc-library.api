@@ -91,6 +91,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {
 	public static final fun isConnectionError (Ljava/sql/SQLException;)Z
+	public static final fun isCustom (Ljava/sql/SQLException;)Z
+	public static final fun isDuplicate (Ljava/sql/SQLException;)Z
+	public static final fun isUndefinedColumn (Ljava/sql/SQLException;)Z
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/Row {
