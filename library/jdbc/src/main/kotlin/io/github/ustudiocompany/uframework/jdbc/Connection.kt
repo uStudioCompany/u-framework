@@ -6,9 +6,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
-import io.github.ustudiocompany.uframework.jdbc.exception.isCustom
-import io.github.ustudiocompany.uframework.jdbc.exception.isDuplicate
+import io.github.ustudiocompany.uframework.jdbc.exception.toFailure
 import java.sql.Connection
 import java.sql.SQLException
 import kotlin.contracts.ExperimentalContracts
@@ -22,7 +20,7 @@ public inline fun <T> Connection.withTransaction(
 @OptIn(ExperimentalContracts::class)
 @Suppress("TooGenericExceptionCaught")
 public inline fun <T, F> Connection.withTransaction(
-    errorConverter: ErrorConverter<F>,
+    noinline errorConverter: ErrorConverter<F>,
     block: Connection.() -> ResultK<T, F>
 ): ResultK<T, F> {
     contract {
@@ -41,13 +39,7 @@ public inline fun <T, F> Connection.withTransaction(
             }
         result
     } catch (expected: SQLException) {
-        val error = when {
-            expected.isConnectionError -> JDBCErrors.Connection(expected)
-            expected.isDuplicate -> JDBCErrors.Data.DuplicateKeyValue(expected)
-            expected.isCustom -> JDBCErrors.Custom(expected.sqlState, expected)
-            else -> JDBCErrors.UnexpectedError(expected)
-        }
-        errorConverter(error).asFailure()
+        expected.toFailure(errorConverter)
     } catch (expected: Throwable) {
         try {
             rollback()

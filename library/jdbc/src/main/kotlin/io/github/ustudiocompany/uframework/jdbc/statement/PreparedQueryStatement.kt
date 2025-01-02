@@ -4,8 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.exception.isConnectionError
-import io.github.ustudiocompany.uframework.jdbc.exception.isCustom
+import io.github.ustudiocompany.uframework.jdbc.exception.toFailure
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
@@ -32,12 +31,7 @@ private class PreparedQueryStatementImpl(
     override fun execute(values: Iterable<SqlParam>): ResultK<Rows, JDBCErrors> = try {
         statement.execute(values).asSuccess()
     } catch (expected: SQLException) {
-        val error = when {
-            expected.isConnectionError -> JDBCErrors.Connection(expected)
-            expected.isCustom -> JDBCErrors.Custom(expected.sqlState, expected)
-            else -> JDBCErrors.UnexpectedError(expected)
-        }
-        error.asFailure()
+        expected.toFailure()
     } catch (expected: Exception) {
         JDBCErrors.UnexpectedError(expected).asFailure()
     }

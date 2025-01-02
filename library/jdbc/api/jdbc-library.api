@@ -89,6 +89,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/exception/ExceptionConverterKt {
+	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/Failure;
+	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/Failure;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {
 	public static final fun isConnectionError (Ljava/sql/SQLException;)Z
 	public static final fun isCustom (Ljava/sql/SQLException;)Z
