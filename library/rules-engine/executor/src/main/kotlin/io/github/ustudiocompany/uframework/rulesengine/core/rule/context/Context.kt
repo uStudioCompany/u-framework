@@ -12,6 +12,9 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextErr
 
 public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
+    public val immutable: Map<Source, DataElement>
+        get() = data
+
     public operator fun get(source: Source): ResultK<DataElement, ContextError> {
         val origin = data[source] ?: return ContextError.SourceMissing(source).asFailure()
         return origin.asSuccess()
@@ -44,8 +47,11 @@ public class Context private constructor(private val data: MutableMap<Source, Da
 
     public operator fun contains(source: Source): Boolean = source in data
 
-    public fun <K> mapKeys(transform: (Source) -> K): Map<K, DataElement> =
-        data.mapKeys { (source, _) -> transform(source) }
+    public fun <K, V> map(keySelector: (Source) -> K, valueTransform: (DataElement) -> V): Map<K, V> {
+        val result = mutableMapOf<K, V>()
+        data.forEach { (source, value) -> result[keySelector(source)] = valueTransform(value) }
+        return result
+    }
 
     private fun Source.isPresent(): Boolean = contains(this)
     private fun Source.isNotPresent(): Boolean = !contains(this)

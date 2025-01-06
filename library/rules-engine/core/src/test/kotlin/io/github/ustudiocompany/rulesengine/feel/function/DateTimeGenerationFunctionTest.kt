@@ -3,6 +3,7 @@ package io.github.ustudiocompany.rulesengine.feel.function
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngine
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngineConfiguration
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -20,7 +21,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             val expression = """dateTime("$FORMAT")"""
 
             "when the engine evaluates the expression" - {
-                val variables = emptyMap<String, DataElement>()
+                val variables = emptyMap<Source, DataElement>()
                 val result = engine.parse(expression)
                     .andThen { expression -> engine.evaluate(expression, variables) }
 

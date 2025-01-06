@@ -9,6 +9,7 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.traverseTo
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import org.camunda.feel.api.FeelEngineApi
 import org.camunda.feel.api.FeelEngineBuilder
 import org.camunda.feel.syntaxtree.ParsedExpression
@@ -17,6 +18,7 @@ import java.math.BigDecimal
 public class FeelEngine(configuration: FeelEngineConfiguration) {
     private val engine: FeelEngineApi = FeelEngineBuilder.forJava()
         .withFunctionProvider(configuration.functionProvider)
+        .withCustomValueMapper(FeelValueMapper())
         .build()
 
     public fun parse(expression: String): ResultK<ParsedExpression, Errors> {
@@ -29,16 +31,16 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
 
     public fun evaluate(
         expression: ParsedExpression,
-        variables: Map<String, DataElement> = emptyMap()
+        context: Map<Source, DataElement>
     ): ResultK<DataElement, Errors> {
-        val evaluationResult = engine.evaluate(expression, variables)
+        val evaluationResult = engine.evaluate(expression, context.toVariables())
         return if (evaluationResult.isSuccess) {
-            val result = evaluationResult.result()
-            if (result != null)
+            val result = evaluationResult.result() as FeelValueWrapper
+            if (result is FeelValueWrapper.Null)
+                Errors.Evaluate(expression = expression.text()).asFailure()
+            else
                 result.asDataElement()
                     .mapFailure { Errors.Evaluate(expression = expression.text(), message = it) }
-            else
-                Errors.Evaluate(expression = expression.text()).asFailure()
         } else
             Errors.Evaluate(
                 expression = expression.text(),
@@ -46,23 +48,45 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             ).asFailure()
     }
 
-    private fun Any?.asDataElement(): ResultK<DataElement, String> = when (this) {
-        null -> DataElement.Null.asSuccess()
-        is String -> DataElement.Text(get = this).asSuccess()
-        is Number -> DataElement.Decimal(get = BigDecimal(this.toString())).asSuccess()
-        is Boolean -> DataElement.Bool(get = this).asSuccess()
-        is java.util.AbstractList<*> -> this.asArray()
-        is java.util.AbstractMap<*, *> -> this.asStruct()
-        else -> "Unexpected result type of the evaluated expression: `$javaClass`".asFailure()
+    private fun Map<Source, DataElement>.toVariables(): Map<String, FeelValueWrapper> {
+        val result = mutableMapOf<String, FeelValueWrapper>()
+        forEach { (source, value) ->
+            result[source.get] = value.toFeelValue()
+        }
+        return result
     }
 
-    private fun java.util.AbstractList<*>.asArray(): ResultK<DataElement.Array, String> =
-        traverseTo(mutableListOf<DataElement>()) { item -> item.asDataElement() }
+    private fun DataElement.toFeelValue(): FeelValueWrapper = when (this) {
+        is DataElement.Null -> FeelValueWrapper.Null
+        is DataElement.Text -> FeelValueWrapper.Text(value = this.get)
+        is DataElement.Decimal -> FeelValueWrapper.Decimal(value = this.get)
+        is DataElement.Bool -> FeelValueWrapper.Bool(value = this.get)
+        is DataElement.Array -> this.toFeelValue()
+        is DataElement.Struct -> this.toFeelValue()
+    }
+
+    private fun DataElement.Array.toFeelValue(): FeelValueWrapper.Array =
+        FeelValueWrapper.Array(items = this.map { it.toFeelValue() })
+
+    private fun DataElement.Struct.toFeelValue(): FeelValueWrapper.Struct =
+        FeelValueWrapper.Struct(properties = this.mapValues { it.value.toFeelValue() })
+
+    private fun FeelValueWrapper.asDataElement(): ResultK<DataElement, String> = when (this) {
+        is FeelValueWrapper.Null -> DataElement.Null.asSuccess()
+        is FeelValueWrapper.Text -> DataElement.Text(get = this.value).asSuccess()
+        is FeelValueWrapper.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString())).asSuccess()
+        is FeelValueWrapper.Bool -> DataElement.Bool(get = this.value).asSuccess()
+        is FeelValueWrapper.Array -> this.asArray()
+        is FeelValueWrapper.Struct -> this.asStruct()
+    }
+
+    private fun FeelValueWrapper.Array.asArray(): ResultK<DataElement.Array, String> =
+        items.traverseTo(mutableListOf<DataElement>()) { item -> item.asDataElement() }
             .map { DataElement.Array(it) }
 
-    private fun java.util.AbstractMap<*, *>.asStruct(): ResultK<DataElement, String> {
+    private fun FeelValueWrapper.Struct.asStruct(): ResultK<DataElement, String> {
         val result = mutableMapOf<String, DataElement>()
-        forEach {
+        properties.forEach {
             val key = it.key.toString()
             val value = it.value.asDataElement().getOrForward { return it }
             result[key] = value
