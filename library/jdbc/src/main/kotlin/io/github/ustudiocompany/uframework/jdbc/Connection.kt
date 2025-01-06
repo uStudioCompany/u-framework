@@ -3,9 +3,12 @@ package io.github.ustudiocompany.uframework.jdbc
 import io.github.airflux.commons.types.identity
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.ErrorConverter
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.exception.toFailure
 import java.sql.Connection
+import java.sql.SQLException
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -17,24 +20,32 @@ public inline fun <T> Connection.withTransaction(
 @OptIn(ExperimentalContracts::class)
 @Suppress("TooGenericExceptionCaught")
 public inline fun <T, F> Connection.withTransaction(
-    errorConverter: ErrorConverter<F>,
+    noinline errorConverter: ErrorConverter<F>,
     block: Connection.() -> ResultK<T, F>
 ): ResultK<T, F> {
     contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
     return try {
         autoCommit = false
         val result = block(this)
-        commit()
+        if (result.isSuccess())
+            commit()
+        else
+            try {
+                rollback()
+            } catch (_: Throwable) {
+            }
         result
-    } catch (commitException: Throwable) {
+    } catch (expected: SQLException) {
+        expected.toFailure(errorConverter)
+    } catch (expected: Throwable) {
         try {
             rollback()
         } catch (rollbackException: Throwable) {
-            commitException.addSuppressed(rollbackException)
+            expected.addSuppressed(rollbackException)
         }
-        errorConverter(JDBCErrors.UnexpectedError(commitException)).asFailure()
+        errorConverter(JDBCErrors.UnexpectedError(expected)).asFailure()
     }
 }

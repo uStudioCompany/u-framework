@@ -3,20 +3,12 @@ package io.github.ustudiocompany.uframework.jdbc.row.extractor
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.Row
+import io.github.ustudiocompany.uframework.jdbc.row.Row.ExpectedTypes
 
 public fun Row.getLong(index: Int): ResultK<Long?, JDBCErrors> =
-    LongColumnExtractor.extract(this, index)
+    this.extract(index, EXPECTED_TYPES) { getLong(it) }
 
 public fun Row.getLong(columnName: String): ResultK<Long?, JDBCErrors> =
-    LongColumnExtractor.extract(this, columnName)
+    this.extract(columnName, EXPECTED_TYPES) { getLong(it) }
 
-private object LongColumnExtractor : Row.ColumnValueExtractor<Long>(
-    ExpectedTypes("int8")
-) {
-
-    override fun extract(row: Row, index: Int): ResultK<Long?, JDBCErrors> =
-        row.extract(index) { getLong(it) }
-
-    override fun extract(row: Row, columnName: String): ResultK<Long?, JDBCErrors> =
-        row.extract(columnName) { getLong(it) }
-}
+private val EXPECTED_TYPES = ExpectedTypes("int8")

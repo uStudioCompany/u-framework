@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.Row
 import io.github.ustudiocompany.uframework.jdbc.row.Rows
+import io.github.ustudiocompany.uframework.jdbc.row.RowsInstance
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 
 internal abstract class AbstractExtractorColumnValueTest : IntegrationTest() {
@@ -15,7 +16,7 @@ internal abstract class AbstractExtractorColumnValueTest : IntegrationTest() {
             .use { connection ->
                 val statement = connection.prepareStatement(sql)
                 val resultSet = statement.executeQuery()
-                val rows = Rows(resultSet)
+                val rows: Rows = RowsInstance(resultSet)
                 val row = rows.first()
                 block(row)
             }
