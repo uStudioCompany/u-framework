@@ -61,12 +61,12 @@ internal class RowsTest : IntegrationTest() {
             .use { connection ->
                 val statement = connection.prepareStatement(SQL)
                 val resultSet = statement.executeQuery()
-                Rows(resultSet)
-                    .traverse { row ->
-                        val id = row.getString("id").getOrForward { return@traverse it }
-                        val title = row.getString("title").getOrForward { return@traverse it }
-                        Pair(id, title).asSuccess()
-                    }
+                val rows: Rows = RowsInstance(resultSet)
+                rows.traverse { row ->
+                    val id = row.getString("id").getOrForward { return@traverse it }
+                    val title = row.getString("title").getOrForward { return@traverse it }
+                    Pair(id, title).asSuccess()
+                }
             }
 
     companion object {
