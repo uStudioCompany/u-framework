@@ -44,6 +44,9 @@ public class Context private constructor(private val data: MutableMap<Source, Da
 
     public operator fun contains(source: Source): Boolean = source in data
 
+    public fun <K> mapKeys(transform: (Source) -> K): Map<K, DataElement> =
+        data.mapKeys { (source, _) -> transform(source) }
+
     private fun Source.isPresent(): Boolean = contains(this)
     private fun Source.isNotPresent(): Boolean = !contains(this)
 

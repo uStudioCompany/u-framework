@@ -125,6 +125,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
+	public synthetic fun <init> (Lorg/camunda/feel/syntaxtree/ParsedExpression;Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Parser {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine;)V
+	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerConfigurationKt {
 	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
 	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
@@ -347,6 +358,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Sou
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Expression : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Expression;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Expression;Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Expression;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExpression ()Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Literal : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
@@ -788,5 +810,40 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/util/List;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration;)V
+	public final fun evaluate (Lorg/camunda/feel/syntaxtree/ParsedExpression;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine;Lorg/camunda/feel/syntaxtree/ParsedExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors$Evaluate : io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getExpression ()Ljava/lang/String;
+	public final fun getMessage ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration {
+	public fun <init> ()V
+	public fun <init> (Lorg/camunda/feel/context/FunctionProvider;)V
+	public synthetic fun <init> (Lorg/camunda/feel/context/FunctionProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getFunctionProvider ()Lorg/camunda/feel/context/FunctionProvider;
 }
 
