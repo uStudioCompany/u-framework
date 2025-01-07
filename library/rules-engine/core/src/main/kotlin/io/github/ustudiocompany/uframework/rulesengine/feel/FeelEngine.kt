@@ -9,7 +9,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import org.camunda.feel.api.FeelEngineApi
 import org.camunda.feel.api.FeelEngineBuilder
 import org.camunda.feel.syntaxtree.ParsedExpression
-import java.math.BigDecimal
 
 public class FeelEngine(configuration: FeelEngineConfiguration) {
     private val engine: FeelEngineApi = FeelEngineBuilder.forJava()
@@ -31,11 +30,11 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     ): ResultK<DataElement, Errors> {
         val evaluationResult = engine.evaluate(expression, context.toVariables())
         return if (evaluationResult.isSuccess) {
-            val result = evaluationResult.result() as FeelExpressionValue
-            if (result is FeelExpressionValue.Null)
+            val result = evaluationResult.result() as DataElement
+            if (result is DataElement.Null)
                 Errors.Evaluate(expression = expression.text()).asFailure()
             else
-                result.asDataElement().asSuccess()
+                result.asSuccess()
         } else
             Errors.Evaluate(
                 expression = expression.text(),
@@ -43,54 +42,12 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             ).asFailure()
     }
 
-    private fun Map<Source, DataElement>.toVariables(): Map<String, FeelExpressionValue> {
-        val result = mutableMapOf<String, FeelExpressionValue>()
+    private fun Map<Source, DataElement>.toVariables(): Map<String, DataElement> {
+        val result = mutableMapOf<String, DataElement>()
         forEach { (source, value) ->
-            result[source.get] = value.toFeelValue()
+            result[source.get] = value
         }
         return result
-    }
-
-    private fun DataElement.toFeelValue(): FeelExpressionValue = when (this) {
-        is DataElement.Null -> FeelExpressionValue.Null
-        is DataElement.Text -> FeelExpressionValue.Text(value = this.get)
-        is DataElement.Decimal -> FeelExpressionValue.Decimal(value = this.get)
-        is DataElement.Bool -> FeelExpressionValue.Bool(value = this.get)
-        is DataElement.Array -> this.toFeelValue()
-        is DataElement.Struct -> this.toFeelValue()
-    }
-
-    private fun DataElement.Array.toFeelValue(): FeelExpressionValue.Array =
-        FeelExpressionValue.Array(items = this.map { it.toFeelValue() })
-
-    private fun DataElement.Struct.toFeelValue(): FeelExpressionValue.Struct =
-        FeelExpressionValue.Struct(properties = this.mapValues { it.value.toFeelValue() })
-
-    private fun FeelExpressionValue.asDataElement(): DataElement = when (this) {
-        is FeelExpressionValue.Null -> DataElement.Null
-        is FeelExpressionValue.Text -> DataElement.Text(get = this.value)
-        is FeelExpressionValue.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString()))
-        is FeelExpressionValue.Bool -> DataElement.Bool(get = this.value)
-        is FeelExpressionValue.Array -> this.asArray()
-        is FeelExpressionValue.Struct -> this.asStruct()
-    }
-
-    private fun FeelExpressionValue.Array.asArray(): DataElement.Array {
-        val result = mutableListOf<DataElement>()
-        items.forEach {
-            result.add(it.asDataElement())
-        }
-        return DataElement.Array(result)
-    }
-
-    private fun FeelExpressionValue.Struct.asStruct(): DataElement {
-        val result = mutableMapOf<String, DataElement>()
-        properties.forEach {
-            val key = it.key.toString()
-            val value = it.value.asDataElement()
-            result[key] = value
-        }
-        return DataElement.Struct(result)
     }
 
     public sealed class Errors : Failure {

@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.feel
 
+import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import org.camunda.feel.context.Context.`StaticContext$`
 import org.camunda.feel.syntaxtree.Val
 import org.camunda.feel.syntaxtree.ValBoolean
@@ -20,59 +21,59 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         value.toFeelExpressionValue(innerValueMapper)
 
     override fun toValue(value: Any, innerValueMapper: Function<Any, Val>): Optional<Val> =
-        if (value is FeelExpressionValue)
+        if (value is DataElement)
             Optional.of<Val>(value.toVal(innerValueMapper))
         else
             Optional.empty<Val>()
 
     private fun Val.toFeelExpressionValue(innerValueMapper: Function<Val, Any>): Optional<Any> =
         when (this) {
-            is ValBoolean -> Optional.of(FeelExpressionValue.Bool(value()))
-            is ValString -> Optional.of(FeelExpressionValue.Text(value()))
-            is ValNumber -> Optional.of(FeelExpressionValue.Decimal(java.math.BigDecimal(value().toString())))
+            is ValBoolean -> Optional.of(DataElement.Bool(value()))
+            is ValString -> Optional.of(DataElement.Text(value()))
+            is ValNumber -> Optional.of(DataElement.Decimal(java.math.BigDecimal(value().toString())))
             is ValList -> Optional.of(this.asArray(innerValueMapper))
             is ValContext -> Optional.of(this.asStruct(innerValueMapper))
-            is `ValNull$` -> Optional.of(FeelExpressionValue.Null)
+            is `ValNull$` -> Optional.of(DataElement.Null)
             else -> Optional.empty()
         }
 
-    private fun ValList.asArray(innerValueMapper: Function<Val, Any>): FeelExpressionValue.Array {
-        val list = mutableListOf<FeelExpressionValue>()
+    private fun ValList.asArray(innerValueMapper: Function<Val, Any>): DataElement.Array {
+        val list = mutableListOf<DataElement>()
         var items = this.items()
         while (!items.isEmpty) {
             val item = items.head()
-            list.add(innerValueMapper.apply(item) as FeelExpressionValue)
+            list.add(innerValueMapper.apply(item) as DataElement)
             items = items.tail()
         }
-        return FeelExpressionValue.Array(list)
+        return DataElement.Array(list)
     }
 
-    private fun ValContext.asStruct(innerValueMapper: Function<Val, Any>): FeelExpressionValue.Struct {
-        val map = mutableMapOf<String, FeelExpressionValue>()
+    private fun ValContext.asStruct(innerValueMapper: Function<Val, Any>): DataElement.Struct {
+        val map = mutableMapOf<String, DataElement>()
         val variableProvider = this.context().variableProvider()
         var variables = variableProvider.getVariables()
         while (!variables.isEmpty) {
             val entry = variables.head()
             val key = entry._1
-            val value = innerValueMapper.apply(entry._2 as Val) as FeelExpressionValue
+            val value = innerValueMapper.apply(entry._2 as Val) as DataElement
             map[key] = value
             variables = variables.tail()
         }
-        return FeelExpressionValue.Struct(map)
+        return DataElement.Struct(map)
     }
 
-    private fun FeelExpressionValue.Array.toVal(innerValueMapper: Function<Any, Val>): Val {
+    private fun DataElement.Array.toVal(innerValueMapper: Function<Any, Val>): Val {
         var list: scala.collection.immutable.List<Val> = scala.collection.immutable.`List$`.`MODULE$`.empty()
-        items.forEach { item ->
+        forEach { item ->
             val value = innerValueMapper.apply(item)
             list = `$colon$colon`(value, list)
         }
         return ValList(list)
     }
 
-    private fun FeelExpressionValue.Struct.toVal(innerValueMapper: Function<Any, Val>): Val {
+    private fun DataElement.Struct.toVal(innerValueMapper: Function<Any, Val>): Val {
         var properties = scala.collection.immutable.`Map$`.`MODULE$`.newBuilder<String, Any>()
-        this.properties.forEach { (key, value) ->
+        forEach { (key, value) ->
             properties.addOne(Tuple2(key, value.toVal(innerValueMapper)))
         }
         properties.result()
@@ -83,13 +84,13 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         return ValContext(context)
     }
 
-    private fun FeelExpressionValue.toVal(innerValueMapper: Function<Any, Val>): Val =
+    private fun DataElement.toVal(innerValueMapper: Function<Any, Val>): Val =
         when (this) {
-            is FeelExpressionValue.Null -> `ValNull$`.`MODULE$`
-            is FeelExpressionValue.Text -> ValString(value)
-            is FeelExpressionValue.Bool -> ValBoolean(value)
-            is FeelExpressionValue.Decimal -> ValNumber(BigDecimal(value))
-            is FeelExpressionValue.Array -> toVal(innerValueMapper)
-            is FeelExpressionValue.Struct -> toVal(innerValueMapper)
+            is DataElement.Null -> `ValNull$`.`MODULE$`
+            is DataElement.Text -> ValString(get)
+            is DataElement.Bool -> ValBoolean(get)
+            is DataElement.Decimal -> ValNumber(BigDecimal(get))
+            is DataElement.Array -> toVal(innerValueMapper)
+            is DataElement.Struct -> toVal(innerValueMapper)
         }
 }
