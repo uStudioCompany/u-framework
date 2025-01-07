@@ -193,7 +193,9 @@ internal class FeelEngineTest : UnitTest() {
                             ),
                             KEY_G to DataElement.Struct(
                                 mutableMapOf(
-                                    KEY_H to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_5))
+                                    KEY_H to DataElement.Decimal(
+                                        BigDecimal.valueOf(NUMBER_VALUE_5)
+                                    )
                                 )
                             )
                         )
@@ -251,8 +253,12 @@ internal class FeelEngineTest : UnitTest() {
                 "when the variables are a decimal values" - {
                     val expression = "$KEY_A + $KEY_B"
                     val variables = mapOf(
-                        Source(KEY_A) to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                        Source(KEY_B) to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
+                        Source(KEY_A) to DataElement.Decimal(
+                            BigDecimal.valueOf(NUMBER_VALUE_1)
+                        ),
+                        Source(KEY_B) to DataElement.Decimal(
+                            BigDecimal.valueOf(NUMBER_VALUE_2)
+                        )
                     )
                     val result = engine.parse(expression)
                         .andThen { expression -> engine.evaluate(expression, variables) }
@@ -288,14 +294,10 @@ internal class FeelEngineTest : UnitTest() {
                     val expression = """$KEY_A.$KEY_B + $KEY_C.$KEY_D"""
                     val variables = mapOf(
                         Source(KEY_A) to DataElement.Struct(
-                            mutableMapOf(
-                                KEY_B to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
-                            )
+                            mutableMapOf(KEY_B to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)))
                         ),
                         Source(KEY_C) to DataElement.Struct(
-                            mutableMapOf(
-                                KEY_D to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
-                            )
+                            mutableMapOf(KEY_D to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2)))
                         )
                     )
                     val result = engine.parse(expression)
