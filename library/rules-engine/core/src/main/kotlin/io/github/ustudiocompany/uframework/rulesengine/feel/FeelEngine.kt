@@ -3,10 +3,6 @@ package io.github.ustudiocompany.uframework.rulesengine.feel
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.getOrForward
-import io.github.airflux.commons.types.resultk.map
-import io.github.airflux.commons.types.resultk.mapFailure
-import io.github.airflux.commons.types.resultk.traverseTo
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -39,8 +35,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             if (result is FeelExpressionValue.Null)
                 Errors.Evaluate(expression = expression.text()).asFailure()
             else
-                result.asDataElement()
-                    .mapFailure { Errors.Evaluate(expression = expression.text(), message = it) }
+                result.asDataElement().asSuccess()
         } else
             Errors.Evaluate(
                 expression = expression.text(),
@@ -71,27 +66,31 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     private fun DataElement.Struct.toFeelValue(): FeelExpressionValue.Struct =
         FeelExpressionValue.Struct(properties = this.mapValues { it.value.toFeelValue() })
 
-    private fun FeelExpressionValue.asDataElement(): ResultK<DataElement, String> = when (this) {
-        is FeelExpressionValue.Null -> DataElement.Null.asSuccess()
-        is FeelExpressionValue.Text -> DataElement.Text(get = this.value).asSuccess()
-        is FeelExpressionValue.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString())).asSuccess()
-        is FeelExpressionValue.Bool -> DataElement.Bool(get = this.value).asSuccess()
+    private fun FeelExpressionValue.asDataElement(): DataElement = when (this) {
+        is FeelExpressionValue.Null -> DataElement.Null
+        is FeelExpressionValue.Text -> DataElement.Text(get = this.value)
+        is FeelExpressionValue.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString()))
+        is FeelExpressionValue.Bool -> DataElement.Bool(get = this.value)
         is FeelExpressionValue.Array -> this.asArray()
         is FeelExpressionValue.Struct -> this.asStruct()
     }
 
-    private fun FeelExpressionValue.Array.asArray(): ResultK<DataElement.Array, String> =
-        items.traverseTo(mutableListOf<DataElement>()) { item -> item.asDataElement() }
-            .map { DataElement.Array(it) }
+    private fun FeelExpressionValue.Array.asArray(): DataElement.Array {
+        val result = mutableListOf<DataElement>()
+        items.forEach {
+            result.add(it.asDataElement())
+        }
+        return DataElement.Array(result)
+    }
 
-    private fun FeelExpressionValue.Struct.asStruct(): ResultK<DataElement, String> {
+    private fun FeelExpressionValue.Struct.asStruct(): DataElement {
         val result = mutableMapOf<String, DataElement>()
         properties.forEach {
             val key = it.key.toString()
-            val value = it.value.asDataElement().getOrForward { return it }
+            val value = it.value.asDataElement()
             result[key] = value
         }
-        return DataElement.Struct(result).asSuccess()
+        return DataElement.Struct(result)
     }
 
     public sealed class Errors : Failure {
