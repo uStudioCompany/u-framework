@@ -28,7 +28,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         expression: ParsedExpression,
         context: Map<Source, DataElement>
     ): ResultK<DataElement, Errors> {
-        val evaluationResult = engine.evaluate(expression, context.toVariables())
+        val evaluationResult = engine.evaluate(expression, context.convert())
         return if (evaluationResult.isSuccess) {
             val result = evaluationResult.result() as DataElement
             if (result is DataElement.Null)
@@ -42,7 +42,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             ).asFailure()
     }
 
-    private fun Map<Source, DataElement>.toVariables(): Map<String, DataElement> {
+    private fun Map<Source, DataElement>.convert(): Map<String, DataElement> {
         val result = mutableMapOf<String, DataElement>()
         forEach { (source, value) ->
             result[source.get] = value
