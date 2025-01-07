@@ -5,6 +5,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/con
 	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Z
 	public final fun get (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun getImmutable ()Ljava/util/Map;
+	public final fun map (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ljava/util/Map;
 	public final fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun replace (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }

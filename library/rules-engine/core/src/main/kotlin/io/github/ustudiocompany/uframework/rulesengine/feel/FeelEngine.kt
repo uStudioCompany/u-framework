@@ -35,8 +35,8 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     ): ResultK<DataElement, Errors> {
         val evaluationResult = engine.evaluate(expression, context.toVariables())
         return if (evaluationResult.isSuccess) {
-            val result = evaluationResult.result() as FeelValueWrapper
-            if (result is FeelValueWrapper.Null)
+            val result = evaluationResult.result() as FeelExpressionValue
+            if (result is FeelExpressionValue.Null)
                 Errors.Evaluate(expression = expression.text()).asFailure()
             else
                 result.asDataElement()
@@ -48,43 +48,43 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             ).asFailure()
     }
 
-    private fun Map<Source, DataElement>.toVariables(): Map<String, FeelValueWrapper> {
-        val result = mutableMapOf<String, FeelValueWrapper>()
+    private fun Map<Source, DataElement>.toVariables(): Map<String, FeelExpressionValue> {
+        val result = mutableMapOf<String, FeelExpressionValue>()
         forEach { (source, value) ->
             result[source.get] = value.toFeelValue()
         }
         return result
     }
 
-    private fun DataElement.toFeelValue(): FeelValueWrapper = when (this) {
-        is DataElement.Null -> FeelValueWrapper.Null
-        is DataElement.Text -> FeelValueWrapper.Text(value = this.get)
-        is DataElement.Decimal -> FeelValueWrapper.Decimal(value = this.get)
-        is DataElement.Bool -> FeelValueWrapper.Bool(value = this.get)
+    private fun DataElement.toFeelValue(): FeelExpressionValue = when (this) {
+        is DataElement.Null -> FeelExpressionValue.Null
+        is DataElement.Text -> FeelExpressionValue.Text(value = this.get)
+        is DataElement.Decimal -> FeelExpressionValue.Decimal(value = this.get)
+        is DataElement.Bool -> FeelExpressionValue.Bool(value = this.get)
         is DataElement.Array -> this.toFeelValue()
         is DataElement.Struct -> this.toFeelValue()
     }
 
-    private fun DataElement.Array.toFeelValue(): FeelValueWrapper.Array =
-        FeelValueWrapper.Array(items = this.map { it.toFeelValue() })
+    private fun DataElement.Array.toFeelValue(): FeelExpressionValue.Array =
+        FeelExpressionValue.Array(items = this.map { it.toFeelValue() })
 
-    private fun DataElement.Struct.toFeelValue(): FeelValueWrapper.Struct =
-        FeelValueWrapper.Struct(properties = this.mapValues { it.value.toFeelValue() })
+    private fun DataElement.Struct.toFeelValue(): FeelExpressionValue.Struct =
+        FeelExpressionValue.Struct(properties = this.mapValues { it.value.toFeelValue() })
 
-    private fun FeelValueWrapper.asDataElement(): ResultK<DataElement, String> = when (this) {
-        is FeelValueWrapper.Null -> DataElement.Null.asSuccess()
-        is FeelValueWrapper.Text -> DataElement.Text(get = this.value).asSuccess()
-        is FeelValueWrapper.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString())).asSuccess()
-        is FeelValueWrapper.Bool -> DataElement.Bool(get = this.value).asSuccess()
-        is FeelValueWrapper.Array -> this.asArray()
-        is FeelValueWrapper.Struct -> this.asStruct()
+    private fun FeelExpressionValue.asDataElement(): ResultK<DataElement, String> = when (this) {
+        is FeelExpressionValue.Null -> DataElement.Null.asSuccess()
+        is FeelExpressionValue.Text -> DataElement.Text(get = this.value).asSuccess()
+        is FeelExpressionValue.Decimal -> DataElement.Decimal(get = BigDecimal(this.value.toString())).asSuccess()
+        is FeelExpressionValue.Bool -> DataElement.Bool(get = this.value).asSuccess()
+        is FeelExpressionValue.Array -> this.asArray()
+        is FeelExpressionValue.Struct -> this.asStruct()
     }
 
-    private fun FeelValueWrapper.Array.asArray(): ResultK<DataElement.Array, String> =
+    private fun FeelExpressionValue.Array.asArray(): ResultK<DataElement.Array, String> =
         items.traverseTo(mutableListOf<DataElement>()) { item -> item.asDataElement() }
             .map { DataElement.Array(it) }
 
-    private fun FeelValueWrapper.Struct.asStruct(): ResultK<DataElement, String> {
+    private fun FeelExpressionValue.Struct.asStruct(): ResultK<DataElement, String> {
         val result = mutableMapOf<String, DataElement>()
         properties.forEach {
             val key = it.key.toString()
