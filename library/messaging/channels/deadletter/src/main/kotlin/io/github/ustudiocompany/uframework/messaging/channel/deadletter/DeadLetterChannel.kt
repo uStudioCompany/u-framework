@@ -2,6 +2,8 @@ package io.github.ustudiocompany.uframework.messaging.channel.deadletter
 
 import io.github.airflux.commons.types.resultk.onFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.exceptionOrNull
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.messaging.handler.toMessageHandlerException
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
@@ -66,11 +68,11 @@ public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
         entry(DeadLetterChannel.CHANNEL_NAME_KEY, channel.name),
         entry(DeadLetterChannel.STAMP_KEY, stamp.get)
     ) {
-        logger.error(cause.getException()) {
+        logger.error(cause.exceptionOrNull()) {
             if (description != null)
-                "$description ${cause.joinDescriptions()}"
+                "$description ${cause.fullDescription()}"
             else
-                cause.joinDescriptions()
+                cause.fullDescription()
         }
     }
     channel.send(this, stamp)

@@ -1,6 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.error
 
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.fullCode
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import java.sql.SQLException
 
@@ -9,7 +11,7 @@ public sealed class JDBCErrors : Failure {
     override fun toString(): String =
         "JDBCErrors(" +
             "code=`${fullCode()}`, " +
-            "description='${joinDescriptions()}', " +
+            "description='${fullDescription()}', " +
             "cause=`$cause`, " +
             "details=$details" +
             ")"

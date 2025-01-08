@@ -1,113 +1,69 @@
 package io.github.ustudiocompany.uframework.failure
 
+import io.github.ustudiocompany.uframework.failure.Failure.Cause
+import io.github.ustudiocompany.uframework.failure.Failure.Details
+
 public interface Failure {
+    /**
+     * The code of the failure.
+     */
     public val code: String
+
+    /**
+     * The description of the failure.
+     */
     public val description: String get() = ""
+
+    /**
+     * The details of the failure.
+     */
     public val details: Details get() = Details.NONE
+
+    /**
+     * The cause of the failure.
+     */
     public val cause: Cause get() = Cause.None
-
-    public fun fullCode(): String {
-        tailrec fun StringBuilder.appendCodeFromCause(cause: Cause): StringBuilder =
-            when (cause) {
-                is Cause.None -> this
-                is Cause.Exception -> this
-                is Cause.Failure -> {
-                    val error = cause.get
-                    append(CHAIN_DELIMITER)
-                        .append(error.code)
-                        .appendCodeFromCause(error.cause)
-                }
-            }
-
-        return StringBuilder()
-            .append(this.code)
-            .appendCodeFromCause(cause)
-            .toString()
-    }
-
-    public fun first(): Failure {
-        tailrec fun getUnderlying(failure: Failure): Failure =
-            when (val cause = failure.cause) {
-                is Cause.None -> failure
-                is Cause.Exception -> failure
-                is Cause.Failure -> getUnderlying(cause.get)
-            }
-        return getUnderlying(this)
-    }
-
-    public fun descriptions(): List<String> {
-        fun MutableList<String>.appendCurrentDescription(failure: Failure): MutableList<String> = apply {
-            add(failure.description)
-        }
-
-        tailrec fun MutableList<String>.appendDescriptionFromCause(cause: Cause): MutableList<String> =
-            when (cause) {
-                is Cause.None -> this
-                is Cause.Exception -> this
-                is Cause.Failure -> {
-                    val error = cause.get
-                    appendCurrentDescription(error)
-                    appendDescriptionFromCause(error.cause)
-                }
-            }
-
-        return buildList<String> {
-            appendCurrentDescription(this@Failure)
-            appendDescriptionFromCause(cause)
-        }
-    }
-
-    public fun joinDescriptions(separator: String = " "): String = descriptions().joinToString(separator = separator)
-
-    public fun getException(): Throwable? {
-        tailrec fun getException(failure: Failure): Throwable? =
-            when (val cause = failure.cause) {
-                is Cause.None -> null
-                is Cause.Exception -> cause.get
-                is Cause.Failure -> getException(cause.get)
-            }
-
-        return getException(this)
-    }
-
-    public fun fullDetails(): Details {
-        tailrec fun MutableList<Details.Item>.appendDetailsFromCause(cause: Cause): List<Details.Item> =
-            when (cause) {
-                is Cause.None -> this
-                is Cause.Exception -> this
-                is Cause.Failure -> {
-                    val error = cause.get
-                    addAll(error.details)
-                    appendDetailsFromCause(error.cause)
-                }
-            }
-
-        val allDetails = buildList<Details.Item> {
-            addAll(details)
-            appendDetailsFromCause(cause)
-        }
-        return Details.of(allDetails)
-    }
 
     public sealed interface Cause {
 
-        public data object None : Cause {
-            override fun toString(): String = "None"
-        }
+        /**
+         * The cause is not present.
+         */
+        public data object None : Cause
 
-        public data class Exception(public val get: Throwable) : Cause {
-            override fun toString(): String = "Exception: `$get`"
-        }
+        /**
+         * The cause is an exception.
+         */
+        public data class Exception(public val get: Throwable) : Cause
 
-        public data class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause {
-            override fun toString(): String = "Failure: `$get`"
-        }
+        /**
+         * The cause is a failure.
+         */
+        public data class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause
     }
 
     public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
-        public operator fun plus(details: Details): Details = Details(this.items + details)
-        public operator fun plus(item: Item): Details = Details(this.items + item)
+
+        /**
+         * Returns the value of the item from details by the specified [key] or null if the item is not found.
+         * @param key the key for search.
+         * @return the value or null.
+         */
         public operator fun get(key: String): String? = items.find { it.key == key }?.value
+
+        /**
+         * Concatenates two details.
+         * @param details the details to concatenate.
+         * @return the new details.
+         */
+        public operator fun plus(details: Details): Details = Details(this.items + details)
+
+        /**
+         * Adds the specified [item] to the details.
+         * @param item the item to add.
+         * @return the new details.
+         */
+        public operator fun plus(item: Item): Details = Details(this.items + item)
 
         override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
 
@@ -116,18 +72,105 @@ public interface Failure {
         }
 
         public companion object {
+
+            /**
+             * The empty details.
+             */
             public val NONE: Details = Details(emptyList())
 
+            /**
+             * Creates a new details with the specified [items].
+             * @param items the items to create a new details.
+             * @return the new details.
+             */
             public fun of(vararg items: Item): Details = of(items.toList())
 
+            /**
+             * Creates a new details with the specified [items].
+             * @param items the key-value pairs to create a new details.
+             * @return the new details.
+             */
             public fun of(vararg items: Pair<String, String>): Details =
                 of(items.map { Item(key = it.first, value = it.second) })
 
+            /**
+             * Creates a new details with the specified [items].
+             * @param items the items to create a new details.
+             * @return the new details.
+             */
             public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else NONE
         }
     }
 
-    private companion object {
-        private const val CHAIN_DELIMITER = "."
+    public companion object
+}
+
+/**
+ * Returns the root failure of this failure and its causes.
+ */
+public fun Failure.root(): Failure = fold(initial = { this }) { _, failure -> failure }
+
+/**
+ * Returns the full code by concatenating all codes of the failure and its causes using the specified [delimiter].
+ * @param delimiter the delimiter to use between codes.
+ * @return the full code.
+ */
+public fun Failure.fullCode(delimiter: String = "."): String =
+    fold(initial = { StringBuilder(it.code) }) { acc, failure ->
+        acc.append(delimiter)
+            .append(failure.code)
+    }.toString()
+
+/**
+ * Returns all details of the failure and its causes.
+ * @return the all details.
+ */
+public fun Failure.allDetails(): Details {
+    val allDetails = fold(initial = { mutableListOf<Details.Item>().apply { addAll(it.details) } }) { acc, failure ->
+        acc.apply { addAll(failure.details) }
     }
+    return if (allDetails.isEmpty())
+        Details.NONE
+    else
+        Details.of(allDetails)
+}
+
+/**
+ * Returns all descriptions of the failure and its causes.
+ */
+public fun Failure.allDescriptions(): List<String> = buildList<String> {
+    val result = this
+    this@allDescriptions.fold(initial = { result.apply { add(it.description) } }) { acc, failure ->
+        acc.apply { add(failure.description) }
+    }
+}
+
+/**
+ * Returns the full description of the failure.
+ */
+public fun Failure.fullDescription(separator: String = " "): String =
+    allDescriptions()
+        .joinToString(separator = separator)
+
+/**
+ * Returns the exception that caused the failure or null if the failure is not caused by an exception.
+ */
+public tailrec fun Failure.exceptionOrNull(): Throwable? =
+    when (val cause = this.cause) {
+        is Cause.None -> null
+        is Cause.Exception -> cause.get
+        is Cause.Failure -> cause.get.exceptionOrNull()
+    }
+
+/**
+ * Folds the failure and its causes with the specified [operation] starting with the specified [initial] value.
+ */
+public inline fun <S> Failure.fold(initial: (Failure) -> S, operation: (acc: S, Failure) -> S): S {
+    var accumulator: S = initial(this)
+    var next = this.cause
+    while (next is Cause.Failure) {
+        accumulator = operation(accumulator, next.get)
+        next = next.get.cause
+    }
+    return accumulator
 }

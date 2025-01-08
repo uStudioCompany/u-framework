@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context
 
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.fullCode
 
 private const val ERROR_CODE_DIAGNOSTIC_CONTEXT_KEY = "error-code"
 

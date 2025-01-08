@@ -1,6 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.handler
 
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.exceptionOrNull
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 
@@ -25,9 +27,9 @@ public class MessageHandlerException private constructor(
             val descriptionPrefix = if (description != null) "$description " else ""
             withDiagnosticContext(failure) {
                 return MessageHandlerException(
-                    description = descriptionPrefix + failure.joinDescriptions(),
+                    description = descriptionPrefix + failure.fullDescription(),
                     diagnosticContext = this,
-                    cause = failure.getException()
+                    cause = failure.exceptionOrNull()
                 )
             }
         }
