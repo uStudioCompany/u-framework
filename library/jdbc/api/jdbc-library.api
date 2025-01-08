@@ -83,11 +83,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$UnexpectedError : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
 	public fun <init> (Ljava/lang/Throwable;)V
-	public final fun getBaseException ()Ljava/lang/Throwable;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getException ()Ljava/lang/Throwable;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/ExceptionConverterKt {

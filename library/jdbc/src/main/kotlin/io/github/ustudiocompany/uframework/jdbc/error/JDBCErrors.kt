@@ -16,16 +16,16 @@ public sealed class JDBCErrors : Failure {
             "details=$details" +
             ")"
 
-    public class UnexpectedError(public val baseException: Throwable) : JDBCErrors() {
+    public class UnexpectedError(public val exception: Throwable) : JDBCErrors() {
         override val code: String = PREFIX + "1"
 
-        override val description: String = "Unexpected error: '${baseException.message}'."
+        override val description: String = "Unexpected error: '${exception.message}'."
 
-        override val cause: Failure.Cause = Failure.Cause.Exception(baseException)
+        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
 
         override val details: Failure.Details =
-            if (baseException is SQLException)
-                Failure.Details.of(SQL_STATE_DETAILS_KEY to baseException.sqlState)
+            if (exception is SQLException)
+                Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
                 Failure.Details.NONE
     }
