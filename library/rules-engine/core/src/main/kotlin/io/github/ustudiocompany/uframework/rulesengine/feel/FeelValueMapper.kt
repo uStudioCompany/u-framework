@@ -62,6 +62,16 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         return DataElement.Struct(map)
     }
 
+    private fun DataElement.toVal(innerValueMapper: Function<Any, Val>): Val =
+        when (this) {
+            is DataElement.Null -> `ValNull$`.`MODULE$`
+            is DataElement.Text -> ValString(get)
+            is DataElement.Bool -> ValBoolean(get)
+            is DataElement.Decimal -> ValNumber(BigDecimal(get))
+            is DataElement.Array -> toVal(innerValueMapper)
+            is DataElement.Struct -> toVal(innerValueMapper)
+        }
+
     private fun DataElement.Array.toVal(innerValueMapper: Function<Any, Val>): Val {
         var list: scala.collection.immutable.List<Val> = scala.collection.immutable.`List$`.`MODULE$`.empty()
         forEach { item ->
@@ -83,14 +93,4 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         )
         return ValContext(context)
     }
-
-    private fun DataElement.toVal(innerValueMapper: Function<Any, Val>): Val =
-        when (this) {
-            is DataElement.Null -> `ValNull$`.`MODULE$`
-            is DataElement.Text -> ValString(get)
-            is DataElement.Bool -> ValBoolean(get)
-            is DataElement.Decimal -> ValNumber(BigDecimal(get))
-            is DataElement.Array -> toVal(innerValueMapper)
-            is DataElement.Struct -> toVal(innerValueMapper)
-        }
 }
