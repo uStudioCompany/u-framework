@@ -13,8 +13,7 @@ repositories {
     }
 }
 
-project.version = "0.0.1-alpha.1-SNAPSHOT"
-project.group = "io.github.ustudiocompany"
+val projectVersion = "0.0.1-alpha.1-SNAPSHOT"
 
 subprojects {
     repositories {
@@ -24,8 +23,8 @@ subprojects {
         }
     }
 
-    version = project.version
-    group = project.group
+    version = projectVersion
+    group = "io.github.ustudiocompany"
 
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor(0, "seconds")
