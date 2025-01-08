@@ -13,7 +13,7 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":failure-library"))
-    implementation(project(":failure-library"))
+    implementation(project(":rules-engine-core"))
 
     /* Libs */
     implementation(libs.feel.engine)

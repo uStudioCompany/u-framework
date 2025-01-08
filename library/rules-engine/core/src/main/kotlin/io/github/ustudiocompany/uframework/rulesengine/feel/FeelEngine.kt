@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
+import org.camunda.feel.api.EvaluationResult
 import org.camunda.feel.api.FeelEngineApi
 import org.camunda.feel.api.FeelEngineBuilder
 import org.camunda.feel.syntaxtree.ParsedExpression
@@ -32,7 +33,10 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         return if (evaluationResult.isSuccess) {
             val result = evaluationResult.result() as DataElement
             if (result is DataElement.Null)
-                Errors.Evaluate(expression = expression.text()).asFailure()
+                Errors.Evaluate(
+                    expression = expression.text(),
+                    message = evaluationResult.descriptionSuppressedFailures()
+                ).asFailure()
             else
                 result.asSuccess()
         } else
@@ -40,6 +44,17 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
                 expression = expression.text(),
                 message = evaluationResult.failure().message()
             ).asFailure()
+    }
+
+    private fun EvaluationResult.descriptionSuppressedFailures(): String {
+        var failures = this.suppressedFailures()
+        if (failures.isEmpty()) return ""
+        return buildString {
+            while (!failures.isEmpty()) {
+                append(failures.head())
+                failures = failures.tail()
+            }
+        }
     }
 
     private fun Map<Source, DataElement>.convert(): Map<String, DataElement> {

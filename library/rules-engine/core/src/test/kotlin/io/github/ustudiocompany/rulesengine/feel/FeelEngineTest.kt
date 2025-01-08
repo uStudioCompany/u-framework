@@ -14,7 +14,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import java.math.BigDecimal
 
 internal class FeelEngineTest : UnitTest() {
-    private val engine = FeelEngine(FeelEngineConfiguration())
+    private val engine = FeelEngine(FeelEngineConfiguration(functionRegistry = emptyList()))
 
     init {
 

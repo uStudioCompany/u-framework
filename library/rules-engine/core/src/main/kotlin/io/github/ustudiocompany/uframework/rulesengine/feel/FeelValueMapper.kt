@@ -18,7 +18,7 @@ import java.util.function.Function
 
 internal class FeelValueMapper : JavaCustomValueMapper() {
     override fun unpackValue(value: Val, innerValueMapper: Function<Val, Any>): Optional<Any> =
-        value.toFeelExpressionValue(innerValueMapper)
+        value.toDataElement(innerValueMapper)
 
     override fun toValue(value: Any, innerValueMapper: Function<Any, Val>): Optional<Val> =
         if (value is DataElement)
@@ -26,7 +26,7 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         else
             Optional.empty<Val>()
 
-    private fun Val.toFeelExpressionValue(innerValueMapper: Function<Val, Any>): Optional<Any> =
+    private fun Val.toDataElement(innerValueMapper: Function<Val, Any>): Optional<Any> =
         when (this) {
             is ValBoolean -> Optional.of(DataElement.Bool(value()))
             is ValString -> Optional.of(DataElement.Text(value()))

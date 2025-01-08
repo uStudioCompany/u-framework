@@ -840,9 +840,12 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration {
-	public fun <init> ()V
-	public fun <init> (Lorg/camunda/feel/context/FunctionProvider;)V
-	public synthetic fun <init> (Lorg/camunda/feel/context/FunctionProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/Iterable;)V
 	public final fun getFunctionProvider ()Lorg/camunda/feel/context/FunctionProvider;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/function/FeelFunction {
+	public abstract fun getBody ()Lorg/camunda/feel/context/JavaFunction;
+	public abstract fun getName ()Ljava/lang/String;
 }
 

@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.rulesengine.feel.function
+package io.github.ustudiocompany.rulesengine.feel.functions
 
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
@@ -6,13 +6,14 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngine
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngineConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.feel.functions.UuidGenerationFunction
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 internal class UuidGenerationFunctionTest : UnitTest() {
 
-    private val engine = FeelEngine(FeelEngineConfiguration())
+    private val engine = FeelEngine(FeelEngineConfiguration(listOf(UuidGenerationFunction())))
 
     init {
         "The `uuid` function" - {
