@@ -1,15 +1,9 @@
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure {
-	public fun descriptions ()Ljava/util/List;
-	public fun first ()Lio/github/ustudiocompany/uframework/failure/Failure;
-	public fun fullCode ()Ljava/lang/String;
-	public fun fullDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Failure$Companion;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public abstract fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun getException ()Ljava/lang/Throwable;
-	public fun joinDescriptions (Ljava/lang/String;)Ljava/lang/String;
-	public static synthetic fun joinDescriptions$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure$Cause {
@@ -42,6 +36,9 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Non
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/Failure$Companion {
 }
 
 public final class io/github/ustudiocompany/uframework/failure/Failure$Details : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
@@ -105,6 +102,18 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details$I
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/FailureKt {
+	public static final fun allDescriptions (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/util/List;
+	public static final fun allDetails (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public static final fun exceptionOrNull (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/lang/Throwable;
+	public static final fun fold (Lio/github/ustudiocompany/uframework/failure/Failure;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+	public static final fun fullCode (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun fullCode$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun fullDescription (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun fullDescription$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun root (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Failure;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/failure/TypeFailure : io/github/ustudiocompany/uframework/failure/Failure {

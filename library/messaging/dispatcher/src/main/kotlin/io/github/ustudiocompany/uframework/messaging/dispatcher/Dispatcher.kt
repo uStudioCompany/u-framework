@@ -6,6 +6,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.exceptionOrNull
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.DeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.channel.deadletter.sendToDeadLetterChannel
 import io.github.ustudiocompany.uframework.messaging.dispatcher.Dispatcher.FailureHandler
@@ -137,11 +139,11 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
             context(Logging, DiagnosticContext)
             private fun Failure.logging(description: String? = null) {
                 withDiagnosticContext(this) {
-                    logger.error(getException()) {
+                    logger.error(exceptionOrNull()) {
                         if (description != null)
-                            "$ERROR_DESCRIPTOR $description ${joinDescriptions()}"
+                            "$ERROR_DESCRIPTOR $description ${fullDescription()}"
                         else
-                            "$ERROR_DESCRIPTOR ${joinDescriptions()}"
+                            "$ERROR_DESCRIPTOR ${fullDescription()}"
                     }
                 }
             }

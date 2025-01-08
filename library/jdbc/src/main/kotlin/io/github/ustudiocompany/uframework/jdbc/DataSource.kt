@@ -26,6 +26,6 @@ public inline fun <T, F> DataSource.useConnection(
     return try {
         connection.use(block)
     } catch (expected: Exception) {
-        errorConverter(JDBCErrors.UnexpectedError(expected)).asFailure()
+        errorConverter(JDBCErrors.Unexpected(expected)).asFailure()
     }
 }

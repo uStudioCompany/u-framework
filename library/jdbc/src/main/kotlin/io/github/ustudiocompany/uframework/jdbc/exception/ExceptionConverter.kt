@@ -15,9 +15,9 @@ public fun <F> Exception.toFailure(errorConverter: ErrorConverter<F>): Failure<F
             this.isConnectionError -> JDBCErrors.Connection(this)
             this.isDuplicate -> JDBCErrors.Data.DuplicateKeyValue(this)
             this.isCustom -> JDBCErrors.Custom(this.sqlState, this)
-            else -> JDBCErrors.UnexpectedError(this)
+            else -> JDBCErrors.Unexpected(this)
         }
     else
-        JDBCErrors.UnexpectedError(this)
+        JDBCErrors.Unexpected(this)
     return errorConverter(error).asFailure()
 }

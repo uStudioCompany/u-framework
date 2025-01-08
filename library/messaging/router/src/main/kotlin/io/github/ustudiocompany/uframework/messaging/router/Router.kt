@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.orThrow
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_VERSION_HEADER_NAME
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
@@ -91,9 +92,9 @@ public class Router<BODY, HANDLER> internal constructor(private val items: Map<R
         public fun build(): Router<BODY, HANDLER> = Router(items)
 
         private fun String.toMessageName(): MessageName = MessageName.of(this)
-            .orThrow { failure -> IllegalArgumentException("Invalid a message name. ${failure.joinDescriptions()}") }
+            .orThrow { failure -> IllegalArgumentException("Invalid a message name. ${failure.fullDescription()}") }
 
         private fun String.toMessageVersion(): MessageVersion = MessageVersion.of(this)
-            .orThrow { failure -> IllegalArgumentException("Invalid a message version. ${failure.joinDescriptions()}") }
+            .orThrow { failure -> IllegalArgumentException("Invalid a message version. ${failure.fullDescription()}") }
     }
 }

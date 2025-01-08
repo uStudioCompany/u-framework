@@ -3,6 +3,7 @@ import java.net.URI
 plugins {
     id("kover-merge-conventions")
     id("licenses-conventions")
+    id("git-info-conventions")
 }
 
 repositories {
@@ -12,7 +13,7 @@ repositories {
     }
 }
 
-subprojects {
+allprojects {
     repositories {
         mavenCentral()
         maven {
@@ -20,7 +21,7 @@ subprojects {
         }
     }
 
-    version = "0.0.1-SNAPSHOT"
+    version = "0.0.1-alpha.1-SNAPSHOT"
     group = "io.github.ustudiocompany"
 
     configurations.all {

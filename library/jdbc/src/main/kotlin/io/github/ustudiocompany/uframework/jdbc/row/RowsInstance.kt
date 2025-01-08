@@ -33,10 +33,10 @@ internal class RowsInstance(private val resultSet: ResultSet) : Rows, Row {
         val error = if (expected.isConnectionError)
             JDBCErrors.Connection(expected)
         else
-            JDBCErrors.UnexpectedError(expected)
+            JDBCErrors.Unexpected(expected)
         error.asFailure()
     } catch (expected: Exception) {
-        JDBCErrors.UnexpectedError(expected).asFailure()
+        JDBCErrors.Unexpected(expected).asFailure()
     }
 
     override fun <T> extract(
@@ -58,10 +58,10 @@ internal class RowsInstance(private val resultSet: ResultSet) : Rows, Row {
         val error = if (expected.isConnectionError)
             JDBCErrors.Connection(expected)
         else
-            JDBCErrors.UnexpectedError(expected)
+            JDBCErrors.Unexpected(expected)
         error.asFailure()
     } catch (expected: Exception) {
-        JDBCErrors.UnexpectedError(expected).asFailure()
+        JDBCErrors.Unexpected(expected).asFailure()
     }
 
     private fun ResultSet.getColumnIndexOrNull(name: String): Int? = try {
