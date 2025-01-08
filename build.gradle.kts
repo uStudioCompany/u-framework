@@ -13,6 +13,9 @@ repositories {
     }
 }
 
+project.version = "0.0.1-alpha.1-SNAPSHOT"
+project.group = "io.github.ustudiocompany"
+
 subprojects {
     repositories {
         mavenCentral()
@@ -21,8 +24,8 @@ subprojects {
         }
     }
 
-    version = "0.0.1-SNAPSHOT"
-    group = "io.github.ustudiocompany"
+    version = project.version
+    group = project.group
 
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor(0, "seconds")
