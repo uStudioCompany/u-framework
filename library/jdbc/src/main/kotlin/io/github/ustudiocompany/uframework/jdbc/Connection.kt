@@ -46,6 +46,6 @@ public inline fun <T, F> Connection.withTransaction(
         } catch (rollbackException: Throwable) {
             expected.addSuppressed(rollbackException)
         }
-        errorConverter(JDBCErrors.UnexpectedError(expected)).asFailure()
+        errorConverter(JDBCErrors.Unexpected(expected)).asFailure()
     }
 }

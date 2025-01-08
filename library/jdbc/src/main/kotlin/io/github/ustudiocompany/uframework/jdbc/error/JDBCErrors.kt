@@ -16,7 +16,7 @@ public sealed class JDBCErrors : Failure {
             "details=$details" +
             ")"
 
-    public class UnexpectedError(public val exception: Throwable) : JDBCErrors() {
+    public class Unexpected(public val exception: Throwable) : JDBCErrors() {
         override val code: String = PREFIX + "1"
 
         override val description: String = "Unexpected error: '${exception.message}'."

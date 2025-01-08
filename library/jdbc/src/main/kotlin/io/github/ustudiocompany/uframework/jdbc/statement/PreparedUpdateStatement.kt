@@ -32,7 +32,7 @@ private class PreparedUpdateStatementImpl(
     } catch (expected: SQLException) {
         expected.toFailure()
     } catch (expected: Exception) {
-        JDBCErrors.UnexpectedError(expected).asFailure()
+        JDBCErrors.Unexpected(expected).asFailure()
     }
 
     private fun PreparedStatement.execute(values: Iterable<SqlParam>): Int = setPropertyValues(values).executeUpdate()
