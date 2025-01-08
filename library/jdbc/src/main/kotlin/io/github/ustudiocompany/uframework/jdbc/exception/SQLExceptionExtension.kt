@@ -16,5 +16,6 @@ internal val SQLException.isUndefinedColumn: Boolean
     get() = sqlState == PSQLState.UNDEFINED_COLUMN.state
 
 @PublishedApi
+@Deprecated("Unused", level = DeprecationLevel.WARNING)
 internal val SQLException.isCustom: Boolean
     get() = sqlState.startsWith("U")
