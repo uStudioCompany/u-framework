@@ -27,7 +27,7 @@ public interface Failure {
     public sealed interface Cause {
 
         /**
-         * The cause is not present.
+         * The cause is not specified.
          */
         public data object None : Cause
 
