@@ -3,6 +3,7 @@ import java.net.URI
 plugins {
     id("kover-merge-conventions")
     id("licenses-conventions")
+    id("git-info-conventions")
 }
 
 repositories {

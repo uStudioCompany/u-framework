@@ -30,6 +30,7 @@ pitest-junit = "1.0.0"
 #Gradle Plugins
 detekt = "1.23.7"
 dokka = "1.9.20"
+gradle-git-version="3.1.0"
 knit = "0.5.0"
 kotlin = "2.1.0"
 kover = "0.9.0"
@@ -74,6 +75,7 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.
 gradle-plugin-binary-compatibility-validator = { module = "org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin", version = "0.16.2" }
 gradle-plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+gradle-plugin-git-version = { module = "com.palantir.gradle.gitversion:gradle-git-version", version.ref = "gradle-git-version" }
 gradle-plugin-knit = { module = "org.jetbrains.kotlinx:kotlinx-knit", version.ref = "knit" }
 gradle-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradle-plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
