@@ -13,9 +13,7 @@ repositories {
     }
 }
 
-val projectVersion = "0.0.1-alpha.1-SNAPSHOT"
-
-subprojects {
+allprojects {
     repositories {
         mavenCentral()
         maven {
@@ -23,7 +21,7 @@ subprojects {
         }
     }
 
-    version = projectVersion
+    version = "0.0.1-alpha.1-SNAPSHOT"
     group = "io.github.ustudiocompany"
 
     configurations.all {
