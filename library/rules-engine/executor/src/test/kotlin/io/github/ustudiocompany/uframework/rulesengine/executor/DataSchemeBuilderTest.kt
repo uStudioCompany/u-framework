@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathComp
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe

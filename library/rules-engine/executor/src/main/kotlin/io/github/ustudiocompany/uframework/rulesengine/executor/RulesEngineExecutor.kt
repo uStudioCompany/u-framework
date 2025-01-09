@@ -7,7 +7,6 @@ import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.CallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
@@ -15,6 +14,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Error
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 public typealias ExecutionResult = ResultK<Step.ErrorCode?, RuleEngineError>

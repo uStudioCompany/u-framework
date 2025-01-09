@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 
 internal class ComputeLiteralValueTest : UnitTest() {

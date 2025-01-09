@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.rulesengine.core.data.toPlainString
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 internal fun UriTemplateParams.build(context: Context): ResultK<Map<String, String>, RuleEngineError> {

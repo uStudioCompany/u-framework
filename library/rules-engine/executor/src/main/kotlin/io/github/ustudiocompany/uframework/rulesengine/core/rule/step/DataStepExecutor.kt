@@ -4,11 +4,11 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.build
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.update
 
 internal fun DataStep.execute(context: Context, merger: Merger): ExecutionResult =
     condition.isSatisfied(context)

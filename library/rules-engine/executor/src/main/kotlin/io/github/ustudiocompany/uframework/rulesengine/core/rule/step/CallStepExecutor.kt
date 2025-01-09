@@ -7,8 +7,6 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
@@ -16,6 +14,8 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 
 internal fun CallStep.execute(context: Context, callProvider: CallProvider, merger: Merger): ExecutionResult =

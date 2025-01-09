@@ -6,6 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import java.net.URI
 
 public fun interface CallProvider {
+
     public fun call(request: Request): ResultK<DataElement, Failure>
 
     public class Request(

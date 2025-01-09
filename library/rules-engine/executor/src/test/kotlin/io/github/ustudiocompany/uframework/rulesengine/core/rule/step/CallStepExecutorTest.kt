@@ -14,13 +14,13 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.Headers
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError

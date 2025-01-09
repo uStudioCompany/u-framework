@@ -8,6 +8,8 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action.MERGE
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.executor.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
