@@ -6,10 +6,10 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.filterNotNull
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
+import io.github.ustudiocompany.uframework.rulesengine.core.feel.evaluateWithContext
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
-import io.github.ustudiocompany.uframework.rulesengine.feel.evaluateWithContext
 
 internal fun Value.compute(context: Context): ResultK<DataElement, RuleEngineError> =
     when (this) {
