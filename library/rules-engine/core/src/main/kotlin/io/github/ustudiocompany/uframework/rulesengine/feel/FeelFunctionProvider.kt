@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.rulesengine.feel
 
-import io.github.ustudiocompany.uframework.rulesengine.feel.function.FeelFunction
 import org.camunda.feel.context.JavaFunction
 import org.camunda.feel.context.JavaFunctionProvider
 import java.util.*

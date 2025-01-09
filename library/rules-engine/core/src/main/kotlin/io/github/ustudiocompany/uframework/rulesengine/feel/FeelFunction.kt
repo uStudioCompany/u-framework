@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.feel.function
+package io.github.ustudiocompany.uframework.rulesengine.feel
 
 import org.camunda.feel.context.JavaFunction
 

@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.feel.functions
 
-import io.github.ustudiocompany.uframework.rulesengine.feel.function.FeelFunction
+import io.github.ustudiocompany.uframework.rulesengine.feel.FeelFunction
 import org.camunda.feel.context.JavaFunction
 import org.camunda.feel.syntaxtree.Val
 import org.camunda.feel.syntaxtree.ValFatalError

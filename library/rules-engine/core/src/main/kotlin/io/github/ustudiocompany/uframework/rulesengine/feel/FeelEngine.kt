@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import org.camunda.feel.api.EvaluationResult
@@ -66,7 +67,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     }
 
     public sealed class Errors : Failure {
-        override fun toString(): String = this.joinDescriptions()
+        override fun toString(): String = this.fullDescription()
 
         public class Parsing(public val expression: String, public val message: String) : Errors() {
             override val code: String = PREFIX + "PARSING-EXPRESSION"

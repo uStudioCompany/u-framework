@@ -844,7 +844,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 	public final fun getFunctionProvider ()Lorg/camunda/feel/context/FunctionProvider;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/function/FeelFunction {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
 	public abstract fun getBody ()Lorg/camunda/feel/context/JavaFunction;
 	public abstract fun getName ()Ljava/lang/String;
 }
