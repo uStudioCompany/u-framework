@@ -13,11 +13,13 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+@Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
 public inline fun <T> Connection.withTransaction(
     block: Connection.() -> ResultK<T, JDBCErrors>
 ): ResultK<T, JDBCErrors> = withTransaction(::identity, block)
 
 @OptIn(ExperimentalContracts::class)
+@Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
 @Suppress("TooGenericExceptionCaught")
 public inline fun <T, F> Connection.withTransaction(
     noinline errorConverter: ErrorConverter<F>,

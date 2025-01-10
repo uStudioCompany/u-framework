@@ -17,6 +17,7 @@ internal class RowsInstance(private val resultSet: ResultSet) : Rows, Row {
 
     override fun iterator(): Iterator<Row> = ResultSetIterator()
 
+    @Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
     override fun <T> extract(
         index: Int,
         expectedTypes: ExpectedTypes,
@@ -39,6 +40,7 @@ internal class RowsInstance(private val resultSet: ResultSet) : Rows, Row {
         JDBCErrors.Unexpected(expected).asFailure()
     }
 
+    @Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
     override fun <T> extract(
         columnName: String,
         expectedTypes: ExpectedTypes,

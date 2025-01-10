@@ -6,9 +6,11 @@ import io.github.ustudiocompany.uframework.jdbc.row.Row
 import io.github.ustudiocompany.uframework.jdbc.row.Row.ExpectedTypes
 import java.sql.Timestamp
 
+@Deprecated(message = "Use `getTimestamp` for ResultRow type instead", level = DeprecationLevel.WARNING)
 public fun Row.getTimestamp(index: Int): ResultK<Timestamp?, JDBCErrors> =
     this.extract(index, EXPECTED_TYPES) { getTimestamp(it) }
 
+@Deprecated(message = "Use `getTimestamp` for ResultRow type instead", level = DeprecationLevel.WARNING)
 public fun Row.getTimestamp(columnName: String): ResultK<Timestamp?, JDBCErrors> =
     this.extract(columnName, EXPECTED_TYPES) { getTimestamp(it) }
 

@@ -521,7 +521,7 @@ style:
     active: true
     includeElvis: true
   ClassOrdering:
-    active: true
+    active: false
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:

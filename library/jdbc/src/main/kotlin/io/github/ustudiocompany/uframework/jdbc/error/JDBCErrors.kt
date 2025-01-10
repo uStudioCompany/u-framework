@@ -4,6 +4,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.fullCode
 import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
+import io.github.ustudiocompany.uframework.jdbc.sql.ParameterLabel
 import java.sql.SQLException
 
 public sealed class JDBCErrors : Failure {
@@ -39,6 +40,41 @@ public sealed class JDBCErrors : Failure {
                 Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
                 Failure.Details.NONE
+    }
+
+    public sealed class Statement : JDBCErrors() {
+
+        public class InvalidParameter(public val label: ParameterLabel, cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-1"
+            override val description: String = "Invalid parameter."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+            override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
+                .apply {
+                    add(Failure.Details.Item(key = label.detailsKey, value = label.detailsValue))
+                }
+                .let { Failure.Details.of(it) }
+
+            public constructor(name: String, cause: Throwable) : this(label = ParameterLabel.Name(name), cause)
+            public constructor(index: Int, cause: Throwable) : this(ParameterLabel.Index(index), cause)
+        }
+
+        public class ParameterNotSpecified(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-2"
+            override val description: String = "No value specified for parameter."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class NoResult(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-3"
+            override val description: String = "No results were returned by the query."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class UnexpectedResult(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-4"
+            override val description: String = "A result was returned when none was expected."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
     }
 
     public sealed class Row : JDBCErrors() {
