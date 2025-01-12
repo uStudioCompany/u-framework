@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.failure.exceptionOrNull
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -58,7 +58,7 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidSql>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidSql>()
                     }
                 }
 
@@ -76,7 +76,7 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.ParameterNotSpecified>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.ParameterNotSpecified>()
                     }
                 }
 
@@ -94,7 +94,7 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
                     }
                 }
 
@@ -114,7 +114,7 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.NoResult>()
+                        val error = result.cause.shouldBeInstanceOf<TransactionError.Statement.NoResult>()
                         println(error.exceptionOrNull())
                     }
                 }

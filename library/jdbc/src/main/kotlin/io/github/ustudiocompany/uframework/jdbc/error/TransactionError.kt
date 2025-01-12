@@ -6,18 +6,17 @@ import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import java.sql.SQLException
 
-@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
-public sealed class JDBCErrors : Failure {
+public sealed class TransactionError : Failure {
 
     override fun toString(): String =
-        "JDBCErrors(" +
+        "TransactionError(" +
             "code=`${fullCode()}`, " +
             "description='${fullDescription()}', " +
             "cause=`$cause`, " +
             "details=$details" +
             ")"
 
-    public class Unexpected(public val exception: Throwable) : JDBCErrors() {
+    public class Unexpected(public val exception: Throwable) : TransactionError() {
         override val code: String = PREFIX + "1"
 
         override val description: String = "Unexpected error: '${exception.message}'."
@@ -31,7 +30,7 @@ public sealed class JDBCErrors : Failure {
                 Failure.Details.NONE
     }
 
-    public class Connection(exception: Exception) : JDBCErrors() {
+    public class Connection(exception: Exception) : TransactionError() {
         override val code: String = PREFIX + "CONNECTION-1"
         override val description: String = "The connection error."
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
@@ -42,7 +41,55 @@ public sealed class JDBCErrors : Failure {
                 Failure.Details.NONE
     }
 
-    public sealed class Row : JDBCErrors() {
+    public sealed class Statement : TransactionError() {
+
+        public class InvalidSql(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-1"
+            override val description: String = "Invalid SQL."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class InvalidParameterIndex(public val index: Int, cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-1"
+            override val description: String = "Invalid parameter index."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+            override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
+                .apply {
+                    add(Failure.Details.Item(key = STATEMENT_PARAMETER_INDEX_DETAILS_KEY, value = index.toString()))
+                }
+                .let { Failure.Details.of(it) }
+        }
+
+        public class InvalidParameterName(public val name: String) : Row() {
+            override val code: String = PREFIX + "STATEMENT-2"
+            override val description: String = "Invalid parameter name."
+            override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
+                .apply {
+                    add(Failure.Details.Item(key = STATEMENT_PARAMETER_NAME_DETAILS_KEY, value = name))
+                }
+                .let { Failure.Details.of(it) }
+        }
+
+        public class ParameterNotSpecified(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-3"
+            override val description: String = "No value specified for parameter."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class NoResult(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-3"
+            override val description: String = "No results were returned by the query."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class UnexpectedResult(cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-4"
+            override val description: String = "A result was returned when none was expected."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+    }
+
+    public sealed class Row : TransactionError() {
 
         public class UndefinedColumn(public val label: ColumnLabel) : Row() {
             override val code: String = PREFIX + "ROW-1"
@@ -96,7 +143,7 @@ public sealed class JDBCErrors : Failure {
         }
     }
 
-    public sealed class Data : JDBCErrors() {
+    public sealed class Data : TransactionError() {
 
         public class DuplicateKeyValue(exception: Throwable) : Data() {
             override val code: String = PREFIX + "DATA-1"
@@ -110,22 +157,12 @@ public sealed class JDBCErrors : Failure {
         }
     }
 
-    @Deprecated("Use UnexpectedError instead.")
-    public class Custom(public val state: String, exception: Throwable) : JDBCErrors() {
-        override val code: String = PREFIX + "CUSTOM"
-        override val description: String = ""
-        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-        override val details: Failure.Details =
-            if (exception is SQLException)
-                Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
-            else
-                Failure.Details.NONE
-    }
-
     private companion object {
         private const val PREFIX = "JDBC-"
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
         private const val EXPECTED_COLUMN_TYPE_DETAILS_KEY = "expected-column-type"
         private const val ACTUAL_COLUMN_TYPE_DETAILS_KEY = "actual-column-type"
+        private const val STATEMENT_PARAMETER_INDEX_DETAILS_KEY = "statement-param-index"
+        private const val STATEMENT_PARAMETER_NAME_DETAILS_KEY = "statement-param-name"
     }
 }

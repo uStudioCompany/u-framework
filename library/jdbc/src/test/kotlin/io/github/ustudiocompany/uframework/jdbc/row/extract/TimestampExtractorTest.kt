@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
@@ -66,7 +66,7 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                     }
 
                     result.shouldBeFailure()
-                    val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                    val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
                     cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
                 }
             }
@@ -80,7 +80,7 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                 }
 
                 result.shouldBeFailure()
-                val cause = result.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
                 cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
             }
         }

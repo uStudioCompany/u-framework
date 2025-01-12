@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -146,7 +146,8 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
 
                         "then should return an error" {
                             result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
+                            val error =
+                                result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
                             error.index shouldBe invalidParamIndex
                         }
                     }
@@ -167,7 +168,8 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
 
                         "then should return an error" {
                             result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
+                            val error =
+                                result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
                             error.index shouldBe invalidParamIndex
                         }
                     }

@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
@@ -55,7 +55,7 @@ internal class JdbcPreparedStatementInstance(
             Success.asUnit
         } catch (expected: SQLException) {
             if (expected.isInvalidParameterIndex)
-                JDBCErrors.Statement.InvalidParameterIndex(index, expected).asFailure()
+                TransactionError.Statement.InvalidParameterIndex(index, expected).asFailure()
             else
                 throw expected
         }

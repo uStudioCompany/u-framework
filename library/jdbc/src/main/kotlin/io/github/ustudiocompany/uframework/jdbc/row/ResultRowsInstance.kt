@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractorWith
 import java.sql.ResultSet
@@ -22,7 +22,7 @@ internal class ResultRowsInstance(
                 metadata.checkType(index = index, types).getOrForward { return it }
                 block(index, resultSet)
             } catch (expected: ClassCastException) {
-                JDBCErrors.Row.ReadColumn(index, expected).asFailure()
+                TransactionError.Row.ReadColumn(index, expected).asFailure()
             }
         }
 
@@ -30,7 +30,7 @@ internal class ResultRowsInstance(
 
     private fun ResultSetMetaData.checkIndex(index: Int): JDBCResult<Unit> =
         if (index < 1 || index > columnCount)
-            JDBCErrors.Row.UndefinedColumn(index).asFailure()
+            TransactionError.Row.UndefinedColumn(index).asFailure()
         else
             Success.asUnit
 
@@ -39,7 +39,7 @@ internal class ResultRowsInstance(
         return if (actualType in types)
             Success.asUnit
         else
-            JDBCErrors.Row.TypeMismatch(index, types.toString(), actualType).asFailure()
+            TransactionError.Row.TypeMismatch(index, types.toString(), actualType).asFailure()
     }
 
     private inner class ResultSetIterator : AbstractIterator<ResultRow>() {

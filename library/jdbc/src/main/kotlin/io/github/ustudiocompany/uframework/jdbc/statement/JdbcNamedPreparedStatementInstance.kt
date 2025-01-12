@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
@@ -56,12 +56,12 @@ internal class JdbcNamedPreparedStatementInstance(
     ): JDBCResult<Unit> = generalExceptionHandling {
         try {
             val index = parameters[name]
-                ?: return JDBCErrors.Statement.InvalidParameterName(name).asFailure()
+                ?: return TransactionError.Statement.InvalidParameterName(name).asFailure()
             block(index)
             Success.asUnit
         } catch (expected: SQLException) {
             if (expected.isInvalidParameterIndex)
-                JDBCErrors.Statement.InvalidParameterName(name).asFailure()
+                TransactionError.Statement.InvalidParameterName(name).asFailure()
             else
                 throw expected
         }

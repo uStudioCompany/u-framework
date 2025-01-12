@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRowsInstance
 import org.postgresql.util.PSQLState
@@ -21,9 +21,9 @@ internal fun PreparedStatement.tryExecute(): JDBCResult<StatementResult> =
             result.asSuccess()
         } catch (expected: SQLException) {
             if (expected.isSyntaxError)
-                JDBCErrors.Statement.InvalidSql(expected).asFailure()
+                TransactionError.Statement.InvalidSql(expected).asFailure()
             else if (expected.isParameterNotSpecified)
-                JDBCErrors.Statement.ParameterNotSpecified(expected).asFailure()
+                TransactionError.Statement.ParameterNotSpecified(expected).asFailure()
             else
                 throw expected
         }
@@ -35,11 +35,11 @@ internal fun PreparedStatement.tryExecuteQuery() = generalExceptionHandling {
         ResultRowsInstance(result).asSuccess()
     } catch (expected: SQLException) {
         if (expected.isSyntaxError)
-            JDBCErrors.Statement.InvalidSql(expected).asFailure()
+            TransactionError.Statement.InvalidSql(expected).asFailure()
         else if (expected.isParameterNotSpecified)
-            JDBCErrors.Statement.ParameterNotSpecified(expected).asFailure()
+            TransactionError.Statement.ParameterNotSpecified(expected).asFailure()
         else if (expected.isNoResult)
-            JDBCErrors.Statement.NoResult(expected).asFailure()
+            TransactionError.Statement.NoResult(expected).asFailure()
         else
             throw expected
     }
@@ -51,11 +51,11 @@ internal fun PreparedStatement.tryExecuteUpdate(): JDBCResult<Int> = generalExce
         result.asSuccess()
     } catch (expected: SQLException) {
         if (expected.isSyntaxError)
-            JDBCErrors.Statement.InvalidSql(expected).asFailure()
+            TransactionError.Statement.InvalidSql(expected).asFailure()
         else if (expected.isParameterNotSpecified)
-            JDBCErrors.Statement.ParameterNotSpecified(expected).asFailure()
+            TransactionError.Statement.ParameterNotSpecified(expected).asFailure()
         else if (expected.isUnexpectedResult)
-            JDBCErrors.Statement.UnexpectedResult(expected).asFailure()
+            TransactionError.Statement.UnexpectedResult(expected).asFailure()
         else
             throw expected
     }

@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -49,7 +49,7 @@ internal class ResultRowTest : IntegrationTest() {
 
                         "then the result should contain all data from the database" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<JDBCErrors.Row.TypeMismatch>()
+                            result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
                         }
                     }
 
@@ -78,7 +78,7 @@ internal class ResultRowTest : IntegrationTest() {
 
                             "then the result should contain all data from the database" {
                                 result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                                val error = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
                                 error.label shouldBe ColumnLabel.Index(invalidIndex)
                             }
                         }
@@ -92,7 +92,7 @@ internal class ResultRowTest : IntegrationTest() {
 
                             "then the result should contain all data from the database" {
                                 result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<JDBCErrors.Row.UndefinedColumn>()
+                                val error = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
                                 error.label shouldBe ColumnLabel.Index(invalidIndex)
                             }
                         }
@@ -107,7 +107,7 @@ internal class ResultRowTest : IntegrationTest() {
 
                         "then the result should return the error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<JDBCErrors.Unexpected>()
+                            result.cause.shouldBeInstanceOf<TransactionError.Unexpected>()
                         }
                     }
                 }

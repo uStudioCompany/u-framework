@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -58,7 +58,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidSql>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidSql>()
                     }
                 }
 
@@ -72,7 +72,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.ParameterNotSpecified>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.ParameterNotSpecified>()
                     }
                 }
 
@@ -90,7 +90,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterName>()
+                        val error = result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterName>()
                         error.name shouldBe invalidParamName
                     }
                 }
@@ -105,7 +105,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
 
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.UnexpectedResult>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Statement.UnexpectedResult>()
                     }
                 }
             }

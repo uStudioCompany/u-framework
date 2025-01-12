@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
+import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -75,7 +75,7 @@ internal class QueryForObjectTest : IntegrationTest() {
 
                     "then the result should be null" {
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCErrors.Unexpected>()
+                        result.cause.shouldBeInstanceOf<TransactionError.Unexpected>()
                     }
                 }
             }
