@@ -10,7 +10,6 @@ import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
-import io.github.ustudiocompany.uframework.jdbc.sql.ParameterLabel
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
@@ -147,8 +146,8 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
 
                         "then should return an error" {
                             result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameter>()
-                            error.label shouldBe ParameterLabel.Index(invalidParamIndex)
+                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
+                            error.index shouldBe invalidParamIndex
                         }
                     }
 
@@ -168,8 +167,8 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
 
                         "then should return an error" {
                             result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameter>()
-                            error.label shouldBe ParameterLabel.Index(invalidParamIndex)
+                            val error = result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
+                            error.index shouldBe invalidParamIndex
                         }
                     }
                 }

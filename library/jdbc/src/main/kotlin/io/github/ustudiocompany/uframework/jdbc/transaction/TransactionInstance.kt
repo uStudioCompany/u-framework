@@ -6,8 +6,12 @@ import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
+import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
+import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
+import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatementInstance
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcPreparedStatementInstance
+import io.github.ustudiocompany.uframework.jdbc.statement.JdbcStatement
 import java.sql.Connection
 import java.sql.PreparedStatement
 
@@ -38,18 +42,27 @@ internal class TransactionInstance(
 
     override fun preparedStatement(
         sql: String,
-        timeout: JdbcPreparedStatement.Timeout
+        timeout: JdbcStatement.Timeout
     ): JDBCResult<JdbcPreparedStatement> =
         prepareStatement(sql, timeout)
             .map { statement -> JdbcPreparedStatementInstance(statement = statement) }
 
+    override fun namedPreparedStatement(
+        sql: ParametrizedSql,
+        timeout: JdbcStatement.Timeout
+    ): JDBCResult<JdbcNamedPreparedStatement> =
+        prepareStatement(sql.value, timeout)
+            .map { statement ->
+                JdbcNamedPreparedStatementInstance(parameters = sql.parameters, statement = statement)
+            }
+
     private fun prepareStatement(
         sql: String,
-        timeout: JdbcPreparedStatement.Timeout
+        timeout: JdbcStatement.Timeout
     ): JDBCResult<PreparedStatement> = generalExceptionHandling {
         unwrappedConnection.prepareStatement(sql)
             .apply {
-                if (timeout is JdbcPreparedStatement.Timeout.Seconds) queryTimeout = timeout.value
+                if (timeout is JdbcStatement.Timeout.Seconds) queryTimeout = timeout.value
             }
             .asSuccess()
     }

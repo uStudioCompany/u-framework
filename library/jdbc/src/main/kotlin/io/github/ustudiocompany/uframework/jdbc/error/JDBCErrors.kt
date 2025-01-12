@@ -4,7 +4,6 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.fullCode
 import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
-import io.github.ustudiocompany.uframework.jdbc.sql.ParameterLabel
 import java.sql.SQLException
 
 public sealed class JDBCErrors : Failure {
@@ -44,22 +43,35 @@ public sealed class JDBCErrors : Failure {
 
     public sealed class Statement : JDBCErrors() {
 
-        public class InvalidParameter(public val label: ParameterLabel, cause: Throwable) : Row() {
+        public class InvalidSql(cause: Throwable) : Row() {
             override val code: String = PREFIX + "STATEMENT-1"
-            override val description: String = "Invalid parameter."
+            override val description: String = "Invalid SQL."
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
+        }
+
+        public class InvalidParameterIndex(public val index: Int, cause: Throwable) : Row() {
+            override val code: String = PREFIX + "STATEMENT-1"
+            override val description: String = "Invalid parameter index."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
             override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
                 .apply {
-                    add(Failure.Details.Item(key = label.detailsKey, value = label.detailsValue))
+                    add(Failure.Details.Item(key = STATEMENT_PARAMETER_INDEX_DETAILS_KEY, value = index.toString()))
                 }
                 .let { Failure.Details.of(it) }
+        }
 
-            public constructor(name: String, cause: Throwable) : this(label = ParameterLabel.Name(name), cause)
-            public constructor(index: Int, cause: Throwable) : this(ParameterLabel.Index(index), cause)
+        public class InvalidParameterName(public val name: String) : Row() {
+            override val code: String = PREFIX + "STATEMENT-2"
+            override val description: String = "Invalid parameter name."
+            override val details: Failure.Details = mutableListOf<Failure.Details.Item>()
+                .apply {
+                    add(Failure.Details.Item(key = STATEMENT_PARAMETER_NAME_DETAILS_KEY, value = name))
+                }
+                .let { Failure.Details.of(it) }
         }
 
         public class ParameterNotSpecified(cause: Throwable) : Row() {
-            override val code: String = PREFIX + "STATEMENT-2"
+            override val code: String = PREFIX + "STATEMENT-3"
             override val description: String = "No value specified for parameter."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
         }
@@ -162,5 +174,7 @@ public sealed class JDBCErrors : Failure {
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
         private const val EXPECTED_COLUMN_TYPE_DETAILS_KEY = "expected-column-type"
         private const val ACTUAL_COLUMN_TYPE_DETAILS_KEY = "actual-column-type"
+        private const val STATEMENT_PARAMETER_INDEX_DETAILS_KEY = "statement-param-index"
+        private const val STATEMENT_PARAMETER_NAME_DETAILS_KEY = "statement-param-name"
     }
 }

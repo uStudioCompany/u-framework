@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 
-public interface JdbcPreparedStatement : AutoCloseable {
+public interface JdbcPreparedStatement : JdbcStatement {
 
     public fun clearParameters()
 
@@ -29,9 +29,4 @@ public interface JdbcPreparedStatement : AutoCloseable {
     public fun update(vararg values: SqlParameter): JDBCResult<Int> = update(Iterable { values.iterator() })
 
     public fun update(values: Iterable<SqlParameter>): JDBCResult<Int>
-
-    public sealed class Timeout {
-        public data object Default : Timeout()
-        public data class Seconds(val value: Int) : Timeout()
-    }
 }

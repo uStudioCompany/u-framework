@@ -50,6 +50,18 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
             "when the execution is failed" - {
 
+                "when the SQL is invalid" - {
+                    val sql = "SELECT * FROM"
+                    val result = tm.execute(sql) { statement ->
+                        statement.query()
+                    }
+
+                    "then the result of execution of the statement should contain error" {
+                        result.shouldBeFailure()
+                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidSql>()
+                    }
+                }
+
                 "when the parameter is not specified" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
@@ -65,6 +77,24 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
                     "then the result of execution of the statement should contain error" {
                         result.shouldBeFailure()
                         result.cause.shouldBeInstanceOf<JDBCErrors.Statement.ParameterNotSpecified>()
+                    }
+                }
+
+                "when parameter out of range" - {
+                    container.truncateTable(TABLE_NAME)
+                    container.executeSql(INSERT_SQL)
+                    val result = tm.execute(SELECT_SQL) { statement ->
+                        statement.query(sqlParam(ID_FIRST_ROW_VALUE), sqlParam(ID_SECOND_ROW_VALUE))
+                            .andThen { rows ->
+                                rows.traverse { row ->
+                                    row.setString(TITLE_COLUMN_INDEX)
+                                }
+                            }
+                    }
+
+                    "then the result of execution of the statement should contain error" {
+                        result.shouldBeFailure()
+                        result.cause.shouldBeInstanceOf<JDBCErrors.Statement.InvalidParameterIndex>()
                     }
                 }
 
@@ -150,9 +180,9 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
         private fun <T> TransactionManager.execute(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> JDBCResult<T>
+            block: (statement: JDBCResult<JdbcPreparedStatement>) -> JDBCResult<T>
         ) = useTransaction { connection ->
-            connection.preparedStatement(sql).andThen { statement -> block(statement) }
+            block(connection.preparedStatement(sql))
         }
     }
 }

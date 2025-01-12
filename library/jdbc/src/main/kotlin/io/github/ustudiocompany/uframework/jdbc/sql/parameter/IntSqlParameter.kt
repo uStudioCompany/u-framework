@@ -6,17 +6,25 @@ import java.sql.Types
 public fun Int?.asSqlParam(): SqlParameter = sqlParam(this)
 public fun sqlParam(value: Int?): SqlParameter = IntSqlParameter(value)
 
-public class IntSqlParameter(private val value: Int?) : SqlParameter {
-    override fun setValue(statement: PreparedStatement, index: Int): Unit = invoke(statement, index, value)
+public infix fun Int?.asSqlParam(name: String): NamedSqlParameter = sqlParam(name, this)
+public fun sqlParam(name: String, value: Int?): NamedSqlParameter = IntNamedSqlParameter(name, value)
 
-    public companion object : SqlParameterSetter<Int> {
+public val intSqlParameterSetter: SqlParameterSetter<Int> = { index, value ->
+    if (value != null)
+        setInt(index, value)
+    else
+        setNull(index, Types.INTEGER)
+}
 
-        @JvmStatic
-        override operator fun invoke(statement: PreparedStatement, index: Int, value: Int?) {
-            if (value != null)
-                statement.setInt(index, value)
-            else
-                statement.setNull(index, Types.INTEGER)
-        }
-    }
+private class IntSqlParameter(private val value: Int?) : SqlParameter {
+    override fun setValue(statement: PreparedStatement, index: Int): Unit =
+        intSqlParameterSetter(statement, index, value)
+}
+
+private class IntNamedSqlParameter(
+    override val name: String,
+    private val value: Int?
+) : NamedSqlParameter {
+    override fun setValue(statement: PreparedStatement, index: Int): Unit =
+        intSqlParameterSetter(statement, index, value)
 }

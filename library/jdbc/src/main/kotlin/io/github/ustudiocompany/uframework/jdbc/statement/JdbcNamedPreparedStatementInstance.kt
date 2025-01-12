@@ -7,40 +7,41 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
 import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
-import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
+import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
-internal class JdbcPreparedStatementInstance(
+internal class JdbcNamedPreparedStatementInstance(
+    private val parameters: Map<String, Int>,
     private val statement: PreparedStatement
-) : JdbcPreparedStatement {
+) : JdbcNamedPreparedStatement {
 
     override fun clearParameters() {
         statement.clearParameters()
     }
 
-    override fun setParameter(index: Int, parameter: SqlParameter): JDBCResult<Unit> =
-        trySetParameter(index) { parameter.setValue(statement, index) }
+    override fun setParameter(parameter: NamedSqlParameter): JDBCResult<Unit> =
+        trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
     override fun <T> setParameter(
-        index: Int,
+        name: String,
         value: T,
         setter: SqlParameterSetter<T>
     ): JDBCResult<Unit> =
-        trySetParameter(index) { setter(statement, index, value) }
+        trySetParameter(name) { index -> setter(statement, index, value) }
 
-    override fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult> {
+    override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {
         val result = statement.setParameterValues(values)
         return if (result.isFailure()) result else statement.tryExecute()
     }
 
-    override fun query(values: Iterable<SqlParameter>): JDBCResult<ResultRows> {
+    override fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> {
         val result = statement.setParameterValues(values)
         return if (result.isFailure()) result else statement.tryExecuteQuery()
     }
 
-    override fun update(values: Iterable<SqlParameter>): JDBCResult<Int> {
+    override fun update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> {
         val result = statement.setParameterValues(values)
         return if (result.isFailure()) result else statement.tryExecuteUpdate()
     }
@@ -49,23 +50,27 @@ internal class JdbcPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private inline fun <T> trySetParameter(index: Int, block: () -> T) = generalExceptionHandling {
+    private inline fun <T> trySetParameter(
+        name: String,
+        block: (Int) -> T
+    ): JDBCResult<Unit> = generalExceptionHandling {
         try {
-            block()
+            val index = parameters[name]
+                ?: return JDBCErrors.Statement.InvalidParameterName(name).asFailure()
+            block(index)
             Success.asUnit
         } catch (expected: SQLException) {
             if (expected.isInvalidParameterIndex)
-                JDBCErrors.Statement.InvalidParameterIndex(index, expected).asFailure()
+                JDBCErrors.Statement.InvalidParameterName(name).asFailure()
             else
                 throw expected
         }
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<SqlParameter>): JDBCResult<Unit> {
-        values.forEachIndexed { index, parameter ->
-            val paramIndex = index + 1
-            val result = trySetParameter(paramIndex) {
-                parameter.setValue(this, paramIndex)
+    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCResult<Unit> {
+        values.forEach { parameter ->
+            val result = trySetParameter(parameter.name) { index ->
+                parameter.setValue(this, index)
             }
             if (result.isFailure()) return result
         }
