@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import java.sql.ResultSet
 
-internal fun ResultRow.getString(column: Int): JDBCResult<String?> =
+public fun ResultRow.getString(column: Int): JDBCResult<String?> =
     this.extractWith(column, TEXT_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getString(column)
         if (rs.wasNull()) Success.asNull else result.asSuccess()

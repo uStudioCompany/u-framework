@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import java.sql.ResultSet
 
-internal fun ResultRow.getLong(column: Int): JDBCResult<Long?> =
+public fun ResultRow.getLong(column: Int): JDBCResult<Long?> =
     this.extractWith(column, LONG_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getLong(column)
         if (rs.wasNull()) Success.asNull else result.asSuccess()

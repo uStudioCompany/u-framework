@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import org.postgresql.util.PGobject
 import java.sql.ResultSet
 
-internal fun ResultRow.getJSONB(column: Int): JDBCResult<String?> =
+public fun ResultRow.getJSONB(column: Int): JDBCResult<String?> =
     this.extractWith(column, JSONB_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getObject(column, PGobject::class.java)
         if (rs.wasNull()) Success.asNull else result.value.asSuccess()

@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import java.sql.ResultSet
 
-internal fun ResultRow.getBoolean(column: Int): JDBCResult<Boolean?> =
+public fun ResultRow.getBoolean(column: Int): JDBCResult<Boolean?> =
     this.extractWith(column, BOOL_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getBoolean(column)
         if (rs.wasNull()) Success.asNull else result.asSuccess()

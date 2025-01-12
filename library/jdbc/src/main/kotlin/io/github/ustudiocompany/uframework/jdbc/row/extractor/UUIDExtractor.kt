@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import java.sql.ResultSet
 import java.util.*
 
-internal fun ResultRow.getUUID(column: Int): JDBCResult<UUID?> =
+public fun ResultRow.getUUID(column: Int): JDBCResult<UUID?> =
     this.extractWith(column, UUID_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getObject(column, UUID::class.java)
         if (rs.wasNull()) Success.asNull else result.asSuccess()

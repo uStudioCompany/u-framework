@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
 import java.sql.ResultSet
 import java.sql.Timestamp
 
-internal fun ResultRow.getTimestamp(column: Int): JDBCResult<Timestamp?> =
+public fun ResultRow.getTimestamp(column: Int): JDBCResult<Timestamp?> =
     this.extractWith(column, TIMESTAMP_TYPE) { column: Int, rs: ResultSet ->
         val result = rs.getTimestamp(column)
         if (rs.wasNull()) Success.asNull else result.asSuccess()
