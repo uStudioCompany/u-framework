@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
@@ -25,7 +25,7 @@ internal class JdbcNamedPreparedStatementSetParameterTest : IntegrationTest() {
 
     init {
 
-        "The `setParameter` function with `SqlParameterSetter` of the JdbcNamedPreparedStatement type" - {
+        "The `setParameter` function of the JdbcNamedPreparedStatement type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(CREATE_TABLE)
@@ -145,8 +145,8 @@ internal class JdbcNamedPreparedStatementSetParameterTest : IntegrationTest() {
 
                     "then should return an error" {
                         result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterName>()
-                        error.name shouldBe invalidParamName
+                        val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                        error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
             }

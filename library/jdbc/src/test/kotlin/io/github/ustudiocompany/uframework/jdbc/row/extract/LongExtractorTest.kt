@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getLong
-import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
@@ -29,8 +28,8 @@ internal class LongExtractorTest : AbstractExtractorTest() {
 
             "when column index is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -55,8 +54,8 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
@@ -66,8 +65,11 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                     }
 
                     result.shouldBeFailure()
-                    val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
-                    cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
+                    val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                    error.description.shouldBe(
+                        "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
+                            "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
+                    )
                 }
             }
 
@@ -80,8 +82,8 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                 }
 
                 result.shouldBeFailure()
-                val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
-                cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
+                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }
@@ -91,5 +93,6 @@ internal class LongExtractorTest : AbstractExtractorTest() {
         private const val MIN_VALUE = Long.MIN_VALUE
         private const val ZERO_VALUE = 0L
         private val NULL_VALUE: Long? = null
+        private val EXPECTED_TYPE = BIGINT
     }
 }

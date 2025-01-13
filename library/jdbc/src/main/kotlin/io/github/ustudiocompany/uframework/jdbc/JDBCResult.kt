@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc
 
 import io.github.airflux.commons.types.resultk.ResultK
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
-public typealias JDBCResult<T> = ResultK<T, TransactionError>
+public typealias JDBCResult<T> = ResultK<T, JDBCError>

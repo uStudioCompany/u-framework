@@ -34,7 +34,7 @@ public interface ResultRow {
 
         public operator fun contains(type: String): Boolean = names.any { it.equals(type, true) }
 
-        override fun toString(): String = names.joinToString(prefix = "'", postfix = "'", separator = ", ")
+        override fun toString(): String = names.toString()
     }
 }
 

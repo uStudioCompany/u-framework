@@ -5,9 +5,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
-import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
@@ -49,7 +48,11 @@ internal class ResultRowTest : IntegrationTest() {
 
                         "then the result should contain all data from the database" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description.shouldBe(
+                                "The column type with index '2' does not match the extraction type. " +
+                                    "Expected: [text, varchar, bpchar], actual: 'bool'."
+                            )
                         }
                     }
 
@@ -78,8 +81,8 @@ internal class ResultRowTest : IntegrationTest() {
 
                             "then the result should contain all data from the database" {
                                 result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
-                                error.label shouldBe ColumnLabel.Index(invalidIndex)
+                                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                                error.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
 
@@ -92,8 +95,8 @@ internal class ResultRowTest : IntegrationTest() {
 
                             "then the result should contain all data from the database" {
                                 result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
-                                error.label shouldBe ColumnLabel.Index(invalidIndex)
+                                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                                error.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
                     }
@@ -107,7 +110,8 @@ internal class ResultRowTest : IntegrationTest() {
 
                         "then the result should return the error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Unexpected>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while extracting data from the result set"
                         }
                     }
                 }

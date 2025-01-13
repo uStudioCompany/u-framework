@@ -1,11 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
-import io.github.ustudiocompany.uframework.jdbc.generalExceptionHandling
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatementInstance
@@ -22,14 +23,24 @@ internal class TransactionInstance(
     override val connection: JdbcConnection
         get() = this
 
-    override fun commit(): JDBCResult<Unit> = generalExceptionHandling {
+    override fun commit(): JDBCResult<Unit> = try {
         unwrappedConnection.commit()
         Success.asUnit
+    } catch (expected: Exception) {
+        JDBCError(
+            description = "Error while committing transaction",
+            exception = expected
+        ).asFailure()
     }
 
-    override fun rollback(): JDBCResult<Unit> = generalExceptionHandling {
+    override fun rollback(): JDBCResult<Unit> = try {
         unwrappedConnection.rollback()
         Success.asUnit
+    } catch (expected: Exception) {
+        JDBCError(
+            description = "Error while rolling back transaction",
+            exception = expected
+        ).asFailure()
     }
 
     override fun close() {
@@ -59,11 +70,16 @@ internal class TransactionInstance(
     private fun prepareStatement(
         sql: String,
         timeout: JdbcStatement.Timeout
-    ): JDBCResult<PreparedStatement> = generalExceptionHandling {
+    ): JDBCResult<PreparedStatement> = try {
         unwrappedConnection.prepareStatement(sql)
             .apply {
                 if (timeout is JdbcStatement.Timeout.Seconds) queryTimeout = timeout.value
             }
             .asSuccess()
+    } catch (expected: Exception) {
+        JDBCError(
+            description = "Error while preparing statement",
+            exception = expected
+        ).asFailure()
     }
 }

@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -122,44 +122,47 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
             "when the parameter is failed to set" - {
 
                 "when parameter index is out of range" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
-                    val invalidParamIndex = 0
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                            .query()
-                            .andThen { rows ->
-                                rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+
+                    "when the index less than min" - {
+                        container.truncateTable(TABLE_NAME)
+                        container.executeSql(INSERT_SQL)
+                        val invalidParamIndex = 0
+                        val result = tm.execute(SELECT_SQL) { statement ->
+                            statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                                .query()
+                                .andThen { rows ->
+                                    rows.traverse { row ->
+                                        row.setString(TITLE_COLUMN_INDEX)
+                                    }
                                 }
-                            }
+                        }
+
+                        "then should return an error" {
+                            result.shouldBeFailure()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
+                        }
                     }
 
-                    "then should return an error" {
-                        result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
-                        error.index shouldBe invalidParamIndex
-                    }
-                }
-
-                "when parameter index is invalid" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
-                    val invalidParamIndex = 2
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                            .query()
-                            .andThen { rows ->
-                                rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                    "when the index greater than max" - {
+                        container.truncateTable(TABLE_NAME)
+                        container.executeSql(INSERT_SQL)
+                        val invalidParamIndex = 2
+                        val result = tm.execute(SELECT_SQL) { statement ->
+                            statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                                .query()
+                                .andThen { rows ->
+                                    rows.traverse { row ->
+                                        row.setString(TITLE_COLUMN_INDEX)
+                                    }
                                 }
-                            }
-                    }
+                        }
 
-                    "then should return an error" {
-                        result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
-                        error.index shouldBe invalidParamIndex
+                        "then should return an error" {
+                            result.shouldBeFailure()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
+                        }
                     }
                 }
             }

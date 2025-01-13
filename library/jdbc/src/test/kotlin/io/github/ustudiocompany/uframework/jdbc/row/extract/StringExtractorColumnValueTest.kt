@@ -28,7 +28,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
             "when column index is valid" - {
 
                 withData(
-                    nameFn = { "when column type is '${it.first.dataType}'" },
+                    nameFn = { "when column type is '${it.first.displayType}'" },
                     testData
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -50,7 +50,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
                     getColumnsExclude(TEXT, VARCHAR, CHAR)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -79,7 +79,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.first.dataType}'" },
+                    nameFn = { "when column type is '${it.first.displayType}'" },
                     testData
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -100,7 +100,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
                     getColumnsExclude(TEXT, VARCHAR, CHAR)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)

@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJSONB
-import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
@@ -29,8 +28,8 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
 
             "when column index is valid" - {
                 withData(
-                    ts = columnTypes(JSONB),
-                    nameFn = { "when column type is '${it.dataType}'" },
+                    ts = columnTypes(EXPECTED_TYPE),
+                    nameFn = { "when column type is '${it.displayType}'" },
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -53,8 +52,8 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then function should return an error}" },
-                    ts = getColumnsExclude(JSONB),
+                    nameFn = { "when column type is '${it.displayType}' then function should return an error}" },
+                    ts = getColumnsExclude(EXPECTED_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
@@ -64,8 +63,11 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                     }
 
                     result.shouldBeFailure()
-                    val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
-                    cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
+                    val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                    error.description.shouldBe(
+                        "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
+                            "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
+                    )
                 }
             }
 
@@ -78,8 +80,8 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                 }
 
                 result.shouldBeFailure()
-                val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
-                cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
+                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }
@@ -89,5 +91,6 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
     companion object {
         private const val JSON_VALUE = """{"number": 1, "string": "string value", "boolean": true}"""
         private val JSON_NULL_VALUE = null
+        private val EXPECTED_TYPE = JSONB
     }
 }

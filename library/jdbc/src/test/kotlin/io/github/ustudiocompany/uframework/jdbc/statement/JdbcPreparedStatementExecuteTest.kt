@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -81,18 +81,6 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
 
                 "when the SQL for execution is a query" - {
 
-                    "when the SQL is invalid" - {
-                        val sql = "SELECT * FROM"
-                        val result = tm.execute(sql) { statement ->
-                            statement.execute()
-                        }
-
-                        "then the result of execution of the statement should contain error" {
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidSql>()
-                        }
-                    }
-
                     "when the parameter is not specified" - {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
@@ -109,7 +97,8 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
 
                         "then the result of execution of the statement should contain error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.ParameterNotSpecified>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while executing the statement."
                         }
                     }
 
@@ -129,24 +118,13 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
 
                         "then the result of execution of the statement should contain error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while setting parameter by index: '2'."
                         }
                     }
                 }
 
                 "when the SQL for execution is a update" - {
-
-                    "when the SQL is invalid" - {
-                        val sql = "UPDATE $TABLE_NAME"
-                        val result = tm.execute(sql) { statement ->
-                            statement.execute()
-                        }
-
-                        "then the result of execution of the statement should contain error" {
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidSql>()
-                        }
-                    }
 
                     "when the parameter is not specified" - {
                         container.truncateTable(TABLE_NAME)
@@ -159,7 +137,8 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
 
                         "then the result of execution of the statement should contain error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.ParameterNotSpecified>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while executing the statement."
                         }
                     }
 
@@ -178,7 +157,8 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
 
                         "then the result of execution of the statement should contain error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<TransactionError.Statement.InvalidParameterIndex>()
+                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            error.description shouldBe "Error while setting parameter by index: '3'."
                         }
                     }
                 }

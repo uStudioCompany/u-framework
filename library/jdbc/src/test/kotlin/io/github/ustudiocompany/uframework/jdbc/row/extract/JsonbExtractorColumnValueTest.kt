@@ -26,7 +26,7 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
             "when column index is valid" - {
                 withData(
                     ts = columnTypes(JSONB),
-                    nameFn = { "when column type is '${it.dataType}'" },
+                    nameFn = { "when column type is '${it.displayType}'" },
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -47,7 +47,7 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then function should return an error}" },
+                    nameFn = { "when column type is '${it.displayType}' then function should return an error}" },
                     ts = getColumnsExclude(JSONB),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -76,7 +76,7 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
+                    nameFn = { "when column type is '${it.displayType}'" },
                     ts = columnTypes(JSONB),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -97,7 +97,7 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then function should return error" },
+                    nameFn = { "when column type is '${it.displayType}' then function should return error" },
                     ts = getColumnsExclude(JSONB),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)

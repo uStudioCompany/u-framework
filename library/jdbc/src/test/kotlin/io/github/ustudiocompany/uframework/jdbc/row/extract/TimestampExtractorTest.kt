@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.TransactionError
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
-import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
@@ -30,8 +29,8 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
 
             "when column index is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -55,8 +54,8 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
@@ -66,8 +65,11 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                     }
 
                     result.shouldBeFailure()
-                    val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.TypeMismatch>()
-                    cause.label shouldBe ColumnLabel.Index(metadata.columnIndex)
+                    val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                    error.description.shouldBe(
+                        "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
+                            "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
+                    )
                 }
             }
 
@@ -80,8 +82,8 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                 }
 
                 result.shouldBeFailure()
-                val cause = result.cause.shouldBeInstanceOf<TransactionError.Row.UndefinedColumn>()
-                cause.label shouldBe ColumnLabel.Index(INVALID_COLUMN_INDEX)
+                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }
@@ -92,5 +94,6 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
         private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
         private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
         private val NULL_VALUE: Timestamp? = null
+        private val EXPECTED_TYPE = TIMESTAMP
     }
 }

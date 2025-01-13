@@ -20,6 +20,20 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/connect
 	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Throwable;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getException ()Ljava/lang/Throwable;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun toString ()Ljava/lang/String;
 }
@@ -97,126 +111,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 	public final fun getException ()Ljava/lang/Throwable;
 }
 
-public abstract class io/github/ustudiocompany/uframework/jdbc/error/TransactionError : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Connection : io/github/ustudiocompany/uframework/jdbc/error/TransactionError {
-	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-}
-
-public abstract class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Data : io/github/ustudiocompany/uframework/jdbc/error/TransactionError {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Data$DuplicateKeyValue : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Data {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-}
-
-public abstract class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row : io/github/ustudiocompany/uframework/jdbc/error/TransactionError {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row$ReadColumn : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (ILjava/lang/Throwable;)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/Throwable;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row$TypeMismatch : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (ILjava/lang/String;Ljava/lang/String;)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/String;Ljava/lang/String;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public final fun getActual ()Ljava/lang/String;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getExpected ()Ljava/lang/String;
-	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row$UndefinedColumn : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (I)V
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;)V
-	public fun <init> (Ljava/lang/String;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
-}
-
-public abstract class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement : io/github/ustudiocompany/uframework/jdbc/error/TransactionError {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$InvalidParameterIndex : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (ILjava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getIndex ()I
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$InvalidParameterName : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (Ljava/lang/String;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getName ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$InvalidSql : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$NoResult : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$ParameterNotSpecified : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Statement$UnexpectedResult : io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Row {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/TransactionError$Unexpected : io/github/ustudiocompany/uframework/jdbc/error/TransactionError {
-	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getException ()Ljava/lang/Throwable;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/exception/ExceptionConverterKt {
 	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/Failure;
 	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/Failure;
-	public static final fun toTransactionError (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/Failure;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {
