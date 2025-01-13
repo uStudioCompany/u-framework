@@ -1,17 +1,16 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.commons.types.either.right
-import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.map
-import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
+import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
+import io.github.ustudiocompany.uframework.jdbc.transaction.transactionError
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -35,7 +34,10 @@ internal class QueryForObjectTest : IntegrationTest() {
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement.queryForObject(sqlParam(ID_THIRD_ROW_VALUE)) { index, row ->
                             row.setString(TITLE_COLUMN_INDEX)
-                                .map { value -> index to value }
+                                .fold(
+                                    onSuccess = { value -> (index to value).asSuccess() },
+                                    onFailure = { error -> transactionError(error) }
+                                )
                         }
                     }
 
@@ -51,7 +53,10 @@ internal class QueryForObjectTest : IntegrationTest() {
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement.queryForObject(sqlParam(ID_SECOND_ROW_VALUE)) { index, row ->
                             row.setString(TITLE_COLUMN_INDEX)
-                                .map { value -> index to value }
+                                .fold(
+                                    onSuccess = { value -> (index to value).asSuccess() },
+                                    onFailure = { error -> transactionError(error) }
+                                )
                         }
                     }
 
@@ -68,7 +73,7 @@ internal class QueryForObjectTest : IntegrationTest() {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.queryForObject<String>(sqlParam(ID_FIRST_ROW_VALUE)) { index, row ->
+                        statement.queryForObject<String, Nothing>(sqlParam(ID_FIRST_ROW_VALUE)) { index, row ->
                             error("Error")
                         }
                     }
@@ -130,13 +135,16 @@ internal class QueryForObjectTest : IntegrationTest() {
             |    WHERE $ID_COLUMN_NAME = ?
         """.trimMargin()
 
-        private fun <T> TransactionManager.execute(
+        private fun <T, E> TransactionManager.execute(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> JDBCResult<T>
-        ) = useTransaction { connection ->
-            connection.preparedStatement(sql)
-                .andThen { statement -> block(statement) }
-                .mapFailure { right(it) }
-        }
+            block: (statement: JdbcPreparedStatement) -> TransactionResult<T, E>
+        ) =
+            useTransaction { connection ->
+                connection.preparedStatement(sql)
+                    .fold(
+                        onSuccess = { statement -> block(statement) },
+                        onFailure = { error -> transactionError(error) }
+                    )
+            }
     }
 }
