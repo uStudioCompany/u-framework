@@ -41,7 +41,7 @@ internal class JdbcNamedPreparedStatementSetParameterWithSetterTest : Integratio
                             .query()
                             .andThen { rows ->
                                 rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
                             }
                     }
@@ -88,7 +88,7 @@ internal class JdbcNamedPreparedStatementSetParameterWithSetterTest : Integratio
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get
                                         .traverse { row ->
-                                            row.setString(TITLE_COLUMN_INDEX)
+                                            row.getString(TITLE_COLUMN_INDEX)
                                         }
                                 }
                         }
@@ -137,7 +137,7 @@ internal class JdbcNamedPreparedStatementSetParameterWithSetterTest : Integratio
                             .query()
                             .andThen { rows ->
                                 rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
                             }
                     }
@@ -151,7 +151,7 @@ internal class JdbcNamedPreparedStatementSetParameterWithSetterTest : Integratio
         }
     }
 
-    private fun ResultRow.setString(column: Int) =
+    private fun ResultRow.getString(column: Int) =
         extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
     private companion object {

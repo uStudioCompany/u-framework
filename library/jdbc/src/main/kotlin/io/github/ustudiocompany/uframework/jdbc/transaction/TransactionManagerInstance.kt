@@ -4,9 +4,9 @@ import io.github.airflux.commons.types.either.Either
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.fold
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import java.sql.Connection
 import javax.sql.DataSource
 
@@ -19,10 +19,9 @@ internal class TransactionManagerInstance(
         readOnly: Boolean
     ): ResultK<Transaction, Either<Nothing, JDBCError>> =
         dataSource.initConnection(isolation, readOnly)
-            .fold(
-                onSuccess = { connection -> TransactionInstance(connection).asSuccess() },
-                onFailure = { error -> error.asIncident() }
-            )
+            .mapOrIncident { connection ->
+                TransactionInstance(connection).asSuccess()
+            }
 
     private fun DataSource.initConnection(
         isolation: TransactionIsolation,

@@ -1,15 +1,15 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
+import io.github.ustudiocompany.uframework.jdbc.flatMapOrIncident
+import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
-import io.github.ustudiocompany.uframework.jdbc.transaction.asIncident
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -31,11 +31,8 @@ internal class QueryForListTest : IntegrationTest() {
                 container.executeSql(INSERT_SQL)
                 val result = tm.execute(SELECT_SQL) { statement ->
                     statement.queryForList { index, row ->
-                        row.setString(TITLE_COLUMN_INDEX)
-                            .fold(
-                                onSuccess = { value -> (index to value).asSuccess() },
-                                onFailure = { error -> error.asIncident() }
-                            )
+                        row.getString(TITLE_COLUMN_INDEX)
+                            .mapOrIncident { value -> (index to value).asSuccess() }
                     }
                 }
 
@@ -68,7 +65,7 @@ internal class QueryForListTest : IntegrationTest() {
         }
     }
 
-    private fun ResultRow.setString(column: Int) =
+    private fun ResultRow.getString(column: Int) =
         extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
     private companion object {
@@ -122,10 +119,7 @@ internal class QueryForListTest : IntegrationTest() {
         ) =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
-                    .fold(
-                        onSuccess = { statement -> block(statement) },
-                        onFailure = { error -> error.asIncident() }
-                    )
+                    .flatMapOrIncident { statement -> block(statement) }
             }
     }
 }

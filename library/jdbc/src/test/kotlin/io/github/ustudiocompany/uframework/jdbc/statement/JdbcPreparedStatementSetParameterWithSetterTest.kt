@@ -39,7 +39,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
                             .query()
                             .andThen { rows ->
                                 rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
                             }
                     }
@@ -83,7 +83,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get
                                         .traverse { row ->
-                                            row.setString(TITLE_COLUMN_INDEX)
+                                            row.getString(TITLE_COLUMN_INDEX)
                                         }
                                 }
                         }
@@ -132,7 +132,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
                                 .query()
                                 .andThen { rows ->
                                     rows.traverse { row ->
-                                        row.setString(TITLE_COLUMN_INDEX)
+                                        row.getString(TITLE_COLUMN_INDEX)
                                     }
                                 }
                         }
@@ -152,7 +152,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
                                 .query()
                                 .andThen { rows ->
                                     rows.traverse { row ->
-                                        row.setString(TITLE_COLUMN_INDEX)
+                                        row.getString(TITLE_COLUMN_INDEX)
                                     }
                                 }
                         }
@@ -167,7 +167,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
         }
     }
 
-    private fun ResultRow.setString(column: Int) =
+    private fun ResultRow.getString(column: Int) =
         extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
     private companion object {

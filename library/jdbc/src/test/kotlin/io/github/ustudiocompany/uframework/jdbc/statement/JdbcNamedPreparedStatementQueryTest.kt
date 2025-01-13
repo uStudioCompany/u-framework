@@ -37,7 +37,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                     statement.query(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
                         .andThen { rows ->
                             rows.traverse { row ->
-                                row.setString(TITLE_COLUMN_INDEX)
+                                row.getString(TITLE_COLUMN_INDEX)
                             }
                         }
                 }
@@ -58,7 +58,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                         statement.query()
                             .andThen { rows ->
                                 rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
                             }
                     }
@@ -77,7 +77,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                         statement.query(ID_FIRST_ROW_VALUE.asSqlParam(titleParamName))
                             .andThen { rows ->
                                 rows.traverse { row ->
-                                    row.setString(TITLE_COLUMN_INDEX)
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
                             }
                     }
@@ -99,7 +99,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                             ID_SECOND_ROW_VALUE.asSqlParam(idParamName)
                         ).andThen { rows ->
                             rows.traverse { row ->
-                                row.setString(TITLE_COLUMN_INDEX)
+                                row.getString(TITLE_COLUMN_INDEX)
                             }
                         }
                     }
@@ -113,7 +113,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
         }
     }
 
-    private fun ResultRow.setString(column: Int) =
+    private fun ResultRow.getString(column: Int) =
         extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
     private companion object {
