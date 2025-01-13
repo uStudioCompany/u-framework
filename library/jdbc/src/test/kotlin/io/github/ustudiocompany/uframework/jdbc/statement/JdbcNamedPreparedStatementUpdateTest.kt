@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -58,8 +58,8 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                         statement.update(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Error while executing the update."
                     }
                 }
@@ -76,8 +76,8 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                         )
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
@@ -90,8 +90,8 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                         statement.update(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Error while executing the update."
                     }
                 }

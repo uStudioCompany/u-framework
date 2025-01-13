@@ -30,7 +30,7 @@ public inline fun <T, E> TransactionManager.useTransaction(
                 val result = try {
                     block(tx.connection)
                 } catch (expected: Exception) {
-                    transactionError(
+                    asIncident(
                         description = "Error while executing transaction block",
                         exception = expected
                     )
@@ -40,7 +40,7 @@ public inline fun <T, E> TransactionManager.useTransaction(
                     tx.commit()
                         .fold(
                             onSuccess = { result },
-                            onFailure = { error -> transactionError(error) }
+                            onFailure = { error -> error.asIncident() }
                         )
                 else {
                     tx.rollback()

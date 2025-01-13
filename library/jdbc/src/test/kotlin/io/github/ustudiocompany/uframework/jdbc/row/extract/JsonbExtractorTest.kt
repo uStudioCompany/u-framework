@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
@@ -50,7 +50,7 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then function should return an error}" },
+                    nameFn = { "when column type is '${it.displayType}' then function should return an incident}" },
                     ts = getColumnsExclude(EXPECTED_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -60,7 +60,7 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                         getJSONB(metadata.columnIndex)
                     }
 
-                    val error = result.shouldBeJDBCError()
+                    val error = result.shouldBeIncident()
                     error.description.shouldBe(
                         "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
                             "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
@@ -68,7 +68,7 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                 }
             }
 
-            "when column index is invalid then function should return an error" {
+            "when column index is invalid then function should return an incident" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
@@ -76,7 +76,7 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                     getJSONB(INVALID_COLUMN_INDEX)
                 }
 
-                val error = result.shouldBeJDBCError()
+                val error = result.shouldBeIncident()
                 error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }

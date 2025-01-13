@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
 @PublishedApi
-internal fun transactionError(description: String, exception: Throwable? = null): TransactionError =
-    transactionError(JDBCError(description, exception))
+internal fun asIncident(description: String, exception: Throwable? = null): TransactionIncident =
+    JDBCError(description, exception).asIncident()
 
 @PublishedApi
-internal fun transactionError(error: JDBCError): TransactionError = Right(error).asFailure()
+internal fun JDBCError.asIncident(): TransactionIncident = Right(this).asFailure()

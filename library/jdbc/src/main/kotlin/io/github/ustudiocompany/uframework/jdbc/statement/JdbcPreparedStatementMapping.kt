@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
-import io.github.ustudiocompany.uframework.jdbc.transaction.transactionError
+import io.github.ustudiocompany.uframework.jdbc.transaction.asIncident
 
 public fun <T, E> JdbcPreparedStatement.queryForObject(
     vararg parameters: SqlParameter,
@@ -23,7 +23,7 @@ public fun <T, E> JdbcPreparedStatement.queryForObject(
                 val row = rows.firstOrNull()
                 if (row != null) mapper(1, row) else Success.asNull
             },
-            onFailure = { error -> transactionError(error) }
+            onFailure = { error -> error.asIncident() }
         )
 
 public fun <T, E> JdbcPreparedStatement.queryForList(
@@ -42,5 +42,5 @@ public fun <T, E> JdbcPreparedStatement.queryForList(
                 var index = 0
                 rows.traverse { mapper.invoke(++index, it) }
             },
-            onFailure = { error -> transactionError(error) }
+            onFailure = { error -> error.asIncident() }
         )

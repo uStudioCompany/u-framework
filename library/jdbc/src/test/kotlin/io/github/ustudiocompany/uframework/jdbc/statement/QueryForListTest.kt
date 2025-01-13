@@ -4,12 +4,12 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
-import io.github.ustudiocompany.uframework.jdbc.transaction.transactionError
+import io.github.ustudiocompany.uframework.jdbc.transaction.asIncident
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -34,7 +34,7 @@ internal class QueryForListTest : IntegrationTest() {
                         row.setString(TITLE_COLUMN_INDEX)
                             .fold(
                                 onSuccess = { value -> (index to value).asSuccess() },
-                                onFailure = { error -> transactionError(error) }
+                                onFailure = { error -> error.asIncident() }
                             )
                     }
                 }
@@ -61,7 +61,7 @@ internal class QueryForListTest : IntegrationTest() {
                     }
 
                     "then the result should contain an incident" {
-                        result.shouldBeJDBCError()
+                        result.shouldBeIncident()
                     }
                 }
             }
@@ -124,7 +124,7 @@ internal class QueryForListTest : IntegrationTest() {
                 connection.preparedStatement(sql)
                     .fold(
                         onSuccess = { statement -> block(statement) },
-                        onFailure = { error -> transactionError(error) }
+                        onFailure = { error -> error.asIncident() }
                     )
             }
     }

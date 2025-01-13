@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
@@ -143,8 +143,8 @@ internal class JdbcNamedPreparedStatementSetParameterTest : IntegrationTest() {
                             }
                     }
 
-                    "then should return an error" {
-                        val error = result.shouldBeJDBCError()
+                    "then should return an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }

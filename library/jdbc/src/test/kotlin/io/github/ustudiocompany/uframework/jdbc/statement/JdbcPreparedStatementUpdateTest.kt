@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
@@ -54,8 +54,8 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
                         statement.update(sqlParam(ID_SECOND_ROW_VALUE))
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Error while executing the update."
                     }
                 }
@@ -71,8 +71,8 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
                         )
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Error while setting parameter by index: '3'."
                     }
                 }
@@ -84,8 +84,8 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
                         statement.update(sqlParam(ID_SECOND_ROW_VALUE))
                     }
 
-                    "then the result of execution of the statement should contain error" {
-                        val error = result.shouldBeJDBCError()
+                    "then the result of execution of the statement should contain an incident" {
+                        val error = result.shouldBeIncident()
                         error.description shouldBe "Error while executing the update."
                     }
                 }

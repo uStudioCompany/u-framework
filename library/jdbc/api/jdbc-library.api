@@ -577,10 +577,10 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/transac
 	public abstract fun rollback ()Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionErrorExtensionsKt {
-	public static final fun transactionError (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun transactionError (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun transactionError$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIncidentExtensionsKt {
+	public static final fun asIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun asIncident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun asIncident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation : java/lang/Enum {
