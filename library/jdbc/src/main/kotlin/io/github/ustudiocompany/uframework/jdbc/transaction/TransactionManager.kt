@@ -1,12 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.flatMap
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import javax.sql.DataSource
 
 public fun transactionManager(dataSource: DataSource): TransactionManager =
@@ -30,10 +29,10 @@ public fun <T> TransactionManager.useTransaction(
                 val result: JDBCResult<T> = try {
                     block(tx.connection)
                 } catch (expected: Exception) {
-                    JDBCError(
+                    jdbcError(
                         description = "Error while executing transaction block",
                         exception = expected
-                    ).asFailure()
+                    )
                 }
 
                 if (result.isSuccess())

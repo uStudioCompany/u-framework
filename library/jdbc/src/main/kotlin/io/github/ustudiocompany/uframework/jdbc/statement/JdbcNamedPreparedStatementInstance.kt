@@ -1,10 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -54,15 +53,15 @@ internal class JdbcNamedPreparedStatementInstance(
         block: (Int) -> T
     ): JDBCResult<Unit> {
         val index = parameters[name]
-            ?: return JDBCError(description = "Undefined parameter with name: '$name'.").asFailure()
+            ?: return jdbcError(description = "Undefined parameter with name: '$name'.")
         return try {
             block(index)
             Success.asUnit
         } catch (expected: SQLException) {
-            JDBCError(
+            jdbcError(
                 description = "Error while setting parameter with name: '$name' (index: '$index')",
                 exception = expected
-            ).asFailure()
+            )
         }
     }
 

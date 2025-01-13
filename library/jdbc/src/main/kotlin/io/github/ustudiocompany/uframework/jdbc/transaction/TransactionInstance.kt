@@ -1,12 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatementInstance
@@ -27,20 +26,20 @@ internal class TransactionInstance(
         unwrappedConnection.commit()
         Success.asUnit
     } catch (expected: Exception) {
-        JDBCError(
+        jdbcError(
             description = "Error while committing transaction",
             exception = expected
-        ).asFailure()
+        )
     }
 
     override fun rollback(): JDBCResult<Unit> = try {
         unwrappedConnection.rollback()
         Success.asUnit
     } catch (expected: Exception) {
-        JDBCError(
+        jdbcError(
             description = "Error while rolling back transaction",
             exception = expected
-        ).asFailure()
+        )
     }
 
     override fun close() {
@@ -77,9 +76,9 @@ internal class TransactionInstance(
             }
             .asSuccess()
     } catch (expected: Exception) {
-        JDBCError(
+        jdbcError(
             description = "Error while preparing statement",
             exception = expected
-        ).asFailure()
+        )
     }
 }

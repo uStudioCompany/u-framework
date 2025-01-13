@@ -8,6 +8,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
+	public static final fun jdbcError (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun jdbcError$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/RetryKt {
 	public static final fun isRecoverableError (Ljava/lang/Object;)Z
 	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/commons/types/resultk/ResultK;

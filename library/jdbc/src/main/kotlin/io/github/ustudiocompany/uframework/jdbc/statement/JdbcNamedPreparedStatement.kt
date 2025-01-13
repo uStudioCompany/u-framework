@@ -22,7 +22,8 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
 
     public fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult>
 
-    public fun query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> = query(Iterable { values.iterator() })
+    public fun query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> =
+        query(Iterable { values.iterator() })
 
     public fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows>
 
