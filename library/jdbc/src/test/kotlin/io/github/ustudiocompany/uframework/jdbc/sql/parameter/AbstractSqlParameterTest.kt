@@ -1,6 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
+import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
@@ -15,6 +17,7 @@ internal abstract class AbstractSqlParameterTest : IntegrationTest() {
                     statement.setParameter(1, param)
                     statement.update()
                 }
+                .mapFailure { right(it) }
         }
 
         result shouldBeSuccess 1

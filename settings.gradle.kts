@@ -79,6 +79,9 @@ project(":retry-library").projectDir = file("./library/retry")
 include(":jdbc-library")
 project(":jdbc-library").projectDir = file("./library/jdbc")
 
+include(":jdbc-kotest-matchers-library")
+project(":jdbc-kotest-matchers-library").projectDir = file("./library/jdbc/kotest")
+
 include(":jdbc-test-library")
 project(":jdbc-test-library").projectDir = file("./library/jdbc/test")
 

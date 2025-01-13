@@ -1,10 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.either.right
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -12,7 +13,6 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import org.intellij.lang.annotations.Language
 
 internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
@@ -59,8 +59,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain error" {
-                        result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                        val error = result.shouldBeJDBCError()
                         error.description shouldBe "Error while executing the update."
                     }
                 }
@@ -78,8 +77,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain error" {
-                        result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                        val error = result.shouldBeJDBCError()
                         error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
@@ -93,8 +91,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain error" {
-                        result.shouldBeFailure()
-                        val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                        val error = result.shouldBeJDBCError()
                         error.description shouldBe "Error while executing the update."
                     }
                 }
@@ -165,6 +162,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
             block: (statement: JDBCResult<JdbcNamedPreparedStatement>) -> JDBCResult<T>
         ) = useTransaction { connection ->
             block(connection.namedPreparedStatement(ParametrizedSql.of(sql)))
+                .mapFailure { right(it) }
         }
     }
 }

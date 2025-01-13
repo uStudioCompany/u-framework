@@ -1,12 +1,13 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.map
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -15,7 +16,6 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import org.intellij.lang.annotations.Language
 
 internal class QueryForObjectTest : IntegrationTest() {
@@ -67,15 +67,14 @@ internal class QueryForObjectTest : IntegrationTest() {
                 "when the parameter is not specified" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
-                    val result: JDBCResult<String?> = tm.execute(SELECT_SQL) { statement ->
+                    val result = tm.execute(SELECT_SQL) { statement ->
                         statement.queryForObject<String>(sqlParam(ID_FIRST_ROW_VALUE)) { index, row ->
                             error("Error")
                         }
                     }
 
-                    "then the result should be null" {
-                        result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<JDBCError>()
+                    "then the result should contain an incident" {
+                        result.shouldBeJDBCError()
                     }
                 }
             }
@@ -135,7 +134,9 @@ internal class QueryForObjectTest : IntegrationTest() {
             sql: String,
             block: (statement: JdbcPreparedStatement) -> JDBCResult<T>
         ) = useTransaction { connection ->
-            connection.preparedStatement(sql).andThen { statement -> block(statement) }
+            connection.preparedStatement(sql)
+                .andThen { statement -> block(statement) }
+                .mapFailure { right(it) }
         }
     }
 }

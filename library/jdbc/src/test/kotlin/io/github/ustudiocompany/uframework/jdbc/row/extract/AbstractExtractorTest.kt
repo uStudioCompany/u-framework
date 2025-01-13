@@ -1,12 +1,15 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
+import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
+import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 
@@ -15,7 +18,7 @@ internal abstract class AbstractExtractorTest : IntegrationTest() {
     protected fun <T> TransactionManager.executeQuery(
         sql: String,
         block: ResultRow.() -> JDBCResult<T>
-    ): JDBCResult<T> =
+    ): TransactionResult<T, Nothing> =
         useTransaction { connection ->
             connection.preparedStatement(sql)
                 .andThen { statement ->
@@ -25,6 +28,7 @@ internal abstract class AbstractExtractorTest : IntegrationTest() {
                             block(row)
                         }
                 }
+                .mapFailure { right(it) }
         }
 
     protected fun PostgresContainerTest.insertData(rowId: Int, columnName: String, value: String?) {

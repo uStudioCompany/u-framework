@@ -1,9 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BOOLEAN
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
@@ -15,7 +14,6 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 
 internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
 
@@ -63,8 +61,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                         getBoolean(metadata.columnIndex)
                     }
 
-                    result.shouldBeFailure()
-                    val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                    val error = result.shouldBeJDBCError()
                     error.description.shouldBe(
                         "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
                             "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
@@ -80,8 +77,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                     getBoolean(INVALID_COLUMN_INDEX)
                 }
 
-                result.shouldBeFailure()
-                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                val error = result.shouldBeJDBCError()
                 error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }

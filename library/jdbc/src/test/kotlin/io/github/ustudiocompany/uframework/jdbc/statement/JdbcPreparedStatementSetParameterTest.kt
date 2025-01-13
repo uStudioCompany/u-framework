@@ -1,13 +1,14 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.map
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -17,7 +18,6 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import org.intellij.lang.annotations.Language
 
 internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
@@ -145,8 +145,7 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
                         }
 
                         "then should return an error" {
-                            result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            val error = result.shouldBeJDBCError()
                             error.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
                         }
                     }
@@ -166,8 +165,7 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
                         }
 
                         "then should return an error" {
-                            result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            val error = result.shouldBeJDBCError()
                             error.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
                         }
                     }
@@ -240,6 +238,9 @@ internal class JdbcPreparedStatementSetParameterTest : IntegrationTest() {
         private fun <T> TransactionManager.execute(
             sql: String,
             block: (statement: JDBCResult<JdbcPreparedStatement>) -> JDBCResult<T>
-        ) = useTransaction { connection -> block(connection.preparedStatement(sql)) }
+        ) = useTransaction { connection ->
+            block(connection.preparedStatement(sql))
+                .mapFailure { right(it) }
+        }
     }
 }

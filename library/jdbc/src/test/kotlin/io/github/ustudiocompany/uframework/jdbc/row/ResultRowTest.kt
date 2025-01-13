@@ -1,11 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
+import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeJDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
@@ -14,7 +15,6 @@ import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import org.intellij.lang.annotations.Language
 
 internal class ResultRowTest : IntegrationTest() {
@@ -47,8 +47,7 @@ internal class ResultRowTest : IntegrationTest() {
                             tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
                         "then the result should contain all data from the database" {
-                            result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            val error = result.shouldBeJDBCError()
                             error.description.shouldBe(
                                 "The column type with index '2' does not match the extraction type. " +
                                     "Expected: [text, varchar, bpchar], actual: 'bool'."
@@ -80,8 +79,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
                             "then the result should contain all data from the database" {
-                                result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                                val error = result.shouldBeJDBCError()
                                 error.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
@@ -94,8 +92,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
                             "then the result should contain all data from the database" {
-                                result.shouldBeFailure()
-                                val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                                val error = result.shouldBeJDBCError()
                                 error.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
@@ -109,8 +106,7 @@ internal class ResultRowTest : IntegrationTest() {
                         }
 
                         "then the result should return the error" {
-                            result.shouldBeFailure()
-                            val error = result.cause.shouldBeInstanceOf<JDBCError>()
+                            val error = result.shouldBeJDBCError()
                             error.description shouldBe "Error while extracting data from the result set"
                         }
                     }
@@ -128,6 +124,7 @@ internal class ResultRowTest : IntegrationTest() {
                             rows.traverse { row -> row.extract(column, types, block) }
                         }
                 }
+                .mapFailure { right(it) }
         }
 
     private companion object {
