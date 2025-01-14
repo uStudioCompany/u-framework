@@ -32,8 +32,7 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/connect
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/FailKt {
-	public static final fun error (Ljava/lang/Object;)Lio/github/airflux/commons/types/either/Either;
-	public static final fun incident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/either/Either;
+	public static final fun incident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/fail/Fail;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
@@ -128,8 +127,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/ExceptionConverterKt {
-	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/Failure;
-	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/Failure;
+	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/ResultK$Failure;
+	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK$Failure;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {

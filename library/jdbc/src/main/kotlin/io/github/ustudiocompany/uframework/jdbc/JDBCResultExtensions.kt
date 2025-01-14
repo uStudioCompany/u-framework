@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc
 
+import io.github.airflux.commons.types.fail.Fail.Companion.error
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
-import io.github.ustudiocompany.uframework.jdbc.error.error
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionIncident
 

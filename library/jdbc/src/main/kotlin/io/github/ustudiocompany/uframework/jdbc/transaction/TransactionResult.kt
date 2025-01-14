@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
+import io.github.airflux.commons.types.fail.Fail
+import io.github.airflux.commons.types.fail.Fail.Companion.error
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
-import io.github.ustudiocompany.uframework.jdbc.error.Fail
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.error.error
 import io.github.ustudiocompany.uframework.jdbc.error.incident
 
 public typealias TransactionResult<T, E> = ResultK<T, Fail<E, JDBCError>>

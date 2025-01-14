@@ -1,12 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.error
 
-import io.github.airflux.commons.types.either.Either
-import io.github.airflux.commons.types.either.left
-import io.github.airflux.commons.types.either.right
+import io.github.airflux.commons.types.fail.Fail
+import io.github.airflux.commons.types.fail.exception
 
-public typealias Fail<ErrorT, IncidentT> = Either<ErrorT, IncidentT>
-public typealias Error<ErrorT> = Either<ErrorT, Nothing>
-public typealias Incident = Either<Nothing, JDBCError>
+public typealias Error<ErrorT> = Fail<ErrorT, Nothing>
+public typealias Incident = Fail<Nothing, JDBCError>
 
-public fun <ErrorT> error(value: ErrorT): Error<ErrorT> = left(value)
-public fun incident(value: JDBCError): Incident = right(value)
+public fun incident(value: JDBCError): Incident = exception(value)
