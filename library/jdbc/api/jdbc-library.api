@@ -31,6 +31,11 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/connect
 	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/error/FailKt {
+	public static final fun error (Ljava/lang/Object;)Lio/github/airflux/commons/types/either/Either;
+	public static final fun incident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/either/Either;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
@@ -43,12 +48,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
 	public final fun getException ()Ljava/lang/Throwable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrorExtensionsKt {
-	public static final fun asIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun incident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun incident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -610,5 +609,12 @@ public final class io/github/ustudiocompany/uframework/jdbc/transaction/Transact
 	public static final fun transactionManager (Ljavax/sql/DataSource;)Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;
 	public static final fun useTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun useTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionResultKt {
+	public static final fun transactionError (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun transactionIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun transactionIncident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun transactionIncident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

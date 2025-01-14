@@ -1,14 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
-import io.github.airflux.commons.types.either.Either
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
-import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.error.asIncident
-import io.github.ustudiocompany.uframework.jdbc.error.incident
+import io.github.ustudiocompany.uframework.jdbc.error.Incident
 import javax.sql.DataSource
 
 public fun transactionManager(dataSource: DataSource): TransactionManager =
@@ -19,7 +16,7 @@ public interface TransactionManager {
     public fun startTransaction(
         isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
         readOnly: Boolean = false
-    ): ResultK<Transaction, Either<Nothing, JDBCError>>
+    ): ResultK<Transaction, Incident>
 }
 
 public inline fun <T, E> TransactionManager.useTransaction(
@@ -32,7 +29,7 @@ public inline fun <T, E> TransactionManager.useTransaction(
                 val result = try {
                     block(tx.connection)
                 } catch (expected: Exception) {
-                    incident(
+                    transactionIncident(
                         description = "Error while executing transaction block",
                         exception = expected
                     )
@@ -42,7 +39,7 @@ public inline fun <T, E> TransactionManager.useTransaction(
                     tx.commit()
                         .fold(
                             onSuccess = { result },
-                            onFailure = { error -> error.asIncident() }
+                            onFailure = { error -> transactionIncident(error) }
                         )
                 else {
                     tx.rollback()

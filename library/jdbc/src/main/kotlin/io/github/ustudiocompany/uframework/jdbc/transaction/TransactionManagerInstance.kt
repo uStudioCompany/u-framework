@@ -1,10 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
-import io.github.airflux.commons.types.either.Either
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+import io.github.ustudiocompany.uframework.jdbc.error.Incident
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import java.sql.Connection
@@ -17,7 +17,7 @@ internal class TransactionManagerInstance(
     override fun startTransaction(
         isolation: TransactionIsolation,
         readOnly: Boolean
-    ): ResultK<Transaction, Either<Nothing, JDBCError>> =
+    ): ResultK<Transaction, Incident> =
         dataSource.initConnection(isolation, readOnly)
             .mapOrIncident { connection ->
                 TransactionInstance(connection).asSuccess()
