@@ -1,10 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extract
 
-import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
+import io.github.ustudiocompany.uframework.jdbc.liftToIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
@@ -28,7 +27,7 @@ internal abstract class AbstractExtractorTest : IntegrationTest() {
                             block(row)
                         }
                 }
-                .mapFailure { right(it) }
+                .liftToIncident()
         }
 
     protected fun PostgresContainerTest.insertData(rowId: Int, columnName: String, value: String?) {

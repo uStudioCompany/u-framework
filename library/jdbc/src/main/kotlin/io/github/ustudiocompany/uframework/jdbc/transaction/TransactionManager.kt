@@ -7,6 +7,8 @@ import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.error.asIncident
+import io.github.ustudiocompany.uframework.jdbc.error.incident
 import javax.sql.DataSource
 
 public fun transactionManager(dataSource: DataSource): TransactionManager =
@@ -30,7 +32,7 @@ public inline fun <T, E> TransactionManager.useTransaction(
                 val result = try {
                     block(tx.connection)
                 } catch (expected: Exception) {
-                    asIncident(
+                    incident(
                         description = "Error while executing transaction block",
                         exception = expected
                     )

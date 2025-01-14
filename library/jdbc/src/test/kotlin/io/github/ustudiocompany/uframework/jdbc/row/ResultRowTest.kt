@@ -1,11 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.either.right
 import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
+import io.github.ustudiocompany.uframework.jdbc.liftToIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -124,7 +123,7 @@ internal class ResultRowTest : IntegrationTest() {
                             rows.traverse { row -> row.extract(column, types, block) }
                         }
                 }
-                .mapFailure { right(it) }
+                .liftToIncident()
         }
 
     private companion object {

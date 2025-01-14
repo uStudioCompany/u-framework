@@ -8,6 +8,12 @@ public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensionsKt {
+	public static final fun flatMapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun liftToIncident (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun mapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
 	public static final fun jdbcError (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun jdbcError$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -37,6 +43,12 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
 	public final fun getException ()Ljava/lang/Throwable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrorExtensionsKt {
+	public static final fun asIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun incident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun incident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -575,12 +587,6 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/transac
 	public abstract fun commit ()Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getConnection ()Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;
 	public abstract fun rollback ()Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIncidentExtensionsKt {
-	public static final fun asIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun asIncident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun asIncident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation : java/lang/Enum {
