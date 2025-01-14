@@ -9,11 +9,11 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-public inline fun <reified E : Any> TransactionResult<*, E>.shouldBeError(): E {
+public inline fun <reified ErrorT : Any> TransactionResult<*, ErrorT>.shouldBeError(): ErrorT {
     shouldBeFailure()
-    val failure = cause.shouldBeInstanceOf<Error<E>>()
+    val failure = cause.shouldBeInstanceOf<Error<ErrorT>>()
     failure.shouldBeError()
-    return failure.value.shouldBeInstanceOf<E>()
+    return failure.value.shouldBeInstanceOf<ErrorT>()
 }
 
 public fun TransactionResult<*, *>.shouldBeIncident(): JDBCError {

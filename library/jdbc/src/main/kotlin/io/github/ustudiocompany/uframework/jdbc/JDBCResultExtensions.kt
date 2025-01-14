@@ -8,16 +8,18 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionIncident
 
-public inline fun <T, R, E> JDBCResult<T>.flatMapOrIncident(
-    block: (T) -> TransactionResult<R, E>
-): TransactionResult<R, E> =
+public inline fun <SuccessT, SuccessR, ErrorT> JDBCResult<SuccessT>.flatMapOrIncident(
+    block: (SuccessT) -> TransactionResult<SuccessR, ErrorT>
+): TransactionResult<SuccessR, ErrorT> =
     fold(
         onSuccess = { value -> block(value) },
         onFailure = { error -> transactionIncident(error) }
     )
 
-public inline fun <T, R, E> JDBCResult<T>.mapOrIncident(block: (T) -> ResultK<R, E>): TransactionResult<R, E> =
+public inline fun <SuccessT, SuccessR, ErrorT> JDBCResult<SuccessT>.mapOrIncident(
+    block: (SuccessT) -> ResultK<SuccessR, ErrorT>
+): TransactionResult<SuccessR, ErrorT> =
     flatMapOrIncident { value -> block(value).mapFailure { error(it) } }
 
-public fun <T> JDBCResult<T>.liftToIncident(): TransactionResult<T, Nothing> =
+public fun <SuccessT> JDBCResult<SuccessT>.liftToIncident(): TransactionResult<SuccessT, Nothing> =
     if (this.isSuccess()) this else transactionIncident(this.cause)

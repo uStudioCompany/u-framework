@@ -19,10 +19,10 @@ public interface TransactionManager {
     ): ResultK<Transaction, Incident>
 }
 
-public inline fun <T, E> TransactionManager.useTransaction(
+public inline fun <SuccessT, ErrorT> TransactionManager.useTransaction(
     isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
-    block: (JdbcConnection) -> TransactionResult<T, E>
-): TransactionResult<T, E> =
+    block: (JdbcConnection) -> TransactionResult<SuccessT, ErrorT>
+): TransactionResult<SuccessT, ErrorT> =
     startTransaction(isolation)
         .andThen { tx ->
             tx.use {
