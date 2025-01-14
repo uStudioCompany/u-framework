@@ -22,20 +22,20 @@ public fun <T> JDBCResult<JdbcPreparedStatement>.setParameter(
 ): JDBCResult<JdbcPreparedStatement> =
     this.apply { setParameter(index, value, setter) }
 
-public fun JDBCResult<JdbcPreparedStatement>.execute(vararg values: SqlParameter): JDBCResult<StatementResult> =
-    this.execute(Iterable { values.iterator() })
+public fun JDBCResult<JdbcPreparedStatement>.execute(vararg parameters: SqlParameter): JDBCResult<StatementResult> =
+    this.execute(parameters.asIterable())
 
-public fun JDBCResult<JdbcPreparedStatement>.execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult> =
-    andThen { it.execute(values) }
+public fun JDBCResult<JdbcPreparedStatement>.execute(parameters: Iterable<SqlParameter>): JDBCResult<StatementResult> =
+    andThen { it.execute(parameters) }
 
-public fun JDBCResult<JdbcPreparedStatement>.query(vararg values: SqlParameter): JDBCResult<ResultRows> =
-    this.query(Iterable { values.iterator() })
+public fun JDBCResult<JdbcPreparedStatement>.query(vararg parameters: SqlParameter): JDBCResult<ResultRows> =
+    this.query(parameters.asIterable())
 
-public fun JDBCResult<JdbcPreparedStatement>.query(values: Iterable<SqlParameter>): JDBCResult<ResultRows> =
-    andThen { it.query(values) }
+public fun JDBCResult<JdbcPreparedStatement>.query(parameters: Iterable<SqlParameter>): JDBCResult<ResultRows> =
+    andThen { it.query(parameters) }
 
-public fun JDBCResult<JdbcPreparedStatement>.update(vararg values: SqlParameter): JDBCResult<Int> =
-    this.update(Iterable { values.iterator() })
+public fun JDBCResult<JdbcPreparedStatement>.update(vararg parameters: SqlParameter): JDBCResult<Int> =
+    this.update(parameters.asIterable())
 
-public fun JDBCResult<JdbcPreparedStatement>.update(values: Iterable<SqlParameter>): JDBCResult<Int> =
-    andThen { it.update(values) }
+public fun JDBCResult<JdbcPreparedStatement>.update(parameters: Iterable<SqlParameter>): JDBCResult<Int> =
+    andThen { it.update(parameters) }
