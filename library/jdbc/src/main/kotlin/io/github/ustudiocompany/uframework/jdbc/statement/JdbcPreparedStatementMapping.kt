@@ -6,32 +6,32 @@ import io.github.ustudiocompany.uframework.jdbc.flatMapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 
-public fun <T, E> JdbcPreparedStatement.queryForObject(
+public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForObject(
     vararg parameters: SqlParameter,
-    mapper: RowMapper<T, E>
-): TransactionResult<T?, E> =
+    mapper: RowMapper<ValueT, ErrorT>
+): TransactionResult<ValueT?, ErrorT> =
     queryForObject(Iterable { parameters.iterator() }, mapper)
 
-public fun <T, E> JdbcPreparedStatement.queryForObject(
+public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForObject(
     parameters: Iterable<SqlParameter>,
-    mapper: RowMapper<T, E>
-): TransactionResult<T?, E> =
+    mapper: RowMapper<ValueT, ErrorT>
+): TransactionResult<ValueT?, ErrorT> =
     query(parameters)
         .flatMapOrIncident { rows ->
             val row = rows.firstOrNull()
             if (row != null) mapper(1, row) else Success.asNull
         }
 
-public fun <T, E> JdbcPreparedStatement.queryForList(
+public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForList(
     vararg parameters: SqlParameter,
-    mapper: RowMapper<T, E>
-): TransactionResult<List<T>, E> =
+    mapper: RowMapper<ValueT, ErrorT>
+): TransactionResult<List<ValueT>, ErrorT> =
     queryForList(Iterable { parameters.iterator() }, mapper)
 
-public fun <T, E> JdbcPreparedStatement.queryForList(
+public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForList(
     parameters: Iterable<SqlParameter>,
-    mapper: RowMapper<T, E>
-): TransactionResult<List<T>, E> =
+    mapper: RowMapper<ValueT, ErrorT>
+): TransactionResult<List<ValueT>, ErrorT> =
     query(parameters)
         .flatMapOrIncident { rows ->
             var index = 0

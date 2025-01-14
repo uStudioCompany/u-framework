@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.error.incident
 
-public typealias TransactionResult<SuccessT, ErrorT> = ResultK<SuccessT, Fail<ErrorT, JDBCError>>
+public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT, JDBCError>>
 public typealias TransactionError<ErrorT> = TransactionResult<Nothing, ErrorT>
 public typealias TransactionIncident = TransactionResult<Nothing, Nothing>
 
