@@ -523,6 +523,10 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatem
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatementKt {
+	public static final fun useStatement (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement {
 	public abstract fun clearParameters ()V
 	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -604,8 +608,12 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/transac
 	public static synthetic fun startTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;ZILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerKt {
+public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerInstanceKt {
 	public static final fun transactionManager (Ljavax/sql/DataSource;)Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerKt {
+	public static final fun useTransaction (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun useTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun useTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
