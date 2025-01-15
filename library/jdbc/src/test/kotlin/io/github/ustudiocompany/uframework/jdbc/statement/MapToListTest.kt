@@ -7,57 +7,44 @@ import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
-import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
+import io.github.ustudiocompany.uframework.jdbc.row.mapToList
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
-internal class QueryForObjectTest : IntegrationTest() {
+internal class MapToListTest : IntegrationTest() {
 
     init {
 
-        "The `queryForObject` function of the JdbcPreparedStatement type" - {
+        "The extension function `mapToList`" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(CREATE_TABLE)
 
             "when the execution is successful" - {
-
-                "when the query returns no data" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.queryForObject(sqlParam(ID_THIRD_ROW_VALUE)) { index, row ->
+                container.truncateTable(TABLE_NAME)
+                container.executeSql(INSERT_SQL)
+                val result = tm.execute(SELECT_SQL) { statement ->
+                    statement.query()
+                        .mapToList { index, row ->
                             row.getString(TITLE_COLUMN_INDEX)
                                 .mapOrIncident { value -> (index to value).asSuccess() }
                         }
-                    }
-
-                    "then the result should be null" {
-                        result.shouldBeSuccess()
-                        result.value shouldBe null
-                    }
                 }
 
-                "when the query returns data" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.queryForObject(sqlParam(ID_SECOND_ROW_VALUE)) { index, row ->
-                            row.getString(TITLE_COLUMN_INDEX)
-                                .mapOrIncident { value -> (index to value).asSuccess() }
-                        }
-                    }
-
-                    "then the result should contain only the selected data" {
-                        result.shouldBeSuccess()
-                        result.value shouldBe (ROW_INDEX to TITLE_SECOND_ROW_VALUE)
-                    }
+                "then the result should contain only the selected data" {
+                    result.shouldBeSuccess()
+                    result.value.size shouldBe 2
+                    result.value shouldContainExactly listOf(
+                        FIRST_ROW_INDEX to TITLE_FIRST_ROW_VALUE,
+                        SECOND_ROW_INDEX to TITLE_SECOND_ROW_VALUE
+                    )
                 }
             }
 
@@ -67,9 +54,10 @@ internal class QueryForObjectTest : IntegrationTest() {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.queryForObject<String, Nothing>(sqlParam(ID_FIRST_ROW_VALUE)) { index, row ->
-                            error("Error")
-                        }
+                        statement.query()
+                            .mapToList<String, Nothing> { index, row ->
+                                error("Error")
+                            }
                     }
 
                     "then the result should contain an incident" {
@@ -91,13 +79,13 @@ internal class QueryForObjectTest : IntegrationTest() {
 
         private const val ID_FIRST_ROW_VALUE = "f-r-id"
         private const val ID_SECOND_ROW_VALUE = "s-r-id"
-        private const val ID_THIRD_ROW_VALUE = "t-r-id"
 
         private const val TITLE_FIRST_ROW_VALUE = "f-r-title"
         private const val TITLE_SECOND_ROW_VALUE = "s-r-title"
 
         private const val TITLE_COLUMN_INDEX = 2
-        private const val ROW_INDEX = 1
+        private const val FIRST_ROW_INDEX = 1
+        private const val SECOND_ROW_INDEX = 2
 
         private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
 
@@ -126,7 +114,6 @@ internal class QueryForObjectTest : IntegrationTest() {
             |   SELECT $ID_COLUMN_NAME,
             |          $TITLE_COLUMN_NAME
             |     FROM $TABLE_NAME
-            |    WHERE $ID_COLUMN_NAME = ?
         """.trimMargin()
 
         private fun <T, E> TransactionManager.execute(

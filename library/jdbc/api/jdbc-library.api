@@ -165,6 +165,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowKt {
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowsMappingKt {
+	public static final fun mapToList (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun mapToObject (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/Row {
 	public abstract fun extract-ljREZMg (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun extract-ljREZMg (Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -491,13 +496,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPrepar
 	public static final fun setParameter (Lio/github/airflux/commons/types/resultk/ResultK;ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatementMappingKt {
-	public static final fun queryForList (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun queryForList (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun queryForObject (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun queryForObject (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement : java/lang/AutoCloseable {
