@@ -24,7 +24,7 @@ public fun <T> JDBCResult<JdbcNamedPreparedStatement>.setParameter(
 public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
     vararg values: NamedSqlParameter
 ): JDBCResult<StatementResult> =
-    this.execute(Iterable { values.iterator() })
+    this.execute(values.asIterable())
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
     values: Iterable<NamedSqlParameter>
@@ -32,13 +32,13 @@ public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
     andThen { it.execute(values) }
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> =
-    this.query(Iterable { values.iterator() })
+    this.query(values.asIterable())
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> =
     andThen { it.query(values) }
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.update(vararg values: NamedSqlParameter): JDBCResult<Int> =
-    this.update(Iterable { values.iterator() })
+    this.update(values.asIterable())
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> =
     andThen { it.update(values) }

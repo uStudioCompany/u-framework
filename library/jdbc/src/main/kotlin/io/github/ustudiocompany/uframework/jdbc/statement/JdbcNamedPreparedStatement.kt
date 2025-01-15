@@ -17,17 +17,15 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
         setter: SqlParameterSetter<T>
     ): JDBCResult<JdbcNamedPreparedStatement>
 
-    public fun execute(vararg values: NamedSqlParameter): JDBCResult<StatementResult> =
-        execute(Iterable { values.iterator() })
+    public fun execute(vararg values: NamedSqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
     public fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult>
 
-    public fun query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> =
-        query(Iterable { values.iterator() })
+    public fun query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> = query(values.asIterable())
 
     public fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows>
 
-    public fun update(vararg values: NamedSqlParameter): JDBCResult<Int> = update(Iterable { values.iterator() })
+    public fun update(vararg values: NamedSqlParameter): JDBCResult<Int> = update(values.asIterable())
 
     public fun update(values: Iterable<NamedSqlParameter>): JDBCResult<Int>
 }
