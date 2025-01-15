@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.ResultK.Companion.success
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -19,14 +20,14 @@ internal class JdbcNamedPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(parameter: NamedSqlParameter): JDBCResult<Unit> =
+    override fun setParameter(parameter: NamedSqlParameter): JDBCResult<JdbcNamedPreparedStatement> =
         trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
     override fun <T> setParameter(
         name: String,
         value: T,
         setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit> =
+    ): JDBCResult<JdbcNamedPreparedStatement> =
         trySetParameter(name) { index -> setter(statement, index, value) }
 
     override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {
@@ -51,12 +52,12 @@ internal class JdbcNamedPreparedStatementInstance(
     private inline fun <T> trySetParameter(
         name: String,
         block: (Int) -> T
-    ): JDBCResult<Unit> {
+    ): JDBCResult<JdbcNamedPreparedStatement> {
         val index = parameters[name]
             ?: return jdbcError(description = "Undefined parameter with name: '$name'.")
         return try {
             block(index)
-            Success.asUnit
+            success(this)
         } catch (expected: SQLException) {
             jdbcError(
                 description = "Error while setting parameter with name: '$name' (index: '$index')",

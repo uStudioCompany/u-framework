@@ -11,8 +11,10 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
+import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
+import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -165,10 +167,13 @@ internal class JdbcPreparedStatementQueryTest : IntegrationTest() {
 
         private fun <T> TransactionManager.execute(
             sql: String,
-            block: (statement: JDBCResult<JdbcPreparedStatement>) -> JDBCResult<T>
-        ) = useTransaction { connection ->
-            block(connection.preparedStatement(sql))
-                .liftToIncident()
-        }
+            block: (statement: JdbcPreparedStatement) -> JDBCResult<T>
+        ): TransactionResult<T, Nothing> =
+            useTransaction { connection ->
+                connection.preparedStatement(sql)
+                    .use { statement ->
+                        block(statement).liftToIncident()
+                    }
+            }
     }
 }

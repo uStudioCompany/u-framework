@@ -9,13 +9,13 @@ public interface JdbcPreparedStatement : JdbcStatement {
 
     public fun clearParameters()
 
-    public fun setParameter(index: Int, param: SqlParameter): JDBCResult<Unit>
+    public fun setParameter(index: Int, param: SqlParameter): JDBCResult<JdbcPreparedStatement>
 
     public fun <T> setParameter(
         index: Int,
         value: T,
         setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit>
+    ): JDBCResult<JdbcPreparedStatement>
 
     public fun execute(vararg values: SqlParameter): JDBCResult<StatementResult> =
         execute(Iterable { values.iterator() })

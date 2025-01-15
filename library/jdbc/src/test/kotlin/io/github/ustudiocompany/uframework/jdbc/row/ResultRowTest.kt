@@ -10,6 +10,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
+import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
@@ -117,13 +118,15 @@ internal class ResultRowTest : IntegrationTest() {
     private fun TransactionManager.executeQuery(column: Int, types: ResultRow.Types, block: DataExtractor<String>) =
         useTransaction { connection ->
             connection.preparedStatement(SELECT_SQL)
-                .andThen { statement ->
+                .use { statement ->
                     statement.query()
                         .andThen { rows ->
-                            rows.traverse { row -> row.extract(column, types, block) }
+                            rows.traverse { row ->
+                                row.extract(column, types, block)
+                            }
                         }
+                        .liftToIncident()
                 }
-                .liftToIncident()
         }
 
     private companion object {

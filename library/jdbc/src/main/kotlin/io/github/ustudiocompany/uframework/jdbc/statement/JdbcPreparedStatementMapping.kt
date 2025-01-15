@@ -10,7 +10,7 @@ public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForObject(
     vararg parameters: SqlParameter,
     mapper: RowMapper<ValueT, ErrorT>
 ): TransactionResult<ValueT?, ErrorT> =
-    queryForObject(Iterable { parameters.iterator() }, mapper)
+    queryForObject(parameters.asIterable(), mapper)
 
 public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForObject(
     parameters: Iterable<SqlParameter>,
@@ -26,7 +26,7 @@ public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForList(
     vararg parameters: SqlParameter,
     mapper: RowMapper<ValueT, ErrorT>
 ): TransactionResult<List<ValueT>, ErrorT> =
-    queryForList(Iterable { parameters.iterator() }, mapper)
+    queryForList(parameters.asIterable(), mapper)
 
 public fun <ValueT, ErrorT> JdbcPreparedStatement.queryForList(
     parameters: Iterable<SqlParameter>,

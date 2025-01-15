@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.flatMapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
@@ -13,6 +12,7 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
+import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
@@ -132,10 +132,10 @@ internal class QueryForObjectTest : IntegrationTest() {
         private fun <T, E> TransactionManager.execute(
             sql: String,
             block: (statement: JdbcPreparedStatement) -> TransactionResult<T, E>
-        ) =
+        ): TransactionResult<T, E> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
-                    .flatMapOrIncident { statement -> block(statement) }
+                    .use { statement -> block(statement) }
             }
     }
 }

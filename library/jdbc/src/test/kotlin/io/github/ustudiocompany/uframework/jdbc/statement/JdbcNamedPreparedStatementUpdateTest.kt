@@ -8,8 +8,10 @@ import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
+import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
+import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
@@ -158,10 +160,13 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
 
         private fun <T> TransactionManager.execute(
             sql: String,
-            block: (statement: JDBCResult<JdbcNamedPreparedStatement>) -> JDBCResult<T>
-        ) = useTransaction { connection ->
-            block(connection.namedPreparedStatement(ParametrizedSql.of(sql)))
-                .liftToIncident()
-        }
+            block: (statement: JdbcNamedPreparedStatement) -> JDBCResult<T>
+        ): TransactionResult<T, Nothing> =
+            useTransaction { connection ->
+                connection.namedPreparedStatement(ParametrizedSql.of(sql))
+                    .use { statement ->
+                        block(statement).liftToIncident()
+                    }
+            }
     }
 }

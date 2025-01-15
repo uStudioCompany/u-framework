@@ -3,7 +3,7 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.andThen
-import io.github.airflux.commons.types.resultk.apply
+import io.github.airflux.commons.types.resultk.flatMap
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
@@ -12,14 +12,14 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 public fun JDBCResult<JdbcNamedPreparedStatement>.setParameter(
     param: NamedSqlParameter
 ): JDBCResult<JdbcNamedPreparedStatement> =
-    this.apply { setParameter(param) }
+    flatMap { it.setParameter(param) }
 
 public fun <T> JDBCResult<JdbcNamedPreparedStatement>.setParameter(
     name: String,
     value: T,
     setter: SqlParameterSetter<T>
 ): JDBCResult<JdbcNamedPreparedStatement> =
-    this.apply { setParameter(name, value, setter) }
+    flatMap { it.setParameter(name, value, setter) }
 
 public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
     vararg values: NamedSqlParameter

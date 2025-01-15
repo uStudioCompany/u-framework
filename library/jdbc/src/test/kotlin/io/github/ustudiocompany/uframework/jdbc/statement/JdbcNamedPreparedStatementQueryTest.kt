@@ -12,8 +12,10 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
+import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
+import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -32,7 +34,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                 container.truncateTable(TABLE_NAME)
                 container.executeSql(INSERT_SQL)
                 val idParamName = "id"
-                val result = tm.execute(SELECT_SQL) { statement ->
+                val result = tm.executeSql(SELECT_SQL) { statement ->
                     statement.query(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
                         .andThen { rows ->
                             rows.traverse { row ->
@@ -53,7 +55,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                 "when the parameter is not specified" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
-                    val result = tm.execute(SELECT_SQL) { statement ->
+                    val result = tm.executeSql(SELECT_SQL) { statement ->
                         statement.query()
                             .andThen { rows ->
                                 rows.traverse { row ->
@@ -72,7 +74,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
                     val titleParamName = "title"
-                    val result = tm.execute(SELECT_SQL) { statement ->
+                    val result = tm.executeSql(SELECT_SQL) { statement ->
                         statement.query(ID_FIRST_ROW_VALUE.asSqlParam(titleParamName))
                             .andThen { rows ->
                                 rows.traverse { row ->
@@ -92,7 +94,7 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
                     container.executeSql(INSERT_SQL)
                     val titleParamName = "title"
                     val idParamName = "id"
-                    val result = tm.execute(UPDATE_SQL) { statement ->
+                    val result = tm.executeSql(UPDATE_SQL) { statement ->
                         statement.query(
                             TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName),
                             ID_SECOND_ROW_VALUE.asSqlParam(idParamName)
@@ -171,12 +173,15 @@ internal class JdbcNamedPreparedStatementQueryTest : IntegrationTest() {
             |  WHERE $ID_COLUMN_NAME = $ID_PARAM_NAME
         """.trimMargin()
 
-        private fun <T> TransactionManager.execute(
+        private fun <T> TransactionManager.executeSql(
             sql: String,
-            block: (statement: JDBCResult<JdbcNamedPreparedStatement>) -> JDBCResult<T>
-        ) = useTransaction { connection ->
-            block(connection.namedPreparedStatement(ParametrizedSql.of(sql)))
-                .liftToIncident()
-        }
+            block: (statement: JdbcNamedPreparedStatement) -> JDBCResult<T>
+        ): TransactionResult<T, Nothing> =
+            useTransaction { connection ->
+                connection.namedPreparedStatement(ParametrizedSql.of(sql))
+                    .use { statement ->
+                        block(statement).liftToIncident()
+                    }
+            }
     }
 }

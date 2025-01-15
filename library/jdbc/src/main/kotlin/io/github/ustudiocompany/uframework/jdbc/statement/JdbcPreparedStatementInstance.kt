@@ -2,6 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
+import io.github.airflux.commons.types.resultk.success
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
@@ -18,14 +19,14 @@ internal class JdbcPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(index: Int, parameter: SqlParameter): JDBCResult<Unit> =
+    override fun setParameter(index: Int, parameter: SqlParameter): JDBCResult<JdbcPreparedStatement> =
         trySetParameter(index) { parameter.setValue(statement, index) }
 
     override fun <T> setParameter(
         index: Int,
         value: T,
         setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit> =
+    ): JDBCResult<JdbcPreparedStatement> =
         trySetParameter(index) { setter(statement, index, value) }
 
     override fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult> {
@@ -47,10 +48,10 @@ internal class JdbcPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private inline fun <T> trySetParameter(index: Int, block: () -> T) =
+    private inline fun <T> trySetParameter(index: Int, block: () -> T): JDBCResult<JdbcPreparedStatement> =
         try {
             block()
-            Success.asUnit
+            success(this)
         } catch (expected: SQLException) {
             jdbcError(
                 description = "Error while setting parameter by index: '$index'.",
