@@ -9,7 +9,6 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import java.sql.PreparedStatement
-import java.sql.SQLException
 
 internal class JdbcPreparedStatementInstance(
     private val statement: PreparedStatement
@@ -52,7 +51,7 @@ internal class JdbcPreparedStatementInstance(
         try {
             block()
             success(this)
-        } catch (expected: SQLException) {
+        } catch (expected: Exception) {
             jdbcError(
                 description = "Error while setting parameter by index: '$index'.",
                 exception = expected

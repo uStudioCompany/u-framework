@@ -9,7 +9,6 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import java.sql.PreparedStatement
-import java.sql.SQLException
 
 internal class JdbcNamedPreparedStatementInstance(
     private val parameters: Map<String, Int>,
@@ -58,7 +57,7 @@ internal class JdbcNamedPreparedStatementInstance(
         return try {
             block(index)
             success(this)
-        } catch (expected: SQLException) {
+        } catch (expected: Exception) {
             jdbcError(
                 description = "Error while setting parameter with name: '$name' (index: '$index')",
                 exception = expected
