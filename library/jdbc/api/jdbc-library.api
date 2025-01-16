@@ -460,8 +460,13 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 	public fun query ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun setParameter (Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun setParameter (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun setParameters (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun update (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement$ParametersScope {
+	public abstract fun set (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatementExtensionsKt {
