@@ -2,6 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
+import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
@@ -17,14 +18,10 @@ internal class JdbcPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(index: Int, parameter: SqlParameter): JDBCResult<Unit> =
+    override fun setParameter(index: Int, parameter: SqlParameter): JDBCFail =
         trySetParameter(index) { parameter.setValue(statement, index) }
 
-    override fun <T> setParameter(
-        index: Int,
-        value: T,
-        setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit> =
+    override fun <T> setParameter(index: Int, value: T, setter: SqlParameterSetter<T>): JDBCFail =
         trySetParameter(index) { setter(statement, index, value) }
 
     override fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult> {
@@ -46,7 +43,7 @@ internal class JdbcPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<SqlParameter>): JDBCResult<Unit> {
+    private fun PreparedStatement.setParameterValues(values: Iterable<SqlParameter>): JDBCFail {
         values.forEachIndexed { index, parameter ->
             val paramIndex = index + 1
             val result = trySetParameter(paramIndex) {
@@ -57,7 +54,7 @@ internal class JdbcPreparedStatementInstance(
         return Success.asUnit
     }
 
-    private inline fun trySetParameter(index: Int, block: () -> Unit): JDBCResult<Unit> =
+    private inline fun trySetParameter(index: Int, block: () -> Unit): JDBCFail =
         try {
             block()
             Success.asUnit

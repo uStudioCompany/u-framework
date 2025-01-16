@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.onFailure
 import io.github.airflux.commons.types.resultk.success
 import io.github.airflux.commons.types.withRaise
+import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
@@ -17,13 +18,9 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
 
     public fun clearParameters()
 
-    public fun setParameter(param: NamedSqlParameter): JDBCResult<Unit>
+    public fun setParameter(param: NamedSqlParameter): JDBCFail
 
-    public fun <T> setParameter(
-        name: String,
-        value: T,
-        setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit>
+    public fun <T> setParameter(name: String, value: T, setter: SqlParameterSetter<T>): JDBCFail
 
     public fun execute(vararg values: NamedSqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 

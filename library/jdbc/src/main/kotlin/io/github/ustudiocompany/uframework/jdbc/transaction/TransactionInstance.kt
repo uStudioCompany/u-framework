@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.transaction
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
+import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
 import io.github.ustudiocompany.uframework.jdbc.jdbcError
@@ -22,7 +23,7 @@ internal class TransactionInstance(
     override val connection: JdbcConnection
         get() = this
 
-    override fun commit(): JDBCResult<Unit> = try {
+    override fun commit(): JDBCFail = try {
         unwrappedConnection.commit()
         Success.asUnit
     } catch (expected: Exception) {
@@ -32,7 +33,7 @@ internal class TransactionInstance(
         )
     }
 
-    override fun rollback(): JDBCResult<Unit> = try {
+    override fun rollback(): JDBCFail = try {
         unwrappedConnection.rollback()
         Success.asUnit
     } catch (expected: Exception) {

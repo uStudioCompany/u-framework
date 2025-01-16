@@ -2,6 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.row
 
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
+import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractorWith
@@ -27,13 +28,13 @@ internal class ResultRowsInstance(
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 
-    private fun ResultSetMetaData.checkIndex(index: Int): JDBCResult<Unit> =
+    private fun ResultSetMetaData.checkIndex(index: Int): JDBCFail =
         if (index < 1 || index > columnCount)
             jdbcError(description = "The column index '$index' is out of bounds.")
         else
             Success.asUnit
 
-    private fun ResultSetMetaData.checkType(index: Int, types: ResultRow.Types): JDBCResult<Unit> {
+    private fun ResultSetMetaData.checkType(index: Int, types: ResultRow.Types): JDBCFail {
         val actualType = getColumnTypeName(index)
         return if (actualType in types)
             Success.asUnit

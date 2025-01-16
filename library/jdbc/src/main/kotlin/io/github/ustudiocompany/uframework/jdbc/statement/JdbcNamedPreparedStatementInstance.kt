@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
+import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.jdbcError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
@@ -19,14 +20,10 @@ internal class JdbcNamedPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(parameter: NamedSqlParameter): JDBCResult<Unit> =
+    override fun setParameter(parameter: NamedSqlParameter): JDBCFail =
         trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
-    override fun <T> setParameter(
-        name: String,
-        value: T,
-        setter: SqlParameterSetter<T>
-    ): JDBCResult<Unit> =
+    override fun <T> setParameter(name: String, value: T, setter: SqlParameterSetter<T>): JDBCFail =
         trySetParameter(name) { index -> setter(statement, index, value) }
 
     override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {
@@ -48,7 +45,7 @@ internal class JdbcNamedPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCResult<Unit> {
+    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCFail {
         values.forEach { parameter ->
             val result = trySetParameter(parameter.name) { index ->
                 parameter.setValue(this, index)
@@ -58,7 +55,7 @@ internal class JdbcNamedPreparedStatementInstance(
         return Success.asUnit
     }
 
-    private inline fun trySetParameter(name: String, block: (Int) -> Unit): JDBCResult<Unit> {
+    private inline fun trySetParameter(name: String, block: (Int) -> Unit): JDBCFail {
         val index = parameters[name]
             ?: return jdbcError(description = "Undefined parameter with name: '$name'.")
         return try {
