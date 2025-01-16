@@ -48,10 +48,17 @@ internal class JdbcNamedPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private inline fun <T> trySetParameter(
-        name: String,
-        block: (Int) -> T
-    ): JDBCResult<Unit> {
+    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCResult<Unit> {
+        values.forEach { parameter ->
+            val result = trySetParameter(parameter.name) { index ->
+                parameter.setValue(this, index)
+            }
+            if (result.isFailure()) return result
+        }
+        return Success.asUnit
+    }
+
+    private inline fun trySetParameter(name: String, block: (Int) -> Unit): JDBCResult<Unit> {
         val index = parameters[name]
             ?: return jdbcError(description = "Undefined parameter with name: '$name'.")
         return try {
@@ -63,15 +70,5 @@ internal class JdbcNamedPreparedStatementInstance(
                 exception = expected
             )
         }
-    }
-
-    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCResult<Unit> {
-        values.forEach { parameter ->
-            val result = trySetParameter(parameter.name) { index ->
-                parameter.setValue(this, index)
-            }
-            if (result.isFailure()) return result
-        }
-        return Success.asUnit
     }
 }
