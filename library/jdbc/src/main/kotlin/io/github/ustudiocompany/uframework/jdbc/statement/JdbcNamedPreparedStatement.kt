@@ -1,26 +1,29 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.Raise
+import io.github.airflux.commons.types.doRaise
+import io.github.airflux.commons.types.resultk.asFailure
+import io.github.airflux.commons.types.resultk.onFailure
+import io.github.airflux.commons.types.resultk.success
+import io.github.airflux.commons.types.withRaise
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
+import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement.ParametersScope
 
 public interface JdbcNamedPreparedStatement : JdbcStatement {
 
     public fun clearParameters()
 
-    public fun setParameter(param: NamedSqlParameter): JDBCResult<JdbcNamedPreparedStatement>
+    public fun setParameter(param: NamedSqlParameter): JDBCResult<Unit>
 
     public fun <T> setParameter(
         name: String,
         value: T,
         setter: SqlParameterSetter<T>
-    ): JDBCResult<JdbcNamedPreparedStatement>
-
-    public fun <T> setParameters(
-        value: T,
-        setter: ParametersScope.(T) -> Unit
-    ): JDBCResult<JdbcNamedPreparedStatement>
+    ): JDBCResult<Unit>
 
     public fun execute(vararg values: NamedSqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
@@ -36,5 +39,31 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
 
     public interface ParametersScope {
         public fun <T> set(name: String, value: T, setter: SqlParameterSetter<T>)
+    }
+}
+
+public inline fun JdbcNamedPreparedStatement.setParameters(
+    setter: ParametersScope.() -> Unit
+): JDBCResult<JdbcNamedPreparedStatement> {
+    val scope = NamedParametersScope(this)
+    return withRaise(scope, wrap = { error -> error.asFailure() }) {
+        setter(this)
+        success(this@setParameters)
+    }
+}
+
+@PublishedApi
+internal class NamedParametersScope(
+    private val statement: JdbcNamedPreparedStatement
+) : ParametersScope,
+    Raise<JDBCError> {
+
+    override fun <T> set(name: String, value: T, setter: SqlParameterSetter<T>) {
+        statement.setParameter(name, value, setter)
+            .onFailure { raise(it) }
+    }
+
+    override fun raise(error: JDBCError): Nothing {
+        doRaise(error)
     }
 }

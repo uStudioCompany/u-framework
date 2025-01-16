@@ -38,8 +38,8 @@ internal class JdbcNamedPreparedStatementSetParametersTest : IntegrationTest() {
                     container.executeSql(INSERT_SQL)
                     val idParameter = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.setParameters(ID_SECOND_ROW_VALUE) { id ->
-                            set(idParameter, id, STRING_SETTER)
+                        statement.setParameters {
+                            set(idParameter, ID_SECOND_ROW_VALUE, STRING_SETTER)
                         }.query()
                             .andThen { rows ->
                                 rows.traverse { row ->
@@ -61,10 +61,9 @@ internal class JdbcNamedPreparedStatementSetParametersTest : IntegrationTest() {
                     val idParameter = "id"
                     val titleParameter = "title"
                     val result2 = tm.execute(UPDATE_SQL) { statement ->
-                        val params = TITLE_SECOND_ROW_NEW_VALUE to ID_SECOND_ROW_VALUE
-                        statement.setParameters(params) { (title, id) ->
-                            set(idParameter, id, STRING_SETTER)
-                            set(titleParameter, title, STRING_SETTER)
+                        statement.setParameters {
+                            set(idParameter, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                            set(titleParameter, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
                         }.update()
                     }
 
@@ -87,8 +86,8 @@ internal class JdbcNamedPreparedStatementSetParametersTest : IntegrationTest() {
                         container.executeSql(INSERT_SQL)
                         val idParameter = "id"
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            statement.setParameters(ID_SECOND_ROW_VALUE) { id ->
-                                set(idParameter, id, STRING_SETTER)
+                            statement.setParameters {
+                                set(idParameter, ID_SECOND_ROW_VALUE, STRING_SETTER)
                             }.execute()
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get
@@ -111,10 +110,9 @@ internal class JdbcNamedPreparedStatementSetParametersTest : IntegrationTest() {
                         val result = tm.execute(UPDATE_SQL) { statement ->
                             val idParameter = "id"
                             val titleParameter = "title"
-                            val params = TITLE_SECOND_ROW_NEW_VALUE to ID_SECOND_ROW_VALUE
-                            statement.setParameters(params) { (title, id) ->
-                                set(idParameter, id, STRING_SETTER)
-                                set(titleParameter, title, STRING_SETTER)
+                            statement.setParameters {
+                                set(idParameter, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                                set(titleParameter, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
                             }.execute()
                                 .map { result -> (result as StatementResult.Count).get }
                         }
@@ -141,10 +139,9 @@ internal class JdbcNamedPreparedStatementSetParametersTest : IntegrationTest() {
                     val invalidParamName = "abc"
                     val titleParamName = "title"
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        val params = ID_SECOND_ROW_VALUE to TITLE_SECOND_ROW_VALUE
-                        statement.setParameters(params) { (id, title) ->
-                            set(invalidParamName, id, STRING_SETTER)
-                            set(titleParamName, title, STRING_SETTER)
+                        statement.setParameters {
+                            set(invalidParamName, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                            set(titleParamName, TITLE_SECOND_ROW_VALUE, STRING_SETTER)
                         }.query()
                             .andThen { rows ->
                                 rows.traverse { row ->

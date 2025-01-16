@@ -36,8 +36,8 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.setParameters(ID_SECOND_ROW_VALUE) { id ->
-                            set(1, id, STRING_SETTER)
+                        statement.setParameters {
+                            set(1, ID_SECOND_ROW_VALUE, STRING_SETTER)
                         }.query()
                             .andThen { rows ->
                                 rows.traverse { row ->
@@ -57,10 +57,9 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
                     val result = tm.execute(UPDATE_SQL) { statement ->
-                        val params = TITLE_SECOND_ROW_NEW_VALUE to ID_SECOND_ROW_VALUE
-                        statement.setParameters(params) { (title, id) ->
-                            set(1, title, STRING_SETTER)
-                            set(2, id, STRING_SETTER)
+                        statement.setParameters {
+                            set(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
+                            set(2, ID_SECOND_ROW_VALUE, STRING_SETTER)
                         }.update()
                     }
 
@@ -82,8 +81,8 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            statement.setParameters(ID_SECOND_ROW_VALUE) { id ->
-                                set(1, id, STRING_SETTER)
+                            statement.setParameters {
+                                set(1, ID_SECOND_ROW_VALUE, STRING_SETTER)
                             }.execute()
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get
@@ -104,10 +103,9 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
                         val result = tm.execute(UPDATE_SQL) { statement ->
-                            val params = TITLE_SECOND_ROW_NEW_VALUE to ID_SECOND_ROW_VALUE
-                            statement.setParameters(params) { (title, id) ->
-                                set(1, title, STRING_SETTER)
-                                set(2, id, STRING_SETTER)
+                            statement.setParameters {
+                                set(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
+                                set(2, ID_SECOND_ROW_VALUE, STRING_SETTER)
                             }.execute()
                                 .map { result -> (result as StatementResult.Count).get }
                         }
@@ -136,10 +134,9 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                         val invalidParamIndex = 0
 
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            val params = ID_SECOND_ROW_VALUE to TITLE_SECOND_ROW_VALUE
-                            statement.setParameters(params) { (id, title) ->
-                                set(invalidParamIndex, id, STRING_SETTER)
-                                set(1, title, STRING_SETTER)
+                            statement.setParameters {
+                                set(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                                set(1, TITLE_SECOND_ROW_VALUE, STRING_SETTER)
                             }.query()
                                 .andThen { rows ->
                                     rows.traverse { row ->
@@ -159,10 +156,9 @@ internal class JdbcPreparedStatementSetParametersTest : IntegrationTest() {
                         container.executeSql(INSERT_SQL)
                         val invalidParamIndex = 2
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            val params = ID_SECOND_ROW_VALUE to TITLE_SECOND_ROW_VALUE
-                            statement.setParameters(params) { (id, title) ->
-                                set(invalidParamIndex, id, STRING_SETTER)
-                                set(1, title, STRING_SETTER)
+                            statement.setParameters {
+                                set(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
+                                set(1, TITLE_SECOND_ROW_VALUE, STRING_SETTER)
                             }.query()
                                 .andThen { rows ->
                                     rows.traverse { row ->
