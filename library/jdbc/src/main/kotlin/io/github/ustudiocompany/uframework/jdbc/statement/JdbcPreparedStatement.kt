@@ -17,6 +17,11 @@ public interface JdbcPreparedStatement : JdbcStatement {
         setter: SqlParameterSetter<T>
     ): JDBCResult<JdbcPreparedStatement>
 
+    public fun <T> setParameters(
+        value: T,
+        setter: ParametersScope.(T) -> Unit
+    ): JDBCResult<JdbcPreparedStatement>
+
     public fun execute(vararg values: SqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
     public fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult>
@@ -28,4 +33,8 @@ public interface JdbcPreparedStatement : JdbcStatement {
     public fun update(vararg values: SqlParameter): JDBCResult<Int> = update(values.asIterable())
 
     public fun update(values: Iterable<SqlParameter>): JDBCResult<Int>
+
+    public interface ParametersScope {
+        public fun <T> set(index: Int, value: T, setter: SqlParameterSetter<T>)
+    }
 }
