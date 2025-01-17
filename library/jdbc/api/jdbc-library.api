@@ -16,8 +16,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensions
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
-	public static final fun jdbcError (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun jdbcError$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun jdbcFail (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun jdbcFail$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/RetryKt {

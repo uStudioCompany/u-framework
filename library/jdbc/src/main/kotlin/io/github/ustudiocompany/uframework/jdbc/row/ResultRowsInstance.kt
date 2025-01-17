@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.jdbcError
+import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractorWith
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
@@ -20,7 +20,7 @@ internal class ResultRowsInstance(
             metadata.checkType(index = index, types).getOrForward { return it }
             block(index, resultSet)
         } catch (expected: Exception) {
-            jdbcError(
+            jdbcFail(
                 description = "Error while extracting data from the result set",
                 exception = expected
             )
@@ -30,7 +30,7 @@ internal class ResultRowsInstance(
 
     private fun ResultSetMetaData.checkIndex(index: Int): JDBCFail =
         if (index < 1 || index > columnCount)
-            jdbcError(description = "The column index '$index' is out of bounds.")
+            jdbcFail(description = "The column index '$index' is out of bounds.")
         else
             Success.asUnit
 
@@ -39,7 +39,7 @@ internal class ResultRowsInstance(
         return if (actualType in types)
             Success.asUnit
         else
-            jdbcError(
+            jdbcFail(
                 description = "The column type with index '$index' does not match the extraction type. " +
                     "Expected: $types, actual: '$actualType'."
             )

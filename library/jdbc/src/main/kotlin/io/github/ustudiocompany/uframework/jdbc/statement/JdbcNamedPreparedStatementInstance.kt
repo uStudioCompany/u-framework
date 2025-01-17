@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.jdbcError
+import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -57,12 +57,12 @@ internal class JdbcNamedPreparedStatementInstance(
 
     private inline fun trySetParameter(name: String, block: (Int) -> Unit): JDBCFail {
         val index = parameters[name]
-            ?: return jdbcError(description = "Undefined parameter with name: '$name'.")
+            ?: return jdbcFail(description = "Undefined parameter with name: '$name'.")
         return try {
             block(index)
             ResultK.Success.asUnit
         } catch (expected: Exception) {
-            jdbcError(
+            jdbcFail(
                 description = "Error while setting parameter with name: '$name' (index: '$index')",
                 exception = expected
             )

@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
-import io.github.ustudiocompany.uframework.jdbc.jdbcError
+import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatementInstance
@@ -27,7 +27,7 @@ internal class TransactionInstance(
         unwrappedConnection.commit()
         Success.asUnit
     } catch (expected: Exception) {
-        jdbcError(
+        jdbcFail(
             description = "Error while committing transaction",
             exception = expected
         )
@@ -37,7 +37,7 @@ internal class TransactionInstance(
         unwrappedConnection.rollback()
         Success.asUnit
     } catch (expected: Exception) {
-        jdbcError(
+        jdbcFail(
             description = "Error while rolling back transaction",
             exception = expected
         )
@@ -77,7 +77,7 @@ internal class TransactionInstance(
             }
             .asSuccess()
     } catch (expected: Exception) {
-        jdbcError(
+        jdbcFail(
             description = "Error while preparing statement",
             exception = expected
         )

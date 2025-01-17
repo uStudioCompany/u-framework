@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.jdbcError
+import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -59,7 +59,7 @@ internal class JdbcPreparedStatementInstance(
             block()
             Success.asUnit
         } catch (expected: Exception) {
-            jdbcError(
+            jdbcFail(
                 description = "Error while setting parameter by index: '$index'.",
                 exception = expected
             )
