@@ -8,12 +8,14 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.error.incident
 
 public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT, JDBCError>>
-public typealias TransactionError<ErrorT> = TransactionResult<Nothing, ErrorT>
-public typealias TransactionIncident = TransactionResult<Nothing, Nothing>
 
-public fun <ErrorT> transactionError(error: ErrorT): TransactionError<ErrorT> = error(error).asFailure()
+public fun <ErrorT> transactionError(error: ErrorT): TransactionResult<Nothing, ErrorT> = error(error).asFailure()
 
-public fun transactionIncident(description: String, exception: Throwable? = null): TransactionIncident =
+public fun transactionIncident(
+    description: String,
+    exception: Throwable? = null
+): TransactionResult<Nothing, Nothing> =
     transactionIncident(JDBCError(description, exception))
 
-public fun transactionIncident(error: JDBCError): TransactionIncident = incident(error).asFailure()
+public fun transactionIncident(error: JDBCError): TransactionResult<Nothing, Nothing> =
+    incident(error).asFailure()

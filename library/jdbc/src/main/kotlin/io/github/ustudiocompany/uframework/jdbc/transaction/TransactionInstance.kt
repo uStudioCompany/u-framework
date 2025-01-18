@@ -27,20 +27,14 @@ internal class TransactionInstance(
         unwrappedConnection.commit()
         Success.asUnit
     } catch (expected: Exception) {
-        jdbcFail(
-            description = "Error while committing transaction",
-            exception = expected
-        )
+        jdbcFail(description = "Error while committing transaction", exception = expected)
     }
 
     override fun rollback(): JDBCFail = try {
         unwrappedConnection.rollback()
         Success.asUnit
     } catch (expected: Exception) {
-        jdbcFail(
-            description = "Error while rolling back transaction",
-            exception = expected
-        )
+        jdbcFail(description = "Error while rolling back transaction", exception = expected)
     }
 
     override fun close() {
