@@ -32,10 +32,6 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/connect
 	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/error/FailKt {
-	public static final fun incident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/fail/Fail;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V

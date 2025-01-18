@@ -2,10 +2,10 @@ package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.fail.Fail.Companion.error
+import io.github.airflux.commons.types.fail.exception
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.error.incident
 
 public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT, JDBCError>>
 
@@ -18,4 +18,4 @@ public fun transactionIncident(
     transactionIncident(JDBCError(description, exception))
 
 public fun transactionIncident(error: JDBCError): TransactionResult<Nothing, Nothing> =
-    incident(error).asFailure()
+    exception(error).asFailure()
