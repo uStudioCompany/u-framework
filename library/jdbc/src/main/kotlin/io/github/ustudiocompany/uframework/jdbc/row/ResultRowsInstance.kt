@@ -13,18 +13,21 @@ internal class ResultRowsInstance(
     private val resultSet: ResultSet,
 ) : ResultRows, ResultRow {
 
-    override fun <T> extractWith(index: Int, types: ResultRow.Types, block: DataExtractorWith<T>): JDBCResult<T?> =
-        try {
-            val metadata = resultSet.metaData
-            metadata.checkIndex(index = index).getOrForward { return it }
-            metadata.checkType(index = index, types).getOrForward { return it }
-            block(index, resultSet)
-        } catch (expected: Exception) {
-            jdbcFail(
-                description = "Error while extracting data from the result set",
-                exception = expected
-            )
-        }
+    override fun <ValueT> extractWith(
+        index: Int,
+        types: ResultRow.Types,
+        block: DataExtractorWith<ValueT>
+    ): JDBCResult<ValueT?> = try {
+        val metadata = resultSet.metaData
+        metadata.checkIndex(index = index).getOrForward { return it }
+        metadata.checkType(index = index, types).getOrForward { return it }
+        block(index, resultSet)
+    } catch (expected: Exception) {
+        jdbcFail(
+            description = "Error while extracting data from the result set",
+            exception = expected
+        )
+    }
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 

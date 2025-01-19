@@ -12,20 +12,20 @@ public interface ResultRow {
      * <!--- INCLUDE
      * import io.github.airflux.commons.types.resultk.Success
      * import io.github.airflux.commons.types.resultk.asSuccess
-     * import io.github.ustudiocompany.uframework.jdbc.JdbcResult
+     * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
      * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
      * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
      * import java.sql.ResultSet
      * -->
      * ```kotlin
-     * public fun ResultRow.getBoolean(column: Int): JdbcResult<Boolean?> =
+     * public fun <ErrorT> ResultRow.getBoolean(column: Int): JDBCResult<Boolean?> =
      *     this.extractWith(column, Types("bool")) { column: Int, rs: ResultSet ->
      *         val result = rs.getBoolean(column)
      *         if (rs.wasNull()) Success.asNull else result.asSuccess()
      *     }
      * ```
      */
-    public fun <T> extractWith(index: Int, types: Types, block: DataExtractorWith<T>): JDBCResult<T?>
+    public fun <ValueT> extractWith(index: Int, types: Types, block: DataExtractorWith<ValueT>): JDBCResult<ValueT?>
 
     @JvmInline
     public value class Types(private val names: List<String>) {
@@ -43,7 +43,7 @@ public interface ResultRow {
  * <!--- INCLUDE
  * import io.github.airflux.commons.types.resultk.Success
  * import io.github.airflux.commons.types.resultk.asSuccess
- * import io.github.ustudiocompany.uframework.jdbc.JdbcResult
+ * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
  * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
  * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
  * import java.sql.ResultSet
@@ -57,9 +57,9 @@ public interface ResultRow {
  * ```
  */
 
-public fun <T> ResultRow.extract(
+public fun <ValueT> ResultRow.extract(
     index: Int,
     types: ResultRow.Types,
-    block: DataExtractor<T>
-): JDBCResult<T?> =
+    block: DataExtractor<ValueT>
+): JDBCResult<ValueT?> =
     extractWith(index, types) { col, rs -> block(col, rs).asSuccess() }
