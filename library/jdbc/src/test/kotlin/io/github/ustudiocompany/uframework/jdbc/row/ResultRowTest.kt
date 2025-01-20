@@ -58,7 +58,8 @@ internal class ResultRowTest : IntegrationTest() {
                     "when the extraction type is equal to the column type" - {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
-                        val result = tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                        val result =
+                            tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
 
                         "then the result should contain all data from the database" {
                             result.shouldBeSuccess()

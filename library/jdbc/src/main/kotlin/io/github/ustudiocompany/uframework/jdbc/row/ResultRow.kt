@@ -1,9 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractorWith
 
 public interface ResultRow {
 
@@ -25,7 +23,7 @@ public interface ResultRow {
      *     }
      * ```
      */
-    public fun <ValueT> extractWith(index: Int, types: Types, block: DataExtractorWith<ValueT>): JDBCResult<ValueT?>
+    public fun <ValueT> extract(index: Int, types: Types, block: DataExtractor<ValueT>): JDBCResult<ValueT?>
 
     @JvmInline
     public value class Types(private val names: List<String>) {
@@ -37,29 +35,3 @@ public interface ResultRow {
         override fun toString(): String = names.toString()
     }
 }
-
-/**
- * Example: the boolean type extractor.
- * <!--- INCLUDE
- * import io.github.airflux.commons.types.resultk.Success
- * import io.github.airflux.commons.types.resultk.asSuccess
- * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
- * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
- * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
- * import java.sql.ResultSet
- * -->
- * ```kotlin
- * public fun ResultRow.getBoolean(column: Int): JdbcResult<Boolean?> =
- *     this.extract(column, Types("bool")) { column: Int, rs: ResultSet ->
- *         val result = rs.getBoolean(column)
- *         if (rs.wasNull()) null else result
- *     }
- * ```
- */
-
-public fun <ValueT> ResultRow.extract(
-    index: Int,
-    types: ResultRow.Types,
-    block: DataExtractor<ValueT>
-): JDBCResult<ValueT?> =
-    extractWith(index, types) { col, rs -> block(col, rs).asSuccess() }

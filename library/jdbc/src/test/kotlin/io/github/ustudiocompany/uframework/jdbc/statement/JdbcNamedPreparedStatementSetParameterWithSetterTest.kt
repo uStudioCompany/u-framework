@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.resultWith
@@ -9,7 +10,6 @@ import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
-import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -180,7 +180,7 @@ internal class JdbcNamedPreparedStatementSetParameterWithSetterTest : Integratio
         private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
 
         private val STRING_SETTER: SqlParameterSetter<String> = { index, value ->
-            setString(index, value)
+            setString(index, value).asSuccess()
         }
 
         @JvmStatic

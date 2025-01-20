@@ -9,7 +9,6 @@ import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
-import io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
@@ -38,11 +37,12 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement.execute(sqlParam(ID_SECOND_ROW_VALUE))
                             .andThen { result ->
-                                (result as StatementResult.Rows).get.traverse { row ->
-                                    row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                        rs.getString(col)
+                                (result as StatementResult.Rows).get
+                                    .traverse { row ->
+                                        row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
+                                            rs.getString(col)
+                                        }
                                     }
-                                }
                             }
                     }
 
@@ -88,11 +88,12 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
                         val result = tm.execute(SELECT_SQL) { statement ->
                             statement.execute()
                                 .andThen { result ->
-                                    (result as StatementResult.Rows).get.traverse { row ->
-                                        row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                            rs.getString(col)
+                                    (result as StatementResult.Rows).get
+                                        .traverse { row ->
+                                            row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
+                                                rs.getString(col)
+                                            }
                                         }
-                                    }
                                 }
                         }
 
@@ -108,11 +109,12 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
                         val result = tm.execute(SELECT_SQL) { statement ->
                             statement.execute(sqlParam(ID_FIRST_ROW_VALUE), sqlParam(ID_SECOND_ROW_VALUE))
                                 .andThen { result ->
-                                    (result as StatementResult.Rows).get.traverse { row ->
-                                        row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                            rs.getString(col)
+                                    (result as StatementResult.Rows).get
+                                        .traverse { row ->
+                                            row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
+                                                rs.getString(col)
+                                            }
                                         }
-                                    }
                                 }
                         }
 
@@ -129,9 +131,10 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
                         val result = tm.execute(UPDATE_SQL) { statement ->
-                            statement.execute().map { result ->
-                                (result as StatementResult.Count).get
-                            }
+                            statement.execute()
+                                .map { result ->
+                                    (result as StatementResult.Count).get
+                                }
                         }
 
                         "then the result of execution of the statement should contain an incident" {

@@ -136,7 +136,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExcepti
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRow {
-	public abstract fun extractWith-hbBov_U (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun extract-hbBov_U (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types {
@@ -152,10 +152,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types 
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/util/List;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowKt {
-	public static final fun extract-owqssjA (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {

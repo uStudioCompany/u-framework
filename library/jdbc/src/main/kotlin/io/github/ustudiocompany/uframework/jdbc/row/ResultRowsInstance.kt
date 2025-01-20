@@ -1,11 +1,13 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractorWith
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 
@@ -13,15 +15,16 @@ internal class ResultRowsInstance(
     private val resultSet: ResultSet,
 ) : ResultRows, ResultRow {
 
-    override fun <ValueT> extractWith(
+    override fun <ValueT> extract(
         index: Int,
         types: ResultRow.Types,
-        block: DataExtractorWith<ValueT>
+        block: DataExtractor<ValueT>
     ): JDBCResult<ValueT?> = try {
         val metadata = resultSet.metaData
         metadata.checkIndex(index = index).getOrForward { return it }
         metadata.checkType(index = index, types).getOrForward { return it }
-        block(index, resultSet)
+        val result = block(index, resultSet)
+        result?.asSuccess() ?: ResultK.Success.asNull
     } catch (expected: Exception) {
         jdbcFail(
             description = "Error while extracting data from the result set",
