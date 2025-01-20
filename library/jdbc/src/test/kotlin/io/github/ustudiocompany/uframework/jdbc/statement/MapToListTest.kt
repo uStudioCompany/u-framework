@@ -115,10 +115,10 @@ internal class MapToListTest : IntegrationTest() {
             |     FROM $TABLE_NAME
         """.trimMargin()
 
-        private fun <T, E> TransactionManager.execute(
+        private fun <ValueT, ErrorT> TransactionManager.execute(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> TransactionResult<T, E>
-        ): TransactionResult<T, E> =
+            block: (statement: JdbcPreparedStatement) -> TransactionResult<ValueT, ErrorT>
+        ): TransactionResult<ValueT, ErrorT> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement -> block(statement) }

@@ -14,10 +14,10 @@ import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 
 internal abstract class AbstractExtractorTest : IntegrationTest() {
 
-    protected fun <T> TransactionManager.executeQuery(
+    protected fun <ValueT> TransactionManager.executeQuery(
         sql: String,
-        block: ResultRow.() -> JDBCResult<T>
-    ): TransactionResult<T, Nothing> =
+        block: ResultRow.() -> JDBCResult<ValueT>
+    ): TransactionResult<ValueT, Nothing> =
         useTransaction { connection ->
             connection.preparedStatement(sql)
                 .andThen { statement ->

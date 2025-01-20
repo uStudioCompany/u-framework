@@ -14,10 +14,10 @@ public fun JDBCResult<JdbcPreparedStatement>.setParameter(
     param: SqlParameter
 ): JDBCResult<JdbcPreparedStatement> = apply { setParameter(index, param) }
 
-public fun <T> JDBCResult<JdbcPreparedStatement>.setParameter(
+public fun <ValueT> JDBCResult<JdbcPreparedStatement>.setParameter(
     index: Int,
-    value: T,
-    setter: SqlParameterSetter<T>
+    value: ValueT,
+    setter: SqlParameterSetter<ValueT>
 ): JDBCResult<JdbcPreparedStatement> =
     apply { setParameter(index, value, setter) }
 

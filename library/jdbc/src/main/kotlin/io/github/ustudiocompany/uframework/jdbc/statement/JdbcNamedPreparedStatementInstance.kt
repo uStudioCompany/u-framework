@@ -23,7 +23,7 @@ internal class JdbcNamedPreparedStatementInstance(
     override fun setParameter(parameter: NamedSqlParameter): JDBCFail =
         trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
-    override fun <T> setParameter(name: String, value: T, setter: SqlParameterSetter<T>): JDBCFail =
+    override fun <ValueT> setParameter(name: String, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail =
         trySetParameter(name) { index -> setter(statement, index, value) }
 
     override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {

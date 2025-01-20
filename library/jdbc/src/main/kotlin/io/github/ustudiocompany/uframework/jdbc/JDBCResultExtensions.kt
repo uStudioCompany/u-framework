@@ -11,26 +11,26 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
-public inline fun <T, ValueT, ErrorT> JDBCResult<T>.flatMapOrIncident(
-    block: (T) -> TransactionResult<ValueT, ErrorT>
-): TransactionResult<ValueT, ErrorT> =
+public inline fun <ValueT, ValueR, ErrorT> JDBCResult<ValueT>.flatMapOrIncident(
+    block: (ValueT) -> TransactionResult<ValueR, ErrorT>
+): TransactionResult<ValueR, ErrorT> =
     fold(
         onSuccess = { value -> block(value) },
         onFailure = { error -> transactionIncident(error) }
     )
 
-public inline fun <T, ValueT, ErrorT> JDBCResult<T>.mapOrIncident(
-    block: (T) -> ResultK<ValueT, ErrorT>
-): TransactionResult<ValueT, ErrorT> =
+public inline fun <ValueT, ValueR, ErrorT> JDBCResult<ValueT>.mapOrIncident(
+    block: (ValueT) -> ResultK<ValueR, ErrorT>
+): TransactionResult<ValueR, ErrorT> =
     flatMapOrIncident { value -> block(value).mapFailure { error(it) } }
 
-public fun <T> JDBCResult<T>.liftToIncident(): TransactionResult<T, Nothing> =
+public fun <ValueT> JDBCResult<ValueT>.liftToIncident(): TransactionResult<ValueT, Nothing> =
     if (this.isSuccess()) this else transactionIncident(this.cause)
 
 @OptIn(ExperimentalContracts::class)
-public inline infix fun <ValueT, ErrorT, T : AutoCloseable> JDBCResult<T>.use(
-    block: (T) -> TransactionResult<ValueT, ErrorT>
-): TransactionResult<ValueT, ErrorT> {
+public inline infix fun <ValueT : AutoCloseable, ValueR, ErrorT> JDBCResult<ValueT>.use(
+    block: (ValueT) -> TransactionResult<ValueR, ErrorT>
+): TransactionResult<ValueR, ErrorT> {
     contract {
         callsInPlace(block, AT_MOST_ONCE)
     }

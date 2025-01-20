@@ -218,10 +218,10 @@ internal class JdbcNamedPreparedStatementSetParameterTest : IntegrationTest() {
             | WHERE $ID_COLUMN_NAME = '$id'
         """.trimMargin()
 
-        private fun <T> TransactionManager.executeSql(
+        private fun <ValueT> TransactionManager.executeSql(
             sql: String,
-            block: (statement: JdbcNamedPreparedStatement) -> JDBCResult<T>
-        ): TransactionResult<T, Nothing> =
+            block: (statement: JdbcNamedPreparedStatement) -> JDBCResult<ValueT>
+        ): TransactionResult<ValueT, Nothing> =
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->

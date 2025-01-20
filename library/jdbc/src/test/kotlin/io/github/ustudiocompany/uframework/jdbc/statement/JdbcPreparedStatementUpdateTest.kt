@@ -149,10 +149,10 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
             | WHERE $ID_COLUMN_NAME = '$id'
         """.trimMargin()
 
-        private fun <T> TransactionManager.execute(
+        private fun <ValueT> TransactionManager.execute(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> JDBCResult<T>
-        ): TransactionResult<T, Nothing> =
+            block: (statement: JdbcPreparedStatement) -> JDBCResult<ValueT>
+        ): TransactionResult<ValueT, Nothing> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement ->

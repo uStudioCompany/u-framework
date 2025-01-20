@@ -20,7 +20,7 @@ public interface JdbcPreparedStatement : JdbcStatement {
 
     public fun setParameter(index: Int, param: SqlParameter): JDBCFail
 
-    public fun <T> setParameter(index: Int, value: T, setter: SqlParameterSetter<T>): JDBCFail
+    public fun <ValueT> setParameter(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail
 
     public fun execute(vararg values: SqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
@@ -35,7 +35,7 @@ public interface JdbcPreparedStatement : JdbcStatement {
     public fun update(values: Iterable<SqlParameter>): JDBCResult<Int>
 
     public interface ParametersScope {
-        public fun <T> set(index: Int, value: T, setter: SqlParameterSetter<T>)
+        public fun <ValueT> set(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>)
     }
 }
 
@@ -55,7 +55,7 @@ internal class IndexesParametersScope(
 ) : ParametersScope,
     Raise<JDBCError> {
 
-    override fun <T> set(index: Int, value: T, setter: SqlParameterSetter<T>) {
+    override fun <ValueT> set(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>) {
         statement.setParameter(index, value, setter)
             .onFailure { raise(it) }
     }
