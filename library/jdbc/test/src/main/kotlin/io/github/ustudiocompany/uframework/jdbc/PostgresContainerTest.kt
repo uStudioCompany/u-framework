@@ -46,7 +46,7 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                     .executeQuery()
                     .let { result ->
                         var hasResult = result.next()
-                        if (!hasResult) failure(NO_ROWS_FOUND)
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
                         while (hasResult) {
                             assertions(result, index++)
@@ -89,7 +89,7 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                     .executeQuery()
                     .let { result ->
                         var hasResult = result.next()
-                        if (!hasResult) failure(NO_ROWS_FOUND)
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
                         while (hasResult) {
                             assertion(result, index++)
@@ -108,7 +108,7 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                     .executeQuery()
                     .let { result ->
                         var hasResult = result.next()
-                        if (!hasResult) failure(NO_ROWS_FOUND)
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
                         while (hasResult) {
                             if (currentAssertionIndex != assertionCount) {
@@ -116,7 +116,7 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                                 assertion(result, index++)
                                 currentAssertionIndex++
                             } else
-                                failure("There are fewer assertions than rows.")
+                                throw failure("There are fewer assertions than rows.")
 
                             hasResult = result.next()
                         }
