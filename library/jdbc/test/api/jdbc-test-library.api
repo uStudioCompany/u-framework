@@ -10,7 +10,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/PostgresContainerTes
 	public final fun checkData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public final fun executeSql (Ljava/lang/String;)V
 	public final fun getDataSource ()Ljavax/sql/DataSource;
-	public final fun selectData (Ljava/lang/String;)Ljava/util/List;
+	public final fun selectData (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Ljava/util/List;
+	public final fun shouldBeEmpty (Ljava/lang/String;)V
 	public final fun shouldContain (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public final fun shouldContainExactly (Ljava/lang/String;[Lkotlin/jvm/functions/Function2;)V
 	public final fun truncateTable (Ljava/lang/String;)V
