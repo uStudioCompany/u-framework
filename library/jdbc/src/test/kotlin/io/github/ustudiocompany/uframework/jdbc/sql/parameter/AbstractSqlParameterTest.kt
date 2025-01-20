@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.liftToIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -16,7 +16,7 @@ internal abstract class AbstractSqlParameterTest : IntegrationTest() {
                     statement.setParameter(1, param)
                     statement.update()
                 }
-                .liftToIncident()
+                .liftToTransactionResult()
         }
 
         result shouldBeSuccess 1

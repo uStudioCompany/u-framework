@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -126,7 +126,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 row.extract(column, types, block)
                             }
                         }
-                        .liftToIncident()
+                        .liftToTransactionResult()
                 }
         }
 

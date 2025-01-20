@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
@@ -165,7 +165,7 @@ internal class JdbcNamedPreparedStatementUpdateTest : IntegrationTest() {
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->
-                        block(statement).liftToIncident()
+                        block(statement).liftToTransactionResult()
                     }
             }
     }

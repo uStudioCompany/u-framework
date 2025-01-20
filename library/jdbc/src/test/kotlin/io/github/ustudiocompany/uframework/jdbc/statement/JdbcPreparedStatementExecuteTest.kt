@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -232,7 +232,7 @@ internal class JdbcPreparedStatementExecuteTest : IntegrationTest() {
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement ->
-                        block(statement).liftToIncident()
+                        block(statement).liftToTransactionResult()
                     }
             }
     }

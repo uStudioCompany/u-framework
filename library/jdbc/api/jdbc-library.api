@@ -10,7 +10,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 
 public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensionsKt {
 	public static final fun flatMapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun liftToIncident (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun liftToTransactionResult (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun mapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun use (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }

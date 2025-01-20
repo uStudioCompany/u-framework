@@ -24,7 +24,7 @@ public inline fun <ValueT, ValueR, ErrorT> JDBCResult<ValueT>.mapOrIncident(
 ): TransactionResult<ValueR, ErrorT> =
     flatMapOrIncident { value -> block(value).mapFailure { error(it) } }
 
-public fun <ValueT> JDBCResult<ValueT>.liftToIncident(): TransactionResult<ValueT, Nothing> =
+public fun <ValueT> JDBCResult<ValueT>.liftToTransactionResult(): TransactionResult<ValueT, Nothing> =
     if (this.isSuccess()) this else transactionIncident(this.cause)
 
 @OptIn(ExperimentalContracts::class)
