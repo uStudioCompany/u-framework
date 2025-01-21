@@ -6,8 +6,19 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
 import io.github.ustudiocompany.uframework.jdbc.use
 
+/**
+ * A transaction manager that provides a way to start a transaction.
+ */
 public interface TransactionManager {
 
+    /**
+     * Starts a new transaction with the given isolation level and read-only mode.
+     *
+     * @param isolation The transaction isolation level.
+     * @param readOnly The read-only mode.
+     * @return An object that allows you to manage a running transaction, or an error if the transaction cannot be
+     * started.
+     */
     public fun startTransaction(
         isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
         readOnly: Boolean = false

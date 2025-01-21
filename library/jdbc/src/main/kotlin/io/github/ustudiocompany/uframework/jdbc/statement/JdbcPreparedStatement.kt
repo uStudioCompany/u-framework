@@ -14,24 +14,79 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcPreparedStatement.ParametersScope
 
+/**
+ * The type representing a JDBC prepared statement.
+ */
 public interface JdbcPreparedStatement : JdbcStatement {
 
+    /**
+     * Clears all the parameters.
+     */
     public fun clearParameters()
 
+    /**
+     * Sets the parameter.
+     *
+     * @param index the index of the parameter.
+     * @param param the parameter.
+     */
     public fun setParameter(index: Int, param: SqlParameter): JDBCFail
 
+    /**
+     * Sets the parameter.
+     *
+     * @param index the index of the parameter.
+     * @param value the value of the parameter.
+     * @param setter the setter for the parameter.
+     */
     public fun <ValueT> setParameter(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail
 
+    /**
+     * Executes the prepared statement.
+     *
+     * @param values the parameters.
+     * @return the result of the execution.
+     */
     public fun execute(vararg values: SqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
+    /**
+     * Executes the prepared statement.
+     *
+     * @param values the parameters.
+     * @return the result of the execution.
+     */
     public fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult>
 
+    /**
+     * Executes the query.
+     *
+     * @param values the parameters.
+     * @return the rows with the results or an error of the execution.
+     */
     public fun query(vararg values: SqlParameter): JDBCResult<ResultRows> = query(values.asIterable())
 
+    /**
+     * Executes the query.
+     *
+     * @param values the parameters.
+     * @return the rows with the results or an error of the execution.
+     */
     public fun query(values: Iterable<SqlParameter>): JDBCResult<ResultRows>
 
+    /**
+     * Updates the data.
+     *
+     * @param values the parameters.
+     * @return the number of updated rows or an error of the execution.
+     */
     public fun update(vararg values: SqlParameter): JDBCResult<Int> = update(values.asIterable())
 
+    /**
+     * Updates the data.
+     *
+     * @param values the parameters.
+     * @return the number of updated rows or an error of the execution.
+     */
     public fun update(values: Iterable<SqlParameter>): JDBCResult<Int>
 
     public interface ParametersScope {
@@ -39,6 +94,13 @@ public interface JdbcPreparedStatement : JdbcStatement {
     }
 }
 
+/**
+ * Sets the parameters.
+ *
+ * @param setter the block of a code that sets the parameters.
+ * @return an instance of [JdbcPreparedStatement] to which parameters were set or an instance of [JDBCError]
+ * if the configuration fails.
+ */
 public inline fun JdbcPreparedStatement.setParameters(
     setter: ParametersScope.() -> Unit
 ): JDBCResult<JdbcPreparedStatement> {

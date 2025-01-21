@@ -14,24 +14,78 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement.ParametersScope
 
+/**
+ * The type representing a named JDBC prepared statement.
+ */
 public interface JdbcNamedPreparedStatement : JdbcStatement {
 
+    /**
+     * Clears all the parameters.
+     */
     public fun clearParameters()
 
+    /**
+     * Sets the parameter.
+     *
+     * @param param the named parameter.
+     */
     public fun setParameter(param: NamedSqlParameter): JDBCFail
 
+    /**
+     * Sets the parameter.
+     *
+     * @param name the name of the parameter.
+     * @param value the value of the parameter.
+     * @param setter the setter for the parameter.
+     */
     public fun <ValueT> setParameter(name: String, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail
 
+    /**
+     * Executes the named prepared statement.
+     *
+     * @param values the named parameters.
+     * @return the result of the execution.
+     */
     public fun execute(vararg values: NamedSqlParameter): JDBCResult<StatementResult> = execute(values.asIterable())
 
+    /**
+     * Executes the named prepared statement.
+     *
+     * @param values the named parameters.
+     * @return the result of the execution.
+     */
     public fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult>
 
+    /**
+     * Executes the query.
+     *
+     * @param values the named parameters.
+     * @return the rows with the results or an error of the execution.
+     */
     public fun query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> = query(values.asIterable())
 
+    /**
+     * Executes the query.
+     *
+     * @param values the named parameters.
+     * @return the rows with the results or an error of the execution.
+     */
     public fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows>
 
+    /**
+     * Updates the data.
+     *
+     * @param values the named parameters.
+     * @return the number of updated rows or an error of the execution.
+     */
     public fun update(vararg values: NamedSqlParameter): JDBCResult<Int> = update(values.asIterable())
 
+    /**
+     * Updates the data.
+     *
+     * @param values the named parameters.
+     * @return the number of updated rows or an error of the execution.
+     */
     public fun update(values: Iterable<NamedSqlParameter>): JDBCResult<Int>
 
     public interface ParametersScope {
@@ -39,6 +93,13 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
     }
 }
 
+/**
+ * Sets the parameters.
+ *
+ * @param setter the block of a code that sets the parameters.
+ * @return an instance of [JdbcNamedPreparedStatement] to which parameters were set or an instance of [JDBCError]
+ * if the configuration fails.
+ */
 public inline fun JdbcNamedPreparedStatement.setParameters(
     setter: ParametersScope.() -> Unit
 ): JDBCResult<JdbcNamedPreparedStatement> {
