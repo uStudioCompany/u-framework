@@ -8,20 +8,19 @@ public interface ResultRow {
     /**
      * Example: the boolean type extractor.
      * <!--- INCLUDE
-     * import io.github.airflux.commons.types.resultk.Success
-     * import io.github.airflux.commons.types.resultk.asSuccess
      * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
      * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
      * import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
      * import java.sql.ResultSet
      * -->
      * ```kotlin
-     * public fun <ErrorT> ResultRow.getBoolean(column: Int): JDBCResult<Boolean?> =
-     *     this.extractWith(column, Types("bool")) { column: Int, rs: ResultSet ->
+     * public fun ResultRow.getBoolean(column: Int): JDBCResult<Boolean?> =
+     *     this.extract(column, Types("bool")) { column: Int, rs: ResultSet ->
      *         val result = rs.getBoolean(column)
-     *         if (rs.wasNull()) Success.asNull else result.asSuccess()
+     *         if (rs.wasNull()) null else result
      *     }
      * ```
+     * <!--- KNIT example-extract-value-of-the-boolean-type-01.kt -->
      */
     public fun <ValueT> extract(index: Int, types: Types, block: DataExtractor<ValueT>): JDBCResult<ValueT?>
 
