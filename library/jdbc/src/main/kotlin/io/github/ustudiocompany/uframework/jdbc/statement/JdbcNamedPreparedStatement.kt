@@ -96,6 +96,25 @@ public interface JdbcNamedPreparedStatement : JdbcStatement {
 /**
  * Sets the parameters.
  *
+ * Example:
+ * <!--- INCLUDE
+ * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+ * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.intSqlParameterSetter
+ * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.stringSqlParameterSetter
+ * import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
+ * import io.github.ustudiocompany.uframework.jdbc.statement.setParameters
+ * -->
+ * ```kotlin
+ * internal data class User(val id: Int, val name: String)
+ *
+ * internal fun JdbcNamedPreparedStatement.initParams(user: User): JDBCResult<JdbcNamedPreparedStatement> =
+ *     setParameters {
+ *         set("id", user.id, intSqlParameterSetter)
+ *         set("name", user.name, stringSqlParameterSetter)
+ *     }
+ * ```
+ * <!--- KNIT example-set-named-parameters-01.kt -->
+ *
  * @param setter the block of a code that sets the parameters.
  * @return an instance of [JdbcNamedPreparedStatement] to which parameters were set or an instance of [JDBCError]
  * if the configuration fails.
