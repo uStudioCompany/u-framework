@@ -11,11 +11,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
 	public static synthetic fun jdbcFail$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection {
-	public abstract fun namedPreparedStatement (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun namedPreparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun preparedStatement (Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection {
+	public abstract fun namedPreparedStatement (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun namedPreparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun preparedStatement (Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError : io/github/ustudiocompany/uframework/failure/Failure {
@@ -93,14 +93,14 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/par
 	public abstract fun setValue (Ljava/sql/PreparedStatement;I)V
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/IndexesParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement$ParametersScope {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;)V
+public final class io/github/ustudiocompany/uframework/jdbc/statement/IndexesParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatement$ParametersScope {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatement;)V
 	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
 	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
 	public fun set (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)V
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement {
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement {
 	public abstract fun clearParameters ()V
 	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -112,11 +112,11 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement$ParametersScope {
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatement$ParametersScope {
 	public abstract fun set (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatementExtensionsKt {
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatementExtensionsKt {
 	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -127,11 +127,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedP
 	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatementKt {
-	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatementKt {
+	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement {
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement {
 	public abstract fun clearParameters ()V
 	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -143,11 +143,11 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement$ParametersScope {
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatement$ParametersScope {
 	public abstract fun set (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)V
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatementExtensionsKt {
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatementExtensionsKt {
 	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -158,36 +158,36 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPrepar
 	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatementKt {
-	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatementKt {
+	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement : java/lang/AutoCloseable {
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement : java/lang/AutoCloseable {
 }
 
-public abstract class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
+public abstract class io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout {
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Default : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Default;
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Default : io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Default;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
+public final class io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Seconds : io/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout {
 	public fun <init> (I)V
 	public final fun component1 ()I
-	public final fun copy (I)Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;IILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;
+	public final fun copy (I)Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Seconds;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Seconds;IILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout$Seconds;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/statement/NamedParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement$ParametersScope {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement;)V
+public final class io/github/ustudiocompany/uframework/jdbc/statement/NamedParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatement$ParametersScope {
+	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCNamedPreparedStatement;)V
 	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
 	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
 	public fun set (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
@@ -220,7 +220,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/StatementR
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/transaction/Transaction : java/lang/AutoCloseable {
 	public abstract fun commit ()Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun getConnection ()Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;
+	public abstract fun getConnection ()Lio/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection;
 	public abstract fun rollback ()Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

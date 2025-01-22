@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
-import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
+import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
 
 /**
  * The type representing a transaction.
@@ -11,7 +11,7 @@ public interface Transaction : AutoCloseable {
     /**
      * The connection associated with this transaction.
      */
-    public val connection: JdbcConnection
+    public val connection: JBDCConnection
 
     /**
      * Commits the transaction.

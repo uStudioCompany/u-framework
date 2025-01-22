@@ -1,25 +1,31 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
+import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
+import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
+import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
-internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
+internal class JBDCNamedPreparedStatementQueryTest : IntegrationTest() {
 
     init {
 
-        "The the `update` function of the JdbcPreparedStatement type" - {
+        "The the `query` function of the JBDCPreparedStatement type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(CREATE_TABLE)
@@ -27,22 +33,20 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
             "when the execution is successful" - {
                 container.truncateTable(TABLE_NAME)
                 container.executeSql(INSERT_SQL)
-                val result = tm.execute(UPDATE_SQL) { statement ->
-                    statement.update(
-                        sqlParam(TITLE_SECOND_ROW_NEW_VALUE),
-                        sqlParam(ID_SECOND_ROW_VALUE)
-                    )
+                val idParamName = "id"
+                val result = tm.executeSql(SELECT_SQL) { statement ->
+                    statement.query(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
+                        .andThen { rows ->
+                            rows.traverse { row ->
+                                row.getString(TITLE_COLUMN_INDEX)
+                            }
+                        }
                 }
 
-                "then result should contain count of updated rows" {
+                "then the result should contain only the selected data" {
                     result.shouldBeSuccess()
-                    result.value shouldBe 1
-                }
-
-                "then the data should be updated" {
-                    container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
-                        getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
-                    }
+                    result.value.size shouldBe 1
+                    result.value shouldContainExactly listOf(TITLE_SECOND_ROW_VALUE)
                 }
             }
 
@@ -51,48 +55,67 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
                 "when the parameter is not specified" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
-                    val result = tm.execute(UPDATE_SQL) { statement ->
-                        statement.update(sqlParam(ID_SECOND_ROW_VALUE))
+                    val result = tm.executeSql(SELECT_SQL) { statement ->
+                        statement.query()
+                            .andThen { rows ->
+                                rows.traverse { row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
+                                }
+                            }
                     }
 
                     "then the result of execution of the statement should contain an incident" {
                         val error = result.shouldBeIncident()
-                        error.description shouldBe "Error while executing the update."
+                        error.description shouldBe "Error while executing the query."
                     }
                 }
 
-                "when parameter out of range" - {
+                "when parameter name is invalid" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
-                    val result = tm.execute(UPDATE_SQL) { statement ->
-                        statement.update(
-                            sqlParam(ID_FIRST_ROW_VALUE),
-                            sqlParam(ID_SECOND_ROW_VALUE),
-                            sqlParam(TITLE_FIRST_ROW_VALUE)
-                        )
+                    val titleParamName = "title"
+                    val result = tm.executeSql(SELECT_SQL) { statement ->
+                        statement.query(ID_FIRST_ROW_VALUE.asSqlParam(titleParamName))
+                            .andThen { rows ->
+                                rows.traverse { row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
+                                }
+                            }
                     }
 
                     "then the result of execution of the statement should contain an incident" {
                         val error = result.shouldBeIncident()
-                        error.description shouldBe "Error while setting parameter by index: '3'."
+                        error.description shouldBe "Undefined parameter with name: '$titleParamName'."
                     }
                 }
 
-                "when data was returned when none was expected " - {
+                "when query does not contain data" - {
                     container.truncateTable(TABLE_NAME)
                     container.executeSql(INSERT_SQL)
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.update(sqlParam(ID_SECOND_ROW_VALUE))
+                    val titleParamName = "title"
+                    val idParamName = "id"
+                    val result = tm.executeSql(UPDATE_SQL) { statement ->
+                        statement.query(
+                            TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName),
+                            ID_SECOND_ROW_VALUE.asSqlParam(idParamName)
+                        ).andThen { rows ->
+                            rows.traverse { row ->
+                                row.getString(TITLE_COLUMN_INDEX)
+                            }
+                        }
                     }
 
                     "then the result of execution of the statement should contain an incident" {
                         val error = result.shouldBeIncident()
-                        error.description shouldBe "Error while executing the update."
+                        error.description shouldBe "Error while executing the query."
                     }
                 }
             }
         }
     }
+
+    private fun ResultRow.getString(column: Int) =
+        extract(column, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
     private companion object {
         private const val TABLE_NAME = "test_table"
@@ -100,12 +123,19 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
         private const val ID_COLUMN_NAME = "id"
         private const val TITLE_COLUMN_NAME = "title"
 
+        private const val ID_PARAM_NAME = ":id"
+        private const val TITLE_PARAM_NAME = ":title"
+
         private const val ID_FIRST_ROW_VALUE = "f-r-id"
         private const val ID_SECOND_ROW_VALUE = "s-r-id"
 
         private const val TITLE_FIRST_ROW_VALUE = "f-r-title"
         private const val TITLE_SECOND_ROW_VALUE = "s-r-title"
         private const val TITLE_SECOND_ROW_NEW_VALUE = "s-r-title-new"
+
+        private const val TITLE_COLUMN_INDEX = 2
+
+        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
 
         @JvmStatic
         @Language("Postgresql")
@@ -132,29 +162,23 @@ internal class JdbcPreparedStatementUpdateTest : IntegrationTest() {
             |   SELECT $ID_COLUMN_NAME,
             |          $TITLE_COLUMN_NAME
             |     FROM $TABLE_NAME
-            |    WHERE $ID_COLUMN_NAME = ?
+            |    WHERE $ID_COLUMN_NAME = $ID_PARAM_NAME
         """.trimMargin()
 
         @JvmStatic
         @Language("Postgresql")
         private val UPDATE_SQL = """
             | UPDATE $TABLE_NAME
-            |    SET $TITLE_COLUMN_NAME = ?
-            |  WHERE $ID_COLUMN_NAME = ?
+            |    SET $TITLE_COLUMN_NAME = $TITLE_PARAM_NAME
+            |  WHERE $ID_COLUMN_NAME = $ID_PARAM_NAME
         """.trimMargin()
 
-        private fun selectUpdated(id: String) = """
-            | SELECT $TITLE_COLUMN_NAME
-            |   FROM $TABLE_NAME
-            | WHERE $ID_COLUMN_NAME = '$id'
-        """.trimMargin()
-
-        private fun <ValueT> TransactionManager.execute(
+        private fun <ValueT> TransactionManager.executeSql(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> JDBCResult<ValueT>
+            block: (statement: JBDCNamedPreparedStatement) -> JDBCResult<ValueT>
         ): TransactionResult<ValueT, Nothing> =
             useTransaction { connection ->
-                connection.preparedStatement(sql)
+                connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->
                         block(statement).liftToTransactionIncident()
                     }

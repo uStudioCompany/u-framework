@@ -9,36 +9,36 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.setParameter(
+public fun JDBCResult<JBDCNamedPreparedStatement>.setParameter(
     param: NamedSqlParameter
-): JDBCResult<JdbcNamedPreparedStatement> =
+): JDBCResult<JBDCNamedPreparedStatement> =
     apply { setParameter(param) }
 
-public fun <ValueT> JDBCResult<JdbcNamedPreparedStatement>.setParameter(
+public fun <ValueT> JDBCResult<JBDCNamedPreparedStatement>.setParameter(
     name: String,
     value: ValueT,
     setter: SqlParameterSetter<ValueT>
-): JDBCResult<JdbcNamedPreparedStatement> =
+): JDBCResult<JBDCNamedPreparedStatement> =
     apply { setParameter(name, value, setter) }
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
+public fun JDBCResult<JBDCNamedPreparedStatement>.execute(
     vararg values: NamedSqlParameter
 ): JDBCResult<StatementResult> =
     this.execute(values.asIterable())
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.execute(
+public fun JDBCResult<JBDCNamedPreparedStatement>.execute(
     values: Iterable<NamedSqlParameter>
 ): JDBCResult<StatementResult> =
     andThen { it.execute(values) }
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> =
+public fun JDBCResult<JBDCNamedPreparedStatement>.query(vararg values: NamedSqlParameter): JDBCResult<ResultRows> =
     this.query(values.asIterable())
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> =
+public fun JDBCResult<JBDCNamedPreparedStatement>.query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> =
     andThen { it.query(values) }
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.update(vararg values: NamedSqlParameter): JDBCResult<Int> =
+public fun JDBCResult<JBDCNamedPreparedStatement>.update(vararg values: NamedSqlParameter): JDBCResult<Int> =
     this.update(values.asIterable())
 
-public fun JDBCResult<JdbcNamedPreparedStatement>.update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> =
+public fun JDBCResult<JBDCNamedPreparedStatement>.update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> =
     andThen { it.update(values) }

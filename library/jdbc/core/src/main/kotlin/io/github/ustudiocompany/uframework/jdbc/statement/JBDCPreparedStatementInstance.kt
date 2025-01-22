@@ -10,9 +10,9 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import java.sql.PreparedStatement
 
-internal class JdbcPreparedStatementInstance(
+internal class JBDCPreparedStatementInstance(
     private val statement: PreparedStatement
-) : JdbcPreparedStatement {
+) : JBDCPreparedStatement {
 
     override fun clearParameters() {
         statement.clearParameters()

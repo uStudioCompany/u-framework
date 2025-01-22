@@ -5,22 +5,22 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.connection.JdbcConnection
+import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
-import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatement
-import io.github.ustudiocompany.uframework.jdbc.statement.JdbcNamedPreparedStatementInstance
-import io.github.ustudiocompany.uframework.jdbc.statement.JdbcPreparedStatement
-import io.github.ustudiocompany.uframework.jdbc.statement.JdbcPreparedStatementInstance
-import io.github.ustudiocompany.uframework.jdbc.statement.JdbcStatement
+import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement
+import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatementInstance
+import io.github.ustudiocompany.uframework.jdbc.statement.JBDCPreparedStatement
+import io.github.ustudiocompany.uframework.jdbc.statement.JBDCPreparedStatementInstance
+import io.github.ustudiocompany.uframework.jdbc.statement.JBDCStatement
 import java.sql.Connection
 import java.sql.PreparedStatement
 
 internal class TransactionInstance(
     private val unwrappedConnection: Connection,
-) : Transaction, JdbcConnection {
+) : Transaction, JBDCConnection {
 
-    override val connection: JdbcConnection
+    override val connection: JBDCConnection
         get() = this
 
     override fun commit(): JDBCFail = try {
@@ -42,32 +42,33 @@ internal class TransactionInstance(
             if (!unwrappedConnection.isClosed)
                 unwrappedConnection.close()
         } catch (_: Exception) {
+            // ignore
         }
     }
 
     override fun preparedStatement(
         sql: String,
-        timeout: JdbcStatement.Timeout
-    ): JDBCResult<JdbcPreparedStatement> =
+        timeout: JBDCStatement.Timeout
+    ): JDBCResult<JBDCPreparedStatement> =
         prepareStatement(sql, timeout)
-            .map { statement -> JdbcPreparedStatementInstance(statement = statement) }
+            .map { statement -> JBDCPreparedStatementInstance(statement = statement) }
 
     override fun namedPreparedStatement(
         sql: ParametrizedSql,
-        timeout: JdbcStatement.Timeout
-    ): JDBCResult<JdbcNamedPreparedStatement> =
+        timeout: JBDCStatement.Timeout
+    ): JDBCResult<JBDCNamedPreparedStatement> =
         prepareStatement(sql.value, timeout)
             .map { statement ->
-                JdbcNamedPreparedStatementInstance(parameters = sql.parameters, statement = statement)
+                JBDCNamedPreparedStatementInstance(parameters = sql.parameters, statement = statement)
             }
 
     private fun prepareStatement(
         sql: String,
-        timeout: JdbcStatement.Timeout
+        timeout: JBDCStatement.Timeout
     ): JDBCResult<PreparedStatement> = try {
         unwrappedConnection.prepareStatement(sql)
             .apply {
-                if (timeout is JdbcStatement.Timeout.Seconds) queryTimeout = timeout.value
+                if (timeout is JBDCStatement.Timeout.Seconds) queryTimeout = timeout.value
             }
             .asSuccess()
     } catch (expected: Exception) {

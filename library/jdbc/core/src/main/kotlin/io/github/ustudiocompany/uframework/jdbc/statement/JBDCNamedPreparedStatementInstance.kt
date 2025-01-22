@@ -11,10 +11,10 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import java.sql.PreparedStatement
 
-internal class JdbcNamedPreparedStatementInstance(
+internal class JBDCNamedPreparedStatementInstance(
     private val parameters: Map<String, Int>,
     private val statement: PreparedStatement
-) : JdbcNamedPreparedStatement {
+) : JBDCNamedPreparedStatement {
 
     override fun clearParameters() {
         statement.clearParameters()

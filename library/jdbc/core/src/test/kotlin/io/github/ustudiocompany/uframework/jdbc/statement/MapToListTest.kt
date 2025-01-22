@@ -117,7 +117,7 @@ internal class MapToListTest : IntegrationTest() {
 
         private fun <ValueT, ErrorT> TransactionManager.execute(
             sql: String,
-            block: (statement: JdbcPreparedStatement) -> TransactionResult<ValueT, ErrorT>
+            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT>
         ): TransactionResult<ValueT, ErrorT> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
