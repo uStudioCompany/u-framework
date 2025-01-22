@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":jdbc-library"))
+    implementation(project(":jdbc-core-library"))
     implementation(libs.airflux.commons.types) {
         isChanging = true
     }

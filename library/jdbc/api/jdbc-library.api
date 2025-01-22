@@ -8,43 +8,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 	public static final fun useConnection (Ljavax/sql/DataSource;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensionsKt {
-	public static final fun flatMapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun liftToTransactionError (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun liftToTransactionIncident (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun mapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun use (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
-	public static final fun jdbcFail (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun jdbcFail$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/RetryKt {
 	public static final fun isRecoverableError (Ljava/lang/Object;)Z
 	public static final fun retry (Lio/github/ustudiocompany/uframework/retry/RetryScope;Lkotlin/jvm/functions/Function0;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection {
-	public abstract fun namedPreparedStatement (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun namedPreparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun preparedStatement (Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun preparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;Ljava/lang/String;Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError {
-	public fun <init> (Ljava/lang/String;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/Throwable;
-	public final fun copy (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDescription ()Ljava/lang/String;
-	public final fun getException ()Ljava/lang/Throwable;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -136,53 +102,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExcepti
 	public static final fun isUndefinedColumn (Ljava/sql/SQLException;)Z
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRow {
-	public abstract fun extract-hbBov_U (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types {
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types;
-	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
-	public static fun constructor-impl ([Ljava/lang/String;)Ljava/util/List;
-	public static final fun contains-impl (Ljava/util/List;Ljava/lang/String;)Z
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
-	public fun hashCode ()I
-	public static fun hashCode-impl (Ljava/util/List;)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Ljava/util/List;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowExtensionsKt {
-	public static final fun ensureColumnValueNotNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperKt {
-	public static final fun resultRowMapper (Lkotlin/jvm/functions/Function3;)Lkotlin/jvm/functions/Function2;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScope {
-	public abstract fun bind (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
-	public fun component1 (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScopeInstance : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScope {
-	public fun <init> ()V
-	public fun bind (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
-	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
-	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowsMappingKt {
-	public static final fun mapToList (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun mapToObject (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/Row {
 	public abstract fun extract-ljREZMg (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun extract-ljREZMg (Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -211,24 +130,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/Boolea
 	public static final fun getBoolean (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BooleanExtractorKt {
-	public static final fun getBoolean (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getBooleanOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntColumnExtractorKt {
 	public static final fun getInt (Lio/github/ustudiocompany/uframework/jdbc/row/Row;I)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun getInt (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntExtractorKt {
-	public static final fun getInt (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getIntOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JSONBExtractorKt {
-	public static final fun getJSONB (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getJSONBOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonbColumnExtractorKt {
@@ -241,19 +145,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongCo
 	public static final fun getLong (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongExtractorKt {
-	public static final fun getLong (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getLongOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringColumnExtractorKt {
 	public static final fun getString (Lio/github/ustudiocompany/uframework/jdbc/row/Row;I)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun getString (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringExtractorKt {
-	public static final fun getString (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getStringOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampColumnExtractorKt {
@@ -261,19 +155,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/Timest
 	public static final fun getTimestamp (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampExtractorKt {
-	public static final fun getTimestamp (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getTimestampOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDColumnExtractorKt {
 	public static final fun getUUID (Lio/github/ustudiocompany/uframework/jdbc/row/Row;I)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun getUUID (Lio/github/ustudiocompany/uframework/jdbc/row/Row;Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDExtractorKt {
-	public static final fun getUUID (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun getUUIDOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {
@@ -403,175 +287,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/param/UUIDSqlPar
 	public static final fun sqlParam (Ljava/lang/String;Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/param/SqlParam;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/BooleanSqlParameterKt {
-	public static final fun asSqlParam (Ljava/lang/Boolean;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/lang/Boolean;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getBooleanSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/Boolean;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Boolean;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/IntSqlParameterKt {
-	public static final fun asSqlParam (Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/lang/Integer;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getIntSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Integer;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/JsonbSqlParameterKt {
-	public static final fun asJSONBSqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asJSONBSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun getJsonbSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun jsonbSqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun jsonbSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/LongSqlParameterKt {
-	public static final fun asSqlParam (Ljava/lang/Long;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/lang/Long;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getLongSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/Long;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/Long;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter : io/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter {
-	public abstract fun getName ()Ljava/lang/String;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter {
-	public abstract fun setValue (Ljava/sql/PreparedStatement;I)V
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/StringSqlParameterKt {
-	public static final fun asSqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getStringSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/TimestampSqlParameterKt {
-	public static final fun asSqlParam (Ljava/sql/Timestamp;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/sql/Timestamp;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getTimestampSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/sql/Timestamp;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun sqlParam (Ljava/sql/Timestamp;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/UUIDSqlParameter : io/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter {
-	public fun <init> (Ljava/util/UUID;)V
-	public fun setValue (Ljava/sql/PreparedStatement;I)V
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/UUIDSqlParameterKt {
-	public static final fun asSqlParam (Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun asSqlParam (Ljava/util/UUID;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getUuidSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
-	public static final fun sqlParam (Ljava/lang/String;Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun sqlParam (Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/IndexesParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement$ParametersScope {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;)V
-	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
-	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
-	public fun set (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement {
-	public abstract fun clearParameters ()V
-	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun query (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun query ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun update (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement$ParametersScope {
-	public abstract fun set (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatementExtensionsKt {
-	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun setParameter (Lio/github/airflux/commons/types/resultk/ResultK;Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun setParameter (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatementKt {
-	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement {
-	public abstract fun clearParameters ()V
-	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun query (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun query ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (ILio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun update (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement$ParametersScope {
-	public abstract fun set (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatementExtensionsKt {
-	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun execute (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun query (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun setParameter (Lio/github/airflux/commons/types/resultk/ResultK;ILio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun setParameter (Lio/github/airflux/commons/types/resultk/ResultK;ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun update (Lio/github/airflux/commons/types/resultk/ResultK;[Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatementKt {
-	public static final fun setParameters (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcPreparedStatement;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement : java/lang/AutoCloseable {
-}
-
-public abstract class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Default : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Default;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds : io/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout {
-	public fun <init> (I)V
-	public final fun component1 ()I
-	public final fun copy (I)Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;IILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcStatement$Timeout$Seconds;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/NamedParametersScope : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement$ParametersScope {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/statement/JdbcNamedPreparedStatement;)V
-	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
-	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
-	public fun set (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)V
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/PreparedInsertStatement {
 	public abstract fun clearParameters ()V
 	public abstract fun execute (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -603,69 +318,5 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 
 public final class io/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatementKt {
 	public static final fun createPreparedUpdateStatement (Ljava/sql/Connection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;)Lio/github/ustudiocompany/uframework/jdbc/statement/PreparedUpdateStatement;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/statement/StatementResult {
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Count : io/github/ustudiocompany/uframework/jdbc/statement/StatementResult {
-	public fun <init> (I)V
-	public final fun component1 ()I
-	public final fun copy (I)Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Count;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Count;IILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Count;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getGet ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Rows : io/github/ustudiocompany/uframework/jdbc/statement/StatementResult {
-	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;)V
-	public final fun component1 ()Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;
-	public final fun copy (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;)Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Rows;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Rows;Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/jdbc/statement/StatementResult$Rows;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getGet ()Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/transaction/Transaction : java/lang/AutoCloseable {
-	public abstract fun commit ()Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun getConnection ()Lio/github/ustudiocompany/uframework/jdbc/connection/JdbcConnection;
-	public abstract fun rollback ()Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation : java/lang/Enum {
-	public static final field DEFAULT Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static final field READ_COMMITTED Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static final field READ_UNCOMMITTED Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static final field REPEATABLE_READ Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static final field SERIALIZABLE Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public final fun getGet ()I
-	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-	public static fun values ()[Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager {
-	public abstract fun startTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Z)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun startTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;ZILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerInstanceKt {
-	public static final fun transactionManager (Ljavax/sql/DataSource;)Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerKt {
-	public static final fun useTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun useTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionResultKt {
-	public static final fun transactionError (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun transactionIncident (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun transactionIncident (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun transactionIncident$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
