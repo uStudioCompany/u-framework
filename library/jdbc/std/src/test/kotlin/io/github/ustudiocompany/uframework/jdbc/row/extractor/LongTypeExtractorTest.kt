@@ -1,26 +1,25 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUIDOrNull
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.BIGINT_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import java.util.*
+import kotlin.toString
 
-internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
+internal class LongTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getUUIDOrNull` of the `ResultRow` type" - {
+        "The extension function `getLong` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -34,19 +33,38 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            VALID_VALUE,
+                            MAX_VALUE,
+                            ZERO_VALUE,
+                            MIN_VALUE
+                        )
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toString())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
+                        val result = tm.executeQuery(selectSql) {
+                            getLong(metadata.columnIndex)
+                        }
+
+                        result shouldBeSuccess value
+                    }
+
+                    withData(
+                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        listOf(
                             NULL_VALUE
                         )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        container.insertData(ROW_ID, metadata.columnName, value.toString())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getUUIDOrNull(metadata.columnIndex)
+                            getLong(metadata.columnIndex)
                         }
 
-                        result shouldBeSuccess value
+                        val error = result.shouldBeIncident()
+                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
                     }
                 }
 
@@ -55,10 +73,10 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-
                     container.executeSql(makeInsertEmptyRowSql())
+
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getUUIDOrNull(metadata.columnIndex)
+                        getLong(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -74,7 +92,7 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getUUIDOrNull(INVALID_COLUMN_INDEX)
+                    getLong(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -83,12 +101,12 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun UUID.toQuotes(): String = "'$this'"
-
     companion object {
         private const val ROW_ID = 1
-        private val VALID_VALUE: UUID = java.util.UUID.randomUUID()
-        private val NULL_VALUE: UUID? = null
-        private val EXPECTED_TYPE = UUID_TYPE
+        private const val MAX_VALUE = Long.MAX_VALUE
+        private const val MIN_VALUE = Long.MIN_VALUE
+        private const val ZERO_VALUE = 0L
+        private val NULL_VALUE: Long? = null
+        private val EXPECTED_TYPE = BIGINT_TYPE
     }
 }

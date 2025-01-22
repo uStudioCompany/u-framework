@@ -1,25 +1,23 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJSONB
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
+internal class JsonbTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getJSON` of the `ResultRow` type" - {
+        "The extension function `getJSONBOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -31,26 +29,10 @@ internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
                 ) { metadata ->
 
                     withData(
-                        nameFn = { "when column value is '$it' then the function should return this value" },
-                        ts = listOf(
-                            JSON_VALUE,
-                        ),
-                    ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
-
-                        val result = tm.executeQuery(selectSql) {
-                            getJSONB(metadata.columnIndex)
-                        }
-
-                        result shouldBeSuccess value
-                    }
-
-                    withData(
-                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        nameFn = { "when column value is '$it' then function should return it" },
                         ts = listOf(
                             JSON_NULL_VALUE,
+                            JSON_VALUE,
                         ),
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -58,11 +40,10 @@ internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getJSONB(metadata.columnIndex)
+                            getJSONBOrNull(metadata.columnIndex)
                         }
 
-                        val error = result.shouldBeIncident()
-                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
+                        result shouldBeSuccess value
                     }
                 }
 
@@ -74,7 +55,7 @@ internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getJSONB(metadata.columnIndex)
+                        getJSONBOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -90,7 +71,7 @@ internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getJSONB(INVALID_COLUMN_INDEX)
+                    getJSONBOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -103,8 +84,8 @@ internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
 
     companion object {
         private const val ROW_ID = 1
-        private const val JSON_VALUE: String = """{"number": 1, "string": "string value", "boolean": true}"""
-        private val JSON_NULL_VALUE: String? = null
-        private val EXPECTED_TYPE = JSONB_TYPE
+        private const val JSON_VALUE = """{"number": 1, "string": "string value", "boolean": true}"""
+        private val JSON_NULL_VALUE = null
+        private val EXPECTED_TYPE = MultiColumnTable.JSONB_TYPE
     }
 }

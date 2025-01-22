@@ -1,26 +1,24 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.BOOLEAN_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import java.sql.Timestamp
 
-internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
+internal class BooleanTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getTimestamp` of the `ResultRow` type" - {
+        "The extension function `getBooleanOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -34,37 +32,20 @@ internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            MAX_VALUE,
-                            MIN_VALUE
+                            TRUE_VALUE,
+                            FALSE_VALUE,
+                            NULL_VALUE,
                         )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+                        container.insertData(ROW_ID, metadata.columnName, value?.toString())
 
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
                         val result = tm.executeQuery(selectSql) {
-                            getTimestamp(metadata.columnIndex)
+                            getBooleanOrNull(metadata.columnIndex)
                         }
 
-                        result shouldBeSuccess value
-                    }
-
-                    withData(
-                        nameFn = { "when column value is '$it' then the function should return an incident" },
-                        listOf(
-                            NULL_VALUE
-                        )
-                    ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
-
-                        val result = tm.executeQuery(selectSql) {
-                            getTimestamp(metadata.columnIndex)
-                        }
-
-                        val error = result.shouldBeIncident()
-                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
+                        result.shouldBeSuccess(value)
                     }
                 }
 
@@ -76,7 +57,7 @@ internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getTimestamp(metadata.columnIndex)
+                        getBooleanOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -92,7 +73,7 @@ internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getTimestamp(INVALID_COLUMN_INDEX)
+                    getBooleanOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -101,13 +82,11 @@ internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun Timestamp.toQuotes(): String = "'$this'"
-
     companion object {
         private const val ROW_ID = 1
-        private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
-        private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
-        private val NULL_VALUE: Timestamp? = null
-        private val EXPECTED_TYPE = TIMESTAMP_TYPE
+        private const val TRUE_VALUE = true
+        private const val FALSE_VALUE = false
+        private val NULL_VALUE: Boolean? = null
+        private val EXPECTED_TYPE = BOOLEAN_TYPE
     }
 }

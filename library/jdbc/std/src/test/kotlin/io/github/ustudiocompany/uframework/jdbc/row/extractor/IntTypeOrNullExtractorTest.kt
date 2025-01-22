@@ -1,63 +1,64 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJSONBOrNull
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.INTEGER_TYPE
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class JsonbTypeOrNullExtractorTest : AbstractExtractorTest() {
+internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getJSONBOrNull` of the `ResultRow` type" - {
+        "The extension function `getIntOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
-                    ts = columnTypes(EXPECTED_TYPE),
                     nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '$it' then function should return it" },
-                        ts = listOf(
-                            JSON_NULL_VALUE,
-                            JSON_VALUE,
-                        ),
+                        nameFn = { "when column value is '$it' then the function should return this value" },
+                        listOf(
+                            MAX_VALUE,
+                            ZERO_VALUE,
+                            MIN_VALUE,
+                            NULL_VALUE
+                        )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        container.insertData(ROW_ID, metadata.columnName, value.toString())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
-
                         val result = tm.executeQuery(selectSql) {
-                            getJSONBOrNull(metadata.columnIndex)
+                            getIntOrNull(metadata.columnIndex)
                         }
 
-                        result shouldBeSuccess value
+                        result.shouldBeSuccess(value)
                     }
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then function should return an incident}" },
-                    ts = getColumnsExclude(EXPECTED_TYPE),
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
+                    getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getJSONBOrNull(metadata.columnIndex)
+                        getIntOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -68,12 +69,12 @@ internal class JsonbTypeOrNullExtractorTest : AbstractExtractorTest() {
                 }
             }
 
-            "when column index is invalid then function should return an incident" {
+            "when column index is invalid then the function should return an incident" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getJSONBOrNull(INVALID_COLUMN_INDEX)
+                    getIntOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -82,12 +83,12 @@ internal class JsonbTypeOrNullExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun String.toQuotes(): String = "'$this'"
-
     companion object {
         private const val ROW_ID = 1
-        private const val JSON_VALUE = """{"number": 1, "string": "string value", "boolean": true}"""
-        private val JSON_NULL_VALUE = null
-        private val EXPECTED_TYPE = JSONB_TYPE
+        private const val MAX_VALUE = Int.MAX_VALUE
+        private const val MIN_VALUE = Int.MIN_VALUE
+        private const val ZERO_VALUE = 0
+        private val NULL_VALUE: Int? = null
+        private val EXPECTED_TYPE = INTEGER_TYPE
     }
 }

@@ -1,25 +1,24 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getIntOrNull
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
+import java.sql.Timestamp
 
-internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
+internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getIntOrNull` of the `ResultRow` type" - {
+        "The extension function `getTimestamp` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -29,25 +28,41 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
                             MAX_VALUE,
-                            ZERO_VALUE,
-                            MIN_VALUE,
+                            MIN_VALUE
+                        )
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
+                        val result = tm.executeQuery(selectSql) {
+                            getTimestamp(metadata.columnIndex)
+                        }
+
+                        result shouldBeSuccess value
+                    }
+
+                    withData(
+                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        listOf(
                             NULL_VALUE
                         )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toString())
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
                         val result = tm.executeQuery(selectSql) {
-                            getIntOrNull(metadata.columnIndex)
+                            getTimestamp(metadata.columnIndex)
                         }
 
-                        result.shouldBeSuccess(value)
+                        val error = result.shouldBeIncident()
+                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
                     }
                 }
 
@@ -59,7 +74,7 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getIntOrNull(metadata.columnIndex)
+                        getTimestamp(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -75,7 +90,7 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getIntOrNull(INVALID_COLUMN_INDEX)
+                    getTimestamp(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -84,12 +99,13 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
         }
     }
 
+    private fun Timestamp.toQuotes(): String = "'$this'"
+
     companion object {
         private const val ROW_ID = 1
-        private const val MAX_VALUE = Int.MAX_VALUE
-        private const val MIN_VALUE = Int.MIN_VALUE
-        private const val ZERO_VALUE = 0
-        private val NULL_VALUE: Int? = null
-        private val EXPECTED_TYPE = INTEGER_TYPE
+        private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
+        private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
+        private val NULL_VALUE: Timestamp? = null
+        private val EXPECTED_TYPE = MultiColumnTable.TIMESTAMP_TYPE
     }
 }

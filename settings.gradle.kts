@@ -82,6 +82,9 @@ project(":jdbc-library").projectDir = file("./library/jdbc")
 include(":jdbc-core-library")
 project(":jdbc-core-library").projectDir = file("./library/jdbc/core")
 
+include(":jdbc-std-library")
+project(":jdbc-std-library").projectDir = file("./library/jdbc/std")
+
 include(":jdbc-kotest-matchers-library")
 project(":jdbc-kotest-matchers-library").projectDir = file("./library/jdbc/kotest")
 

@@ -10,14 +10,12 @@ dependencies {
         isChanging = true
     }
 
-    /* Failure libs */
-    implementation(project(":failure-library"))
+    implementation(project(":jdbc-core-library"))
 
     /* Database */
     api(libs.bundles.database)
 
     /* Tests */
-    testImplementation(project(":jdbc-std-library"))
     testImplementation(project(":jdbc-test-library"))
     testImplementation(project(":jdbc-kotest-matchers-library"))
     testImplementation(libs.bundles.logging)

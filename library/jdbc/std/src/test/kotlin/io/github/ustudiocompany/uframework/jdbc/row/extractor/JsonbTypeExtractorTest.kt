@@ -1,48 +1,45 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUID
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import java.util.*
 
-internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
+internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getUUID` of the `ResultRow` type" - {
+        "The extension function `getJSON` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
+                    ts = columnTypes(EXPECTED_TYPE),
                     nameFn = { "when column type is '${it.displayType}'" },
-                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
 
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
-                        listOf(
-                            VALID_VALUE
-                        )
+                        ts = listOf(
+                            JSON_VALUE,
+                        ),
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                         container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getUUID(metadata.columnIndex)
+                            getJSONB(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
@@ -50,16 +47,16 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
 
                     withData(
                         nameFn = { "when column value is '$it' then the function should return an incident" },
-                        listOf(
-                            NULL_VALUE
-                        )
+                        ts = listOf(
+                            JSON_NULL_VALUE,
+                        ),
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                         container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getUUID(metadata.columnIndex)
+                            getJSONB(metadata.columnIndex)
                         }
 
                         val error = result.shouldBeIncident()
@@ -68,14 +65,14 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
-                    getColumnsExclude(EXPECTED_TYPE)
+                    nameFn = { "when column type is '${it.displayType}' then function should return an incident}" },
+                    ts = getColumnsExclude(EXPECTED_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-
                     container.executeSql(makeInsertEmptyRowSql())
+
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getUUID(metadata.columnIndex)
+                        getJSONB(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -86,12 +83,12 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
                 }
             }
 
-            "when column index is invalid then the function should return an incident" {
+            "when column index is invalid then function should return an incident" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getUUID(INVALID_COLUMN_INDEX)
+                    getJSONB(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -100,12 +97,12 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun UUID.toQuotes(): String = "'$this'"
+    private fun String.toQuotes(): String = "'$this'"
 
     companion object {
         private const val ROW_ID = 1
-        private val VALID_VALUE: UUID = UUID.randomUUID()
-        private val NULL_VALUE: UUID? = null
-        private val EXPECTED_TYPE = UUID_TYPE
+        private const val JSON_VALUE: String = """{"number": 1, "string": "string value", "boolean": true}"""
+        private val JSON_NULL_VALUE: String? = null
+        private val EXPECTED_TYPE = MultiColumnTable.JSONB_TYPE
     }
 }

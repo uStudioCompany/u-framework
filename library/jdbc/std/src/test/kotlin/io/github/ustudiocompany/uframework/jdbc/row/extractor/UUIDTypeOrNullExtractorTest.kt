@@ -1,25 +1,24 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT_TYPE
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getLongOrNull
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
+import java.util.*
 
-internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
+internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getLongOrNull` of the `ResultRow` type" - {
+        "The extension function `getUUIDOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -33,18 +32,16 @@ internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            MAX_VALUE,
-                            ZERO_VALUE,
-                            MIN_VALUE,
+                            VALID_VALUE,
                             NULL_VALUE
                         )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toString())
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getLongOrNull(metadata.columnIndex)
+                            getUUIDOrNull(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
@@ -56,10 +53,10 @@ internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                    container.executeSql(makeInsertEmptyRowSql())
 
+                    container.executeSql(makeInsertEmptyRowSql())
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getLongOrNull(metadata.columnIndex)
+                        getUUIDOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -75,7 +72,7 @@ internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getLongOrNull(INVALID_COLUMN_INDEX)
+                    getUUIDOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -84,12 +81,12 @@ internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
         }
     }
 
+    private fun UUID.toQuotes(): String = "'$this'"
+
     companion object {
         private const val ROW_ID = 1
-        private const val MAX_VALUE = Long.MAX_VALUE
-        private const val MIN_VALUE = Long.MIN_VALUE
-        private const val ZERO_VALUE = 0L
-        private val NULL_VALUE: Long? = null
-        private val EXPECTED_TYPE = BIGINT_TYPE
+        private val VALID_VALUE: UUID = UUID.randomUUID()
+        private val NULL_VALUE: UUID? = null
+        private val EXPECTED_TYPE = MultiColumnTable.UUID_TYPE
     }
 }

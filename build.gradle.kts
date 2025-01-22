@@ -53,6 +53,7 @@ dependencies {
     kover(project(":retry-library"))
     kover(project(":jdbc-library"))
     kover(project(":jdbc-core-library"))
+    kover(project(":jdbc-std-library"))
     kover(project(":jdbc-test-library"))
     kover(project(":event-sourcing-modeling-library"))
     kover(project(":event-sourcing-store-library"))

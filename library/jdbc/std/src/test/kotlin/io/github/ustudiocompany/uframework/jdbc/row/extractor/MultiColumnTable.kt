@@ -1,6 +1,6 @@
-package io.github.ustudiocompany.uframework.jdbc.row.extract
+package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.entries
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.entries
 
 internal fun columnTypes(vararg types: MultiColumnTable) = types.toList()
 
