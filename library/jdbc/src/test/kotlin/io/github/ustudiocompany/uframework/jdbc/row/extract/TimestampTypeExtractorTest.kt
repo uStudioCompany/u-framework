@@ -8,56 +8,75 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJSONB
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
+import java.sql.Timestamp
 
-internal class JsonbExtractorTest : AbstractExtractorTest() {
+internal class TimestampTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getJsonb` of the `ResultRow` type" - {
+        "The extension function `getTimestamp` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
-                    ts = columnTypes(EXPECTED_TYPE),
                     nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then function should return it" },
-                        ts = listOf(
-                            1 to JSON_NULL_VALUE,
-                            2 to JSON_VALUE,
-                        ),
-                    ) { (rowId, value) ->
-                        container.insertData(rowId, metadata.columnName, value?.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                        nameFn = { "when column value is '$it' then the function should return this value" },
+                        listOf(
+                            MAX_VALUE,
+                            MIN_VALUE
+                        )
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getJSONB(metadata.columnIndex)
+                            getTimestamp(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
                     }
+
+                    withData(
+                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        listOf(
+                            NULL_VALUE
+                        )
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
+                        val result = tm.executeQuery(selectSql) {
+                            getTimestamp(metadata.columnIndex)
+                        }
+
+                        val error = result.shouldBeIncident()
+                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
+                    }
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then function should return an incident}" },
-                    ts = getColumnsExclude(EXPECTED_TYPE),
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
+                    getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getJSONB(metadata.columnIndex)
+                        getTimestamp(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -68,12 +87,12 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
                 }
             }
 
-            "when column index is invalid then function should return an incident" {
+            "when column index is invalid then the function should return an incident" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getJSONB(INVALID_COLUMN_INDEX)
+                    getTimestamp(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -82,11 +101,13 @@ internal class JsonbExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun String.toQuotes(): String = "'$this'"
+    private fun Timestamp.toQuotes(): String = "'$this'"
 
     companion object {
-        private const val JSON_VALUE = """{"number": 1, "string": "string value", "boolean": true}"""
-        private val JSON_NULL_VALUE = null
-        private val EXPECTED_TYPE = JSONB
+        private const val ROW_ID = 1
+        private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
+        private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
+        private val NULL_VALUE: Timestamp? = null
+        private val EXPECTED_TYPE = TIMESTAMP_TYPE
     }
 }

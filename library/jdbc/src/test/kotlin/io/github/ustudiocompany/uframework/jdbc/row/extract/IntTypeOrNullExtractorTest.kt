@@ -3,23 +3,23 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BOOLEAN_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getBoolean
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getIntOrNull
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
+internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getBoolean` of the `ResultRow` type" - {
+        "The extension function `getIntOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -29,41 +29,25 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
+                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            TRUE_VALUE,
-                            FALSE_VALUE
+                            MAX_VALUE,
+                            ZERO_VALUE,
+                            MIN_VALUE,
+                            NULL_VALUE
                         )
                     ) { value ->
                         container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                         container.insertData(ROW_ID, metadata.columnName, value.toString())
-
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
                         val result = tm.executeQuery(selectSql) {
-                            getBoolean(metadata.columnIndex)
+                            getIntOrNull(metadata.columnIndex)
                         }
 
                         result.shouldBeSuccess(value)
-                    }
-
-                    withData(
-                        nameFn = { "when column value is '$it' then the function should return an incident" },
-                        listOf(
-                            NULL_VALUE,
-                        )
-                    ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value?.toString())
-
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
-                        val result = tm.executeQuery(selectSql) {
-                            getBoolean(metadata.columnIndex)
-                        }
-
-                        val error = result.shouldBeIncident()
-                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
                     }
                 }
 
@@ -75,7 +59,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getBoolean(metadata.columnIndex)
+                        getIntOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -91,7 +75,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getBoolean(INVALID_COLUMN_INDEX)
+                    getIntOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -102,9 +86,10 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
 
     companion object {
         private const val ROW_ID = 1
-        private const val TRUE_VALUE = true
-        private const val FALSE_VALUE = false
-        private val NULL_VALUE: Boolean? = null
-        private val EXPECTED_TYPE = BOOLEAN_TYPE
+        private const val MAX_VALUE = Int.MAX_VALUE
+        private const val MIN_VALUE = Int.MIN_VALUE
+        private const val ZERO_VALUE = 0
+        private val NULL_VALUE: Int? = null
+        private val EXPECTED_TYPE = INTEGER_TYPE
     }
 }

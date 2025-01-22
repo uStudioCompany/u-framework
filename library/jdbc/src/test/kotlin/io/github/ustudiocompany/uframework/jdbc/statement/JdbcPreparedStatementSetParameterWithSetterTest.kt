@@ -1,12 +1,13 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -172,7 +173,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
     }
 
     private fun ResultRow.getString(column: Int) =
-        extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
+        extract(column, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
     private companion object {
         private const val TABLE_NAME = "test_table"
@@ -243,7 +244,7 @@ internal class JdbcPreparedStatementSetParameterWithSetterTest : IntegrationTest
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement ->
-                        block(statement).liftToTransactionResult()
+                        block(statement).liftToTransactionIncident()
                     }
             }
     }

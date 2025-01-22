@@ -8,19 +8,19 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUID
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import java.sql.Timestamp
+import java.util.*
 
-internal class TimestampExtractorTest : AbstractExtractorTest() {
+internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getTimestamp` of the `ResultRow` type" - {
+        "The extension function `getUUID` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -30,24 +30,40 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            1 to MAX_VALUE,
-                            2 to MIN_VALUE,
-                            3 to NULL_VALUE
+                            VALID_VALUE
                         )
-                    ) { (rowId, value) ->
-                        container.insertData(rowId, metadata.columnName, value?.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getTimestamp(metadata.columnIndex)
+                            getUUID(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
+                    }
+
+                    withData(
+                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        listOf(
+                            NULL_VALUE
+                        )
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
+                        val result = tm.executeQuery(selectSql) {
+                            getUUID(metadata.columnIndex)
+                        }
+
+                        val error = result.shouldBeIncident()
+                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
                     }
                 }
 
@@ -56,10 +72,10 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                    container.executeSql(makeInsertEmptyRowSql())
 
+                    container.executeSql(makeInsertEmptyRowSql())
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getTimestamp(metadata.columnIndex)
+                        getUUID(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -75,7 +91,7 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getTimestamp(INVALID_COLUMN_INDEX)
+                    getUUID(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -84,12 +100,12 @@ internal class TimestampExtractorTest : AbstractExtractorTest() {
         }
     }
 
-    private fun Timestamp.toQuotes(): String = "'$this'"
+    private fun UUID.toQuotes(): String = "'$this'"
 
     companion object {
-        private val MAX_VALUE = Timestamp.valueOf("2100-01-01 00:00:00")
-        private val MIN_VALUE = Timestamp.valueOf("1900-01-01 00:00:00")
-        private val NULL_VALUE: Timestamp? = null
-        private val EXPECTED_TYPE = TIMESTAMP
+        private const val ROW_ID = 1
+        private val VALID_VALUE: UUID = UUID.randomUUID()
+        private val NULL_VALUE: UUID? = null
+        private val EXPECTED_TYPE = UUID_TYPE
     }
 }

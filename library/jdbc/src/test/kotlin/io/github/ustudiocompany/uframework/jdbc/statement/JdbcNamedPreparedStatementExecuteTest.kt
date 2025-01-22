@@ -1,12 +1,13 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
@@ -41,7 +42,7 @@ internal class JdbcNamedPreparedStatementExecuteTest : IntegrationTest() {
                             .andThen { result ->
                                 (result as StatementResult.Rows).get.traverse { row ->
                                     row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                        rs.getString(col)
+                                        rs.getString(col).asSuccess()
                                     }
                                 }
                             }
@@ -93,7 +94,7 @@ internal class JdbcNamedPreparedStatementExecuteTest : IntegrationTest() {
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get.traverse { row ->
                                         row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                            rs.getString(col)
+                                            rs.getString(col).asSuccess()
                                         }
                                     }
                                 }
@@ -114,7 +115,7 @@ internal class JdbcNamedPreparedStatementExecuteTest : IntegrationTest() {
                                 .andThen { result ->
                                     (result as StatementResult.Rows).get.traverse { row ->
                                         row.extract(TITLE_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
-                                            rs.getString(col)
+                                            rs.getString(col).asSuccess()
                                         }
                                     }
                                 }
@@ -237,7 +238,7 @@ internal class JdbcNamedPreparedStatementExecuteTest : IntegrationTest() {
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->
-                        block(statement).liftToTransactionResult()
+                        block(statement).liftToTransactionIncident()
                     }
             }
     }

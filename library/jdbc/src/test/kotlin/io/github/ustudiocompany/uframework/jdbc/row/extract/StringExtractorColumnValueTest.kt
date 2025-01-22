@@ -3,15 +3,15 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.CHAR
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.CHAR_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TEXT
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.VARCHAR
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TEXT_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.VARCHAR_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
@@ -51,7 +51,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
 
                 withData(
                     nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
-                    getColumnsExclude(TEXT, VARCHAR, CHAR)
+                    getColumnsExclude(TEXT_TYPE, VARCHAR_TYPE, CHAR_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -101,7 +101,7 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
 
                 withData(
                     nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
-                    getColumnsExclude(TEXT, VARCHAR, CHAR)
+                    getColumnsExclude(TEXT_TYPE, VARCHAR_TYPE, CHAR_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -130,19 +130,19 @@ internal class StringExtractorColumnValueTest : AbstractExtractorColumnValueTest
     }
 
     private val testData = listOf(
-        TEXT to listOf(
+        TEXT_TYPE to listOf(
             TestDataItem(EMPTY_STRING_DESCRIPTION, 1, EMPTY_STRING, EMPTY_STRING),
             TestDataItem(BLANK_STRING_DESCRIPTION, 2, BLANK_STRING, BLANK_STRING),
             TestDataItem(FILL_STRING_DESCRIPTION, 3, FILL_STRING, FILL_STRING),
             TestDataItem(NULL_VALUE_STRING_DESCRIPTION, 4, NULL_VALUE_STRING, NULL_VALUE_STRING)
         ),
-        VARCHAR to listOf(
+        VARCHAR_TYPE to listOf(
             TestDataItem(EMPTY_STRING_DESCRIPTION, 1, EMPTY_STRING, EMPTY_STRING),
             TestDataItem(BLANK_STRING_DESCRIPTION, 2, BLANK_STRING, BLANK_STRING),
             TestDataItem(FILL_STRING_DESCRIPTION, 3, FILL_STRING, FILL_STRING),
             TestDataItem(NULL_VALUE_STRING_DESCRIPTION, 4, NULL_VALUE_STRING, NULL_VALUE_STRING)
         ),
-        CHAR to listOf(
+        CHAR_TYPE to listOf(
             TestDataItem(EMPTY_STRING_DESCRIPTION, 1, EMPTY_STRING, "    "),
             TestDataItem(BLANK_STRING_DESCRIPTION, 2, BLANK_STRING, "    "),
             TestDataItem(FILL_STRING_DESCRIPTION, 3, FILL_STRING, FILL_STRING),

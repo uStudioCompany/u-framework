@@ -3,23 +3,23 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getLong
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getLongOrNull
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class LongExtractorTest : AbstractExtractorTest() {
+internal class LongTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getLong` of the `ResultRow` type" - {
+        "The extension function `getLongOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -29,22 +29,22 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            1 to MAX_VALUE,
-                            2 to ZERO_VALUE,
-                            3 to MIN_VALUE,
-                            4 to NULL_VALUE
+                            MAX_VALUE,
+                            ZERO_VALUE,
+                            MIN_VALUE,
+                            NULL_VALUE
                         )
-                    ) { (rowId, value) ->
-                        container.insertData(rowId, metadata.columnName, value?.toString())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toString())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getLong(metadata.columnIndex)
+                            getLongOrNull(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
@@ -59,7 +59,7 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getLong(metadata.columnIndex)
+                        getLongOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -75,7 +75,7 @@ internal class LongExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getLong(INVALID_COLUMN_INDEX)
+                    getLongOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -85,10 +85,11 @@ internal class LongExtractorTest : AbstractExtractorTest() {
     }
 
     companion object {
+        private const val ROW_ID = 1
         private const val MAX_VALUE = Long.MAX_VALUE
         private const val MIN_VALUE = Long.MIN_VALUE
         private const val ZERO_VALUE = 0L
         private val NULL_VALUE: Long? = null
-        private val EXPECTED_TYPE = BIGINT
+        private val EXPECTED_TYPE = BIGINT_TYPE
     }
 }

@@ -1,8 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -19,12 +17,11 @@ internal class ResultRowsInstance(
         index: Int,
         types: ResultRow.Types,
         block: DataExtractor<ValueT>
-    ): JDBCResult<ValueT?> = try {
+    ): JDBCResult<ValueT> = try {
         val metadata = resultSet.metaData
         metadata.checkIndex(index = index).getOrForward { return it }
         metadata.checkType(index = index, types).getOrForward { return it }
-        val result = block(index, resultSet)
-        result?.asSuccess() ?: ResultK.Success.asNull
+        block(index, resultSet)
     } catch (expected: Exception) {
         jdbcFail(
             description = "Error while extracting data from the result set",

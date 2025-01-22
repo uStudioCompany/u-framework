@@ -10,15 +10,15 @@ internal enum class MultiColumnTable(
     val displayType: String,
     val dataType: String
 ) {
-    BOOLEAN(columnIndex = 1, columnName = "boolean_column", displayType = "BOOLEAN", dataType = "bool"),
-    TEXT(columnIndex = 2, columnName = "text_column", displayType = "TEXT", dataType = "text"),
-    VARCHAR(columnIndex = 3, columnName = "varchar_column", displayType = "VARCHAR(4)", dataType = "varchar"),
-    CHAR(columnIndex = 4, columnName = "char_column", displayType = "CHAR(4)", dataType = "bpchar"),
-    INTEGER(columnIndex = 5, columnName = "integer_column", displayType = "INTEGER", dataType = "int4"),
-    BIGINT(columnIndex = 6, columnName = "bigint_column", displayType = "BIGINT", dataType = "int8"),
-    TIMESTAMP(columnIndex = 7, columnName = "timestamp_column", displayType = "TIMESTAMP", dataType = "timestamp"),
-    UUID(columnIndex = 8, columnName = "uuid_column", displayType = "UUID", dataType = "uuid"),
-    JSONB(columnIndex = 9, columnName = "jsonb_column", displayType = "JSONB", dataType = "jsonb"),
+    BOOLEAN_TYPE(columnIndex = 1, columnName = "boolean_column", displayType = "BOOLEAN", dataType = "bool"),
+    TEXT_TYPE(columnIndex = 2, columnName = "text_column", displayType = "TEXT", dataType = "text"),
+    VARCHAR_TYPE(columnIndex = 3, columnName = "varchar_column", displayType = "VARCHAR(4)", dataType = "varchar"),
+    CHAR_TYPE(columnIndex = 4, columnName = "char_column", displayType = "CHAR(4)", dataType = "bpchar"),
+    INTEGER_TYPE(columnIndex = 5, columnName = "integer_column", displayType = "INTEGER", dataType = "int4"),
+    BIGINT_TYPE(columnIndex = 6, columnName = "bigint_column", displayType = "BIGINT", dataType = "int8"),
+    TIMESTAMP_TYPE(columnIndex = 7, columnName = "timestamp_column", displayType = "TIMESTAMP", dataType = "timestamp"),
+    UUID_TYPE(columnIndex = 8, columnName = "uuid_column", displayType = "UUID", dataType = "uuid"),
+    JSONB_TYPE(columnIndex = 9, columnName = "jsonb_column", displayType = "JSONB", dataType = "jsonb"),
     ;
 
     companion object {

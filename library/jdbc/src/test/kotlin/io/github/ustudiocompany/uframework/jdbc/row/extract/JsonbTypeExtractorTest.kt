@@ -8,57 +8,73 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.INTEGER
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJSONB
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class IntExtractorTest : AbstractExtractorTest() {
+internal class JsonbTypeExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getInt` of the `ResultRow` type" - {
+        "The extension function `getJSON` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
+                    ts = columnTypes(EXPECTED_TYPE),
                     nameFn = { "when column type is '${it.displayType}'" },
-                    columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
-                        listOf(
-                            1 to MAX_VALUE,
-                            2 to ZERO_VALUE,
-                            3 to MIN_VALUE,
-                            4 to NULL_VALUE
-                        )
-                    ) { (rowId, value) ->
-                        container.insertData(rowId, metadata.columnName, value?.toString())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                        nameFn = { "when column value is '$it' then the function should return this value" },
+                        ts = listOf(
+                            JSON_VALUE,
+                        ),
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
                         val result = tm.executeQuery(selectSql) {
-                            getInt(metadata.columnIndex)
+                            getJSONB(metadata.columnIndex)
                         }
 
-                        result.shouldBeSuccess(value)
+                        result shouldBeSuccess value
+                    }
+
+                    withData(
+                        nameFn = { "when column value is '$it' then the function should return an incident" },
+                        ts = listOf(
+                            JSON_NULL_VALUE,
+                        ),
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
+
+                        val result = tm.executeQuery(selectSql) {
+                            getJSONB(metadata.columnIndex)
+                        }
+
+                        val error = result.shouldBeIncident()
+                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
                     }
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
-                    getColumnsExclude(EXPECTED_TYPE)
+                    nameFn = { "when column type is '${it.displayType}' then function should return an incident}" },
+                    ts = getColumnsExclude(EXPECTED_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getInt(metadata.columnIndex)
+                        getJSONB(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -69,12 +85,12 @@ internal class IntExtractorTest : AbstractExtractorTest() {
                 }
             }
 
-            "when column index is invalid then the function should return an incident" {
+            "when column index is invalid then function should return an incident" {
                 container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getInt(INVALID_COLUMN_INDEX)
+                    getJSONB(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -83,11 +99,12 @@ internal class IntExtractorTest : AbstractExtractorTest() {
         }
     }
 
+    private fun String.toQuotes(): String = "'$this'"
+
     companion object {
-        private const val MAX_VALUE = Int.MAX_VALUE
-        private const val MIN_VALUE = Int.MIN_VALUE
-        private const val ZERO_VALUE = 0
-        private val NULL_VALUE: Int? = null
-        private val EXPECTED_TYPE = INTEGER
+        private const val ROW_ID = 1
+        private const val JSON_VALUE: String = """{"number": 1, "string": "string value", "boolean": true}"""
+        private val JSON_NULL_VALUE: String? = null
+        private val EXPECTED_TYPE = JSONB_TYPE
     }
 }

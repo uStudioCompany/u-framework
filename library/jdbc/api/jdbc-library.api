@@ -10,7 +10,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/DataSourceKt {
 
 public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensionsKt {
 	public static final fun flatMapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun liftToTransactionResult (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun liftToTransactionError (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun liftToTransactionIncident (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun mapOrIncident (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun use (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
@@ -154,6 +155,26 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types 
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
+public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowExtensionsKt {
+	public static final fun ensureColumnValueNotNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;ILkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperKt {
+	public static final fun resultRowMapper (Lkotlin/jvm/functions/Function3;)Lkotlin/jvm/functions/Function2;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScope {
+	public abstract fun bind (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
+	public fun component1 (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScopeInstance : io/github/airflux/commons/types/Raise, io/github/ustudiocompany/uframework/jdbc/row/ResultRowMapperScope {
+	public fun <init> ()V
+	public fun bind (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
+	public fun raise (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Ljava/lang/Void;
+	public synthetic fun raise (Ljava/lang/Object;)Ljava/lang/Void;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRows : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 }
 
@@ -192,6 +213,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/Boolea
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BooleanExtractorKt {
 	public static final fun getBoolean (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getBooleanOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntColumnExtractorKt {
@@ -201,10 +223,12 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntCol
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/IntExtractorKt {
 	public static final fun getInt (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getIntOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JSONBExtractorKt {
 	public static final fun getJSONB (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getJSONBOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/JsonbColumnExtractorKt {
@@ -219,6 +243,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongCo
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/LongExtractorKt {
 	public static final fun getLong (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getLongOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringColumnExtractorKt {
@@ -228,6 +253,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/String
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/StringExtractorKt {
 	public static final fun getString (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getStringOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampColumnExtractorKt {
@@ -237,6 +263,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/Timest
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/TimestampExtractorKt {
 	public static final fun getTimestamp (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getTimestampOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDColumnExtractorKt {
@@ -246,6 +273,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDCo
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/UUIDExtractorKt {
 	public static final fun getUUID (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun getUUIDOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel {

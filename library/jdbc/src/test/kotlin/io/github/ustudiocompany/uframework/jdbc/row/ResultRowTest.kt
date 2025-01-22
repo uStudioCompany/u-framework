@@ -1,10 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
 import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -28,7 +29,7 @@ internal class ResultRowTest : IntegrationTest() {
 
             "when the table does not contain data" - {
                 container.truncateTable(TABLE_NAME)
-                val result = tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                val result = tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                 "then the result should be empty" {
                     result.shouldBeSuccess()
@@ -44,7 +45,7 @@ internal class ResultRowTest : IntegrationTest() {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
                         val result =
-                            tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                            tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                         "then the result should contain an incident" {
                             val error = result.shouldBeIncident()
@@ -59,7 +60,7 @@ internal class ResultRowTest : IntegrationTest() {
                         container.truncateTable(TABLE_NAME)
                         container.executeSql(INSERT_SQL)
                         val result =
-                            tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                            tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                         "then the result should contain all data from the database" {
                             result.shouldBeSuccess()
@@ -77,7 +78,7 @@ internal class ResultRowTest : IntegrationTest() {
                             container.executeSql(INSERT_SQL)
                             val invalidIndex = 0
                             val result =
-                                tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                                tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                             "then the result should contain an incident" {
                                 val error = result.shouldBeIncident()
@@ -90,7 +91,7 @@ internal class ResultRowTest : IntegrationTest() {
                             container.executeSql(INSERT_SQL)
                             val invalidIndex = 3
                             val result =
-                                tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col) }
+                                tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                             "then the result should contain an incident" {
                                 val error = result.shouldBeIncident()
@@ -126,7 +127,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 row.extract(column, types, block)
                             }
                         }
-                        .liftToTransactionResult()
+                        .liftToTransactionIncident()
                 }
         }
 

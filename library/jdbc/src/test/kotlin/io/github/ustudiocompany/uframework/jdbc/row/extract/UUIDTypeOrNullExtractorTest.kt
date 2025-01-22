@@ -8,19 +8,19 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUID
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID_TYPE
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUIDOrNull
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.util.*
 
-internal class UUIDExtractorTest : AbstractExtractorTest() {
+internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getUUID` of the `ResultRow` type" - {
+        "The extension function `getUUIDOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -30,20 +30,20 @@ internal class UUIDExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
-                        nameFn = { "when column value is '${it.second}' then the function should return this value" },
+                        nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
-                            1 to VALID_VALUE,
-                            2 to NULL_VALUE
+                            VALID_VALUE,
+                            NULL_VALUE
                         )
-                    ) { (rowId, value) ->
-                        container.insertData(rowId, metadata.columnName, value?.toQuotes())
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(rowId)
+                    ) { value ->
+                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
-                            getUUID(metadata.columnIndex)
+                            getUUIDOrNull(metadata.columnIndex)
                         }
 
                         result shouldBeSuccess value
@@ -58,7 +58,7 @@ internal class UUIDExtractorTest : AbstractExtractorTest() {
 
                     container.executeSql(makeInsertEmptyRowSql())
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getUUID(metadata.columnIndex)
+                        getUUIDOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -74,7 +74,7 @@ internal class UUIDExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getUUID(INVALID_COLUMN_INDEX)
+                    getUUIDOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()
@@ -86,8 +86,9 @@ internal class UUIDExtractorTest : AbstractExtractorTest() {
     private fun UUID.toQuotes(): String = "'$this'"
 
     companion object {
+        private const val ROW_ID = 1
         private val VALID_VALUE: UUID = java.util.UUID.randomUUID()
         private val NULL_VALUE: UUID? = null
-        private val EXPECTED_TYPE = UUID
+        private val EXPECTED_TYPE = UUID_TYPE
     }
 }

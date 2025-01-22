@@ -15,22 +15,22 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
  */
 public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT, JDBCError>>
 
+public typealias TransactionError<ErrorT> = ResultK<Nothing, Fail<ErrorT, JDBCError>>
+
+public typealias TransactionIncident = ResultK<Nothing, Fail<Nothing, JDBCError>>
+
 /**
  * Creates a domain (business) error related to the operations within the transaction.
  *
  * @param ErrorT the type of the error.
  * @param error The error value.
  */
-public fun <ErrorT> transactionError(error: ErrorT): TransactionResult<Nothing, ErrorT> = error(error).asFailure()
+public fun <ErrorT> transactionError(error: ErrorT): TransactionError<ErrorT> = error(error).asFailure()
 
 /**
  * Creates a technical error related to the transaction.
  */
-public fun transactionIncident(
-    description: String,
-    exception: Throwable? = null
-): TransactionResult<Nothing, Nothing> =
+public fun transactionIncident(description: String, exception: Throwable? = null): TransactionIncident =
     transactionIncident(JDBCError(description, exception))
 
-public fun transactionIncident(error: JDBCError): TransactionResult<Nothing, Nothing> =
-    exception(error).asFailure()
+public fun transactionIncident(error: JDBCError): TransactionIncident = exception(error).asFailure()

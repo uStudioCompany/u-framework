@@ -85,7 +85,7 @@ internal class MapToObjectTest : IntegrationTest() {
     }
 
     private fun ResultRow.getString(column: Int) =
-        extract(column, TEXT_TYPE) { col, rs -> rs.getString(col) }
+        extract(column, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
     private companion object {
         private const val TABLE_NAME = "test_table"

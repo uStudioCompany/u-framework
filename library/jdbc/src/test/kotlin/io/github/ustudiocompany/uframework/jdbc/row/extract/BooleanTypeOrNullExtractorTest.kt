@@ -9,17 +9,17 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extractor.getBoolean
+import io.github.ustudiocompany.uframework.jdbc.row.extractor.getBooleanOrNull
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
+internal class BooleanTypeOrNullExtractorTest : AbstractExtractorTest() {
 
     init {
 
-        "The extension function `getBoolean` of the `ResultRow` type" - {
+        "The extension function `getBooleanOrNull` of the `ResultRow` type" - {
             val container = PostgresContainerTest()
             val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
             container.executeSql(makeCreateTableSql())
@@ -34,23 +34,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                         nameFn = { "when column value is '$it' then the function should return this value" },
                         listOf(
                             TRUE_VALUE,
-                            FALSE_VALUE
-                        )
-                    ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toString())
-
-                        val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
-                        val result = tm.executeQuery(selectSql) {
-                            getBoolean(metadata.columnIndex)
-                        }
-
-                        result.shouldBeSuccess(value)
-                    }
-
-                    withData(
-                        nameFn = { "when column value is '$it' then the function should return an incident" },
-                        listOf(
+                            FALSE_VALUE,
                             NULL_VALUE,
                         )
                     ) { value ->
@@ -59,11 +43,10 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
 
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
                         val result = tm.executeQuery(selectSql) {
-                            getBoolean(metadata.columnIndex)
+                            getBooleanOrNull(metadata.columnIndex)
                         }
 
-                        val error = result.shouldBeIncident()
-                        error.description.shouldBe("The value of the column with index '${metadata.columnIndex}' is null.")
+                        result.shouldBeSuccess(value)
                     }
                 }
 
@@ -75,7 +58,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                     container.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                        getBoolean(metadata.columnIndex)
+                        getBooleanOrNull(metadata.columnIndex)
                     }
 
                     val error = result.shouldBeIncident()
@@ -91,7 +74,7 @@ internal class BooleanTypeExtractorTest : AbstractExtractorTest() {
                 container.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
-                    getBoolean(INVALID_COLUMN_INDEX)
+                    getBooleanOrNull(INVALID_COLUMN_INDEX)
                 }
 
                 val error = result.shouldBeIncident()

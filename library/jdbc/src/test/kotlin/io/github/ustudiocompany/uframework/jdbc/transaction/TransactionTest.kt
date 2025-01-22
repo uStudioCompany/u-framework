@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionResult
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -32,18 +32,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionResult()
+                                        statement.update().liftToTransactionIncident()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionResult()
+                                        statement.update().liftToTransactionIncident()
                                     }
                                     .bind()
 
-                                transaction.commit().liftToTransactionResult()
+                                transaction.commit().liftToTransactionIncident()
                             }
                         }
 
@@ -73,18 +73,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionResult()
+                                        statement.update().liftToTransactionIncident()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionResult()
+                                        statement.update().liftToTransactionIncident()
                                     }
                                     .bind()
 
-                                transaction.rollback().liftToTransactionResult()
+                                transaction.rollback().liftToTransactionIncident()
                             }
                         }
 
@@ -108,7 +108,7 @@ internal class TransactionTest : IntegrationTest() {
                             transaction.connection
                                 .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                 .use { statement ->
-                                    statement.update().liftToTransactionResult()
+                                    statement.update().liftToTransactionIncident()
                                 }
                                 .bind()
 
@@ -119,11 +119,11 @@ internal class TransactionTest : IntegrationTest() {
                                         val r1 = statement.update().bind()
                                         val r2 = statement.update().bind()
                                         r1 + r2
-                                    }.liftToTransactionResult()
+                                    }.liftToTransactionIncident()
                                 }
                                 .bind()
 
-                            transaction.commit().liftToTransactionResult()
+                            transaction.commit().liftToTransactionIncident()
                         }
                     }
 

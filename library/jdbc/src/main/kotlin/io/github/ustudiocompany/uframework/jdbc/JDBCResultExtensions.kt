@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
+import io.github.ustudiocompany.uframework.jdbc.transaction.transactionError
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionIncident
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
@@ -24,8 +25,11 @@ public inline fun <ValueT, ValueR, ErrorT> JDBCResult<ValueT>.mapOrIncident(
 ): TransactionResult<ValueR, ErrorT> =
     flatMapOrIncident { value -> block(value).mapFailure { error(it) } }
 
-public fun <ValueT> JDBCResult<ValueT>.liftToTransactionResult(): TransactionResult<ValueT, Nothing> =
+public fun <ValueT> JDBCResult<ValueT>.liftToTransactionIncident(): TransactionResult<ValueT, Nothing> =
     if (this.isSuccess()) this else transactionIncident(this.cause)
+
+public fun <ValueT, ErrorT> ResultK<ValueT, ErrorT>.liftToTransactionError(): TransactionResult<ValueT, ErrorT> =
+    if (this.isSuccess()) this else transactionError(this.cause)
 
 @OptIn(ExperimentalContracts::class)
 public inline infix fun <ValueT : AutoCloseable, ValueR, ErrorT> JDBCResult<ValueT>.use(
