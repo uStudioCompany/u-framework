@@ -6,12 +6,12 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.commons.types) {
+    api(libs.airflux.commons.types) {
         isChanging = true
     }
 
     /* Failure libs */
-    implementation(project(":failure-library"))
+    api(project(":failure-library"))
 
     /* Database */
     api(libs.bundles.database)

@@ -6,14 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
-
     implementation(project(":jdbc-core-library"))
-
-    /* Database */
-    api(libs.bundles.database)
 
     /* Tests */
     testImplementation(project(":jdbc-test-library"))
