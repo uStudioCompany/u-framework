@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
-import io.github.ustudiocompany.uframework.jdbc.test.checkData
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.shouldContainExactly
 import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
@@ -25,7 +25,7 @@ internal class TimestampSqlParameterTest : AbstractSqlParameterTest() {
                 tm.insertData(INSERT_SQL, NON_NULLABLE_VALUE.asSqlParam())
 
                 "then a database should contain a passed value" {
-                    dataSource.checkData(SELECT_QUERY) {
+                    dataSource.shouldContainExactly(SELECT_QUERY) {
                         getTimestamp(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
@@ -36,7 +36,7 @@ internal class TimestampSqlParameterTest : AbstractSqlParameterTest() {
                 tm.insertData(INSERT_SQL, NULLABLE_VALUE.asSqlParam())
 
                 "then a database should contain a null value" {
-                    dataSource.checkData(SELECT_QUERY) {
+                    dataSource.shouldContainExactly(SELECT_QUERY) {
                         getTimestamp(1) shouldBe null
                         wasNull() shouldBe true
                     }

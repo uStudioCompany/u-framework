@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
-import io.github.ustudiocompany.uframework.jdbc.test.checkData
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.shouldContainExactly
 import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
@@ -28,7 +28,7 @@ internal class JsonbSqlParameterTest : AbstractSqlParameterTest() {
                     tm.insertData(INSERT_INTO_TABLE_WITH_JSON_COLUMN, NON_NULLABLE_VALUE.asJSONBSqlParam())
 
                     "then a database should contain the passed json" {
-                        dataSource.checkData(SELECT_FROM_TABLE_WITH_JSON_COLUMN) {
+                        dataSource.shouldContainExactly(SELECT_FROM_TABLE_WITH_JSON_COLUMN) {
                             val jsonObject: PGobject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                             jsonObject.type.equals(COLUMN_TYPE_JSON, true) shouldBe true
                             val jsonValue = jsonObject.value.shouldNotBeNull()
@@ -42,7 +42,7 @@ internal class JsonbSqlParameterTest : AbstractSqlParameterTest() {
                     tm.insertData(INSERT_INTO_TABLE_WITH_JSON_COLUMN, NULLABLE_VALUE.asJSONBSqlParam())
 
                     "then database should contain a null value" {
-                        dataSource.checkData(SELECT_FROM_TABLE_WITH_JSON_COLUMN) {
+                        dataSource.shouldContainExactly(SELECT_FROM_TABLE_WITH_JSON_COLUMN) {
                             val jsonObject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                             jsonObject.value shouldBe null
                             wasNull() shouldBe true
@@ -59,7 +59,7 @@ internal class JsonbSqlParameterTest : AbstractSqlParameterTest() {
                     tm.insertData(INSERT_INTO_TABLE_WITH_JSONB_COLUMN, NON_NULLABLE_VALUE.asJSONBSqlParam())
 
                     "then a database should contain the passed jsonb" {
-                        dataSource.checkData(SELECT_FROM_TABLE_WITH_JSONB_COLUMN) {
+                        dataSource.shouldContainExactly(SELECT_FROM_TABLE_WITH_JSONB_COLUMN) {
                             val jsonObject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                             jsonObject.type.equals(COLUMN_TYPE_JSONB, true) shouldBe true
                             val jsonValue = jsonObject.value.shouldNotBeNull()
@@ -73,7 +73,7 @@ internal class JsonbSqlParameterTest : AbstractSqlParameterTest() {
                     tm.insertData(INSERT_INTO_TABLE_WITH_JSONB_COLUMN, NULLABLE_VALUE.asJSONBSqlParam())
 
                     "then database should contain a null value" {
-                        dataSource.checkData(SELECT_FROM_TABLE_WITH_JSONB_COLUMN) {
+                        dataSource.shouldContainExactly(SELECT_FROM_TABLE_WITH_JSONB_COLUMN) {
                             val jsonObject = getObject(VALUE_COLUMN_NAME, PGobject::class.java)
                             jsonObject.value shouldBe null
                             wasNull() shouldBe true

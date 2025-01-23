@@ -52,7 +52,7 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
     }
 
     @Deprecated(
-        "Use the extension function `checkData` for DataSource type from `jdbc-testcontainers-library` instead.",
+        "Use the extension function `shouldContainExactly` for DataSource type from `jdbc-testcontainers-library` instead.",
         level = DeprecationLevel.WARNING
     )
     public fun <T> checkData(sql: String, assertions: ResultSet.(index: Int) -> T) {
@@ -106,7 +106,10 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                     }
             }
 
-    @Deprecated("Do not use.", level = DeprecationLevel.WARNING)
+    @Deprecated(
+        "Use the extension function `shouldContainExactly` for DataSource type from `jdbc-testcontainers-library` instead.",
+        level = DeprecationLevel.WARNING
+    )
     public fun <T> shouldContain(sql: String, assertion: ResultSet.(index: Int) -> T) {
         dataSource.connection
             .use { connection ->
@@ -124,7 +127,10 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
             }
     }
 
-    @Deprecated("Do not use.", level = DeprecationLevel.WARNING)
+    @Deprecated(
+        "Use the extension function `shouldContainExactly` for DataSource type from `jdbc-testcontainers-library` instead.",
+        level = DeprecationLevel.WARNING
+    )
     public fun shouldContainExactly(sql: String, vararg assertions: ResultSet.(index: Int) -> Unit) {
         val assertionCount = assertions.size
         var currentAssertionIndex = 0

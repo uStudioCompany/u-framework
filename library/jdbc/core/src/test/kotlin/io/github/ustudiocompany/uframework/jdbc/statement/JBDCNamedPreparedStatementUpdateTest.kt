@@ -6,9 +6,9 @@ import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
-import io.github.ustudiocompany.uframework.jdbc.test.checkData
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.shouldContainExactly
 import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
@@ -47,7 +47,7 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                 }
 
                 "then the data should be updated" {
-                    dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                    dataSource.shouldContainExactly(selectUpdated(ID_SECOND_ROW_VALUE)) {
                         getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                     }
                 }

@@ -17,17 +17,37 @@ public fun DataSource.executeSql(sql: String) {
     }
 }
 
-public fun <T> DataSource.checkData(sql: String, assertions: ResultSet.(index: Int) -> T) {
+public fun DataSource.shouldBeEmpty(sql: String) {
+    useStatement(isReadOnly = true) { statement ->
+        statement.executeQuery(sql)
+            .also { result ->
+                result.next() shouldBe false
+            }
+    }
+}
+
+public fun DataSource.shouldContainExactly(sql: String, assertion: ResultSet.() -> Unit) {
+    shouldContainExactly(sql, listOf(assertion))
+}
+
+@Suppress("ThrowsCount")
+public fun DataSource.shouldContainExactly(sql: String, assertions: Iterable<ResultSet.() -> Unit>) {
     useStatement(isReadOnly = true) { statement ->
         statement.executeQuery(sql)
             .let { result ->
                 var hasResult = result.next()
                 if (!hasResult) throw failure(NO_ROWS_FOUND)
-                var index = 0
+                val iter = assertions.iterator()
                 while (hasResult) {
-                    assertions(result, index++)
+                    if (!iter.hasNext())
+                        throw failure("The number of assertions is less than the number of rows.")
+
+                    val assertion = iter.next()
+                    assertion(result)
                     hasResult = result.next()
                 }
+                if (iter.hasNext())
+                    throw failure("The number of assertions is greater than the number of rows.")
             }
     }
 }
@@ -45,24 +65,15 @@ public fun <T> DataSource.selectData(sql: String, mapper: ResultSet.(index: Int)
             }
     }
 
-public fun DataSource.shouldBeEmpty(sql: String) {
-    useStatement(isReadOnly = true) { statement ->
-        statement.executeQuery(sql)
-            .also { result ->
-                result.next() shouldBe false
-            }
-    }
-}
-
-private inline fun <T> DataSource.useStatement(isReadOnly: Boolean, block: (statement: Statement) -> T): T =
+internal inline fun <T> DataSource.useStatement(isReadOnly: Boolean, block: (statement: Statement) -> T): T =
     useConnection(isReadOnly) { connection ->
         connection.createStatement()
             .use { statement -> block(statement) }
     }
 
-private inline fun <T> DataSource.useConnection(isReadOnly: Boolean, block: (connection: Connection) -> T): T =
+internal inline fun <T> DataSource.useConnection(isReadOnly: Boolean, block: (connection: Connection) -> T): T =
     connection.use { connection ->
         block(connection.apply { this.isReadOnly = isReadOnly })
     }
 
-private const val NO_ROWS_FOUND = "No rows found."
+private const val NO_ROWS_FOUND: String = "No rows found."

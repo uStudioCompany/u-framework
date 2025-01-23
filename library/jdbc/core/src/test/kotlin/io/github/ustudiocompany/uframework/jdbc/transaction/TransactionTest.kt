@@ -7,13 +7,13 @@ import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
-import io.github.ustudiocompany.uframework.jdbc.test.selectData
 import io.github.ustudiocompany.uframework.jdbc.test.shouldBeEmpty
+import io.github.ustudiocompany.uframework.jdbc.test.shouldContainExactly
 import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.core.extensions.install
-import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
 internal class TransactionTest : IntegrationTest() {
@@ -57,15 +57,13 @@ internal class TransactionTest : IntegrationTest() {
                     }
 
                     "then the data in all tables should be saved" {
-                        val dataFromFirstTable = dataSource.selectData(selectDataSQL(FIRST_TABLE_NAME)) {
-                            getString(TITLE_COLUMN_INDEX)
+                        dataSource.shouldContainExactly(selectDataSQL(FIRST_TABLE_NAME)) {
+                            getString(TITLE_COLUMN_INDEX) shouldBe TITLE_FIRST_ROW_VALUE
                         }
-                        dataFromFirstTable shouldContainExactly listOf(TITLE_FIRST_ROW_VALUE)
 
-                        val dataFromSecondTable = dataSource.selectData(selectDataSQL(SECOND_TABLE_NAME)) {
+                        dataSource.shouldContainExactly(selectDataSQL(SECOND_TABLE_NAME)) {
                             getString(TITLE_COLUMN_INDEX)
                         }
-                        dataFromSecondTable shouldContainExactly listOf(TITLE_FIRST_ROW_VALUE)
                     }
                 }
 
