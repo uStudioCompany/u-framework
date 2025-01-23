@@ -11,7 +11,7 @@ object Configuration {
 
     object JVM {
         val target: String
-            get() = System.getenv("JAVA_VERSION") ?: "17"
+            get() = System.getenv("JAVA_TARGET_VERSION") ?: "17"
 
         val compatibility: JavaVersion
             get() = JavaVersion.toVersion(target)
