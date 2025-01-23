@@ -43,7 +43,7 @@ public fun DataSource.shouldContainExactly(sql: String, assertions: Iterable<Res
                         throw failure("The number of assertions is less than the number of rows.")
 
                     val assertion = iter.next()
-                    assertion(result)
+                    assertion(ResultSetDecorator(result))
                     hasResult = result.next()
                 }
                 if (iter.hasNext())
@@ -59,7 +59,7 @@ public fun <T> DataSource.selectData(sql: String, mapper: ResultSet.(index: Int)
                 val list = mutableListOf<T>()
                 var index = 0
                 while (result.next()) {
-                    list.add(mapper(result, index++))
+                    list.add(mapper(ResultSetDecorator(result), index++))
                 }
                 list
             }
