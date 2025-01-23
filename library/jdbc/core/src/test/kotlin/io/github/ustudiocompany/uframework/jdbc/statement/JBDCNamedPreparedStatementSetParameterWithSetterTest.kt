@@ -6,18 +6,22 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
+import io.github.ustudiocompany.uframework.jdbc.test.checkData
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
@@ -27,15 +31,15 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
     init {
 
         "The `setParameter` function with `SqlParameterSetter` of the JBDCNamedPreparedStatement type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when the parameter is successfully set" - {
 
                 "when using the `query` method" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val idParamName = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
@@ -55,8 +59,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                 }
 
                 "when using the `update` method" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val titleParamName = "title"
                     val idParamName = "id"
                     val result = tm.execute(UPDATE_SQL) { statement ->
@@ -73,7 +77,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     }
 
                     "then the data should be updated" {
-                        container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                        dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
                             getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                         }
                     }
@@ -82,8 +86,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                 "when using the `execute` method" - {
 
                     "when the SQL for execution is a query" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val idParamName = "id"
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
@@ -104,8 +108,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     }
 
                     "when the SQL for execution is a update" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val titleParamName = "title"
                         val idParamName = "id"
                         val result = tm.execute(UPDATE_SQL) { statement ->
@@ -124,7 +128,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         }
 
                         "then the data should be updated" {
-                            container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                            dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
                                 getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                             }
                         }
@@ -135,8 +139,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
             "when the parameter is failed to set" - {
 
                 "when parameter name is invalid" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val invalidParamName = "abc"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {

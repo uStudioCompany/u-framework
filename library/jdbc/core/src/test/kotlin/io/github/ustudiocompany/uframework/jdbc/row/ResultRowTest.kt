@@ -4,15 +4,18 @@ import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -23,12 +26,12 @@ internal class ResultRowTest : IntegrationTest() {
     init {
 
         "The ResultRows type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when the table does not contain data" - {
-                container.truncateTable(TABLE_NAME)
+                dataSource.truncateTable(TABLE_NAME)
                 val result = tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                 "then the result should be empty" {
@@ -42,8 +45,8 @@ internal class ResultRowTest : IntegrationTest() {
                 "when the extraction is successful" - {
 
                     "when the extraction type is not equal to the column type" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val result =
                             tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
@@ -57,8 +60,8 @@ internal class ResultRowTest : IntegrationTest() {
                     }
 
                     "when the extraction type is equal to the column type" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val result =
                             tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
@@ -74,8 +77,8 @@ internal class ResultRowTest : IntegrationTest() {
                     "when column index is out of range" - {
 
                         "when the index less than min" - {
-                            container.truncateTable(TABLE_NAME)
-                            container.executeSql(INSERT_SQL)
+                            dataSource.truncateTable(TABLE_NAME)
+                            dataSource.executeSql(INSERT_SQL)
                             val invalidIndex = 0
                             val result =
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
@@ -87,8 +90,8 @@ internal class ResultRowTest : IntegrationTest() {
                         }
 
                         "when the index greater than max" - {
-                            container.truncateTable(TABLE_NAME)
-                            container.executeSql(INSERT_SQL)
+                            dataSource.truncateTable(TABLE_NAME)
+                            dataSource.executeSql(INSERT_SQL)
                             val invalidIndex = 3
                             val result =
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
@@ -101,8 +104,8 @@ internal class ResultRowTest : IntegrationTest() {
                     }
 
                     "when thrown some exception" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val result = tm.executeQuery(ID_COLUMN_INDEX, TEXT_TYPE) { col, rs ->
                             error("Error")
                         }

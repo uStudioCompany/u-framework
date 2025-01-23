@@ -1,8 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
+import io.github.ustudiocompany.uframework.jdbc.test.checkData
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
+import io.kotest.core.extensions.install
 import io.kotest.matchers.shouldBe
 
 internal class LongSqlParameterTest : AbstractSqlParameterTest() {
@@ -10,27 +14,27 @@ internal class LongSqlParameterTest : AbstractSqlParameterTest() {
     init {
 
         "The LongSqlParameter type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when inserting a non-null value" - {
-                container.truncateTable(TABLE_NAME)
+                dataSource.truncateTable(TABLE_NAME)
                 tm.insertData(INSERT_SQL, NON_NULLABLE_VALUE.asSqlParam())
 
                 "then a database should contain a passed value" {
-                    container.checkData(SELECT_QUERY) {
+                    dataSource.checkData(SELECT_QUERY) {
                         getLong(VALUE_COLUMN_NAME) shouldBe NON_NULLABLE_VALUE
                     }
                 }
             }
 
             "when inserting a null value" - {
-                container.truncateTable(TABLE_NAME)
+                dataSource.truncateTable(TABLE_NAME)
                 tm.insertData(INSERT_SQL, NULLABLE_VALUE.asSqlParam())
 
                 "then a database should contain a null value" {
-                    container.checkData(SELECT_QUERY) {
+                    dataSource.checkData(SELECT_QUERY) {
                         getLong(1) shouldBe 0
                         wasNull() shouldBe true
                     }

@@ -2,17 +2,21 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
+import io.github.ustudiocompany.uframework.jdbc.test.checkData
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
@@ -21,13 +25,13 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
     init {
 
         "The the `update` function of the JBDCNamedPreparedStatement type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when the execution is successful" - {
-                container.truncateTable(TABLE_NAME)
-                container.executeSql(INSERT_SQL)
+                dataSource.truncateTable(TABLE_NAME)
+                dataSource.executeSql(INSERT_SQL)
                 val idParamName = "id"
                 val titleParamName = "title"
                 val result = tm.execute(UPDATE_SQL) { statement ->
@@ -43,7 +47,7 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                 }
 
                 "then the data should be updated" {
-                    container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                    dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
                         getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                     }
                 }
@@ -52,8 +56,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
             "when the execution is failed" - {
 
                 "when the parameter is not specified" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val idParamName = "id"
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         statement.update(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))
@@ -66,8 +70,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                 }
 
                 "when parameter name is invalid" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val idParamName = "id"
                     val invalidParamName = "title-invalid"
                     val result = tm.execute(UPDATE_SQL) { statement ->
@@ -84,8 +88,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                 }
 
                 "when data was returned when none was expected " - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val idParamName = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement.update(ID_SECOND_ROW_VALUE.asSqlParam(idParamName))

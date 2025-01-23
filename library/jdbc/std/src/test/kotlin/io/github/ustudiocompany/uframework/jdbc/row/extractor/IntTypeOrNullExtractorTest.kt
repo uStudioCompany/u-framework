@@ -1,7 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
@@ -9,8 +8,12 @@ import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.C
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.INTEGER_TYPE
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
+import io.kotest.core.extensions.install
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
@@ -19,16 +22,16 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
     init {
 
         "The extension function `getIntOrNull` of the `ResultRow` type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(makeCreateTableSql())
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
                     nameFn = { "when column type is '${it.displayType}'" },
                     columnTypes(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
                     withData(
                         nameFn = { "when column value is '$it' then the function should return this value" },
@@ -39,8 +42,8 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
                             NULL_VALUE
                         )
                     ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toString())
+                        dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        dataSource.insertData(ROW_ID, metadata.columnName, value.toString())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
                         val result = tm.executeQuery(selectSql) {
                             getIntOrNull(metadata.columnIndex)
@@ -54,8 +57,8 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                    container.executeSql(makeInsertEmptyRowSql())
+                    dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    dataSource.executeSql(makeInsertEmptyRowSql())
 
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
                         getIntOrNull(metadata.columnIndex)
@@ -70,8 +73,8 @@ internal class IntTypeOrNullExtractorTest : AbstractExtractorTest() {
             }
 
             "when column index is invalid then the function should return an incident" {
-                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                container.executeSql(makeInsertEmptyRowSql())
+                dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                dataSource.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
                     getIntOrNull(INVALID_COLUMN_INDEX)

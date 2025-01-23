@@ -2,15 +2,16 @@ package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import javax.sql.DataSource
 
 internal abstract class AbstractExtractorTest : IntegrationTest() {
 
@@ -30,7 +31,7 @@ internal abstract class AbstractExtractorTest : IntegrationTest() {
                 .liftToTransactionIncident()
         }
 
-    protected fun PostgresContainerTest.insertData(rowId: Int, columnName: String, value: String?) {
+    protected fun DataSource.insertData(rowId: Int, columnName: String, value: String?) {
         val sql = """
             | INSERT INTO $MULTI_COLUMN_TABLE_NAME($ROW_ID_COLUMN_NAME, $columnName)
             | VALUES ($rowId, $value);

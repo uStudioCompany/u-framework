@@ -2,17 +2,20 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.mapToList
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
@@ -22,13 +25,13 @@ internal class MapToListTest : IntegrationTest() {
     init {
 
         "The extension function `mapToList`" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when the execution is successful" - {
-                container.truncateTable(TABLE_NAME)
-                container.executeSql(INSERT_SQL)
+                dataSource.truncateTable(TABLE_NAME)
+                dataSource.executeSql(INSERT_SQL)
                 val result = tm.execute(SELECT_SQL) { statement ->
                     statement.query()
                         .mapToList { index, row ->
@@ -50,8 +53,8 @@ internal class MapToListTest : IntegrationTest() {
             "when the execution is failed" - {
 
                 "when the parameter is not specified" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement.query()
                             .mapToList<String, Nothing> { index, row ->

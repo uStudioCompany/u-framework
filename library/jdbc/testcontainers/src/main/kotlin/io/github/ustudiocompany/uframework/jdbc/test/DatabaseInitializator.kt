@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.jdbc
+package io.github.ustudiocompany.uframework.jdbc.test
 
 import liquibase.Contexts
 import liquibase.LabelExpression
@@ -14,19 +14,16 @@ import liquibase.database.DatabaseFactory
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.DirectoryResourceAccessor
 import liquibase.resource.ResourceAccessor
+import javax.sql.DataSource
 import kotlin.io.path.Path
 
-@Deprecated(
-    "Use the extension function `initialize` for DataSource type from `jdbc-testcontainers-library` instead.",
-    level = DeprecationLevel.WARNING
-)
-public fun PostgresContainerTest.initialize(
+public fun DataSource.initialize(
     context: Contexts,
     changeLogFile: String = CHANGE_LOG_FILE,
     resourceAccessor: ResourceAccessor = DirectoryResourceAccessor(Path(DIRECTORY_RESOURCE_ACCESSOR_PATH)),
     liquibaseConfig: CommandScope.() -> Unit = {},
 ) {
-    dataSource.connection
+    connection
         .use { connection ->
             val database = DatabaseFactory.getInstance()
                 .findCorrectDatabaseImplementation(JdbcConnection(connection))
@@ -37,6 +34,7 @@ public fun PostgresContainerTest.initialize(
                     Scope.Attr.resourceAccessor.name to resourceAccessor
                 )
             ) {
+                @Suppress("SpreadOperator")
                 val updateCommand = CommandScope(*UpdateCommandStep.COMMAND_NAME)
                     .apply {
                         addArgumentValue(DbUrlConnectionArgumentsCommandStep.DATABASE_ARG, database)

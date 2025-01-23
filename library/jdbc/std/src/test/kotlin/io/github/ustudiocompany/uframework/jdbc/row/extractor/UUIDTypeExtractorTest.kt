@@ -1,15 +1,18 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeSelectEmptyRowSql
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
+import io.kotest.core.extensions.install
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.util.*
@@ -19,9 +22,9 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
     init {
 
         "The extension function `getUUID` of the `ResultRow` type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(makeCreateTableSql())
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(makeCreateTableSql())
 
             "when column index is valid" - {
                 withData(
@@ -35,8 +38,8 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
                             VALID_VALUE
                         )
                     ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value.toQuotes())
+                        dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        dataSource.insertData(ROW_ID, metadata.columnName, value.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
@@ -52,8 +55,8 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
                             NULL_VALUE
                         )
                     ) { value ->
-                        container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                        container.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
+                        dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                        dataSource.insertData(ROW_ID, metadata.columnName, value?.toQuotes())
                         val selectSql = MultiColumnTable.makeSelectAllColumnsSql(ROW_ID)
 
                         val result = tm.executeQuery(selectSql) {
@@ -69,9 +72,9 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
                     nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
-                    container.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                    dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
-                    container.executeSql(makeInsertEmptyRowSql())
+                    dataSource.executeSql(makeInsertEmptyRowSql())
                     val result = tm.executeQuery(makeSelectEmptyRowSql()) {
                         getUUID(metadata.columnIndex)
                     }
@@ -85,8 +88,8 @@ internal class UUIDTypeExtractorTest : AbstractExtractorTest() {
             }
 
             "when column index is invalid then the function should return an incident" {
-                container.truncateTable(MULTI_COLUMN_TABLE_NAME)
-                container.executeSql(makeInsertEmptyRowSql())
+                dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
+                dataSource.executeSql(makeInsertEmptyRowSql())
 
                 val result = tm.executeQuery(makeSelectEmptyRowSql()) {
                     getUUID(INVALID_COLUMN_INDEX)

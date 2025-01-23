@@ -3,11 +3,16 @@ package io.github.ustudiocompany.uframework.jdbc.transaction
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.selectData
+import io.github.ustudiocompany.uframework.jdbc.test.shouldBeEmpty
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.collections.shouldContainExactly
 import org.intellij.lang.annotations.Language
 
@@ -16,16 +21,16 @@ internal class TransactionTest : IntegrationTest() {
     init {
 
         "The `Transaction` type" - {
-            val container = PostgresContainerTest()
-            container.executeSql(createTable(FIRST_TABLE_NAME))
-            container.executeSql(createTable(SECOND_TABLE_NAME))
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
+            val dataSource = install(postgresContainer())
+            dataSource.executeSql(createTable(FIRST_TABLE_NAME))
+            dataSource.executeSql(createTable(SECOND_TABLE_NAME))
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
 
             "when operations of the transaction are successful" - {
 
                 "when the transaction commit is successful" - {
-                    container.truncateTable(FIRST_TABLE_NAME)
-                    container.truncateTable(SECOND_TABLE_NAME)
+                    dataSource.truncateTable(FIRST_TABLE_NAME)
+                    dataSource.truncateTable(SECOND_TABLE_NAME)
                     val result = tm.startTransaction()
                         .use { transaction ->
                             resultWith {
@@ -52,12 +57,12 @@ internal class TransactionTest : IntegrationTest() {
                     }
 
                     "then the data in all tables should be saved" {
-                        val dataFromFirstTable = container.selectData(selectDataSQL(FIRST_TABLE_NAME)) {
+                        val dataFromFirstTable = dataSource.selectData(selectDataSQL(FIRST_TABLE_NAME)) {
                             getString(TITLE_COLUMN_INDEX)
                         }
                         dataFromFirstTable shouldContainExactly listOf(TITLE_FIRST_ROW_VALUE)
 
-                        val dataFromSecondTable = container.selectData(selectDataSQL(SECOND_TABLE_NAME)) {
+                        val dataFromSecondTable = dataSource.selectData(selectDataSQL(SECOND_TABLE_NAME)) {
                             getString(TITLE_COLUMN_INDEX)
                         }
                         dataFromSecondTable shouldContainExactly listOf(TITLE_FIRST_ROW_VALUE)
@@ -65,8 +70,8 @@ internal class TransactionTest : IntegrationTest() {
                 }
 
                 "when the transaction rollback is successful" - {
-                    container.truncateTable(FIRST_TABLE_NAME)
-                    container.truncateTable(SECOND_TABLE_NAME)
+                    dataSource.truncateTable(FIRST_TABLE_NAME)
+                    dataSource.truncateTable(SECOND_TABLE_NAME)
                     val result = tm.startTransaction()
                         .use { transaction ->
                             resultWith {
@@ -93,15 +98,15 @@ internal class TransactionTest : IntegrationTest() {
                     }
 
                     "then the data should not be saved" {
-                        container.shouldBeEmpty(selectDataSQL(FIRST_TABLE_NAME))
-                        container.shouldBeEmpty(selectDataSQL(SECOND_TABLE_NAME))
+                        dataSource.shouldBeEmpty(selectDataSQL(FIRST_TABLE_NAME))
+                        dataSource.shouldBeEmpty(selectDataSQL(SECOND_TABLE_NAME))
                     }
                 }
             }
 
             "when some operation of the transaction is failed due to a data uniqueness conflict" - {
-                container.truncateTable(FIRST_TABLE_NAME)
-                container.truncateTable(SECOND_TABLE_NAME)
+                dataSource.truncateTable(FIRST_TABLE_NAME)
+                dataSource.truncateTable(SECOND_TABLE_NAME)
                 val result = tm.startTransaction()
                     .use { transaction ->
                         resultWith {
@@ -132,8 +137,8 @@ internal class TransactionTest : IntegrationTest() {
                 }
 
                 "then the data in all tables should not be saved" {
-                    container.shouldBeEmpty(selectDataSQL(FIRST_TABLE_NAME))
-                    container.shouldBeEmpty(selectDataSQL(SECOND_TABLE_NAME))
+                    dataSource.shouldBeEmpty(selectDataSQL(FIRST_TABLE_NAME))
+                    dataSource.shouldBeEmpty(selectDataSQL(SECOND_TABLE_NAME))
                 }
             }
         }

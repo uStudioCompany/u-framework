@@ -9,7 +9,7 @@ dependencies {
     implementation(project(":jdbc-core-library"))
 
     /* Tests */
-    testImplementation(project(":jdbc-test-library"))
+    testImplementation(project(":jdbc-testcontainers-library"))
     testImplementation(project(":jdbc-kotest-matchers-library"))
     testImplementation(libs.bundles.logging)
     testImplementation(libs.airflux.commons.types.kotest.matchers) {

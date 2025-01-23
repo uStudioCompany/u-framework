@@ -6,17 +6,21 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.PostgresContainerTest
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
+import io.github.ustudiocompany.uframework.jdbc.test.checkData
+import io.github.ustudiocompany.uframework.jdbc.test.executeSql
+import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
+import io.github.ustudiocompany.uframework.jdbc.test.truncateTable
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.jdbc.use
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
+import io.kotest.core.extensions.install
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
@@ -26,15 +30,15 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
     init {
 
         "The `setParameter` function with `SqlParameterSetter` of the JBDCPreparedStatement type" - {
-            val container = PostgresContainerTest()
-            val tm: TransactionManager = transactionManager(dataSource = container.dataSource)
-            container.executeSql(CREATE_TABLE)
+            val dataSource = install(postgresContainer())
+            val tm: TransactionManager = transactionManager(dataSource = dataSource)
+            dataSource.executeSql(CREATE_TABLE)
 
             "when the parameter is successfully set" - {
 
                 "when using the `query` method" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
                             statement.setParameter(1, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
@@ -53,8 +57,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                 }
 
                 "when using the `update` method" - {
-                    container.truncateTable(TABLE_NAME)
-                    container.executeSql(INSERT_SQL)
+                    dataSource.truncateTable(TABLE_NAME)
+                    dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         resultWith {
                             statement.setParameter(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).bind()
@@ -69,7 +73,7 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                     }
 
                     "then the data should be updated" {
-                        container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                        dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
                             getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                         }
                     }
@@ -78,8 +82,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                 "when using the `execute` method" - {
 
                     "when the SQL for execution is a query" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
                                 statement.setParameter(1, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
@@ -99,8 +103,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                     }
 
                     "when the SQL for execution is a update" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val result = tm.execute(UPDATE_SQL) { statement ->
                             resultWith {
                                 statement.setParameter(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).bind()
@@ -116,7 +120,7 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                         }
 
                         "then the data should be updated" {
-                            container.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
+                            dataSource.checkData(selectUpdated(ID_SECOND_ROW_VALUE)) {
                                 getString(1) shouldBe TITLE_SECOND_ROW_NEW_VALUE
                             }
                         }
@@ -129,8 +133,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                 "when parameter index is out of range" - {
 
                     "when the index less than min" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val invalidParamIndex = 0
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
@@ -149,8 +153,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                     }
 
                     "when the index greater than max" - {
-                        container.truncateTable(TABLE_NAME)
-                        container.executeSql(INSERT_SQL)
+                        dataSource.truncateTable(TABLE_NAME)
+                        dataSource.executeSql(INSERT_SQL)
                         val invalidParamIndex = 2
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
