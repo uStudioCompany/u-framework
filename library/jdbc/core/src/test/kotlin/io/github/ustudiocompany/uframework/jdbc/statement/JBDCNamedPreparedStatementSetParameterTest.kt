@@ -6,8 +6,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
@@ -150,9 +150,9 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                         }
                     }
 
-                    "then should return an incident" {
-                        val error = result.shouldBeIncident()
-                        error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
+                    "then should return an exception" {
+                        val exceptionValue = result.shouldBeException()
+                        exceptionValue.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
             }
@@ -230,7 +230,7 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->
-                        block(statement).liftToTransactionIncident()
+                        block(statement).liftToTransactionException()
                     }
             }
     }

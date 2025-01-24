@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
@@ -28,7 +28,7 @@ internal abstract class AbstractExtractorTest : IntegrationTest() {
                             block(row)
                         }
                 }
-                .liftToTransactionIncident()
+                .liftToTransactionException()
         }
 
     protected fun DataSource.insertData(rowId: Int, columnName: String, value: String?) {

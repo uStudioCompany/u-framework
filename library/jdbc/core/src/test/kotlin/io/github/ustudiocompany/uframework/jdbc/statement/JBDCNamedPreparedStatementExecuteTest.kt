@@ -6,8 +6,8 @@ import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
@@ -104,9 +104,9 @@ internal class JBDCNamedPreparedStatementExecuteTest : IntegrationTest() {
                                 }
                         }
 
-                        "then the result of execution of the statement should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description shouldBe "Error while executing the statement."
+                        "then the result of execution of the statement should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description shouldBe "Error while executing the statement."
                         }
                     }
 
@@ -125,9 +125,9 @@ internal class JBDCNamedPreparedStatementExecuteTest : IntegrationTest() {
                                 }
                         }
 
-                        "then the result of execution of the statement should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description shouldBe "Undefined parameter with name: '$titleParamName'."
+                        "then the result of execution of the statement should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description shouldBe "Undefined parameter with name: '$titleParamName'."
                         }
                     }
                 }
@@ -143,9 +143,9 @@ internal class JBDCNamedPreparedStatementExecuteTest : IntegrationTest() {
                             }
                         }
 
-                        "then the result of execution of the statement should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description shouldBe "Error while executing the statement."
+                        "then the result of execution of the statement should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description shouldBe "Error while executing the statement."
                         }
                     }
 
@@ -163,9 +163,9 @@ internal class JBDCNamedPreparedStatementExecuteTest : IntegrationTest() {
                             }
                         }
 
-                        "then the result of execution of the statement should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description shouldBe "Undefined parameter with name: '$invalidParamName'."
+                        "then the result of execution of the statement should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                         }
                     }
                 }
@@ -242,7 +242,7 @@ internal class JBDCNamedPreparedStatementExecuteTest : IntegrationTest() {
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))
                     .use { statement ->
-                        block(statement).liftToTransactionIncident()
+                        block(statement).liftToTransactionException()
                     }
             }
     }

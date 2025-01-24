@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.BOOLEAN_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
@@ -53,7 +53,7 @@ internal class BooleanTypeOrNullExtractorTest : AbstractExtractorTest() {
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.displayType}' then the function should return an incident" },
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an exception" },
                     getColumnsExclude(EXPECTED_TYPE)
                 ) { metadata ->
                     dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
@@ -63,15 +63,15 @@ internal class BooleanTypeOrNullExtractorTest : AbstractExtractorTest() {
                         getBooleanOrNull(metadata.columnIndex)
                     }
 
-                    val error = result.shouldBeIncident()
-                    error.description.shouldBe(
+                    val exceptionValue = result.shouldBeException()
+                    exceptionValue.description.shouldBe(
                         "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
                             "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
                     )
                 }
             }
 
-            "when column index is invalid then the function should return an incident" {
+            "when column index is invalid then the function should return an exception" {
                 dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 dataSource.executeSql(makeInsertEmptyRowSql())
 
@@ -79,8 +79,8 @@ internal class BooleanTypeOrNullExtractorTest : AbstractExtractorTest() {
                     getBooleanOrNull(INVALID_COLUMN_INDEX)
                 }
 
-                val error = result.shouldBeIncident()
-                error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
+                val exceptionValue = result.shouldBeException()
+                exceptionValue.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }

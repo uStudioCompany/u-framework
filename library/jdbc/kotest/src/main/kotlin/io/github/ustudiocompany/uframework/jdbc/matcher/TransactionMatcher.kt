@@ -15,7 +15,7 @@ public inline fun <reified ErrorT : Any> TransactionResult<*, ErrorT>.shouldBeEr
     return failure.value.shouldBeInstanceOf<ErrorT>()
 }
 
-public fun TransactionResult<*, *>.shouldBeIncident(): JDBCError {
+public fun TransactionResult<*, *>.shouldBeException(): JDBCError {
     shouldBeFailure()
     val failure = cause.shouldBeInstanceOf<Fail.Exception<JDBCError>>()
     failure.shouldBeException()

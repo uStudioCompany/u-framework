@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
@@ -62,15 +62,15 @@ internal class StringTypeOrNullExtractorTest : AbstractExtractorTest() {
                         getStringOrNull(metadata.columnIndex)
                     }
 
-                    val error = result.shouldBeIncident()
-                    error.description.shouldBe(
+                    val exceptionValue = result.shouldBeException()
+                    exceptionValue.description.shouldBe(
                         "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
                             "Expected: ${EXPECTED_TYPES.map { it.dataType }}, actual: '${metadata.dataType}'."
                     )
                 }
             }
 
-            "when column index is invalid then the function should return an incident" {
+            "when column index is invalid then the function should return an exception" {
                 dataSource.truncateTable(MULTI_COLUMN_TABLE_NAME)
                 dataSource.executeSql(makeInsertEmptyRowSql())
 
@@ -78,8 +78,8 @@ internal class StringTypeOrNullExtractorTest : AbstractExtractorTest() {
                     getStringOrNull(INVALID_COLUMN_INDEX)
                 }
 
-                val error = result.shouldBeIncident()
-                error.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
+                val exceptionValue = result.shouldBeException()
+                exceptionValue.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }

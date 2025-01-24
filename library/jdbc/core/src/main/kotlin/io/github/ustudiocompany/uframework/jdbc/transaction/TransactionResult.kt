@@ -17,7 +17,7 @@ public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT
 
 public typealias TransactionError<ErrorT> = ResultK<Nothing, Fail<ErrorT, JDBCError>>
 
-public typealias TransactionIncident = ResultK<Nothing, Fail<Nothing, JDBCError>>
+public typealias TransactionException = ResultK<Nothing, Fail<Nothing, JDBCError>>
 
 /**
  * Creates a domain (business) error related to the operations within the transaction.
@@ -30,7 +30,7 @@ public fun <ErrorT> transactionError(error: ErrorT): TransactionError<ErrorT> = 
 /**
  * Creates a technical error related to the transaction.
  */
-public fun transactionIncident(description: String, exception: Throwable? = null): TransactionIncident =
-    transactionIncident(JDBCError(description, exception))
+public fun transactionException(description: String, exception: Throwable? = null): TransactionException =
+    transactionException(JDBCError(description, exception))
 
-public fun transactionIncident(error: JDBCError): TransactionIncident = exception(error).asFailure()
+public fun transactionException(error: JDBCError): TransactionException = exception(error).asFailure()

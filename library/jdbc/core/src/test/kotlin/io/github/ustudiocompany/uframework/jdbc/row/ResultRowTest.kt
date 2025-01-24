@@ -4,8 +4,8 @@ import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
@@ -50,9 +50,9 @@ internal class ResultRowTest : IntegrationTest() {
                         val result =
                             tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
-                        "then the result should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description.shouldBe(
+                        "then the result should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description.shouldBe(
                                 "The column type with index '2' does not match the extraction type. " +
                                     "Expected: [text, varchar, bpchar], actual: 'bool'."
                             )
@@ -83,9 +83,9 @@ internal class ResultRowTest : IntegrationTest() {
                             val result =
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
-                            "then the result should contain an incident" {
-                                val error = result.shouldBeIncident()
-                                error.description shouldBe "The column index '$invalidIndex' is out of bounds."
+                            "then the result should contain an exception" {
+                                val exceptionValue = result.shouldBeException()
+                                exceptionValue.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
 
@@ -96,9 +96,9 @@ internal class ResultRowTest : IntegrationTest() {
                             val result =
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
-                            "then the result should contain an incident" {
-                                val error = result.shouldBeIncident()
-                                error.description shouldBe "The column index '$invalidIndex' is out of bounds."
+                            "then the result should contain an exception" {
+                                val exceptionValue = result.shouldBeException()
+                                exceptionValue.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
                     }
@@ -110,9 +110,9 @@ internal class ResultRowTest : IntegrationTest() {
                             error("Error")
                         }
 
-                        "then the result should contain an incident" {
-                            val error = result.shouldBeIncident()
-                            error.description shouldBe "Error while extracting data from the result set"
+                        "then the result should contain an exception" {
+                            val exceptionValue = result.shouldBeException()
+                            exceptionValue.description shouldBe "Error while extracting data from the result set"
                         }
                     }
                 }
@@ -130,7 +130,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 row.extract(column, types, block)
                             }
                         }
-                        .liftToTransactionIncident()
+                        .liftToTransactionException()
                 }
         }
 

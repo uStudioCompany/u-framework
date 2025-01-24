@@ -39,13 +39,13 @@ internal class ResultRowMapperTest : UnitTest() {
                     User.create(id).mapFailure { error -> Fail.Error(error) }
                 }
 
-                "then the mapper should return the error as incident" {
+                "then the mapper should return the error as exception" {
                     val result = mapper.invoke(1, DummyResultRow())
                     result.shouldBeFailure()
                     val failure = result.cause
                     failure.shouldBeException()
-                    val incident = failure.value
-                    incident shouldBe ERROR
+                    val exceptionValue = failure.value
+                    exceptionValue shouldBe ERROR
                 }
             }
 

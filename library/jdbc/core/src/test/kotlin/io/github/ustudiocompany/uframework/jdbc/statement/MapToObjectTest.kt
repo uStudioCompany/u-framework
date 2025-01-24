@@ -1,9 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.mapOrIncident
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.mapToObject
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -34,13 +35,15 @@ internal class MapToObjectTest : IntegrationTest() {
                 "when the query returns no data" - {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
-                    val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.query(sqlParam(ID_THIRD_ROW_VALUE))
-                            .mapToObject { index, row ->
-                                row.getString(TITLE_COLUMN_INDEX)
-                                    .mapOrIncident { value -> (index to value).asSuccess() }
-                            }
-                    }
+                    val result: TransactionResult<Pair<Int, String>?, Nothing> =
+                        tm.execute(SELECT_SQL) { statement ->
+                            statement.query(sqlParam(ID_THIRD_ROW_VALUE))
+                                .mapToObject { index, row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
+                                        .liftToTransactionException()
+                                        .map { value -> index to value }
+                                }
+                        }
 
                     "then the result should be null" {
                         result.shouldBeSuccess()
@@ -53,34 +56,37 @@ internal class MapToObjectTest : IntegrationTest() {
                     dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
                         statement
-                            .query(sqlParam(ID_SECOND_ROW_VALUE))
+                            .query(sqlParam(ID_FIRST_ROW_VALUE))
                             .mapToObject { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .mapOrIncident { value -> (index to value).asSuccess() }
+                                    .liftToTransactionException()
+                                    .map { value -> index to value }
                             }
                     }
 
                     "then the result should contain only the selected data" {
                         result.shouldBeSuccess()
-                        result.value shouldBe (ROW_INDEX to TITLE_SECOND_ROW_VALUE)
+                        result.value shouldBe (ROW_INDEX to TITLE_FIRST_ROW_VALUE)
                     }
                 }
             }
 
             "when the execution is failed" - {
 
-                "when the parameter is not specified" - {
+                "when the parameter of the query is not specified" - {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.query(sqlParam(ID_FIRST_ROW_VALUE))
-                            .mapToObject<String, Nothing> { index, row ->
-                                error("Error")
+                        statement.query()
+                            .mapToObject { index, row ->
+                                row.getString(TITLE_COLUMN_INDEX)
+                                    .liftToTransactionException()
+                                    .map { value -> index to value }
                             }
                     }
 
-                    "then the result should contain an incident" {
-                        result.shouldBeIncident()
+                    "then the result should contain an exception" {
+                        result.shouldBeException()
                     }
                 }
             }

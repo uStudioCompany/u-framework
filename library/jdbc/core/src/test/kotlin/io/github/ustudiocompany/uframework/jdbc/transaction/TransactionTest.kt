@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.jdbc.transaction
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionIncident
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeIncident
+import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
 import io.github.ustudiocompany.uframework.jdbc.test.shouldBeEmpty
@@ -37,18 +37,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionIncident()
+                                        statement.update().liftToTransactionException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionIncident()
+                                        statement.update().liftToTransactionException()
                                     }
                                     .bind()
 
-                                transaction.commit().liftToTransactionIncident()
+                                transaction.commit().liftToTransactionException()
                             }
                         }
 
@@ -76,18 +76,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionIncident()
+                                        statement.update().liftToTransactionException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionIncident()
+                                        statement.update().liftToTransactionException()
                                     }
                                     .bind()
 
-                                transaction.rollback().liftToTransactionIncident()
+                                transaction.rollback().liftToTransactionException()
                             }
                         }
 
@@ -111,7 +111,7 @@ internal class TransactionTest : IntegrationTest() {
                             transaction.connection
                                 .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                 .use { statement ->
-                                    statement.update().liftToTransactionIncident()
+                                    statement.update().liftToTransactionException()
                                 }
                                 .bind()
 
@@ -122,16 +122,16 @@ internal class TransactionTest : IntegrationTest() {
                                         val r1 = statement.update().bind()
                                         val r2 = statement.update().bind()
                                         r1 + r2
-                                    }.liftToTransactionIncident()
+                                    }.liftToTransactionException()
                                 }
                                 .bind()
 
-                            transaction.commit().liftToTransactionIncident()
+                            transaction.commit().liftToTransactionException()
                         }
                     }
 
-                "then the result of the execution transaction should be incident" {
-                    result.shouldBeIncident()
+                "then the result of the execution transaction should be exception" {
+                    result.shouldBeException()
                 }
 
                 "then the data in all tables should not be saved" {
