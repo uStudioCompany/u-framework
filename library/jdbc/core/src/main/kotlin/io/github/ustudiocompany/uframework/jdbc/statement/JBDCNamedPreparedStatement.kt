@@ -99,8 +99,8 @@ public interface JBDCNamedPreparedStatement : JBDCStatement {
  * Example:
  * <!--- INCLUDE
  * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
- * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.intSqlParameterSetter
- * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.stringSqlParameterSetter
+ * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.IntSqlParameterSetter
+ * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.StringSqlParameterSetter
  * import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement
  * import io.github.ustudiocompany.uframework.jdbc.statement.setParameters
  * -->
@@ -109,8 +109,8 @@ public interface JBDCNamedPreparedStatement : JBDCStatement {
  *
  * internal fun JBDCNamedPreparedStatement.initParams(user: User): JDBCResult<JBDCNamedPreparedStatement> =
  *     setParameters {
- *         set("id", user.id, intSqlParameterSetter)
- *         set("name", user.name, stringSqlParameterSetter)
+ *         set("id", user.id, IntSqlParameterSetter)
+ *         set("name", user.name, StringSqlParameterSetter)
  *     }
  * ```
  * <!--- KNIT example-set-named-parameters-01.kt -->

@@ -9,7 +9,7 @@ public fun sqlParam(value: Int?): SqlParameter = IntSqlParameter(value)
 public infix fun Int?.asSqlParam(name: String): NamedSqlParameter = sqlParam(name, this)
 public fun sqlParam(name: String, value: Int?): NamedSqlParameter = IntNamedSqlParameter(name, value)
 
-public val intSqlParameterSetter: SqlParameterSetter<Int> = { index, value ->
+public val IntSqlParameterSetter: SqlParameterSetter<Int> = { index, value ->
     if (value != null)
         setInt(index, value)
     else
@@ -18,7 +18,7 @@ public val intSqlParameterSetter: SqlParameterSetter<Int> = { index, value ->
 
 private class IntSqlParameter(private val value: Int?) : SqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        intSqlParameterSetter(statement, index, value)
+        IntSqlParameterSetter(statement, index, value)
 }
 
 private class IntNamedSqlParameter(
@@ -26,5 +26,5 @@ private class IntNamedSqlParameter(
     private val value: Int?
 ) : NamedSqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        intSqlParameterSetter(statement, index, value)
+        IntSqlParameterSetter(statement, index, value)
 }

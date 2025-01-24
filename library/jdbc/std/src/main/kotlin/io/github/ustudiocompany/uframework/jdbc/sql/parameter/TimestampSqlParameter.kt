@@ -10,7 +10,7 @@ public fun sqlParam(value: Timestamp?): SqlParameter = TimestampSqlParameter(val
 public infix fun Timestamp?.asSqlParam(name: String): NamedSqlParameter = sqlParam(name, this)
 public fun sqlParam(name: String, value: Timestamp?): NamedSqlParameter = TimestampNamedSqlParameter(name, value)
 
-public val timestampSqlParameterSetter: SqlParameterSetter<Timestamp> = { index, value ->
+public val TimestampSqlParameterSetter: SqlParameterSetter<Timestamp> = { index, value ->
     if (value != null)
         setTimestamp(index, value)
     else
@@ -19,7 +19,7 @@ public val timestampSqlParameterSetter: SqlParameterSetter<Timestamp> = { index,
 
 private class TimestampSqlParameter(private val value: Timestamp?) : SqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        timestampSqlParameterSetter(statement, index, value)
+        TimestampSqlParameterSetter(statement, index, value)
 }
 
 private class TimestampNamedSqlParameter(
@@ -27,5 +27,5 @@ private class TimestampNamedSqlParameter(
     private val value: Timestamp?
 ) : NamedSqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        timestampSqlParameterSetter(statement, index, value)
+        TimestampSqlParameterSetter(statement, index, value)
 }

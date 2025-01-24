@@ -10,7 +10,7 @@ public fun jsonbSqlParam(value: String?): SqlParameter = JsonbSqlParameter(value
 public infix fun String?.asJSONBSqlParam(name: String): SqlParameter = jsonbSqlParam(name, this)
 public fun jsonbSqlParam(name: String, value: String?): SqlParameter = JsonbNamedSqlParameter(name, value)
 
-public val jsonbSqlParameterSetter: SqlParameterSetter<String> = { index, value ->
+public val JSONBSqlParameterSetter: SqlParameterSetter<String> = { index, value ->
     if (value != null) {
         val jsonbObject = PGobject()
         jsonbObject.type = "jsonb"
@@ -22,7 +22,7 @@ public val jsonbSqlParameterSetter: SqlParameterSetter<String> = { index, value 
 
 private class JsonbSqlParameter(private val value: String?) : SqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        jsonbSqlParameterSetter(statement, index, value)
+        JSONBSqlParameterSetter(statement, index, value)
 }
 
 private class JsonbNamedSqlParameter(
@@ -30,5 +30,5 @@ private class JsonbNamedSqlParameter(
     private val value: String?
 ) : NamedSqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        jsonbSqlParameterSetter(statement, index, value)
+        JSONBSqlParameterSetter(statement, index, value)
 }

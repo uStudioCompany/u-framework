@@ -10,7 +10,7 @@ public fun sqlParam(value: UUID?): SqlParameter = UUIDSqlParameter(value)
 public infix fun UUID?.asSqlParam(name: String): NamedSqlParameter = sqlParam(name, this)
 public fun sqlParam(name: String, value: UUID?): NamedSqlParameter = UUIDNamedSqlParameter(name, value)
 
-public val uuidSqlParameterSetter: SqlParameterSetter<UUID> = { index, value ->
+public val UUIDSqlParameterSetter: SqlParameterSetter<UUID> = { index, value ->
     if (value != null)
         setObject(index, value)
     else
@@ -19,7 +19,7 @@ public val uuidSqlParameterSetter: SqlParameterSetter<UUID> = { index, value ->
 
 public class UUIDSqlParameter(private val value: UUID?) : SqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        uuidSqlParameterSetter(statement, index, value)
+        UUIDSqlParameterSetter(statement, index, value)
 }
 
 private class UUIDNamedSqlParameter(
@@ -27,5 +27,5 @@ private class UUIDNamedSqlParameter(
     private val value: UUID?
 ) : NamedSqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        uuidSqlParameterSetter(statement, index, value)
+        UUIDSqlParameterSetter(statement, index, value)
 }

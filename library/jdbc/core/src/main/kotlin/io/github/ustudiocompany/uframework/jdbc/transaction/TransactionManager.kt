@@ -25,7 +25,7 @@ import io.github.ustudiocompany.uframework.jdbc.use
  * import io.github.ustudiocompany.uframework.jdbc.row.mapToObject
  * import io.github.ustudiocompany.uframework.jdbc.row.resultRowMapper
  * import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
- * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.intSqlParameterSetter
+ * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.IntSqlParameterSetter
  * import io.github.ustudiocompany.uframework.jdbc.statement.query
  * import io.github.ustudiocompany.uframework.jdbc.statement.setParameters
  * import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
@@ -40,7 +40,7 @@ import io.github.ustudiocompany.uframework.jdbc.use
  *             connection.namedPreparedStatement(SELECT_USER_SQL)
  *                 .use { statement ->
  *                     statement.setParameters {
- *                         set("id", id, intSqlParameterSetter)
+ *                         set("id", id, IntSqlParameterSetter)
  *                     }
  *                         .query()
  *                         .mapToObject(mapper)

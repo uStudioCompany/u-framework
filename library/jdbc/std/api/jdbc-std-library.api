@@ -52,7 +52,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/IntSql
 public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/JsonbSqlParameterKt {
 	public static final fun asJSONBSqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
 	public static final fun asJSONBSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
-	public static final fun getJsonbSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
+	public static final fun getJSONBSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
 	public static final fun jsonbSqlParam (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
 	public static final fun jsonbSqlParam (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
 }
@@ -89,7 +89,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/UUIDSq
 public final class io/github/ustudiocompany/uframework/jdbc/sql/parameter/UUIDSqlParameterKt {
 	public static final fun asSqlParam (Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
 	public static final fun asSqlParam (Ljava/util/UUID;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
-	public static final fun getUuidSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
+	public static final fun getUUIDSqlParameterSetter ()Lkotlin/jvm/functions/Function3;
 	public static final fun sqlParam (Ljava/lang/String;Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;
 	public static final fun sqlParam (Ljava/util/UUID;)Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;
 }

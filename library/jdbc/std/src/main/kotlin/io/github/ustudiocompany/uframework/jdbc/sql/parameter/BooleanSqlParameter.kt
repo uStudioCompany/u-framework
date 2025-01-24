@@ -9,7 +9,7 @@ public fun sqlParam(value: Boolean?): SqlParameter = BooleanSqlParameter(value)
 public infix fun Boolean?.asSqlParam(name: String): NamedSqlParameter = sqlParam(name, this)
 public fun sqlParam(name: String, value: Boolean?): NamedSqlParameter = BooleanNamedSqlParameter(name, value)
 
-public val booleanSqlParameterSetter: SqlParameterSetter<Boolean> = { index, value ->
+public val BooleanSqlParameterSetter: SqlParameterSetter<Boolean> = { index, value ->
     if (value != null)
         setBoolean(index, value)
     else
@@ -18,7 +18,7 @@ public val booleanSqlParameterSetter: SqlParameterSetter<Boolean> = { index, val
 
 private class BooleanSqlParameter(private val value: Boolean?) : SqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        booleanSqlParameterSetter(statement, index, value)
+        BooleanSqlParameterSetter(statement, index, value)
 }
 
 private class BooleanNamedSqlParameter(
@@ -26,5 +26,5 @@ private class BooleanNamedSqlParameter(
     private val value: Boolean?
 ) : NamedSqlParameter {
     override fun setValue(statement: PreparedStatement, index: Int): Unit =
-        booleanSqlParameterSetter(statement, index, value)
+        BooleanSqlParameterSetter(statement, index, value)
 }
