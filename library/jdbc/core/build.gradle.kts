@@ -16,6 +16,9 @@ dependencies {
     /* Database */
     api(libs.bundles.database)
 
+    //TODO DELETE
+    implementation(libs.bundles.kotest)
+
     /* Tests */
     testImplementation(project(":jdbc-std-library"))
     testImplementation(project(":jdbc-testcontainers-library"))

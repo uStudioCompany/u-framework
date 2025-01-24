@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionException
 
-public fun <ValueT, ErrorT> JDBCResult<ResultRows>.mapToObject(
+public fun <ValueT, ErrorT : Any> JDBCResult<ResultRows>.mapToObject(
     mapper: ResultRowMapper<ValueT, ErrorT>
 ): TransactionResult<ValueT?, ErrorT> =
     fold(
@@ -18,7 +18,7 @@ public fun <ValueT, ErrorT> JDBCResult<ResultRows>.mapToObject(
         onFailure = { error -> transactionException(error) }
     )
 
-public fun <ValueT, ErrorT> JDBCResult<ResultRows>.mapToList(
+public fun <ValueT, ErrorT : Any> JDBCResult<ResultRows>.mapToList(
     mapper: ResultRowMapper<ValueT, ErrorT>
 ): TransactionResult<List<ValueT>, ErrorT> =
     fold(

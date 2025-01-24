@@ -12,7 +12,7 @@ import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 
 public typealias ResultRowMapper<ValueT, ErrorT> = (index: Int, row: ResultRow) -> TransactionResult<ValueT, ErrorT>
 
-public fun <ValueT, ErrorT> resultRowMapper(
+public fun <ValueT, ErrorT : Any> resultRowMapper(
     block: ResultRowMapperScope.(Int, ResultRow) -> TransactionResult<ValueT, ErrorT>
 ): ResultRowMapper<ValueT, ErrorT> =
     { index, row ->

@@ -25,7 +25,7 @@ public typealias TransactionException = ResultK<Nothing, Fail<Nothing, JDBCError
  * @param ErrorT the type of the error.
  * @param error The error value.
  */
-public fun <ErrorT> transactionError(error: ErrorT): TransactionError<ErrorT> = error(error).asFailure()
+public fun <ErrorT : Any> transactionError(error: ErrorT): TransactionError<ErrorT> = error(error).asFailure()
 
 /**
  * Creates a technical error related to the transaction.

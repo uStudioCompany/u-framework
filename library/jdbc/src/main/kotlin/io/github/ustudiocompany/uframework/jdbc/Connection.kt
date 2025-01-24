@@ -21,7 +21,7 @@ public inline fun <T> Connection.withTransaction(
 @OptIn(ExperimentalContracts::class)
 @Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
 @Suppress("TooGenericExceptionCaught")
-public inline fun <T, F> Connection.withTransaction(
+public inline fun <T, F : Any> Connection.withTransaction(
     noinline errorConverter: ErrorConverter<F>,
     block: Connection.() -> ResultK<T, F>
 ): ResultK<T, F> {

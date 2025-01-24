@@ -36,7 +36,7 @@ internal class LiftToTransactionErrorTest : UnitTest() {
         }
     }
 
-    private fun <ValueT, ErrorT> createResult(value: ResultK<ValueT, ErrorT>): ResultK<ValueT, ErrorT> = value
+    private fun <ValueT, ErrorT : Any> createResult(value: ResultK<ValueT, ErrorT>): ResultK<ValueT, ErrorT> = value
 
     companion object {
         private const val ORIGINAL_VALUE = "10"

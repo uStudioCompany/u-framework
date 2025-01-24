@@ -142,7 +142,7 @@ internal class MapToObjectTest : IntegrationTest() {
             |    WHERE $ID_COLUMN_NAME = ?
         """.trimMargin()
 
-        private fun <ValueT, ErrorT> TransactionManager.execute(
+        private fun <ValueT, ErrorT : Any> TransactionManager.execute(
             sql: String,
             block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT>
         ): TransactionResult<ValueT, ErrorT> =

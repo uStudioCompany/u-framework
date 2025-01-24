@@ -17,7 +17,7 @@ public inline fun <T> DataSource.useConnection(block: (Connection) -> ResultK<T,
 
 @OptIn(ExperimentalContracts::class)
 @Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
-public inline fun <T, F> DataSource.useConnection(
+public inline fun <T, F : Any> DataSource.useConnection(
     errorConverter: ErrorConverter<F>,
     block: (Connection) -> ResultK<T, F>
 ): ResultK<T, F> {

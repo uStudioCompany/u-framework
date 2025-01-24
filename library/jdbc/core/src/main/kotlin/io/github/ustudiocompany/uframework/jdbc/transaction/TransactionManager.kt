@@ -96,7 +96,7 @@ public interface TransactionManager {
     ): JDBCResult<Transaction>
 }
 
-public inline fun <ValueT, ErrorT> TransactionManager.useTransaction(
+public inline fun <ValueT, ErrorT : Any> TransactionManager.useTransaction(
     isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
     block: (JBDCConnection) -> TransactionResult<ValueT, ErrorT>
 ): TransactionResult<ValueT, ErrorT> =

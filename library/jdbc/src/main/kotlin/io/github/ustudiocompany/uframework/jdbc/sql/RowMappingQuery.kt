@@ -12,7 +12,7 @@ import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
 import java.sql.Connection
 
 @Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
-public fun <T, F> rowMappingQuery(
+public fun <T, F : Any> rowMappingQuery(
     sql: ParametrizedSql,
     errorConverter: ErrorConverter<F>,
     mapper: (Row) -> ResultK<T, F>
@@ -25,7 +25,7 @@ public fun <T> rowMappingQuery(
 ): RowMappingQuery<T, JDBCErrors> = RowMappingQuery(sql, ::identity, mapper)
 
 @Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
-public class RowMappingQuery<out T, out F>(
+public class RowMappingQuery<out T, out F : Any>(
     sql: ParametrizedSql,
     private val errorConverter: ErrorConverter<F>,
     private val mapper: (Row) -> ResultK<T, F>

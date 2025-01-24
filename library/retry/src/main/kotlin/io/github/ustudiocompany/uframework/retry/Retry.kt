@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.Failure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 
-public inline fun <T, F> retry(
+public inline fun <T, F : Any> retry(
     scope: RetryScope,
     predicate: (F) -> Boolean,
     block: () -> ResultK<T, F>
