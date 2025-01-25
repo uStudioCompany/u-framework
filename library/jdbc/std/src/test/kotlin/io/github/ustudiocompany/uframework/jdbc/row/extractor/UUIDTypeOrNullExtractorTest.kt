@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row.extractor
 
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.getColumnsExclude
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.MultiColumnTable.Companion.makeCreateTableSql
@@ -62,8 +62,8 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
                         getUUIDOrNull(metadata.columnIndex)
                     }
 
-                    val exceptionValue = result.shouldBeException()
-                    exceptionValue.description.shouldBe(
+                    val exception = result.shouldContainExceptionInstance()
+                    exception.description.shouldBe(
                         "The column type with index '${metadata.columnIndex}' does not match the extraction type. " +
                             "Expected: [${EXPECTED_TYPE.dataType}], actual: '${metadata.dataType}'."
                     )
@@ -78,8 +78,8 @@ internal class UUIDTypeOrNullExtractorTest : AbstractExtractorTest() {
                     getUUIDOrNull(INVALID_COLUMN_INDEX)
                 }
 
-                val exceptionValue = result.shouldBeException()
-                exceptionValue.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
+                val exception = result.shouldContainExceptionInstance()
+                exception.description shouldBe "The column index '$INVALID_COLUMN_INDEX' is out of bounds."
             }
         }
     }

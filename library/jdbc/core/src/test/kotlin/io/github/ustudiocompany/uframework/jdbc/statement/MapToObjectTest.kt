@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.mapToObject
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -86,7 +86,7 @@ internal class MapToObjectTest : IntegrationTest() {
                     }
 
                     "then the result should contain an exception" {
-                        result.shouldBeException()
+                        result.shouldContainExceptionInstance()
                     }
                 }
             }

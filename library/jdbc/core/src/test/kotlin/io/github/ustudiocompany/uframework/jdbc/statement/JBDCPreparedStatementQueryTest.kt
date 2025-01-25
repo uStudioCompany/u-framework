@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
@@ -66,8 +66,8 @@ internal class JBDCPreparedStatementQueryTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Error while executing the query."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Error while executing the query."
                     }
                 }
 
@@ -84,8 +84,8 @@ internal class JBDCPreparedStatementQueryTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Error while setting parameter by index: '2'."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Error while setting parameter by index: '2'."
                     }
                 }
 
@@ -104,8 +104,8 @@ internal class JBDCPreparedStatementQueryTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Error while executing the query."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Error while executing the query."
                     }
                 }
             }

@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -153,8 +153,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     }
 
                     "then should return an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Undefined parameter with name: '$invalidParamName'."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
             }

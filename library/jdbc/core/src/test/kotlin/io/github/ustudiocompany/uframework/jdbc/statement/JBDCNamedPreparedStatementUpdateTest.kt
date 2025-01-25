@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
@@ -64,8 +64,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Error while executing the update."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Error while executing the update."
                     }
                 }
 
@@ -82,8 +82,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Undefined parameter with name: '$invalidParamName'."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Undefined parameter with name: '$invalidParamName'."
                     }
                 }
 
@@ -96,8 +96,8 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
                     }
 
                     "then the result of execution of the statement should contain an exception" {
-                        val exceptionValue = result.shouldBeException()
-                        exceptionValue.description shouldBe "Error while executing the update."
+                        val exception = result.shouldContainExceptionInstance()
+                        exception.description shouldBe "Error while executing the update."
                     }
                 }
             }

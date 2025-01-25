@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -38,8 +38,8 @@ internal class UseTest : UnitTest() {
                 }
 
                 "then this function should return an exception" {
-                    val exceptionValue = result.shouldBeException()
-                    exceptionValue shouldBe ERROR
+                    val exception = result.shouldContainExceptionInstance()
+                    exception shouldBe ERROR
                 }
             }
         }

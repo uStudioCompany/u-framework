@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
@@ -147,8 +147,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                         }
 
                         "then should return an exception" {
-                            val exceptionValue = result.shouldBeException()
-                            exceptionValue.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
+                            val exception = result.shouldContainExceptionInstance()
+                            exception.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
                         }
                     }
 
@@ -167,8 +167,8 @@ internal class JBDCPreparedStatementSetParameterWithSetterTest : IntegrationTest
                         }
 
                         "then should return an exception" {
-                            val exceptionValue = result.shouldBeException()
-                            exceptionValue.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
+                            val exception = result.shouldContainExceptionInstance()
+                            exception.description shouldBe "Error while setting parameter by index: '$invalidParamIndex'."
                         }
                     }
                 }

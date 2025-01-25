@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
@@ -51,8 +51,8 @@ internal class ResultRowTest : IntegrationTest() {
                             tm.executeQuery(STATUS_COLUMN_INDEX, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                         "then the result should contain an exception" {
-                            val exceptionValue = result.shouldBeException()
-                            exceptionValue.description.shouldBe(
+                            val exception = result.shouldContainExceptionInstance()
+                            exception.description.shouldBe(
                                 "The column type with index '2' does not match the extraction type. " +
                                     "Expected: [text, varchar, bpchar], actual: 'bool'."
                             )
@@ -84,8 +84,8 @@ internal class ResultRowTest : IntegrationTest() {
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                             "then the result should contain an exception" {
-                                val exceptionValue = result.shouldBeException()
-                                exceptionValue.description shouldBe "The column index '$invalidIndex' is out of bounds."
+                                val exception = result.shouldContainExceptionInstance()
+                                exception.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
 
@@ -97,8 +97,8 @@ internal class ResultRowTest : IntegrationTest() {
                                 tm.executeQuery(invalidIndex, TEXT_TYPE) { col, rs -> rs.getString(col).asSuccess() }
 
                             "then the result should contain an exception" {
-                                val exceptionValue = result.shouldBeException()
-                                exceptionValue.description shouldBe "The column index '$invalidIndex' is out of bounds."
+                                val exception = result.shouldContainExceptionInstance()
+                                exception.description shouldBe "The column index '$invalidIndex' is out of bounds."
                             }
                         }
                     }
@@ -111,8 +111,8 @@ internal class ResultRowTest : IntegrationTest() {
                         }
 
                         "then the result should contain an exception" {
-                            val exceptionValue = result.shouldBeException()
-                            exceptionValue.description shouldBe "Error while extracting data from the result set"
+                            val exception = result.shouldContainExceptionInstance()
+                            exception.description shouldBe "Error while extracting data from the result set"
                         }
                     }
                 }

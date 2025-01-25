@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
-import io.github.ustudiocompany.uframework.jdbc.matcher.shouldBeException
+import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
 import io.github.ustudiocompany.uframework.jdbc.test.shouldBeEmpty
@@ -131,7 +131,7 @@ internal class TransactionTest : IntegrationTest() {
                     }
 
                 "then the result of the execution transaction should be exception" {
-                    result.shouldBeException()
+                    result.shouldContainExceptionInstance()
                 }
 
                 "then the data in all tables should not be saved" {
