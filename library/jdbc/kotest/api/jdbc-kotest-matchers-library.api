@@ -1,5 +1,4 @@
 public final class io/github/ustudiocompany/uframework/jdbc/matcher/TransactionMatcherKt {
-	public static final fun shouldContainErrorInstance (Lio/github/airflux/commons/types/resultk/ResultK;)Ljava/lang/Object;
 	public static final fun shouldContainExceptionInstance (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;
 }
 
