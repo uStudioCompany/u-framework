@@ -2,11 +2,11 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.Raise
 import io.github.airflux.commons.types.doRaise
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.onFailure
 import io.github.airflux.commons.types.resultk.success
 import io.github.airflux.commons.types.withRaise
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
@@ -30,7 +30,7 @@ public interface JBDCPreparedStatement : JBDCStatement {
      * @param index the index of the parameter.
      * @param param the parameter.
      */
-    public fun setParameter(index: Int, param: SqlParameter): JDBCFail
+    public fun setParameter(index: Int, param: SqlParameter): MaybeFailure<JDBCError>
 
     /**
      * Sets the parameter.
@@ -39,7 +39,11 @@ public interface JBDCPreparedStatement : JBDCStatement {
      * @param value the value of the parameter.
      * @param setter the setter for the parameter.
      */
-    public fun <ValueT> setParameter(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail
+    public fun <ValueT> setParameter(
+        index: Int,
+        value: ValueT,
+        setter: SqlParameterSetter<ValueT>
+    ): MaybeFailure<JDBCError>
 
     /**
      * Executes the prepared statement.

@@ -5,7 +5,6 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
 public typealias JDBCResult<ValueT> = ResultK<ValueT, JDBCError>
-public typealias JDBCFail = ResultK<Unit, JDBCError>
 
 public fun jdbcFail(description: String, exception: Throwable? = null): JDBCResult<Nothing> =
     JDBCError(description, exception).asFailure()

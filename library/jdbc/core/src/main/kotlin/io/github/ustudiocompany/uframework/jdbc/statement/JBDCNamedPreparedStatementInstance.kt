@@ -1,10 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
@@ -20,10 +21,14 @@ internal class JBDCNamedPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(parameter: NamedSqlParameter): JDBCFail =
+    override fun setParameter(parameter: NamedSqlParameter): MaybeFailure<JDBCError> =
         trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
-    override fun <ValueT> setParameter(name: String, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail =
+    override fun <ValueT> setParameter(
+        name: String,
+        value: ValueT,
+        setter: SqlParameterSetter<ValueT>
+    ): MaybeFailure<JDBCError> =
         trySetParameter(name) { index -> setter(statement, index, value) }
 
     override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {
@@ -45,7 +50,7 @@ internal class JBDCNamedPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): JDBCFail {
+    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): MaybeFailure<JDBCError> {
         values.forEach { parameter ->
             val result = trySetParameter(parameter.name) { index ->
                 parameter.setValue(this, index)
@@ -55,7 +60,7 @@ internal class JBDCNamedPreparedStatementInstance(
         return Success.asUnit
     }
 
-    private inline fun trySetParameter(name: String, block: (Int) -> Unit): JDBCFail {
+    private inline fun trySetParameter(name: String, block: (Int) -> Unit): MaybeFailure<JDBCError> {
         val index = parameters[name]
             ?: return jdbcFail(description = "Undefined parameter with name: '$name'.")
         return try {

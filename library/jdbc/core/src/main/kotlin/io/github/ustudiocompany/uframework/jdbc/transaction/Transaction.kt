@@ -1,7 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
 /**
  * The type representing a transaction.
@@ -16,14 +17,14 @@ public interface Transaction : AutoCloseable {
     /**
      * Commits the transaction.
      *
-     * @return a [JDBCFail] instance if the commit fails.
+     * @return a [JDBCError] error if the commit fails.
      */
-    public fun commit(): JDBCFail
+    public fun commit(): MaybeFailure<JDBCError>
 
     /**
      * Rolls back the transaction.
      *
-     * @return a [JDBCFail] instance if the rollback fails.
+     * @return a [JDBCError] error if the rollback fails.
      */
-    public fun rollback(): JDBCFail
+    public fun rollback(): MaybeFailure<JDBCError>
 }

@@ -1,11 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement
@@ -23,14 +24,14 @@ internal class TransactionInstance(
     override val connection: JBDCConnection
         get() = this
 
-    override fun commit(): JDBCFail = try {
+    override fun commit(): MaybeFailure<JDBCError> = try {
         unwrappedConnection.commit()
         Success.asUnit
     } catch (expected: Exception) {
         jdbcFail(description = "Error while committing transaction", exception = expected)
     }
 
-    override fun rollback(): JDBCFail = try {
+    override fun rollback(): MaybeFailure<JDBCError> = try {
         unwrappedConnection.rollback()
         Success.asUnit
     } catch (expected: Exception) {

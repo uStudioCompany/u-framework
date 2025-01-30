@@ -1,9 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.isFailure
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
@@ -18,10 +19,14 @@ internal class JBDCPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(index: Int, parameter: SqlParameter): JDBCFail =
+    override fun setParameter(index: Int, parameter: SqlParameter): MaybeFailure<JDBCError> =
         trySetParameter(index) { parameter.setValue(statement, index) }
 
-    override fun <ValueT> setParameter(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>): JDBCFail =
+    override fun <ValueT> setParameter(
+        index: Int,
+        value: ValueT,
+        setter: SqlParameterSetter<ValueT>
+    ): MaybeFailure<JDBCError> =
         trySetParameter(index) { setter(statement, index, value) }
 
     override fun execute(values: Iterable<SqlParameter>): JDBCResult<StatementResult> {
@@ -43,7 +48,7 @@ internal class JBDCPreparedStatementInstance(
         if (!statement.isClosed) statement.close()
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<SqlParameter>): JDBCFail {
+    private fun PreparedStatement.setParameterValues(values: Iterable<SqlParameter>): MaybeFailure<JDBCError> {
         values.forEachIndexed { index, parameter ->
             val paramIndex = index + 1
             val result = trySetParameter(paramIndex) {
@@ -54,7 +59,7 @@ internal class JBDCPreparedStatementInstance(
         return Success.asUnit
     }
 
-    private inline fun trySetParameter(index: Int, block: () -> Unit): JDBCFail =
+    private inline fun trySetParameter(index: Int, block: () -> Unit): MaybeFailure<JDBCError> =
         try {
             block()
             Success.asUnit

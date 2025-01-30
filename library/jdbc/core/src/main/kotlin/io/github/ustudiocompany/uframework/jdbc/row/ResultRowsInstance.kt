@@ -1,9 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
+import io.github.airflux.commons.types.resultk.MaybeFailure
 import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.getOrForward
-import io.github.ustudiocompany.uframework.jdbc.JDBCFail
+import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import java.sql.ResultSet
@@ -19,9 +20,11 @@ internal class ResultRowsInstance(
         block: DataExtractor<ValueT>
     ): JDBCResult<ValueT> = try {
         val metadata = resultSet.metaData
-        metadata.checkIndex(index = index).getOrForward { return it }
-        metadata.checkType(index = index, types).getOrForward { return it }
-        block(index, resultSet)
+        resultWith {
+            metadata.checkIndex(index = index).raise()
+            metadata.checkType(index = index, types).raise()
+            block(index, resultSet)
+        }
     } catch (expected: Exception) {
         jdbcFail(
             description = "Error while extracting data from the result set",
@@ -31,13 +34,13 @@ internal class ResultRowsInstance(
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 
-    private fun ResultSetMetaData.checkIndex(index: Int): JDBCFail =
+    private fun ResultSetMetaData.checkIndex(index: Int): MaybeFailure<JDBCError> =
         if (index < 1 || index > columnCount)
             jdbcFail(description = "The column index '$index' is out of bounds.")
         else
             Success.asUnit
 
-    private fun ResultSetMetaData.checkType(index: Int, types: ResultRow.Types): JDBCFail {
+    private fun ResultSetMetaData.checkType(index: Int, types: ResultRow.Types): MaybeFailure<JDBCError> {
         val actualType = getColumnTypeName(index)
         return if (actualType in types)
             Success.asUnit
