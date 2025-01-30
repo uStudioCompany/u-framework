@@ -138,7 +138,7 @@ internal class JBDCNamedPreparedStatementQueryTest : IntegrationTest() {
 
         private const val TITLE_COLUMN_INDEX = 2
 
-        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
+        private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
 
         @JvmStatic
         @Language("Postgresql")

@@ -120,7 +120,7 @@ internal class ResultRowTest : IntegrationTest() {
         }
     }
 
-    private fun TransactionManager.executeQuery(column: Int, types: ResultRow.Types, block: DataExtractor<String>) =
+    private fun TransactionManager.executeQuery(column: Int, types: ResultRow.ColumnTypes, block: DataExtractor<String>) =
         useTransaction { connection ->
             connection.preparedStatement(SELECT_SQL)
                 .use { statement ->
@@ -149,7 +149,7 @@ internal class ResultRowTest : IntegrationTest() {
         private const val STATUS_FIRST_ROW_BOOL_VALUE = true
         private const val STATUS_SECOND_ROW_BOOL_VALUE = false
 
-        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
+        private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
 
         @JvmStatic
         @Language("Postgresql")

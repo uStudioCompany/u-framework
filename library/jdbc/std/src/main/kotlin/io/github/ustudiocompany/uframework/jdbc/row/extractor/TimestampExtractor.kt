@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
-import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
+import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.ColumnTypes
 import io.github.ustudiocompany.uframework.jdbc.row.ensureColumnValueNotNull
 import java.sql.ResultSet
 import java.sql.Timestamp
@@ -18,4 +18,4 @@ public fun ResultRow.getTimestampOrNull(column: Int): JDBCResult<Timestamp?> =
 public fun ResultRow.getTimestamp(column: Int): JDBCResult<Timestamp> =
     ensureColumnValueNotNull(column, ResultRow::getTimestampOrNull)
 
-private val TIMESTAMP_TYPE = Types("timestamp")
+private val TIMESTAMP_TYPE = ColumnTypes("timestamp")

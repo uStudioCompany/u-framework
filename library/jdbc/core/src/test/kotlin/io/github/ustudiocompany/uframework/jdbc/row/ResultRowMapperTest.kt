@@ -69,7 +69,7 @@ internal class ResultRowMapperTest : UnitTest() {
     private class DummyResultRow : ResultRow {
         override fun <ValueT> extract(
             index: Int,
-            types: ResultRow.Types,
+            expectedColumnTypes: ResultRow.ColumnTypes,
             block: DataExtractor<ValueT>
         ): JDBCResult<ValueT> {
             error("Not implemented")

@@ -179,7 +179,7 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
         private const val TITLE_SECOND_ROW_NEW_VALUE = "s-r-title-new"
 
         private const val TITLE_COLUMN_INDEX = 2
-        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
+        private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
 
         @JvmStatic
         @Language("Postgresql")

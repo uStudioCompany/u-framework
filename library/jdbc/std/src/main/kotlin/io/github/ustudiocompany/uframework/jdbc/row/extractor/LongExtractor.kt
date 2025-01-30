@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
-import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.Types
+import io.github.ustudiocompany.uframework.jdbc.row.ResultRow.ColumnTypes
 import io.github.ustudiocompany.uframework.jdbc.row.ensureColumnValueNotNull
 import java.sql.ResultSet
 
@@ -17,4 +17,4 @@ public fun ResultRow.getLongOrNull(column: Int): JDBCResult<Long?> =
 public fun ResultRow.getLong(column: Int): JDBCResult<Long> =
     ensureColumnValueNotNull(column, ResultRow::getLongOrNull)
 
-private val LONG_TYPE = Types("int8")
+private val LONG_TYPE = ColumnTypes("int8")

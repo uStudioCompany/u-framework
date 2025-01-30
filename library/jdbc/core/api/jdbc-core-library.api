@@ -26,11 +26,11 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCError : io
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/ResultRow {
-	public abstract fun extract-hbBov_U (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun extract-1ZxJVDE (ILjava/util/List;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types {
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow$Types;
+public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRow$ColumnTypes {
+	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow$ColumnTypes;
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
 	public static fun constructor-impl ([Ljava/lang/String;)Ljava/util/List;
 	public static final fun contains-impl (Ljava/util/List;Ljava/lang/String;)Z

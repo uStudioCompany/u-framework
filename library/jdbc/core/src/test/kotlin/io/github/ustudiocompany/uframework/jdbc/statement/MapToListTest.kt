@@ -117,7 +117,7 @@ internal class MapToListTest : IntegrationTest() {
         private const val FIRST_ROW_INDEX = 1
         private const val SECOND_ROW_INDEX = 2
 
-        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
+        private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
 
         @JvmStatic
         @Language("Postgresql")

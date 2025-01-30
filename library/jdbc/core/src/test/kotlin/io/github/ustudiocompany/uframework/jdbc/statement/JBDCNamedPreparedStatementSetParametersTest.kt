@@ -183,7 +183,7 @@ internal class JBDCNamedPreparedStatementSetParametersTest : IntegrationTest() {
         private const val TITLE_SECOND_ROW_NEW_VALUE = "s-r-title-new"
 
         private const val TITLE_COLUMN_INDEX = 2
-        private val TEXT_TYPE = ResultRow.Types("text", "varchar", "bpchar")
+        private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
 
         private val STRING_SETTER: SqlParameterSetter<String> = { index, value ->
             setString(index, value).asSuccess()

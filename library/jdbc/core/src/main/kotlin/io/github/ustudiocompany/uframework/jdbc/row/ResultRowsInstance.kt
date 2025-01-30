@@ -16,13 +16,13 @@ internal class ResultRowsInstance(
 
     override fun <ValueT> extract(
         index: Int,
-        types: ResultRow.Types,
+        expectedColumnTypes: ResultRow.ColumnTypes,
         block: DataExtractor<ValueT>
     ): JDBCResult<ValueT> = try {
         val metadata = resultSet.metaData
         resultWith {
-            metadata.checkIndex(index = index).raise()
-            metadata.checkType(index = index, types).raise()
+            metadata.checkColumnIndex(index = index).raise()
+            metadata.checkExpectedColumnType(index = index, expectedColumnTypes).raise()
             block(index, resultSet)
         }
     } catch (expected: Exception) {
@@ -34,13 +34,16 @@ internal class ResultRowsInstance(
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 
-    private fun ResultSetMetaData.checkIndex(index: Int): MaybeFailure<JDBCError> =
+    private fun ResultSetMetaData.checkColumnIndex(index: Int): MaybeFailure<JDBCError> =
         if (index < 1 || index > columnCount)
             jdbcFail(description = "The column index '$index' is out of bounds.")
         else
             Success.asUnit
 
-    private fun ResultSetMetaData.checkType(index: Int, types: ResultRow.Types): MaybeFailure<JDBCError> {
+    private fun ResultSetMetaData.checkExpectedColumnType(
+        index: Int,
+        types: ResultRow.ColumnTypes
+    ): MaybeFailure<JDBCError> {
         val actualType = getColumnTypeName(index)
         return if (actualType in types)
             Success.asUnit
