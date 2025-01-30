@@ -1,7 +1,7 @@
 // This file was automatically generated from TransactionManager.kt by Knit tool. Do not edit.
 package examples.exampleTransactionManager01
 
-import io.github.airflux.commons.types.fail.Fail
+import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
@@ -23,8 +23,7 @@ import io.github.ustudiocompany.uframework.jdbc.use
 
 internal class UserRepository(private val tm: TransactionManager) {
 
-
-    fun getUser(id: Int): ResultK<User?, Fail<User.Error, UserRepositoryError>> =
+    fun getUser(id: Int): BiFailureResultK<User?, User.Error, UserRepositoryError> =
         tm.useTransaction { connection ->
             connection.namedPreparedStatement(SELECT_USER_SQL)
                 .use { statement ->
