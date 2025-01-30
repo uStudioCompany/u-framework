@@ -12,11 +12,10 @@ import io.github.ustudiocompany.uframework.jdbc.use
  * Example:
  * <!--- INCLUDE
  * import io.github.airflux.commons.types.fail.Fail
- * import io.github.airflux.commons.types.fail.mapException
  * import io.github.airflux.commons.types.resultk.ResultK
  * import io.github.airflux.commons.types.resultk.asFailure
  * import io.github.airflux.commons.types.resultk.asSuccess
- * import io.github.airflux.commons.types.resultk.mapFailure
+ * import io.github.airflux.commons.types.resultk.mapException
  * import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
  * import io.github.ustudiocompany.uframework.jdbc.liftToTransactionError
  * import io.github.ustudiocompany.uframework.jdbc.row.ResultRowMapper
@@ -45,8 +44,8 @@ import io.github.ustudiocompany.uframework.jdbc.use
  *                         .query()
  *                         .mapToObject(mapper)
  *                 }
- *         }.mapFailure { fail ->
- *             fail.mapException { UserRepositoryError("Failed to get user", it) }
+ *         }.mapException { fail ->
+ *             UserRepositoryError("Failed to get user", fail)
  *         }
  *
  *     companion object {

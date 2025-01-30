@@ -2,11 +2,10 @@
 package examples.exampleTransactionManager01
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.mapException
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapException
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.liftToTransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRowMapper
@@ -24,6 +23,7 @@ import io.github.ustudiocompany.uframework.jdbc.use
 
 internal class UserRepository(private val tm: TransactionManager) {
 
+
     fun getUser(id: Int): ResultK<User?, Fail<User.Error, UserRepositoryError>> =
         tm.useTransaction { connection ->
             connection.namedPreparedStatement(SELECT_USER_SQL)
@@ -34,8 +34,8 @@ internal class UserRepository(private val tm: TransactionManager) {
                         .query()
                         .mapToObject(mapper)
                 }
-        }.mapFailure { fail ->
-            fail.mapException { UserRepositoryError("Failed to get user", it) }
+        }.mapException { fail ->
+            UserRepositoryError("Failed to get user", fail)
         }
 
     companion object {
