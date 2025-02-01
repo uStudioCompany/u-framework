@@ -19,10 +19,10 @@ private class TransactionManagerInstance(
         isolation: TransactionIsolation,
         readOnly: Boolean
     ): JDBCResult<Transaction> =
-        dataSource.initConnection(isolation, readOnly)
+        dataSource.prepareConnection(isolation, readOnly)
             .map { connection -> TransactionInstance(connection) }
 
-    private fun DataSource.initConnection(
+    private fun DataSource.prepareConnection(
         isolation: TransactionIsolation,
         readonly: Boolean
     ): JDBCResult<Connection> = try {
