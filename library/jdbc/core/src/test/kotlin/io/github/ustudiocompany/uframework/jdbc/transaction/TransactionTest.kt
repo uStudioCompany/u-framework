@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
@@ -29,6 +30,43 @@ internal class TransactionTest : IntegrationTest() {
             val tm: TransactionManager = transactionManager(dataSource = dataSource)
 
             "when operations of the transaction are successful" - {
+
+                "when the transaction commit is not called" - {
+                    dataSource.truncateTable(FIRST_TABLE_NAME)
+                    dataSource.truncateTable(SECOND_TABLE_NAME)
+                    val result = tm.startTransaction()
+                        .use { transaction ->
+                            resultWith {
+                                transaction.connection
+                                    .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
+                                    .use { statement ->
+                                        statement.update().liftToTransactionException()
+                                    }
+                                    .bind()
+
+                                transaction.connection
+                                    .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
+                                    .use { statement ->
+                                        statement.update().liftToTransactionException()
+                                    }
+                                    .bind()
+
+                                ResultK.Success.asUnit
+                            }
+                        }
+
+                    "then the result of the execution transaction should be successful" {
+                        result.shouldBeSuccess()
+                    }
+
+                    "then the data should not be saved in first table" {
+                        dataSource.shouldBeEmpty(selectDataSQL(FIRST_TABLE_NAME))
+                    }
+
+                    "then the data should not be saved in second table" {
+                        dataSource.shouldBeEmpty(selectDataSQL(SECOND_TABLE_NAME))
+                    }
+                }
 
                 "when the transaction commit is successful" - {
                     dataSource.truncateTable(FIRST_TABLE_NAME)
