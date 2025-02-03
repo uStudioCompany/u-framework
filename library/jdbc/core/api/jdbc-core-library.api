@@ -67,7 +67,9 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/row/Res
 
 public final class io/github/ustudiocompany/uframework/jdbc/row/ResultRowsMappingKt {
 	public static final fun mapToList (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun mapToList (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun mapToObject (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun mapToObject (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRows;Lkotlin/jvm/functions/Function2;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql {

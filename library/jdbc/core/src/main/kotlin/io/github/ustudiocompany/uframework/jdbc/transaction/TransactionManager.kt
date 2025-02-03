@@ -58,7 +58,7 @@ import io.github.ustudiocompany.uframework.jdbc.use
  *         private val SELECT_USER_SQL =
  *             ParametrizedSql.of("SELECT id, name FROM users WHERE id = :id")
  *
- *         private val mapper: ResultRowMapper<User, User.Error> =
+ *         private val mapper: ResultRowMapper<User, User.Error, JDBCError> =
  *             resultRowMapper { _, row ->
  *                 val (id) = row.getInt(1)
  *                 val (name) = row.getString(2)

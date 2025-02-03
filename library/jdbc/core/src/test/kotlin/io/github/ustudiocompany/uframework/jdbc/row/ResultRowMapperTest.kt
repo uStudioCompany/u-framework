@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.fail.matcher.shouldBeError
 import io.github.airflux.commons.types.fail.matcher.shouldBeException
@@ -15,13 +16,14 @@ import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class ResultRowMapperTest : UnitTest() {
 
     init {
         "The function `resultRowMapper`" - {
 
             "when the function of getting user id returns the success value" - {
-                val mapper: ResultRowMapper<User, User.Error> = resultRowMapper { index, row ->
+                val mapper: ResultRowMapper<User, User.Error, JDBCError> = resultRowMapper { index, row ->
                     val (id) = getIdAsSuccess()
                     User.create(id).mapFailure { error -> Fail.Error(error) }
                 }
@@ -34,7 +36,7 @@ internal class ResultRowMapperTest : UnitTest() {
             }
 
             "when the function of getting user id returns the error" - {
-                val mapper: ResultRowMapper<User, User.Error> = resultRowMapper { index, row ->
+                val mapper: ResultRowMapper<User, User.Error, JDBCError> = resultRowMapper { index, row ->
                     val (id) = getIdAsError()
                     User.create(id).mapFailure { error -> Fail.Error(error) }
                 }
@@ -50,7 +52,7 @@ internal class ResultRowMapperTest : UnitTest() {
             }
 
             "when the error occurs while creating a domain entity" - {
-                val mapper: ResultRowMapper<User, User.Error> = resultRowMapper { index, row ->
+                val mapper: ResultRowMapper<User, User.Error, JDBCError> = resultRowMapper { index, row ->
                     User.create("").mapFailure { error -> Fail.Error(error) }
                 }
 

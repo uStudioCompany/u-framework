@@ -10,13 +10,14 @@ import io.github.airflux.commons.types.withRaise
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
-public typealias RowMappingResult<ValueT, ErrorT> = BiFailureResultK<ValueT, ErrorT, JDBCError>
+public typealias RowMappingResult<ValueT, ErrorT, ExceptionT> = BiFailureResultK<ValueT, ErrorT, ExceptionT>
 
-public typealias ResultRowMapper<ValueT, ErrorT> = (index: Int, row: ResultRow) -> RowMappingResult<ValueT, ErrorT>
+public typealias ResultRowMapper<ValueT, ErrorT, ExceptionT> =
+    (index: Int, row: ResultRow) -> RowMappingResult<ValueT, ErrorT, ExceptionT>
 
 public fun <ValueT, ErrorT : Any> resultRowMapper(
-    block: ResultRowMapperScope.(Int, ResultRow) -> RowMappingResult<ValueT, ErrorT>
-): ResultRowMapper<ValueT, ErrorT> =
+    block: ResultRowMapperScope.(Int, ResultRow) -> RowMappingResult<ValueT, ErrorT, JDBCError>
+): ResultRowMapper<ValueT, ErrorT, JDBCError> =
     { index, row ->
         val scope = ResultRowMapperScopeInstance()
         withRaise(scope, wrap = { error -> exception(error).asFailure() }) {

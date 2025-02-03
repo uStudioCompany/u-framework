@@ -8,24 +8,32 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.transaction.transactionException
 
+public fun <ValueT, ErrorT : Any, ExceptionT : Any> ResultRows.mapToObject(
+    mapper: ResultRowMapper<ValueT, ErrorT, ExceptionT>
+): BiFailureResultK<ValueT?, ErrorT, ExceptionT> {
+    val row = this.firstOrNull()
+    return if (row != null) mapper(1, row) else Success.asNull
+}
+
 public fun <ValueT, ErrorT : Any> JDBCResult<ResultRows>.mapToObject(
-    mapper: ResultRowMapper<ValueT, ErrorT>
+    mapper: ResultRowMapper<ValueT, ErrorT, JDBCError>
 ): BiFailureResultK<ValueT?, ErrorT, JDBCError> =
     fold(
-        onSuccess = { rows ->
-            val row = rows.firstOrNull()
-            if (row != null) mapper(1, row) else Success.asNull
-        },
+        onSuccess = { rows -> rows.mapToObject(mapper) },
         onFailure = { error -> transactionException(error) }
     )
 
+public fun <ValueT, ErrorT : Any, ExceptionT : Any> ResultRows.mapToList(
+    mapper: ResultRowMapper<ValueT, ErrorT, ExceptionT>
+): BiFailureResultK<List<ValueT>, ErrorT, ExceptionT> {
+    var index = 0
+    return this.traverse { mapper.invoke(++index, it) }
+}
+
 public fun <ValueT, ErrorT : Any> JDBCResult<ResultRows>.mapToList(
-    mapper: ResultRowMapper<ValueT, ErrorT>
+    mapper: ResultRowMapper<ValueT, ErrorT, JDBCError>
 ): BiFailureResultK<List<ValueT>, ErrorT, JDBCError> =
     fold(
-        onSuccess = { rows ->
-            var index = 0
-            rows.traverse { mapper.invoke(++index, it) }
-        },
+        onSuccess = { rows -> rows.mapToList(mapper) },
         onFailure = { error -> transactionException(error) }
     )
