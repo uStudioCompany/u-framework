@@ -1,9 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.mapToObject
@@ -21,6 +23,7 @@ import io.kotest.core.extensions.install
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class MapToObjectTest : IntegrationTest() {
 
     init {
@@ -35,12 +38,12 @@ internal class MapToObjectTest : IntegrationTest() {
                 "when the query returns no data" - {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
-                    val result: TransactionResult<Pair<Int, String>?, Nothing> =
+                    val result: TransactionResult<Pair<Int, String>?, Nothing, JDBCError> =
                         tm.execute(SELECT_SQL) { statement ->
                             statement.query(sqlParam(ID_THIRD_ROW_VALUE))
                                 .mapToObject { index, row ->
                                     row.getString(TITLE_COLUMN_INDEX)
-                                        .liftToTransactionException()
+                                        .liftToException()
                                         .map { value -> index to value }
                                 }
                         }
@@ -59,7 +62,7 @@ internal class MapToObjectTest : IntegrationTest() {
                             .query(sqlParam(ID_FIRST_ROW_VALUE))
                             .mapToObject { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .liftToTransactionException()
+                                    .liftToException()
                                     .map { value -> index to value }
                             }
                     }
@@ -80,7 +83,7 @@ internal class MapToObjectTest : IntegrationTest() {
                         statement.query()
                             .mapToObject { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .liftToTransactionException()
+                                    .liftToException()
                                     .map { value -> index to value }
                             }
                     }
@@ -144,8 +147,8 @@ internal class MapToObjectTest : IntegrationTest() {
 
         private fun <ValueT, ErrorT : Any> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT>
-        ): TransactionResult<ValueT, ErrorT> =
+            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT, JDBCError>
+        ): TransactionResult<ValueT, ErrorT, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement -> block(statement) }

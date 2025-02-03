@@ -17,7 +17,7 @@ internal class UseTest : UnitTest() {
 
             "when a variable has an resource" - {
                 val resource: JDBCResult<DummyResource> = createResult(DummyResource().asSuccess())
-                val result: TransactionResult<String, Unit> = resource.use {
+                val result: TransactionResult<String, Unit, JDBCError> = resource.use {
                     it.doSomething().asSuccess()
                 }
 
@@ -33,7 +33,7 @@ internal class UseTest : UnitTest() {
 
             "when a variable has the failure value" - {
                 val resource: JDBCResult<DummyResource> = createResult(ERROR.asFailure())
-                val result: TransactionResult<String, Unit> = resource.use {
+                val result: TransactionResult<String, Unit, JDBCError> = resource.use {
                     it.doSomething().asSuccess()
                 }
 

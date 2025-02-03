@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.sql.parameter
 
 import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionManager
 import io.github.ustudiocompany.uframework.jdbc.transaction.useTransaction
 import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
@@ -16,7 +16,7 @@ internal abstract class AbstractSqlParameterTest : IntegrationTest() {
                     statement.setParameter(1, param)
                     statement.update()
                 }
-                .liftToTransactionException()
+                .liftToException()
         }
 
         result shouldBeSuccess 1

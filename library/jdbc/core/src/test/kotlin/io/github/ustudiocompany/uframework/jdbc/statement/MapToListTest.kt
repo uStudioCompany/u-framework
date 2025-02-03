@@ -1,9 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.row.mapToList
@@ -23,6 +25,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class MapToListTest : IntegrationTest() {
 
     init {
@@ -41,7 +44,7 @@ internal class MapToListTest : IntegrationTest() {
                         statement.query(sqlParam(ID_THIRD_ROW_VALUE))
                             .mapToList { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .liftToTransactionException()
+                                    .liftToException()
                                     .map { value -> index to value }
                             }
                     }
@@ -59,7 +62,7 @@ internal class MapToListTest : IntegrationTest() {
                         statement.query()
                             .mapToList { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .liftToTransactionException()
+                                    .liftToException()
                                     .map { value -> index to value }
                             }
                     }
@@ -84,7 +87,7 @@ internal class MapToListTest : IntegrationTest() {
                         statement.query()
                             .mapToList { index, row ->
                                 row.getString(TITLE_COLUMN_INDEX)
-                                    .liftToTransactionException()
+                                    .liftToException()
                                     .map { value -> index to value }
                             }
                     }
@@ -157,8 +160,8 @@ internal class MapToListTest : IntegrationTest() {
 
         private fun <ValueT, ErrorT : Any> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT>
-        ): TransactionResult<ValueT, ErrorT> =
+            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT, JDBCError>
+        ): TransactionResult<ValueT, ErrorT, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement -> block(statement) }

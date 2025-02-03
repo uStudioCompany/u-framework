@@ -1,10 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
@@ -21,6 +22,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class ResultRowTest : IntegrationTest() {
 
     init {
@@ -120,7 +122,11 @@ internal class ResultRowTest : IntegrationTest() {
         }
     }
 
-    private fun TransactionManager.executeQuery(column: Int, types: ResultRow.ColumnTypes, block: DataExtractor<String>) =
+    private fun TransactionManager.executeQuery(
+        column: Int,
+        types: ResultRow.ColumnTypes,
+        block: DataExtractor<String>
+    ) =
         useTransaction { connection ->
             connection.preparedStatement(SELECT_SQL)
                 .use { statement ->
@@ -130,7 +136,7 @@ internal class ResultRowTest : IntegrationTest() {
                                 row.extract(column, types, block)
                             }
                         }
-                        .liftToTransactionException()
+                        .liftToException()
                 }
         }
 

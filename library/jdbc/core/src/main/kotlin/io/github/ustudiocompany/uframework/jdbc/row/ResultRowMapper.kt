@@ -10,10 +10,11 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 
-public typealias ResultRowMapper<ValueT, ErrorT> = (index: Int, row: ResultRow) -> TransactionResult<ValueT, ErrorT>
+public typealias ResultRowMapper<ValueT, ErrorT> =
+    (index: Int, row: ResultRow) -> TransactionResult<ValueT, ErrorT, JDBCError>
 
 public fun <ValueT, ErrorT : Any> resultRowMapper(
-    block: ResultRowMapperScope.(Int, ResultRow) -> TransactionResult<ValueT, ErrorT>
+    block: ResultRowMapperScope.(Int, ResultRow) -> TransactionResult<ValueT, ErrorT, JDBCError>
 ): ResultRowMapper<ValueT, ErrorT> =
     { index, row ->
         val scope = ResultRowMapperScopeInstance()

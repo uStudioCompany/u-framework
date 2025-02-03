@@ -1,6 +1,4 @@
 public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensionsKt {
-	public static final fun liftToTransactionError (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun liftToTransactionException (Lio/github/airflux/commons/types/resultk/ResultK;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun use (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
@@ -252,7 +250,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/transaction/Transact
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionResultKt {
 	public static final fun transactionError (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static final fun transactionException (Lio/github/ustudiocompany/uframework/jdbc/error/JDBCError;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun transactionException (Ljava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun transactionException (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun transactionException$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }

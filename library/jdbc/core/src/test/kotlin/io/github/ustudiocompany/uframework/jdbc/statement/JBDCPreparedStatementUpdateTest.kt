@@ -1,8 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
@@ -156,11 +157,11 @@ internal class JBDCPreparedStatementUpdateTest : IntegrationTest() {
         private fun <ValueT> TransactionManager.execute(
             sql: String,
             block: (statement: JBDCPreparedStatement) -> JDBCResult<ValueT>
-        ): TransactionResult<ValueT, Nothing> =
+        ): TransactionResult<ValueT, Nothing, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement ->
-                        block(statement).liftToTransactionException()
+                        block(statement).liftToException()
                     }
             }
     }

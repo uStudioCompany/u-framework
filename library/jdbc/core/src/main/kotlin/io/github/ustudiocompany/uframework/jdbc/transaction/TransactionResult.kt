@@ -1,9 +1,8 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
-import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.fail.Fail.Companion.error
 import io.github.airflux.commons.types.fail.exception
-import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
@@ -13,11 +12,11 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
  * @param ValueT the type of the value.
  * @param ErrorT the type of the error.
  */
-public typealias TransactionResult<ValueT, ErrorT> = ResultK<ValueT, Fail<ErrorT, JDBCError>>
+public typealias TransactionResult<ValueT, ErrorT, ExceptionT> = BiFailureResultK<ValueT, ErrorT, ExceptionT>
 
-public typealias TransactionError<ErrorT> = ResultK<Nothing, Fail<ErrorT, JDBCError>>
+public typealias TransactionError<ErrorT> = BiFailureResultK<Nothing, ErrorT, Nothing>
 
-public typealias TransactionException = ResultK<Nothing, Fail<Nothing, JDBCError>>
+public typealias TransactionException<ExceptionT> = BiFailureResultK<Nothing, Nothing, ExceptionT>
 
 /**
  * Creates a domain (business) error related to the operations within the transaction.
@@ -30,7 +29,8 @@ public fun <ErrorT : Any> transactionError(error: ErrorT): TransactionError<Erro
 /**
  * Creates a technical error related to the transaction.
  */
-public fun transactionException(description: String, exception: Throwable? = null): TransactionException =
+public fun transactionException(description: String, exception: Throwable? = null): TransactionException<JDBCError> =
     transactionException(JDBCError(description, exception))
 
-public fun transactionException(error: JDBCError): TransactionException = exception(error).asFailure()
+public fun <ExceptionT : Any> transactionException(error: ExceptionT): TransactionException<ExceptionT> =
+    exception(error).asFailure()

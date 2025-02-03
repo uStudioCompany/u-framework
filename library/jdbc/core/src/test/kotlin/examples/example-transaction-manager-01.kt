@@ -5,9 +5,9 @@ import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.liftToError
 import io.github.airflux.commons.types.resultk.mapException
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRowMapper
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getInt
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getString
@@ -46,7 +46,7 @@ internal class UserRepository(private val tm: TransactionManager) {
             resultRowMapper { _, row ->
                 val (id) = row.getInt(1)
                 val (name) = row.getString(2)
-                User.create(id, name).liftToTransactionError()
+                User.create(id, name).liftToError()
             }
     }
 }

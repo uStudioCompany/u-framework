@@ -1,12 +1,14 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.sqlParam
@@ -25,6 +27,7 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class JBDCPreparedStatementExecuteTest : IntegrationTest() {
 
     init {
@@ -233,11 +236,11 @@ internal class JBDCPreparedStatementExecuteTest : IntegrationTest() {
         private fun <ValueT> TransactionManager.execute(
             sql: String,
             block: (statement: JBDCPreparedStatement) -> JDBCResult<ValueT>
-        ): TransactionResult<ValueT, Nothing> =
+        ): TransactionResult<ValueT, Nothing, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)
                     .use { statement ->
-                        block(statement).liftToTransactionException()
+                        block(statement).liftToException()
                     }
             }
     }

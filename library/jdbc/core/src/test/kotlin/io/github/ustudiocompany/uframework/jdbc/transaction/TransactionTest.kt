@@ -2,10 +2,10 @@ package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
-import io.github.ustudiocompany.uframework.jdbc.liftToTransactionException
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
@@ -40,14 +40,14 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
@@ -77,18 +77,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
-                                transaction.commit().liftToTransactionException()
+                                transaction.commit().liftToException()
                             }
                         }
 
@@ -118,19 +118,19 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
-                                transaction.commit().liftToTransactionException().raise()
+                                transaction.commit().liftToException().raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
-                                transaction.commit().liftToTransactionException()
+                                transaction.commit().liftToException()
                             }
                         }
 
@@ -160,19 +160,19 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
-                                transaction.rollback().liftToTransactionException().raise()
-                                transaction.commit().liftToTransactionException()
+                                transaction.rollback().liftToException().raise()
+                                transaction.commit().liftToException()
                             }
                         }
 
@@ -198,18 +198,18 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
-                                transaction.rollback().liftToTransactionException()
+                                transaction.rollback().liftToException()
                             }
                         }
 
@@ -235,19 +235,19 @@ internal class TransactionTest : IntegrationTest() {
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
-                                        statement.update().liftToTransactionException()
+                                        statement.update().liftToException()
                                     }
                                     .bind()
 
-                                transaction.commit().liftToTransactionException().raise()
-                                transaction.rollback().liftToTransactionException()
+                                transaction.commit().liftToException().raise()
+                                transaction.rollback().liftToException()
                             }
                         }
 
@@ -278,7 +278,7 @@ internal class TransactionTest : IntegrationTest() {
                             transaction.connection
                                 .preparedStatement(insertDataSQL(FIRST_TABLE_NAME))
                                 .use { statement ->
-                                    statement.update().liftToTransactionException()
+                                    statement.update().liftToException()
                                 }
                                 .bind()
 
@@ -289,11 +289,11 @@ internal class TransactionTest : IntegrationTest() {
                                         val r1 = statement.update().bind()
                                         val r2 = statement.update().bind()
                                         r1 + r2
-                                    }.liftToTransactionException()
+                                    }.liftToException()
                                 }
                                 .bind()
 
-                            transaction.commit().liftToTransactionException()
+                            transaction.commit().liftToException()
                         }
                     }
 
