@@ -245,7 +245,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/transaction/Transact
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionManagerKt {
 	public static final fun useTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun useTransaction (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun useTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static synthetic fun useTransaction$default (Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionManager;Lio/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionResultKt {
