@@ -3,18 +3,19 @@ package io.github.ustudiocompany.uframework.jdbc.row
 import io.github.airflux.commons.types.Raise
 import io.github.airflux.commons.types.doRaise
 import io.github.airflux.commons.types.fail.Fail.Companion.exception
+import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.airflux.commons.types.withRaise
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 
-public typealias ResultRowMapper<ValueT, ErrorT> =
-    (index: Int, row: ResultRow) -> TransactionResult<ValueT, ErrorT, JDBCError>
+public typealias RowMappingResult<ValueT, ErrorT> = BiFailureResultK<ValueT, ErrorT, JDBCError>
+
+public typealias ResultRowMapper<ValueT, ErrorT> = (index: Int, row: ResultRow) -> RowMappingResult<ValueT, ErrorT>
 
 public fun <ValueT, ErrorT : Any> resultRowMapper(
-    block: ResultRowMapperScope.(Int, ResultRow) -> TransactionResult<ValueT, ErrorT, JDBCError>
+    block: ResultRowMapperScope.(Int, ResultRow) -> RowMappingResult<ValueT, ErrorT>
 ): ResultRowMapper<ValueT, ErrorT> =
     { index, row ->
         val scope = ResultRowMapperScopeInstance()

@@ -1,14 +1,16 @@
 package io.github.ustudiocompany.uframework.jdbc
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
-import io.github.ustudiocompany.uframework.jdbc.transaction.TransactionResult
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class UseTest : UnitTest() {
 
     init {
@@ -17,7 +19,7 @@ internal class UseTest : UnitTest() {
 
             "when a variable has an resource" - {
                 val resource: JDBCResult<DummyResource> = createResult(DummyResource().asSuccess())
-                val result: TransactionResult<String, Unit, JDBCError> = resource.use {
+                val result: BiFailureResultK<String, Unit, JDBCError> = resource.use {
                     it.doSomething().asSuccess()
                 }
 
@@ -33,7 +35,7 @@ internal class UseTest : UnitTest() {
 
             "when a variable has the failure value" - {
                 val resource: JDBCResult<DummyResource> = createResult(ERROR.asFailure())
-                val result: TransactionResult<String, Unit, JDBCError> = resource.use {
+                val result: BiFailureResultK<String, Unit, JDBCError> = resource.use {
                     it.doSomething().asSuccess()
                 }
 
