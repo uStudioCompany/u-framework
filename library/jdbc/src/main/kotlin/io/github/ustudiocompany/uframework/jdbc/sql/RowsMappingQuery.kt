@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.Row
 import io.github.ustudiocompany.uframework.jdbc.sql.param.SqlParam
 import java.sql.Connection
 
-public fun <T, F> rowsMappingQuery(
+public fun <T, F : Any> rowsMappingQuery(
     sql: ParametrizedSql,
     errorConverter: ErrorConverter<F>,
     mapper: (Row) -> ResultK<T, F>
@@ -22,7 +22,7 @@ public fun <T> rowsMappingQuery(
     mapper: (Row) -> ResultK<T, JDBCErrors>
 ): RowsMappingQuery<T, JDBCErrors> = RowsMappingQuery(sql, ::identity, mapper)
 
-public class RowsMappingQuery<out T, out F>(
+public class RowsMappingQuery<out T, out F : Any>(
     sql: ParametrizedSql,
     private val errorConverter: ErrorConverter<F>,
     private val mapper: (Row) -> ResultK<T, F>
