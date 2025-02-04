@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.UUID_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getUUID
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
@@ -25,8 +25,8 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
             "when column index is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(UUID)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(UUID_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -47,8 +47,8 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(UUID)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(UUID_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -76,8 +76,8 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(UUID)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(UUID_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -97,8 +97,8 @@ internal class UUIDExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(UUID)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(UUID_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 

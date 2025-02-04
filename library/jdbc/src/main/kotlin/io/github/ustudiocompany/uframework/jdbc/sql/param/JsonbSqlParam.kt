@@ -3,7 +3,10 @@ package io.github.ustudiocompany.uframework.jdbc.sql.param
 import org.postgresql.util.PGobject
 import java.sql.PreparedStatement
 
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public infix fun String?.jsonbAsSqlParam(name: String): SqlParam = jsonbSqlParam(name, this)
+
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public fun jsonbSqlParam(name: String, value: String?): SqlParam = JsonbSqlParam(name, value)
 
 private class JsonbSqlParam(override val name: String, private val value: String?) : SqlParam() {

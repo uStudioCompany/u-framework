@@ -9,7 +9,7 @@ import java.sql.SQLException
 
 public fun Exception.toFailure(): Failure<JDBCErrors> = toFailure(::identity)
 
-public fun <F> Exception.toFailure(errorConverter: ErrorConverter<F>): Failure<F> {
+public fun <F : Any> Exception.toFailure(errorConverter: ErrorConverter<F>): Failure<F> {
     val error = if (this is SQLException)
         when {
             this.isConnectionError -> JDBCErrors.Connection(this)

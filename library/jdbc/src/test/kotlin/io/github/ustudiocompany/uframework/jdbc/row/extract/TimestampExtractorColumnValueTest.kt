@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.TIMESTAMP_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getTimestamp
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
@@ -26,8 +26,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
 
             "when column index is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(TIMESTAMP_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -49,8 +49,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(TIMESTAMP_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -78,8 +78,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(TIMESTAMP_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -100,8 +100,8 @@ internal class TimestampExtractorColumnValueTest : AbstractExtractorColumnValueT
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(TIMESTAMP)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(TIMESTAMP_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 

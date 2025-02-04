@@ -11,11 +11,13 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+@Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
 public inline fun <T> DataSource.useConnection(block: (Connection) -> ResultK<T, JDBCErrors>): ResultK<T, JDBCErrors> =
     useConnection(::identity, block)
 
 @OptIn(ExperimentalContracts::class)
-public inline fun <T, F> DataSource.useConnection(
+@Deprecated(message = "use transaction instead", level = DeprecationLevel.WARNING)
+public inline fun <T, F : Any> DataSource.useConnection(
     errorConverter: ErrorConverter<F>,
     block: (Connection) -> ResultK<T, F>
 ): ResultK<T, F> {
