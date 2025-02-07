@@ -91,8 +91,8 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/ExceptionConverterKt {
-	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/Failure;
-	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/Failure;
+	public static final fun toFailure (Ljava/lang/Exception;)Lio/github/airflux/commons/types/resultk/ResultK$Failure;
+	public static final fun toFailure (Ljava/lang/Exception;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK$Failure;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/exception/SQLExceptionExtensionKt {

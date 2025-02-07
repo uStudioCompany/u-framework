@@ -2,6 +2,7 @@ package io.github.ustudiocompany.uframework.jdbc
 
 import com.zaxxer.hikari.HikariDataSource
 import io.kotest.assertions.failure
+import io.kotest.matchers.shouldBe
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.ResultSet
 import javax.sql.DataSource
@@ -44,23 +45,38 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                 connection.prepareStatement(sql)
                     .executeQuery()
                     .let { result ->
+                        var hasResult = result.next()
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
-                        while (result.next()) {
+                        while (hasResult) {
                             assertions(result, index++)
+                            hasResult = result.next()
                         }
                     }
             }
     }
 
-    public fun selectData(sql: String): List<ResultSet> =
+    public fun shouldBeEmpty(sql: String) {
+        dataSource.connection
+            .use { connection ->
+                connection.prepareStatement(sql)
+                    .executeQuery()
+                    .also { result ->
+                        result.next() shouldBe false
+                    }
+            }
+    }
+
+    public fun <T> selectData(sql: String, mapper: ResultSet.(index: Int) -> T): List<T> =
         dataSource.connection
             .use { connection ->
                 connection.prepareStatement(sql)
                     .executeQuery()
                     .let { result ->
-                        val list = mutableListOf<ResultSet>()
+                        val list = mutableListOf<T>()
+                        var index = 0
                         while (result.next()) {
-                            list.add(result)
+                            list.add(mapper(result, index++))
                         }
                         list
                     }
@@ -72,9 +88,12 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                 connection.prepareStatement(sql)
                     .executeQuery()
                     .let { result ->
+                        var hasResult = result.next()
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
-                        while (result.next()) {
+                        while (hasResult) {
                             assertion(result, index++)
+                            hasResult = result.next()
                         }
                     }
             }
@@ -88,16 +107,24 @@ public class PostgresContainerTest(dockerImageName: String = "postgres:15.4") {
                 connection.prepareStatement(sql)
                     .executeQuery()
                     .let { result ->
+                        var hasResult = result.next()
+                        if (!hasResult) throw failure(NO_ROWS_FOUND)
                         var index = 0
-                        while (result.next()) {
+                        while (hasResult) {
                             if (currentAssertionIndex != assertionCount) {
                                 val assertion = assertions[currentAssertionIndex]
                                 assertion(result, index++)
                                 currentAssertionIndex++
                             } else
-                                failure("There are fewer assertions than rows.")
+                                throw failure("There are fewer assertions than rows.")
+
+                            hasResult = result.next()
                         }
                     }
             }
+    }
+
+    private companion object {
+        private const val NO_ROWS_FOUND = "No rows found."
     }
 }
