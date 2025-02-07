@@ -22,7 +22,7 @@ public inline fun <T, F : Any> DataSource.useConnection(
     block: (Connection) -> ResultK<T, F>
 ): ResultK<T, F> {
     contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
     return try {
