@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
@@ -9,7 +10,6 @@ import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -24,11 +24,13 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class CallStepExecutorTest : UnitTest() {
 
     init {
@@ -330,8 +332,8 @@ internal class CallStepExecutorTest : UnitTest() {
 
         private val CALL_RESULT = DataElement.Text("data")
 
-        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
-        private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
+        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
+        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
 
         private fun satisfiedCondition() = Condition(
             listOf(

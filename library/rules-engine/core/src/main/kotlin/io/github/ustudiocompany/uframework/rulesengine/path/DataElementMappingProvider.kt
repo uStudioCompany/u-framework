@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.path
+package io.github.ustudiocompany.uframework.rulesengine.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jayway.jsonpath.Configuration

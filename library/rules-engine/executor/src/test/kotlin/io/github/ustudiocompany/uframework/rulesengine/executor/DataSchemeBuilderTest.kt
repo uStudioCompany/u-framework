@@ -1,21 +1,23 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class DataSchemeBuilderTest : UnitTest() {
 
     init {
@@ -283,7 +285,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_3 = "item-3"
         private const val ARRAY_ITEM_4 = "item-4"
 
-        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
-        private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
+        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
+        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
     }
 }

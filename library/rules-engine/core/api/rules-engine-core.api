@@ -130,43 +130,8 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerConfigurationKt {
-	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
-	public static final fun defaultPathCompilerConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerKt {
-	public static final fun defaultPathCompiler (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
-	public synthetic fun <init> (Lcom/jayway/jsonpath/JsonPath;Lcom/jayway/jsonpath/Configuration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Compiler {
-	public fun <init> (Lcom/jayway/jsonpath/Configuration;)V
-	public final fun compile (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Compiling : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
+	public abstract fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme {
@@ -840,5 +805,38 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
 	public abstract fun getBody ()Lorg/camunda/feel/context/JavaFunction;
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathEngineConfigurationKt {
+	public static final fun defaultPathEngineConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
+	public static final fun defaultPathEngineConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathEngineKt {
+	public static final fun defaultPathEngine (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lio/github/ustudiocompany/uframework/rulesengine/path/PathEngine;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine {
+	public fun <init> (Lcom/jayway/jsonpath/Configuration;)V
+	public final fun compile (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Compiling : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 

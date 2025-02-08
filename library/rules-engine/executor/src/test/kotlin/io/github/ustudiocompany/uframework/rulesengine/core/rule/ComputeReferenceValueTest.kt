@@ -1,18 +1,20 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class ComputeReferenceValueTest : UnitTest() {
 
     init {
@@ -64,7 +66,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
     }
 
     companion object {
-        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
+        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
 
         private const val SOURCE_NAME = "input.body"
         private val SOURCE = Source(SOURCE_NAME)
@@ -77,6 +79,6 @@ internal class ComputeReferenceValueTest : UnitTest() {
         private val VALID_PATH = "$.$VALUE".compile()
         private val INVALID_PATH = "$.id".compile()
 
-        private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
+        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
     }
 }

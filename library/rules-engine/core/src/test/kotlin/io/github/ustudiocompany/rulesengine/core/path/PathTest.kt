@@ -2,18 +2,21 @@ package io.github.ustudiocompany.rulesengine.core.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jayway.jsonpath.Option
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompilerConfiguration
+import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngineConfiguration
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class PathTest : UnitTest() {
 
     init {
@@ -23,12 +26,12 @@ internal class PathTest : UnitTest() {
             "the `search` function" - {
 
                 "when option `SUPPRESS_EXCEPTIONS` is enabled" - {
-                    val compiler = Path.Compiler(
-                        defaultPathCompilerConfiguration(ObjectMapper(), Option.SUPPRESS_EXCEPTIONS)
+                    val pathEngine = PathEngine(
+                        defaultPathEngineConfiguration(ObjectMapper(), Option.SUPPRESS_EXCEPTIONS)
                     )
 
                     "when the data contains a value by path" - {
-                        val path = "$.id".compile(compiler)
+                        val path = "$.id".compile(pathEngine)
 
                         "then the function should return a value" {
                             val result = path.search(DATA)
@@ -38,7 +41,7 @@ internal class PathTest : UnitTest() {
                     }
 
                     "the data does not contain a value by path" - {
-                        val path = "$.scheme".compile(compiler)
+                        val path = "$.scheme".compile(pathEngine)
 
                         "then the function should return the null value" {
                             val result = path.search(DATA)
@@ -49,10 +52,10 @@ internal class PathTest : UnitTest() {
                 }
 
                 "when option `SUPPRESS_EXCEPTIONS` is not enabled" - {
-                    val compiler = defaultPathCompiler(ObjectMapper())
+                    val pathEngine = defaultPathEngine(ObjectMapper())
 
                     "when the data contains a value by path" - {
-                        val path = "$.id".compile(compiler)
+                        val path = "$.id".compile(pathEngine)
 
                         "then the function should return a value" {
                             val result = path.search(DATA)
@@ -62,7 +65,7 @@ internal class PathTest : UnitTest() {
                     }
 
                     "the data does not contain a value by path" - {
-                        val path = "$.scheme".compile(compiler)
+                        val path = "$.scheme".compile(pathEngine)
 
                         "then the function should return the null value" {
                             val result = path.search(DATA)
@@ -73,13 +76,13 @@ internal class PathTest : UnitTest() {
                 }
 
                 "when occurs an error during the search" - {
-                    val compiler = defaultPathCompiler(ObjectMapper(), Option.AS_PATH_LIST)
-                    val path = "$.id.sum()".compile(compiler)
+                    val pathEngine = defaultPathEngine(ObjectMapper(), Option.AS_PATH_LIST)
+                    val path = "$.id.sum()".compile(pathEngine)
 
                     "then the function should return an error" {
                         val result = path.search(DATA)
                         result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<Path.Errors.Search>()
+                        result.cause.shouldBeInstanceOf<PathEngine.Errors.Search>()
                     }
                 }
             }
@@ -93,7 +96,7 @@ internal class PathTest : UnitTest() {
             mutableMapOf(DATA_KEY_1 to DataElement.Text(DATA_VALUE_1))
         )
 
-        private fun String.compile(compiler: Path.Compiler): Path =
+        private fun String.compile(compiler: PathEngine): Path =
             compiler.compile(this).orThrow { error(it.description) }
     }
 }

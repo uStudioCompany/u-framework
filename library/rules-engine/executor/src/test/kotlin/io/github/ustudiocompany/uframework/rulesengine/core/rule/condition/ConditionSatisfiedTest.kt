@@ -1,21 +1,23 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.defaultPathCompiler
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
+import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class ConditionSatisfiedTest : UnitTest() {
 
     init {
@@ -110,7 +112,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
 
     companion object {
         private val CONTEXT = Context.empty()
-        private val PATH_COMPILER = defaultPathCompiler(ObjectMapper())
+        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
 
         private const val SOURCE_NAME = "input.body"
         private val SOURCE = Source(SOURCE_NAME)
@@ -120,6 +122,6 @@ internal class ConditionSatisfiedTest : UnitTest() {
 
         private val PATH = "$.id".compile()
 
-        private fun String.compile(): Path = PATH_COMPILER.compile(this).orThrow { error(it.description) }
+        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
     }
 }
