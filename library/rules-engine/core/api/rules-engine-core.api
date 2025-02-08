@@ -131,7 +131,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
-	public abstract fun search (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme {

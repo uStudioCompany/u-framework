@@ -67,11 +67,11 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         return result
     }
 
-    internal inner class ExpressionInstance(
+    private inner class ExpressionInstance(
         private val value: ParsedExpression
     ) : FeelExpression {
 
-        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelEngine.Errors.Evaluate> =
+        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, Errors.Evaluate> =
             this@FeelEngine.evaluate(value, context)
     }
 

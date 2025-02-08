@@ -23,7 +23,7 @@ internal class PathTest : UnitTest() {
 
         "The Path type" - {
 
-            "the `search` function" - {
+            "the `searchIn` function" - {
 
                 "when option `SUPPRESS_EXCEPTIONS` is enabled" - {
                     val pathEngine = PathEngine(
@@ -34,7 +34,7 @@ internal class PathTest : UnitTest() {
                         val path = "$.id".compile(pathEngine)
 
                         "then the function should return a value" {
-                            val result = path.search(DATA)
+                            val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
                             result.value shouldBe DataElement.Text(DATA_VALUE_1)
                         }
@@ -44,7 +44,7 @@ internal class PathTest : UnitTest() {
                         val path = "$.scheme".compile(pathEngine)
 
                         "then the function should return the null value" {
-                            val result = path.search(DATA)
+                            val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
                             result.value.shouldBeNull()
                         }
@@ -58,7 +58,7 @@ internal class PathTest : UnitTest() {
                         val path = "$.id".compile(pathEngine)
 
                         "then the function should return a value" {
-                            val result = path.search(DATA)
+                            val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
                             result.value shouldBe DataElement.Text(DATA_VALUE_1)
                         }
@@ -68,7 +68,7 @@ internal class PathTest : UnitTest() {
                         val path = "$.scheme".compile(pathEngine)
 
                         "then the function should return the null value" {
-                            val result = path.search(DATA)
+                            val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
                             result.value.shouldBeNull()
                         }
@@ -80,7 +80,7 @@ internal class PathTest : UnitTest() {
                     val path = "$.id.sum()".compile(pathEngine)
 
                     "then the function should return an error" {
-                        val result = path.search(DATA)
+                        val result = path.searchIn(DATA)
                         result.shouldBeFailure()
                         result.cause.shouldBeInstanceOf<PathEngine.Errors.Search>()
                     }

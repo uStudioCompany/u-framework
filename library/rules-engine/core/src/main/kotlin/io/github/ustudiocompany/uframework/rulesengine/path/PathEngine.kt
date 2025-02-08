@@ -19,19 +19,17 @@ public class PathEngine(private val config: Configuration) {
     }
 
     private inner class PathInstance(
-        private val value: JsonPath
+        private val compiledPath: JsonPath
     ) : Path {
 
-        override fun toString(): String = value.path.toString()
-
-        override fun search(data: DataElement): ResultK<DataElement?, Errors> = try {
-            value.read<DataElement>(data, config)
+        override fun searchIn(data: DataElement): ResultK<DataElement?, Errors.Search> = try {
+            compiledPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            Errors.Search(value.path, expected).asFailure()
+            Errors.Search(compiledPath.path, expected).asFailure()
         }
     }
 
