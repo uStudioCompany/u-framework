@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.rulesengine.feel.functions
 
-import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
@@ -14,6 +14,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class DateTimeGenerationFunctionTest : UnitTest() {
 
     private val engine = FeelEngine(FeelEngineConfiguration(listOf(DateTimeGenerationFunction())))
@@ -22,10 +23,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
         "The `dateTime` function" - {
 
             "when the engine evaluates the expression the function with valid format" - {
-                val expression = """dateTime("$SPECIFIC_FORMAT")"""
+                val expression = shouldBeSuccess { engine.parse("""dateTime("$SPECIFIC_FORMAT")""") }
                 val variables = emptyMap<Source, DataElement>()
-                val result = engine.parse(expression)
-                    .andThen { expression -> engine.evaluate(expression, variables) }
+                val result = expression.evaluate(variables)
 
                 "then the engine should return an value by format" {
                     result.shouldBeSuccess()
@@ -37,10 +37,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             }
 
             "when the engine evaluates the expression with the function without format" - {
-                val expression = """dateTime("")"""
+                val expression = shouldBeSuccess { engine.parse("""dateTime("")""") }
                 val variables = emptyMap<Source, DataElement>()
-                val result = engine.parse(expression)
-                    .andThen { expression -> engine.evaluate(expression, variables) }
+                val result = expression.evaluate(variables)
 
                 "then the engine should return an value by default format" {
                     result.shouldBeSuccess()
@@ -52,10 +51,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             }
 
             "when the engine evaluates the expression with the function without parameter" - {
-                val expression = """dateTime()"""
+                val expression = shouldBeSuccess { engine.parse("""dateTime()""") }
                 val variables = emptyMap<Source, DataElement>()
-                val result = engine.parse(expression)
-                    .andThen { expression -> engine.evaluate(expression, variables) }
+                val result = expression.evaluate(variables)
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()
@@ -64,10 +62,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             }
 
             "when the engine evaluates the expression the function with invalid format" - {
-                val expression = """dateTime("abc")"""
+                val expression = shouldBeSuccess { engine.parse("""dateTime("abc")""") }
                 val variables = emptyMap<Source, DataElement>()
-                val result = engine.parse(expression)
-                    .andThen { expression -> engine.evaluate(expression, variables) }
+                val result = expression.evaluate(variables)
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()

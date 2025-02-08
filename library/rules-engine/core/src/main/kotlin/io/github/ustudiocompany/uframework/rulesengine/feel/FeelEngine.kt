@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import org.camunda.feel.api.EvaluationResult
 import org.camunda.feel.api.FeelEngineApi
@@ -18,18 +19,18 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         .withCustomValueMapper(FeelValueMapper())
         .build()
 
-    public fun parse(expression: String): ResultK<ParsedExpression, Errors> {
+    public fun parse(expression: String): ResultK<FeelExpression, Errors> {
         val result = engine.parseExpression(expression)
         return if (result.isSuccess)
-            result.parsedExpression().asSuccess()
+            ExpressionInstance(result.parsedExpression()).asSuccess()
         else
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
 
-    public fun evaluate(
+    private fun evaluate(
         expression: ParsedExpression,
         context: Map<Source, DataElement>
-    ): ResultK<DataElement, Errors> {
+    ): ResultK<DataElement, Errors.Evaluate> {
         val evaluationResult = engine.evaluate(expression, context.convert())
         return if (evaluationResult.isSuccess) {
             val result = evaluationResult.result() as DataElement
@@ -64,6 +65,14 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             result[source.get] = value
         }
         return result
+    }
+
+    internal inner class ExpressionInstance(
+        private val value: ParsedExpression
+    ) : FeelExpression {
+
+        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelEngine.Errors.Evaluate> =
+            this@FeelEngine.evaluate(value, context)
     }
 
     public sealed class Errors : Failure {

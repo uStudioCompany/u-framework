@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.rulesengine.feel.functions
 
-import io.github.airflux.commons.types.resultk.andThen
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -11,18 +11,18 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class UuidGenerationFunctionTest : UnitTest() {
 
     private val engine = FeelEngine(FeelEngineConfiguration(listOf(UuidGenerationFunction())))
 
     init {
         "The `uuid` function" - {
-            val expression = "uuid()"
+            val expression = shouldBeSuccess { engine.parse("uuid()") }
 
             "when the engine evaluates the expression" - {
                 val variables = emptyMap<Source, DataElement>()
-                val result = engine.parse(expression)
-                    .andThen { expression -> engine.evaluate(expression, variables) }
+                val result = expression.evaluate(variables)
 
                 "then the engine should return an value by UUID format" {
                     result.shouldBeSuccess()

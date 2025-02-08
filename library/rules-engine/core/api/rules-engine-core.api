@@ -125,15 +125,9 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
-	public synthetic fun <init> (Lorg/camunda/feel/syntaxtree/ParsedExpression;Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
+	public abstract fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Parser {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine;)V
-	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/path/DefaultPathCompilerConfigurationKt {
@@ -814,7 +808,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration;)V
-	public final fun evaluate (Lorg/camunda/feel/syntaxtree/ParsedExpression;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
