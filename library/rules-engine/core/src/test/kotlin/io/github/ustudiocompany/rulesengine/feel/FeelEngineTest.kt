@@ -19,7 +19,7 @@ internal class FeelEngineTest : UnitTest() {
 
     init {
 
-        "The FeelEngine type" - {
+        "The `FeelEngine` type" - {
 
             "when the engine parses the valid expression" - {
 

@@ -51,7 +51,7 @@ internal class HeadersBuilderTest : UnitTest() {
                             name = HEADER_NAME_1,
                             value = Value.Reference(
                                 source = SOURCE,
-                                path = "$.id".compile()
+                                path = "$.id".parse()
                             )
                         )
                     )
@@ -74,6 +74,6 @@ internal class HeadersBuilderTest : UnitTest() {
         private const val HEADER_NAME_1 = "header-1"
         private const val HEADER_VALUE_1 = "value-1"
 
-        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
+        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
     }
 }

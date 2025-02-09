@@ -76,7 +76,7 @@ internal class DataElementProvider(
     override fun getArrayIndex(obj: Any, idx: Int): Any {
         val list = obj as DataElement.Array
         return list.getOrNull(idx)
-            ?: throw JsonPathException("index `$idx` missing in the array ")
+            ?: throw JsonPathException("index '$idx' missing in the array ")
     }
 
     @Deprecated("")

@@ -76,9 +76,9 @@ internal class ComputeReferenceValueTest : UnitTest() {
             mutableMapOf(VALUE to DataElement.Text(VALUE))
         )
 
-        private val VALID_PATH = "$.$VALUE".compile()
-        private val INVALID_PATH = "$.id".compile()
+        private val VALID_PATH = "$.$VALUE".parse()
+        private val INVALID_PATH = "$.id".parse()
 
-        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
+        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
     }
 }

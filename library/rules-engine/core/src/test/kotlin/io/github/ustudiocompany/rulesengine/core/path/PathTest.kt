@@ -21,7 +21,7 @@ internal class PathTest : UnitTest() {
 
     init {
 
-        "The Path type" - {
+        "The `Path` type" - {
 
             "the `searchIn` function" - {
 
@@ -31,7 +31,7 @@ internal class PathTest : UnitTest() {
                     )
 
                     "when the data contains a value by path" - {
-                        val path = "$.id".compile(pathEngine)
+                        val path = "$.id".parse(pathEngine)
 
                         "then the function should return a value" {
                             val result = path.searchIn(DATA)
@@ -41,7 +41,7 @@ internal class PathTest : UnitTest() {
                     }
 
                     "the data does not contain a value by path" - {
-                        val path = "$.scheme".compile(pathEngine)
+                        val path = "$.scheme".parse(pathEngine)
 
                         "then the function should return the null value" {
                             val result = path.searchIn(DATA)
@@ -55,7 +55,7 @@ internal class PathTest : UnitTest() {
                     val pathEngine = defaultPathEngine(ObjectMapper())
 
                     "when the data contains a value by path" - {
-                        val path = "$.id".compile(pathEngine)
+                        val path = "$.id".parse(pathEngine)
 
                         "then the function should return a value" {
                             val result = path.searchIn(DATA)
@@ -65,7 +65,7 @@ internal class PathTest : UnitTest() {
                     }
 
                     "the data does not contain a value by path" - {
-                        val path = "$.scheme".compile(pathEngine)
+                        val path = "$.scheme".parse(pathEngine)
 
                         "then the function should return the null value" {
                             val result = path.searchIn(DATA)
@@ -77,7 +77,7 @@ internal class PathTest : UnitTest() {
 
                 "when occurs an error during the search" - {
                     val pathEngine = defaultPathEngine(ObjectMapper(), Option.AS_PATH_LIST)
-                    val path = "$.id.sum()".compile(pathEngine)
+                    val path = "$.id.sum()".parse(pathEngine)
 
                     "then the function should return an error" {
                         val result = path.searchIn(DATA)
@@ -96,7 +96,7 @@ internal class PathTest : UnitTest() {
             mutableMapOf(DATA_KEY_1 to DataElement.Text(DATA_VALUE_1))
         )
 
-        private fun String.compile(compiler: PathEngine): Path =
-            compiler.compile(this).orThrow { error(it.description) }
+        private fun String.parse(engine: PathEngine): Path =
+            engine.parse(this).orThrow { error(it.description) }
     }
 }

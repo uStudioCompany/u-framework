@@ -10,26 +10,29 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class PathCompilerTest : UnitTest() {
+internal class PathEngineTest : UnitTest() {
 
     init {
 
-        "The path compiler" - {
+        "The `PathEngine` type" - {
 
-            "when path is valid" - {
-                val path = PATH_ENGINE.compile(VALID_PATH)
+            "the `parse` function" - {
 
-                "then the compiling should be a success" {
-                    path.shouldBeSuccess()
+                "when path is valid" - {
+                    val path = PATH_ENGINE.parse(VALID_PATH)
+
+                    "then the parsing should be a success" {
+                        path.shouldBeSuccess()
+                    }
                 }
-            }
 
-            "when path is invalid" - {
-                val path = PATH_ENGINE.compile(INVALID_PATH)
+                "when path is invalid" - {
+                    val path = PATH_ENGINE.parse(INVALID_PATH)
 
-                "then the compiling should be a failure" {
-                    path.shouldBeFailure()
-                    path.cause.shouldBeInstanceOf<PathEngine.Errors.Compiling>()
+                    "then the parsing should be a failure" {
+                        path.shouldBeFailure()
+                        path.cause.shouldBeInstanceOf<PathEngine.Errors.Parsing>()
+                    }
                 }
             }
         }

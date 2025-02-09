@@ -76,7 +76,7 @@ internal class CallStepExecutorTest : UnitTest() {
                             condition = condition,
                             uri = URI_TEMPLATE,
                             params = UriTemplateParams(
-                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".compile())
+                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".parse())
                             ),
                             headers = Headers(emptyList()),
                             result = Step.Result(
@@ -131,7 +131,7 @@ internal class CallStepExecutorTest : UnitTest() {
                                 )
                             ),
                             headers = Headers(
-                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".compile())
+                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".parse())
                             ),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
@@ -333,7 +333,7 @@ internal class CallStepExecutorTest : UnitTest() {
         private val CALL_RESULT = DataElement.Text("data")
 
         private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
-        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
+        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
 
         private fun satisfiedCondition() = Condition(
             listOf(

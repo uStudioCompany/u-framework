@@ -37,7 +37,7 @@ public class DateTimeGenerationFunction : FeelFunction {
                     .withResolverStyle(ResolverStyle.STRICT)
                 generate(formatter)
             } catch (_: Exception) {
-                ValFatalError("The format is invalid: `$format`.")
+                ValFatalError("The format is invalid: '$format'.")
             }
 
         private fun generate(formatter: DateTimeFormatter): Val =

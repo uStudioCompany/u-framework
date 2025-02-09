@@ -818,13 +818,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultP
 
 public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine {
 	public fun <init> (Lcom/jayway/jsonpath/Configuration;)V
-	public final fun compile (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Compiling : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;

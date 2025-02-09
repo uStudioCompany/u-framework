@@ -120,8 +120,8 @@ internal class ConditionSatisfiedTest : UnitTest() {
         private const val VALUE_1 = "value-1"
         private const val VALUE_2 = "value-2"
 
-        private val PATH = "$.id".compile()
+        private val PATH = "$.id".parse()
 
-        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
+        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
     }
 }

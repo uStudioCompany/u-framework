@@ -80,7 +80,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
 
         public class Parsing(public val expression: String, public val message: String) : Errors() {
             override val code: String = PREFIX + "PARSING-EXPRESSION"
-            override val description: String = "The error of parsing expression: `$expression`. $message"
+            override val description: String = "The error of parsing expression: '$expression'. $message"
             override val details: Failure.Details = Failure.Details.of(
                 DETAILS_KEY_PATH to expression
             )
@@ -88,8 +88,8 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
 
         public class Evaluate(expression: String, message: String? = null) : Errors() {
             override val code: String = PREFIX + "EVALUATE-EXPRESSION"
-            override val description: String = "The error of evaluating expression: `$expression`" +
-                if (message != null) "($message)." else ""
+            override val description: String = "The error of evaluating expression: '$expression'" +
+                if (message != null) "($message)." else "."
             override val details: Failure.Details = Failure.Details.of(
                 DETAILS_KEY_PATH to expression
             )

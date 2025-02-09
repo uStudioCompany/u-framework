@@ -255,7 +255,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                             name = DATA_KEY_1,
                             value = Value.Reference(
                                 source = SOURCE,
-                                path = "path".compile()
+                                path = "path".parse()
                             )
                         )
                     )
@@ -286,6 +286,6 @@ internal class DataSchemeBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_4 = "item-4"
 
         private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
-        private fun String.compile(): Path = PATH_ENGINE.compile(this).orThrow { error(it.description) }
+        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
     }
 }

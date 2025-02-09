@@ -12,32 +12,32 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public class PathEngine(private val config: Configuration) {
 
-    public fun compile(path: String): ResultK<Path, Errors.Compiling> = try {
+    public fun parse(path: String): ResultK<Path, Errors.Parsing> = try {
         PathInstance(JsonPath.compile(path)).asSuccess()
     } catch (expected: Exception) {
-        Errors.Compiling(path, expected).asFailure()
+        Errors.Parsing(path, expected).asFailure()
     }
 
     private inner class PathInstance(
-        private val compiledPath: JsonPath
+        private val parsedPath: JsonPath
     ) : Path {
 
         override fun searchIn(data: DataElement): ResultK<DataElement?, Errors.Search> = try {
-            compiledPath.read<DataElement>(data, config)
+            parsedPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            Errors.Search(compiledPath.path, expected).asFailure()
+            Errors.Search(parsedPath.path, expected).asFailure()
         }
     }
 
     public sealed interface Errors : Failure {
 
-        public class Compiling(path: String, cause: Exception) : Errors {
-            override val code: String = PREFIX + "COMPILE"
-            override val description: String = "The error of parsing json-path: `$path`."
+        public class Parsing(path: String, cause: Exception) : Errors {
+            override val code: String = PREFIX + "PARSING"
+            override val description: String = "The error of parsing json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
             override val details: Failure.Details = Failure.Details.of(
                 DETAILS_KEY_PATH to path
@@ -46,10 +46,10 @@ public class PathEngine(private val config: Configuration) {
 
         public class Search(path: String, exception: Throwable) : Errors {
             override val code: String = PREFIX + "SEARCH"
-            override val description: String = "The error of searching by json-path: `$path`."
+            override val description: String = "The error of searching by json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
             override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to path.toString()
+                DETAILS_KEY_PATH to path
             )
         }
 
