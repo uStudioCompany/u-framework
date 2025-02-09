@@ -354,7 +354,6 @@ internal class FeelEngineTest : UnitTest() {
             }
 
             "when the engine parse the invalid expression" - {
-                val variables = emptyMap<Source, DataElement>()
                 val result = engine.parse("1 ++ 1")
 
                 "then the engine should return a parsing error" {
