@@ -35,8 +35,8 @@ public class PathEngine(private val config: Configuration) {
 
     public sealed interface Errors : Failure {
 
-        public class Parsing(path: String, cause: Exception) : Errors {
-            override val code: String = PREFIX + "PARSING"
+        public class Parsing(public val path: String, cause: Exception) : Errors {
+            override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
             override val details: Failure.Details = Failure.Details.of(
@@ -44,8 +44,8 @@ public class PathEngine(private val config: Configuration) {
             )
         }
 
-        public class Search(path: String, exception: Throwable) : Errors {
-            override val code: String = PREFIX + "SEARCH"
+        public class Search(public val path: String, exception: Exception) : Errors {
+            override val code: String = PREFIX + "2"
             override val description: String = "The error of searching by json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
             override val details: Failure.Details = Failure.Details.of(

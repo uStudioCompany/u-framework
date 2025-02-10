@@ -8,13 +8,13 @@ import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
 public sealed interface DataErrors : RuleEngineError {
 
     public class Search(cause: PathEngine.Errors) : DataErrors {
-        override val code: String = PREFIX + "SEARCH"
+        override val code: String = PREFIX + "1"
         override val description: String = "The error of searching."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    public class Missing(source: Source, path: Path) : DataErrors {
-        override val code: String = PREFIX + "MISSING"
+    public class Missing(public val source: Source, public val path: Path) : DataErrors {
+        override val code: String = PREFIX + "2"
         override val description: String = "The error of searching."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get,

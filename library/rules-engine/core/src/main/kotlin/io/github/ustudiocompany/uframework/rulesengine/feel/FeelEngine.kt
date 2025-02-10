@@ -78,16 +78,16 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     public sealed class Errors : Failure {
         override fun toString(): String = this.fullDescription()
 
-        public class Parsing(public val expression: String, public val message: String) : Errors() {
-            override val code: String = PREFIX + "PARSING-EXPRESSION"
+        public class Parsing(public val expression: String, message: String) : Errors() {
+            override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing expression: '$expression'. $message"
             override val details: Failure.Details = Failure.Details.of(
                 DETAILS_KEY_PATH to expression
             )
         }
 
-        public class Evaluate(expression: String, message: String? = null) : Errors() {
-            override val code: String = PREFIX + "EVALUATE-EXPRESSION"
+        public class Evaluate(public val expression: String, message: String? = null) : Errors() {
+            override val code: String = PREFIX + "2"
             override val description: String = "The error of evaluating expression: '$expression'" +
                 if (message != null) "($message)." else "."
             override val details: Failure.Details = Failure.Details.of(
