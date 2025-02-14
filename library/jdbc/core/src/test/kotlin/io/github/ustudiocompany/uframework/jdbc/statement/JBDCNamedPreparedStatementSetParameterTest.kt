@@ -46,7 +46,7 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                     val idParamName = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).bind()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)
@@ -68,8 +68,8 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                     val idParamName = "id"
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).bind()
-                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).bind()
+                            statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).raise()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                             statement.update()
                         }
                     }
@@ -94,7 +94,7 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                         val idParamName = "id"
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).bind()
+                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                                 val (result) = statement.execute()
                                 (result as StatementResult.Rows).get.traverse { row ->
                                     row.getString(TITLE_COLUMN_INDEX)
@@ -116,8 +116,8 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                         val idParamName = "id"
                         val result = tm.execute(UPDATE_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).bind()
-                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).bind()
+                                statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).raise()
+                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                                 statement.execute()
                                     .map { result -> (result as StatementResult.Count).get }
                             }
@@ -145,7 +145,7 @@ internal class JBDCNamedPreparedStatementSetParameterTest : IntegrationTest() {
                     val invalidParamName = "abc"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(invalidParamName)).bind()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(invalidParamName)).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)

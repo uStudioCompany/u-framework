@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -20,6 +21,7 @@ import io.kotest.core.extensions.install
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class JBDCPreparedStatementUpdateTest : IntegrationTest() {
 
     init {

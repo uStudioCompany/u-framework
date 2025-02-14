@@ -1,8 +1,10 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.jdbcFail
+import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
+import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRowsInstance
 import java.sql.PreparedStatement
 
@@ -14,19 +16,19 @@ internal fun PreparedStatement.tryExecute(): JDBCResult<StatementResult> = try {
         StatementResult.Count(updateCount)
     result.asSuccess()
 } catch (expected: Exception) {
-    jdbcFail(description = "Error while executing the statement.", exception = expected)
+    JDBCError(description = "Error while executing the statement.", exception = expected).asFailure()
 }
 
-internal fun PreparedStatement.tryExecuteQuery() = try {
+internal fun PreparedStatement.tryExecuteQuery(): JDBCResult<ResultRows> = try {
     val result = executeQuery()
     ResultRowsInstance(result).asSuccess()
 } catch (expected: Exception) {
-    jdbcFail(description = "Error while executing the query.", exception = expected)
+    JDBCError(description = "Error while executing the query.", exception = expected).asFailure()
 }
 
 internal fun PreparedStatement.tryExecuteUpdate(): JDBCResult<Int> = try {
     val result = executeUpdate()
     result.asSuccess()
 } catch (expected: Exception) {
-    jdbcFail(description = "Error while executing the update.", exception = expected)
+    JDBCError(description = "Error while executing the update.", exception = expected).asFailure()
 }

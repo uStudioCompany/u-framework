@@ -2,11 +2,6 @@ public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultExtensions
 	public static final fun use (Lio/github/airflux/commons/types/resultk/ResultK;Lkotlin/jvm/functions/Function1;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/jdbc/JDBCResultKt {
-	public static final fun jdbcFail (Ljava/lang/String;Ljava/lang/Throwable;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun jdbcFail$default (Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection {
 	public abstract fun namedPreparedStatement (Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static synthetic fun namedPreparedStatement$default (Lio/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection;Lio/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql;Lio/github/ustudiocompany/uframework/jdbc/statement/JBDCStatement$Timeout;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
@@ -104,8 +99,8 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun query (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun query ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun setParameter (Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/maybe/Maybe;
+	public abstract fun setParameter (Ljava/lang/String;Ljava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/maybe/Maybe;
 	public abstract fun update (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/NamedSqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
@@ -135,8 +130,8 @@ public abstract interface class io/github/ustudiocompany/uframework/jdbc/stateme
 	public fun execute ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun query (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun query ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (ILio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun setParameter (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun setParameter (ILio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/maybe/Maybe;
+	public abstract fun setParameter (ILjava/lang/Object;Lkotlin/jvm/functions/Function3;)Lio/github/airflux/commons/types/maybe/Maybe;
 	public abstract fun update (Ljava/lang/Iterable;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public fun update ([Lio/github/ustudiocompany/uframework/jdbc/sql/parameter/SqlParameter;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
@@ -217,9 +212,9 @@ public final class io/github/ustudiocompany/uframework/jdbc/statement/StatementR
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/jdbc/transaction/Transaction : java/lang/AutoCloseable {
-	public abstract fun commit ()Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun commit ()Lio/github/airflux/commons/types/maybe/Maybe;
 	public abstract fun getConnection ()Lio/github/ustudiocompany/uframework/jdbc/connection/JBDCConnection;
-	public abstract fun rollback ()Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun rollback ()Lio/github/airflux/commons/types/maybe/Maybe;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/transaction/TransactionIsolation : java/lang/Enum {

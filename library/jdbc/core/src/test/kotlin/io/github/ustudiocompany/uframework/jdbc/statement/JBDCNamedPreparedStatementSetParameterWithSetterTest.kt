@@ -46,7 +46,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     val idParamName = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
+                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)
@@ -68,8 +68,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     val idParamName = "id"
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).bind()
-                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
+                            statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
+                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
                             statement.update()
                         }
                     }
@@ -94,7 +94,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         val idParamName = "id"
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
+                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
                                 val (result) = statement.execute()
                                 (result as StatementResult.Rows).get
                                     .traverse { row ->
@@ -118,8 +118,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         val result = tm.execute(UPDATE_SQL) { statement ->
 
                             resultWith {
-                                statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).bind()
-                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
+                                statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
+                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
                                 statement.execute()
                                     .map { result -> (result as StatementResult.Count).get }
                             }
@@ -147,7 +147,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     val invalidParamName = "abc"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(invalidParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).bind()
+                            statement.setParameter(invalidParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)

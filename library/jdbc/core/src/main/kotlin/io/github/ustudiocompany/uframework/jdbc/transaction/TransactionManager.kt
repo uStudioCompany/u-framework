@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.fail.asException
+import io.github.airflux.commons.types.maybe.fold
 import io.github.airflux.commons.types.resultk.BiFailureResultK
 import io.github.airflux.commons.types.resultk.asFailure
-import io.github.airflux.commons.types.resultk.fold
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -124,8 +124,8 @@ public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.us
             if (result.isSuccess())
                 tx.commit()
                     .fold(
-                        onSuccess = { result },
-                        onFailure = { error -> exceptionBuilder(error).asException().asFailure() }
+                        onNone = { result },
+                        onSome = { error -> exceptionBuilder(error).asException().asFailure() }
                     )
             else {
                 tx.rollback()

@@ -45,7 +45,7 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                     val idParamIndex = 1
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                            statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)
@@ -67,8 +67,8 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                     val idParamIndex = 2
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(titleParamIndex, sqlParam(TITLE_SECOND_ROW_NEW_VALUE)).bind()
-                            statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                            statement.setParameter(titleParamIndex, sqlParam(TITLE_SECOND_ROW_NEW_VALUE)).raise()
+                            statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                             statement.update()
                         }
                     }
@@ -93,7 +93,7 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                         val idParamIndex = 1
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                                statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                                 val (result) = statement.execute()
                                 (result as StatementResult.Rows).get.traverse { row ->
                                     row.getString(TITLE_COLUMN_INDEX)
@@ -115,8 +115,8 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                         val idParamIndex = 2
                         val result = tm.execute(UPDATE_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(titleParamIndex, sqlParam(TITLE_SECOND_ROW_NEW_VALUE)).bind()
-                                statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                                statement.setParameter(titleParamIndex, sqlParam(TITLE_SECOND_ROW_NEW_VALUE)).raise()
+                                statement.setParameter(idParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                                 statement.execute()
                                     .map { result ->
                                         (result as StatementResult.Count).get
@@ -148,7 +148,7 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                         val invalidParamIndex = 0
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(invalidParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                                statement.setParameter(invalidParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                                 val (rows) = statement.query()
                                 rows.traverse { row ->
                                     row.getString(TITLE_COLUMN_INDEX)
@@ -168,7 +168,7 @@ internal class JBDCPreparedStatementSetParameterTest : IntegrationTest() {
                         val invalidParamIndex = 2
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(invalidParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).bind()
+                                statement.setParameter(invalidParamIndex, sqlParam(ID_SECOND_ROW_VALUE)).raise()
                                 val (rows) = statement.query()
                                 rows.traverse { row ->
                                     row.getString(TITLE_COLUMN_INDEX)

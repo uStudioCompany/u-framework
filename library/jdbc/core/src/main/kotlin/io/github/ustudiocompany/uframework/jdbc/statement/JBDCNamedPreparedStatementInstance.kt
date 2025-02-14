@@ -1,12 +1,12 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.commons.types.resultk.MaybeFailure
-import io.github.airflux.commons.types.resultk.ResultK
-import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.isFailure
+import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.asSome
+import io.github.airflux.commons.types.maybe.fold
+import io.github.airflux.commons.types.maybe.isSome
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
@@ -21,56 +21,62 @@ internal class JBDCNamedPreparedStatementInstance(
         statement.clearParameters()
     }
 
-    override fun setParameter(parameter: NamedSqlParameter): MaybeFailure<JDBCError> =
+    override fun setParameter(parameter: NamedSqlParameter): Maybe<JDBCError> =
         trySetParameter(parameter.name) { index -> parameter.setValue(statement, index) }
 
     override fun <ValueT> setParameter(
         name: String,
         value: ValueT,
         setter: SqlParameterSetter<ValueT>
-    ): MaybeFailure<JDBCError> =
+    ): Maybe<JDBCError> =
         trySetParameter(name) { index -> setter(statement, index, value) }
 
-    override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> {
-        val result = statement.setParameterValues(values)
-        return if (result.isFailure()) result else statement.tryExecute()
-    }
+    override fun execute(values: Iterable<NamedSqlParameter>): JDBCResult<StatementResult> =
+        statement.setParameterValues(values)
+            .fold(
+                onSome = { it.asFailure() },
+                onNone = { statement.tryExecute() }
+            )
 
-    override fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> {
-        val result = statement.setParameterValues(values)
-        return if (result.isFailure()) result else statement.tryExecuteQuery()
-    }
+    override fun query(values: Iterable<NamedSqlParameter>): JDBCResult<ResultRows> =
+        statement.setParameterValues(values)
+            .fold(
+                onSome = { it.asFailure() },
+                onNone = { statement.tryExecuteQuery() }
+            )
 
-    override fun update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> {
-        val result = statement.setParameterValues(values)
-        return if (result.isFailure()) result else statement.tryExecuteUpdate()
-    }
+    override fun update(values: Iterable<NamedSqlParameter>): JDBCResult<Int> =
+        statement.setParameterValues(values)
+            .fold(
+                onSome = { it.asFailure() },
+                onNone = { statement.tryExecuteUpdate() }
+            )
 
     override fun close() {
         if (!statement.isClosed) statement.close()
     }
 
-    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): MaybeFailure<JDBCError> {
+    private fun PreparedStatement.setParameterValues(values: Iterable<NamedSqlParameter>): Maybe<JDBCError> {
         values.forEach { parameter ->
             val result = trySetParameter(parameter.name) { index ->
                 parameter.setValue(this, index)
             }
-            if (result.isFailure()) return result
+            if (result.isSome()) return result
         }
-        return Success.asUnit
+        return Maybe.None
     }
 
-    private inline fun trySetParameter(name: String, block: (Int) -> Unit): MaybeFailure<JDBCError> {
+    private inline fun trySetParameter(name: String, block: (Int) -> Unit): Maybe<JDBCError> {
         val index = parameters[name]
-            ?: return jdbcFail(description = "Undefined parameter with name: '$name'.")
+            ?: return JDBCError(description = "Undefined parameter with name: '$name'.").asSome()
         return try {
             block(index)
-            ResultK.Success.asUnit
+            Maybe.None
         } catch (expected: Exception) {
-            jdbcFail(
+            JDBCError(
                 description = "Error while setting parameter with name: '$name' (index: '$index')",
                 exception = expected
-            )
+            ).asSome()
         }
     }
 }

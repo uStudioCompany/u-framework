@@ -1,11 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.resultk.MaybeFailure
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.DataExtractor
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
@@ -26,32 +26,32 @@ internal class ResultRowsInstance(
             block(index, resultSet)
         }
     } catch (expected: Exception) {
-        jdbcFail(
+        JDBCError(
             description = "Error while extracting data from the result set",
             exception = expected
-        )
+        ).asFailure()
     }
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 
-    private fun ResultSetMetaData.checkColumnIndex(index: Int): MaybeFailure<JDBCError> =
+    private fun ResultSetMetaData.checkColumnIndex(index: Int): ResultK<Unit, JDBCError> =
         if (index < 1 || index > columnCount)
-            jdbcFail(description = "The column index '$index' is out of bounds.")
+            JDBCError(description = "The column index '$index' is out of bounds.").asFailure()
         else
             Success.asUnit
 
     private fun ResultSetMetaData.checkExpectedColumnType(
         index: Int,
         types: ResultRow.ColumnTypes
-    ): MaybeFailure<JDBCError> {
+    ): ResultK<Unit, JDBCError> {
         val actualType = getColumnTypeName(index)
         return if (actualType in types)
             Success.asUnit
         else
-            jdbcFail(
+            JDBCError(
                 description = "The column type with index '$index' does not match the extraction type. " +
                     "Expected: $types, actual: '$actualType'."
-            )
+            ).asFailure()
     }
 
     private inner class ResultSetIterator : AbstractIterator<ResultRow>() {

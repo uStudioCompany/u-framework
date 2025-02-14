@@ -1,13 +1,13 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
-import io.github.airflux.commons.types.resultk.MaybeFailure
-import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.asSome
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
-import io.github.ustudiocompany.uframework.jdbc.jdbcFail
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
 import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatementInstance
@@ -24,18 +24,18 @@ internal class TransactionInstance(
     override val connection: JBDCConnection
         get() = this
 
-    override fun commit(): MaybeFailure<JDBCError> = try {
+    override fun commit(): Maybe<JDBCError> = try {
         unwrappedConnection.commit()
-        Success.asUnit
+        Maybe.None
     } catch (expected: Exception) {
-        jdbcFail(description = "Error while committing transaction", exception = expected)
+        JDBCError(description = "Error while committing transaction", exception = expected).asSome()
     }
 
-    override fun rollback(): MaybeFailure<JDBCError> = try {
+    override fun rollback(): Maybe<JDBCError> = try {
         unwrappedConnection.rollback()
-        Success.asUnit
+        Maybe.None
     } catch (expected: Exception) {
-        jdbcFail(description = "Error while rolling back transaction", exception = expected)
+        JDBCError(description = "Error while rolling back transaction", exception = expected).asSome()
     }
 
     override fun close() {
@@ -73,9 +73,9 @@ internal class TransactionInstance(
             }
             .asSuccess()
     } catch (expected: Exception) {
-        jdbcFail(
+        JDBCError(
             description = "Error while preparing statement",
             exception = expected
-        )
+        ).asFailure()
     }
 }

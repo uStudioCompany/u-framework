@@ -2,9 +2,9 @@ package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.Raise
 import io.github.airflux.commons.types.doRaise
-import io.github.airflux.commons.types.resultk.MaybeFailure
+import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.onSome
 import io.github.airflux.commons.types.resultk.asFailure
-import io.github.airflux.commons.types.resultk.onFailure
 import io.github.airflux.commons.types.resultk.success
 import io.github.airflux.commons.types.withRaise
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -30,7 +30,7 @@ public interface JBDCPreparedStatement : JBDCStatement {
      * @param index the index of the parameter.
      * @param param the parameter.
      */
-    public fun setParameter(index: Int, param: SqlParameter): MaybeFailure<JDBCError>
+    public fun setParameter(index: Int, param: SqlParameter): Maybe<JDBCError>
 
     /**
      * Sets the parameter.
@@ -43,7 +43,7 @@ public interface JBDCPreparedStatement : JBDCStatement {
         index: Int,
         value: ValueT,
         setter: SqlParameterSetter<ValueT>
-    ): MaybeFailure<JDBCError>
+    ): Maybe<JDBCError>
 
     /**
      * Executes the prepared statement.
@@ -123,7 +123,7 @@ internal class IndexesParametersScope(
 
     override fun <ValueT> set(index: Int, value: ValueT, setter: SqlParameterSetter<ValueT>) {
         statement.setParameter(index, value, setter)
-            .onFailure { raise(it) }
+            .onSome { raise(it) }
     }
 
     override fun raise(error: JDBCError): Nothing {

@@ -1,7 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.fail.asException
+import io.github.airflux.commons.types.maybe.fold
+import io.github.airflux.commons.types.maybe.liftToException
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.result
@@ -17,6 +21,20 @@ import io.github.ustudiocompany.uframework.test.kotest.IntegrationTest
 import io.kotest.core.extensions.install
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
+
+//public inline fun <ValueT : Any, SuccessT> Maybe<ValueT>.toResult(
+//    onNone: () -> SuccessT
+//): ResultK<SuccessT, Fail.Exception<ValueT>> =
+//    if (isSome())
+//        Fail.exception(this.value).asFailure()
+//    else
+//        onNone().asSuccess()
+
+//public fun <ValueT : Any> Maybe<ValueT>.liftToException(): Maybe<Fail.Exception<ValueT>> =
+//    if (isSome())
+//        Fail.exception(this.value).asSome()
+//    else
+//        this
 
 @OptIn(AirfluxTypesExperimental::class)
 internal class TransactionTest : IntegrationTest() {
@@ -42,14 +60,14 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 ResultK.Success.asUnit
                             }
@@ -79,16 +97,20 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
-                                transaction.commit().liftToException()
+                                transaction.commit()
+                                    .fold(
+                                        onSome = { it.asException().asFailure() },
+                                        onNone = { ResultK.Success.asUnit }
+                                    )
                             }
                         }
 
@@ -120,7 +142,7 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
                                 transaction.commit().liftToException().raise()
 
                                 transaction.connection
@@ -128,9 +150,13 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
-                                transaction.commit().liftToException()
+                                transaction.commit()
+                                    .fold(
+                                        onSome = { it.asException().asFailure() },
+                                        onNone = { ResultK.Success.asUnit }
+                                    )
                             }
                         }
 
@@ -162,17 +188,21 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.rollback().liftToException().raise()
-                                transaction.commit().liftToException()
+                                transaction.commit()
+                                    .fold(
+                                        onSome = { it.asException().asFailure() },
+                                        onNone = { ResultK.Success.asUnit }
+                                    )
                             }
                         }
 
@@ -200,16 +230,20 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
-                                transaction.rollback().liftToException()
+                                transaction.rollback()
+                                    .fold(
+                                        onSome = { it.asException().asFailure() },
+                                        onNone = { ResultK.Success.asUnit }
+                                    )
                             }
                         }
 
@@ -237,17 +271,21 @@ internal class TransactionTest : IntegrationTest() {
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.connection
                                     .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
                                     .use { statement ->
                                         statement.update().liftToException()
                                     }
-                                    .bind()
+                                    .raise()
 
                                 transaction.commit().liftToException().raise()
-                                transaction.rollback().liftToException()
+                                transaction.rollback()
+                                    .fold(
+                                        onSome = { it.asException().asFailure() },
+                                        onNone = { ResultK.Success.asUnit }
+                                    )
                             }
                         }
 
@@ -280,7 +318,7 @@ internal class TransactionTest : IntegrationTest() {
                                 .use { statement ->
                                     statement.update().liftToException()
                                 }
-                                .bind()
+                                .raise()
 
                             transaction.connection
                                 .preparedStatement(insertDataSQL(SECOND_TABLE_NAME))
@@ -291,9 +329,13 @@ internal class TransactionTest : IntegrationTest() {
                                         r1 + r2
                                     }.liftToException()
                                 }
-                                .bind()
+                                .raise()
 
-                            transaction.commit().liftToException()
+                            transaction.commit()
+                                .fold(
+                                    onSome = { it.asException().asFailure() },
+                                    onNone = { ResultK.Success.asUnit }
+                                )
                         }
                     }
 
