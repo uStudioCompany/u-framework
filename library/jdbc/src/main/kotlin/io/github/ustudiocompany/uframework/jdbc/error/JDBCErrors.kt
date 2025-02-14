@@ -6,6 +6,7 @@ import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import java.sql.SQLException
 
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public sealed class JDBCErrors : Failure {
 
     override fun toString(): String =

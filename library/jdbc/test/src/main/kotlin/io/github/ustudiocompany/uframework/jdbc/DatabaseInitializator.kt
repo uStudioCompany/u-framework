@@ -16,6 +16,10 @@ import liquibase.resource.DirectoryResourceAccessor
 import liquibase.resource.ResourceAccessor
 import kotlin.io.path.Path
 
+@Deprecated(
+    "Use the extension function `initialize` for DataSource type from `jdbc-testcontainers-library` instead.",
+    level = DeprecationLevel.WARNING
+)
 public fun PostgresContainerTest.initialize(
     context: Contexts,
     changeLogFile: String = CHANGE_LOG_FILE,

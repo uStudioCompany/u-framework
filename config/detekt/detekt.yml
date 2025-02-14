@@ -521,7 +521,7 @@ style:
     active: true
     includeElvis: true
   ClassOrdering:
-    active: true
+    active: false
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:
@@ -972,7 +972,7 @@ formatting:
     indentSize: 4
     maxLineLength: 120
   PropertyName:
-    active: true
+    active: false
   PropertyWrapping:
     active: true
     autoCorrect: false
