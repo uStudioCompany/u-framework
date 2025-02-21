@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.row
 
-import io.github.airflux.commons.types.resultk.ResultK
-import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.asSome
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -34,24 +34,24 @@ internal class ResultRowsInstance(
 
     override fun iterator(): Iterator<ResultRow> = ResultSetIterator()
 
-    private fun ResultSetMetaData.checkColumnIndex(index: Int): ResultK<Unit, JDBCError> =
+    private fun ResultSetMetaData.checkColumnIndex(index: Int): Maybe<JDBCError> =
         if (index < 1 || index > columnCount)
-            JDBCError(description = "The column index '$index' is out of bounds.").asFailure()
+            JDBCError(description = "The column index '$index' is out of bounds.").asSome()
         else
-            Success.asUnit
+            Maybe.none()
 
     private fun ResultSetMetaData.checkExpectedColumnType(
         index: Int,
         types: ResultRow.ColumnTypes
-    ): ResultK<Unit, JDBCError> {
+    ): Maybe<JDBCError> {
         val actualType = getColumnTypeName(index)
         return if (actualType in types)
-            Success.asUnit
+            Maybe.none()
         else
             JDBCError(
                 description = "The column type with index '$index' does not match the extraction type. " +
                     "Expected: $types, actual: '$actualType'."
-            ).asFailure()
+            ).asSome()
     }
 
     private inner class ResultSetIterator : AbstractIterator<ResultRow>() {
