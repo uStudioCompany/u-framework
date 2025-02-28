@@ -12,7 +12,7 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.matcher.shouldContainExceptionInstance
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRow
 import io.github.ustudiocompany.uframework.jdbc.sql.ParametrizedSql
-import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
+import io.github.ustudiocompany.uframework.jdbc.sql.parameter.asSqlParam
 import io.github.ustudiocompany.uframework.jdbc.test.executeSql
 import io.github.ustudiocompany.uframework.jdbc.test.postgresContainer
 import io.github.ustudiocompany.uframework.jdbc.test.shouldContainExactly
@@ -29,11 +29,11 @@ import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : IntegrationTest() {
+internal class JDBCNamedPreparedStatementSetParameterTest : IntegrationTest() {
 
     init {
 
-        "The `setParameter` function with `SqlParameterSetter` of the JBDCNamedPreparedStatement type" - {
+        "The `setParameter` function of the JDBCNamedPreparedStatement type" - {
             val dataSource = install(postgresContainer())
             val tm: TransactionManager = transactionManager(dataSource = dataSource)
             dataSource.executeSql(CREATE_TABLE)
@@ -46,7 +46,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     val idParamName = "id"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)
@@ -54,7 +54,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         }
                     }
 
-                    "then the result should contain only the selected data" {
+                    "then the result of execution of the statement should contain correct data" {
                         result.shouldBeSuccess()
                         result.value.size shouldBe 1
                         result.value shouldContainExactly listOf(TITLE_SECOND_ROW_VALUE)
@@ -68,8 +68,8 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                     val idParamName = "id"
                     val result = tm.execute(UPDATE_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
-                            statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                            statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).raise()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                             statement.update()
                         }
                     }
@@ -94,12 +94,11 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         val idParamName = "id"
                         val result = tm.execute(SELECT_SQL) { statement ->
                             resultWith {
-                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                                 val (result) = statement.execute()
-                                (result as StatementResult.Rows).get
-                                    .traverse { row ->
-                                        row.getString(TITLE_COLUMN_INDEX)
-                                    }
+                                (result as StatementResult.Rows).get.traverse { row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
+                                }
                             }
                         }
 
@@ -116,10 +115,9 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
                         val titleParamName = "title"
                         val idParamName = "id"
                         val result = tm.execute(UPDATE_SQL) { statement ->
-
                             resultWith {
-                                statement.setParameter(titleParamName, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
-                                statement.setParameter(idParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                statement.setParameter(TITLE_SECOND_ROW_NEW_VALUE.asSqlParam(titleParamName)).raise()
+                                statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(idParamName)).raise()
                                 statement.execute()
                                     .map { result -> (result as StatementResult.Count).get }
                             }
@@ -141,13 +139,13 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
 
             "when the parameter is failed to set" - {
 
-                "when parameter name is invalid" - {
+                "when the parameter name is invalid" - {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
                     val invalidParamName = "abc"
                     val result = tm.execute(SELECT_SQL) { statement ->
                         resultWith {
-                            statement.setParameter(invalidParamName, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                            statement.setParameter(ID_SECOND_ROW_VALUE.asSqlParam(invalidParamName)).raise()
                             val (rows) = statement.query()
                             rows.traverse { row ->
                                 row.getString(TITLE_COLUMN_INDEX)
@@ -185,10 +183,6 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
 
         private const val TITLE_COLUMN_INDEX = 2
         private val TEXT_TYPE = ResultRow.ColumnTypes("text", "varchar", "bpchar")
-
-        private val STRING_SETTER: SqlParameterSetter<String> = { index, value ->
-            setString(index, value).asSuccess()
-        }
 
         @JvmStatic
         @Language("Postgresql")
@@ -234,7 +228,7 @@ internal class JBDCNamedPreparedStatementSetParameterWithSetterTest : Integratio
 
         private fun <ValueT> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCNamedPreparedStatement) -> JDBCResult<ValueT>
+            block: (statement: JDBCNamedPreparedStatement) -> JDBCResult<ValueT>
         ): TransactionResult<ValueT, Nothing, JDBCError> =
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))

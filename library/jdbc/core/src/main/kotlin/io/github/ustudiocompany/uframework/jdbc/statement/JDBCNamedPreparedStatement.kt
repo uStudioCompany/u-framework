@@ -12,12 +12,12 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
-import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement.ParametersScope
+import io.github.ustudiocompany.uframework.jdbc.statement.JDBCNamedPreparedStatement.ParametersScope
 
 /**
  * The type representing a named JDBC prepared statement.
  */
-public interface JBDCNamedPreparedStatement : JBDCStatement {
+public interface JDBCNamedPreparedStatement : JDBCStatement {
 
     /**
      * Clears all the parameters.
@@ -105,13 +105,13 @@ public interface JBDCNamedPreparedStatement : JBDCStatement {
  * import io.github.ustudiocompany.uframework.jdbc.JDBCResult
  * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.IntSqlParameterSetter
  * import io.github.ustudiocompany.uframework.jdbc.sql.parameter.StringSqlParameterSetter
- * import io.github.ustudiocompany.uframework.jdbc.statement.JBDCNamedPreparedStatement
+ * import io.github.ustudiocompany.uframework.jdbc.statement.JDBCNamedPreparedStatement
  * import io.github.ustudiocompany.uframework.jdbc.statement.setParameters
  * -->
  * ```kotlin
  * internal data class User(val id: Int, val name: String)
  *
- * internal fun JBDCNamedPreparedStatement.initParams(user: User): JDBCResult<JBDCNamedPreparedStatement> =
+ * internal fun JDBCNamedPreparedStatement.initParams(user: User): JDBCResult<JDBCNamedPreparedStatement> =
  *     setParameters {
  *         set("id", user.id, IntSqlParameterSetter)
  *         set("name", user.name, StringSqlParameterSetter)
@@ -120,12 +120,12 @@ public interface JBDCNamedPreparedStatement : JBDCStatement {
  * <!--- KNIT example-set-named-parameters-01.kt -->
  *
  * @param setter the block of a code that sets the parameters.
- * @return an instance of [JBDCNamedPreparedStatement] to which parameters were set or an instance of [JDBCError]
+ * @return an instance of [JDBCNamedPreparedStatement] to which parameters were set or an instance of [JDBCError]
  * if the configuration fails.
  */
-public inline fun JBDCNamedPreparedStatement.setParameters(
+public inline fun JDBCNamedPreparedStatement.setParameters(
     setter: ParametersScope.() -> Unit
-): JDBCResult<JBDCNamedPreparedStatement> {
+): JDBCResult<JDBCNamedPreparedStatement> {
     val scope = NamedParametersScope(this)
     return withRaise(scope, wrap = { error -> error.asFailure() }) {
         setter(this)
@@ -135,7 +135,7 @@ public inline fun JBDCNamedPreparedStatement.setParameters(
 
 @PublishedApi
 internal class NamedParametersScope(
-    private val statement: JBDCNamedPreparedStatement
+    private val statement: JDBCNamedPreparedStatement
 ) : ParametersScope,
     Raise<JDBCError> {
 

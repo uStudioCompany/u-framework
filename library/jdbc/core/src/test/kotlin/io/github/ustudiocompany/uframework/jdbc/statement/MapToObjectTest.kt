@@ -147,7 +147,7 @@ internal class MapToObjectTest : IntegrationTest() {
 
         private fun <ValueT, ErrorT : Any> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCPreparedStatement) -> TransactionResult<ValueT, ErrorT, JDBCError>
+            block: (statement: JDBCPreparedStatement) -> TransactionResult<ValueT, ErrorT, JDBCError>
         ): TransactionResult<ValueT, ErrorT, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)

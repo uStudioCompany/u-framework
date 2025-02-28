@@ -12,10 +12,10 @@ import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 
-public fun JDBCResult<JBDCPreparedStatement>.setParameter(
+public fun JDBCResult<JDBCPreparedStatement>.setParameter(
     index: Int,
     param: SqlParameter
-): JDBCResult<JBDCPreparedStatement> = apply {
+): JDBCResult<JDBCPreparedStatement> = apply {
     setParameter(index, param)
         .fold(
             onSome = { it.asFailure() },
@@ -23,11 +23,11 @@ public fun JDBCResult<JBDCPreparedStatement>.setParameter(
         )
 }
 
-public fun <ValueT> JDBCResult<JBDCPreparedStatement>.setParameter(
+public fun <ValueT> JDBCResult<JDBCPreparedStatement>.setParameter(
     index: Int,
     value: ValueT,
     setter: SqlParameterSetter<ValueT>
-): JDBCResult<JBDCPreparedStatement> =
+): JDBCResult<JDBCPreparedStatement> =
     apply {
         setParameter(index, value, setter)
             .fold(
@@ -36,20 +36,20 @@ public fun <ValueT> JDBCResult<JBDCPreparedStatement>.setParameter(
             )
     }
 
-public fun JDBCResult<JBDCPreparedStatement>.execute(vararg parameters: SqlParameter): JDBCResult<StatementResult> =
+public fun JDBCResult<JDBCPreparedStatement>.execute(vararg parameters: SqlParameter): JDBCResult<StatementResult> =
     this.execute(parameters.asIterable())
 
-public fun JDBCResult<JBDCPreparedStatement>.execute(parameters: Iterable<SqlParameter>): JDBCResult<StatementResult> =
+public fun JDBCResult<JDBCPreparedStatement>.execute(parameters: Iterable<SqlParameter>): JDBCResult<StatementResult> =
     andThen { it.execute(parameters) }
 
-public fun JDBCResult<JBDCPreparedStatement>.query(vararg parameters: SqlParameter): JDBCResult<ResultRows> =
+public fun JDBCResult<JDBCPreparedStatement>.query(vararg parameters: SqlParameter): JDBCResult<ResultRows> =
     this.query(parameters.asIterable())
 
-public fun JDBCResult<JBDCPreparedStatement>.query(parameters: Iterable<SqlParameter>): JDBCResult<ResultRows> =
+public fun JDBCResult<JDBCPreparedStatement>.query(parameters: Iterable<SqlParameter>): JDBCResult<ResultRows> =
     andThen { it.query(parameters) }
 
-public fun JDBCResult<JBDCPreparedStatement>.update(vararg parameters: SqlParameter): JDBCResult<Int> =
+public fun JDBCResult<JDBCPreparedStatement>.update(vararg parameters: SqlParameter): JDBCResult<Int> =
     this.update(parameters.asIterable())
 
-public fun JDBCResult<JBDCPreparedStatement>.update(parameters: Iterable<SqlParameter>): JDBCResult<Int> =
+public fun JDBCResult<JDBCPreparedStatement>.update(parameters: Iterable<SqlParameter>): JDBCResult<Int> =
     andThen { it.update(parameters) }

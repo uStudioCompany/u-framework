@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.isSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
-import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
+import io.github.ustudiocompany.uframework.jdbc.connection.JDBCConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.use
 
@@ -102,14 +102,14 @@ public interface TransactionManager {
 
 public inline fun <ValueT, ErrorT : Any> TransactionManager.useTransaction(
     isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
-    block: (JBDCConnection) -> TransactionResult<ValueT, ErrorT, JDBCError>
+    block: (JDBCConnection) -> TransactionResult<ValueT, ErrorT, JDBCError>
 ): TransactionResult<ValueT, ErrorT, JDBCError> =
     useTransaction(isolation, { it }, block)
 
 public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.useTransaction(
     isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
     exceptionBuilder: (JDBCError) -> ExceptionT,
-    block: (JBDCConnection) -> BiFailureResultK<ValueT, ErrorT, ExceptionT>
+    block: (JDBCConnection) -> BiFailureResultK<ValueT, ErrorT, ExceptionT>
 ): BiFailureResultK<ValueT, ErrorT, ExceptionT> =
     startTransaction(isolation)
         .mapFailure { fail -> exceptionBuilder(fail) }

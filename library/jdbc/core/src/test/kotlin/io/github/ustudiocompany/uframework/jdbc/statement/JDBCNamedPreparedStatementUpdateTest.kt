@@ -23,11 +23,11 @@ import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
+internal class JDBCNamedPreparedStatementUpdateTest : IntegrationTest() {
 
     init {
 
-        "The the `update` function of the JBDCNamedPreparedStatement type" - {
+        "The the `update` function of the JDBCNamedPreparedStatement type" - {
             val dataSource = install(postgresContainer())
             val tm: TransactionManager = transactionManager(dataSource = dataSource)
             dataSource.executeSql(CREATE_TABLE)
@@ -167,7 +167,7 @@ internal class JBDCNamedPreparedStatementUpdateTest : IntegrationTest() {
 
         private fun <ValueT> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCNamedPreparedStatement) -> JDBCResult<ValueT>
+            block: (statement: JDBCNamedPreparedStatement) -> JDBCResult<ValueT>
         ): TransactionResult<ValueT, Nothing, JDBCError> =
             useTransaction { connection ->
                 connection.namedPreparedStatement(ParametrizedSql.of(sql))

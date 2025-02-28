@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.maybe.Maybe
-import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
+import io.github.ustudiocompany.uframework.jdbc.connection.JDBCConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 
 /**
@@ -12,7 +12,7 @@ public interface Transaction : AutoCloseable {
     /**
      * The connection associated with this transaction.
      */
-    public val connection: JBDCConnection
+    public val connection: JDBCConnection
 
     /**
      * Commits the transaction.

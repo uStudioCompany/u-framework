@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-public interface JBDCStatement : AutoCloseable {
+public interface JDBCStatement : AutoCloseable {
 
     public sealed class Timeout {
         public data object Default : Timeout()

@@ -1,11 +1,11 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.liftToException
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.resultWith
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
@@ -28,11 +28,11 @@ import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
+internal class JDBCPreparedStatementSetParameterWithSetterTest : IntegrationTest() {
 
     init {
 
-        "The `setParameter` function with `SqlParameterSetter` of the JBDCPreparedStatement type" - {
+        "The `setParameter` function with `SqlParameterSetter` of the JDBCPreparedStatement type" - {
             val dataSource = install(postgresContainer())
             val tm: TransactionManager = transactionManager(dataSource = dataSource)
             dataSource.executeSql(CREATE_TABLE)
@@ -43,14 +43,13 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(SELECT_SQL) { statement ->
-                        statement.setParameters {
-                            set(1, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                        }.query()
-                            .andThen { rows ->
-                                rows.traverse { row ->
-                                    row.getString(TITLE_COLUMN_INDEX)
-                                }
+                        resultWith {
+                            statement.setParameter(1, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                            val (rows) = statement.query()
+                            rows.traverse { row ->
+                                row.getString(TITLE_COLUMN_INDEX)
                             }
+                        }
                     }
 
                     "then the result should contain only the selected data" {
@@ -64,10 +63,11 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                     dataSource.truncateTable(TABLE_NAME)
                     dataSource.executeSql(INSERT_SQL)
                     val result = tm.execute(UPDATE_SQL) { statement ->
-                        statement.setParameters {
-                            set(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
-                            set(2, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                        }.update()
+                        resultWith {
+                            statement.setParameter(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
+                            statement.setParameter(2, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                            statement.update()
+                        }
                     }
 
                     "then result should contain count of updated rows" {
@@ -88,15 +88,14 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                         dataSource.truncateTable(TABLE_NAME)
                         dataSource.executeSql(INSERT_SQL)
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            statement.setParameters {
-                                set(1, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                            }.execute()
-                                .andThen { result ->
-                                    (result as StatementResult.Rows).get
-                                        .traverse { row ->
-                                            row.getString(TITLE_COLUMN_INDEX)
-                                        }
-                                }
+                            resultWith {
+                                statement.setParameter(1, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                val (result) = statement.execute()
+                                (result as StatementResult.Rows).get
+                                    .traverse { row ->
+                                        row.getString(TITLE_COLUMN_INDEX)
+                                    }
+                            }
                         }
 
                         "then the result should contain only the selected data" {
@@ -110,11 +109,12 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                         dataSource.truncateTable(TABLE_NAME)
                         dataSource.executeSql(INSERT_SQL)
                         val result = tm.execute(UPDATE_SQL) { statement ->
-                            statement.setParameters {
-                                set(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER)
-                                set(2, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                            }.execute()
-                                .map { result -> (result as StatementResult.Count).get }
+                            resultWith {
+                                statement.setParameter(1, TITLE_SECOND_ROW_NEW_VALUE, STRING_SETTER).raise()
+                                statement.setParameter(2, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                statement.execute()
+                                    .map { result -> (result as StatementResult.Count).get }
+                            }
                         }
 
                         "then result should contain count of updated rows" {
@@ -139,17 +139,14 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                         dataSource.truncateTable(TABLE_NAME)
                         dataSource.executeSql(INSERT_SQL)
                         val invalidParamIndex = 0
-
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            statement.setParameters {
-                                set(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                                set(1, TITLE_SECOND_ROW_VALUE, STRING_SETTER)
-                            }.query()
-                                .andThen { rows ->
-                                    rows.traverse { row ->
-                                        row.getString(TITLE_COLUMN_INDEX)
-                                    }
+                            resultWith {
+                                statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                val (rows) = statement.query()
+                                rows.traverse { row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
+                            }
                         }
 
                         "then should return an exception" {
@@ -163,15 +160,13 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
                         dataSource.executeSql(INSERT_SQL)
                         val invalidParamIndex = 2
                         val result = tm.execute(SELECT_SQL) { statement ->
-                            statement.setParameters {
-                                set(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER)
-                                set(1, TITLE_SECOND_ROW_VALUE, STRING_SETTER)
-                            }.query()
-                                .andThen { rows ->
-                                    rows.traverse { row ->
-                                        row.getString(TITLE_COLUMN_INDEX)
-                                    }
+                            resultWith {
+                                statement.setParameter(invalidParamIndex, ID_SECOND_ROW_VALUE, STRING_SETTER).raise()
+                                val (rows) = statement.query()
+                                rows.traverse { row ->
+                                    row.getString(TITLE_COLUMN_INDEX)
                                 }
+                            }
                         }
 
                         "then should return an exception" {
@@ -251,7 +246,7 @@ internal class JBDCPreparedStatementSetParametersTest : IntegrationTest() {
 
         private fun <ValueT> TransactionManager.execute(
             sql: String,
-            block: (statement: JBDCPreparedStatement) -> JDBCResult<ValueT>
+            block: (statement: JDBCPreparedStatement) -> JDBCResult<ValueT>
         ): TransactionResult<ValueT, Nothing, JDBCError> =
             useTransaction { connection ->
                 connection.preparedStatement(sql)

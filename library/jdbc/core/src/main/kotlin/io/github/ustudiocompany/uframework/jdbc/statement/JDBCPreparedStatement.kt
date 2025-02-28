@@ -12,12 +12,12 @@ import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameter
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
-import io.github.ustudiocompany.uframework.jdbc.statement.JBDCPreparedStatement.ParametersScope
+import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatement.ParametersScope
 
 /**
  * The type representing a JDBC prepared statement.
  */
-public interface JBDCPreparedStatement : JBDCStatement {
+public interface JDBCPreparedStatement : JDBCStatement {
 
     /**
      * Clears all the parameters.
@@ -102,12 +102,12 @@ public interface JBDCPreparedStatement : JBDCStatement {
  * Sets the parameters.
  *
  * @param setter the block of a code that sets the parameters.
- * @return an instance of [JBDCPreparedStatement] to which parameters were set or an instance of [JDBCError]
+ * @return an instance of [JDBCPreparedStatement] to which parameters were set or an instance of [JDBCError]
  * if the configuration fails.
  */
-public inline fun JBDCPreparedStatement.setParameters(
+public inline fun JDBCPreparedStatement.setParameters(
     setter: ParametersScope.() -> Unit
-): JDBCResult<JBDCPreparedStatement> {
+): JDBCResult<JDBCPreparedStatement> {
     val scope = IndexesParametersScope(this)
     return withRaise(scope, wrap = { error -> error.asFailure() }) {
         setter(this)
@@ -117,7 +117,7 @@ public inline fun JBDCPreparedStatement.setParameters(
 
 @PublishedApi
 internal class IndexesParametersScope(
-    private val statement: JBDCPreparedStatement
+    private val statement: JDBCPreparedStatement
 ) : ParametersScope,
     Raise<JDBCError> {
 
