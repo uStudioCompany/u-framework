@@ -69,14 +69,14 @@ internal class JBDCNamedPreparedStatementInstance(
     private inline fun trySetParameter(name: String, block: (Int) -> Unit): Maybe<JDBCError> {
         val index = parameters[name]
             ?: return JDBCError(description = "Undefined parameter with name: '$name'.").asSome()
-        return try {
-            block(index)
-            Maybe.None
-        } catch (expected: Exception) {
-            JDBCError(
-                description = "Error while setting parameter with name: '$name' (index: '$index')",
-                exception = expected
-            ).asSome()
-        }
+        return Maybe.catch(
+            catch = { exception ->
+                JDBCError(
+                    description = "Error while setting parameter with name: '$name' (index: '$index')",
+                    exception = exception
+                )
+            },
+            block = { block(index) }
+        )
     }
 }

@@ -1,7 +1,6 @@
 package io.github.ustudiocompany.uframework.jdbc.statement
 
 import io.github.airflux.commons.types.maybe.Maybe
-import io.github.airflux.commons.types.maybe.asSome
 import io.github.airflux.commons.types.maybe.fold
 import io.github.airflux.commons.types.maybe.isSome
 import io.github.airflux.commons.types.resultk.asFailure
@@ -67,13 +66,10 @@ internal class JBDCPreparedStatementInstance(
     }
 
     private inline fun trySetParameter(index: Int, block: () -> Unit): Maybe<JDBCError> =
-        try {
-            block()
-            Maybe.None
-        } catch (expected: Exception) {
-            JDBCError(
-                description = "Error while setting parameter by index: '$index'.",
-                exception = expected
-            ).asSome()
-        }
+        Maybe.catch(
+            catch = { exception ->
+                JDBCError(description = "Error while setting parameter by index: '$index'.", exception = exception)
+            },
+            block = block
+        )
 }

@@ -1,9 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.maybe.Maybe
-import io.github.airflux.commons.types.maybe.asSome
-import io.github.airflux.commons.types.resultk.asFailure
-import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JBDCConnection
@@ -24,19 +22,19 @@ internal class TransactionInstance(
     override val connection: JBDCConnection
         get() = this
 
-    override fun commit(): Maybe<JDBCError> = try {
-        unwrappedConnection.commit()
-        Maybe.None
-    } catch (expected: Exception) {
-        JDBCError(description = "Error while committing transaction", exception = expected).asSome()
-    }
+    override fun commit(): Maybe<JDBCError> = Maybe.catch(
+        catch = { exception ->
+            JDBCError(description = "Error while committing transaction", exception = exception)
+        },
+        block = { unwrappedConnection.commit() }
+    )
 
-    override fun rollback(): Maybe<JDBCError> = try {
-        unwrappedConnection.rollback()
-        Maybe.None
-    } catch (expected: Exception) {
-        JDBCError(description = "Error while rolling back transaction", exception = expected).asSome()
-    }
+    override fun rollback(): Maybe<JDBCError> = Maybe.catch(
+        catch = { exception ->
+            JDBCError(description = "Error while rolling back transaction", exception = exception)
+        },
+        block = { unwrappedConnection.rollback() }
+    )
 
     override fun close() {
         try {
@@ -66,16 +64,13 @@ internal class TransactionInstance(
     private fun prepareStatement(
         sql: String,
         timeout: JBDCStatement.Timeout
-    ): JDBCResult<PreparedStatement> = try {
-        unwrappedConnection.prepareStatement(sql)
-            .apply {
-                if (timeout is JBDCStatement.Timeout.Seconds) queryTimeout = timeout.value
-            }
-            .asSuccess()
-    } catch (expected: Exception) {
-        JDBCError(
-            description = "Error while preparing statement",
-            exception = expected
-        ).asFailure()
-    }
+    ): JDBCResult<PreparedStatement> = ResultK.catch(
+        catch = { exception -> JDBCError(description = "Error while preparing statement", exception = exception) },
+        block = {
+            unwrappedConnection.prepareStatement(sql)
+                .apply {
+                    if (timeout is JBDCStatement.Timeout.Seconds) queryTimeout = timeout.value
+                }
+        }
+    )
 }

@@ -13,7 +13,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/test/DatabaseInitial
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/test/PostgresContainerKt {
-	public static final fun postgresContainer (Ljava/lang/String;)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
-	public static synthetic fun postgresContainer$default (Ljava/lang/String;ILjava/lang/Object;)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
+	public static final fun postgresContainer (Ljava/lang/String;Z)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
+	public static synthetic fun postgresContainer$default (Ljava/lang/String;ZILjava/lang/Object;)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
 }
 
