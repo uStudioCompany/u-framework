@@ -1,0 +1,19 @@
+public final class io/github/ustudiocompany/uframework/jdbc/test/DataSourceExtensionsKt {
+	public static final fun executeSql (Ljavax/sql/DataSource;Ljava/lang/String;)V
+	public static final fun selectData (Ljavax/sql/DataSource;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Ljava/util/List;
+	public static final fun shouldBeEmpty (Ljavax/sql/DataSource;Ljava/lang/String;)V
+	public static final fun shouldContainExactly (Ljavax/sql/DataSource;Ljava/lang/String;Ljava/lang/Iterable;)V
+	public static final fun shouldContainExactly (Ljavax/sql/DataSource;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static final fun truncateTable (Ljavax/sql/DataSource;Ljava/lang/String;)V
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/test/DatabaseInitializatorKt {
+	public static final fun initialize (Ljavax/sql/DataSource;Lliquibase/Contexts;Ljava/lang/String;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun initialize$default (Ljavax/sql/DataSource;Lliquibase/Contexts;Ljava/lang/String;Lliquibase/resource/ResourceAccessor;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public final class io/github/ustudiocompany/uframework/jdbc/test/PostgresContainerKt {
+	public static final fun postgresContainer (Ljava/lang/String;Z)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
+	public static synthetic fun postgresContainer$default (Ljava/lang/String;ZILjava/lang/Object;)Lio/kotest/extensions/testcontainers/JdbcDatabaseContainerExtension;
+}
+

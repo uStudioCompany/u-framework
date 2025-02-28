@@ -14,6 +14,7 @@ import java.sql.SQLException
 public fun Connection.createPreparedInsertStatement(sql: ParametrizedSql): PreparedInsertStatement =
     PreparedInsertStatementImpl(this, sql)
 
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public interface PreparedInsertStatement {
     public val originalSql: String
     public fun clearParameters()

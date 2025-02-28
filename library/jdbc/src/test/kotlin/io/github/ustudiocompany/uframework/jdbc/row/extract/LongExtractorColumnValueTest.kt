@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.jdbc.row.extract
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCErrors
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.BIGINT_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.MULTI_COLUMN_TABLE_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.ROW_ID_COLUMN_NAME
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.getColumnsExclude
@@ -25,8 +25,8 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
             "when column index is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(BIGINT_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -49,8 +49,8 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(BIGINT_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -78,8 +78,8 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    columnTypes(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    columnTypes(BIGINT_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -101,8 +101,8 @@ internal class LongExtractorColumnValueTest : AbstractExtractorColumnValueTest()
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then the function should return an error" },
-                    getColumnsExclude(BIGINT)
+                    nameFn = { "when column type is '${it.displayType}' then the function should return an error" },
+                    getColumnsExclude(BIGINT_TYPE)
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
