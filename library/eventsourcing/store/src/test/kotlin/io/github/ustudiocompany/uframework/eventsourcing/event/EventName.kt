@@ -1,5 +1,5 @@
 package io.github.ustudiocompany.uframework.eventsourcing.event
 
-public interface EventName {
-    public val get: String
+internal interface EventName {
+    val get: String
 }

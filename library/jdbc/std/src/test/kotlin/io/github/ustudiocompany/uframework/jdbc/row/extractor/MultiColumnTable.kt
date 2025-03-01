@@ -19,6 +19,12 @@ internal enum class MultiColumnTable(
     TIMESTAMP_TYPE(columnIndex = 7, columnName = "timestamp_column", displayType = "TIMESTAMP", dataType = "timestamp"),
     UUID_TYPE(columnIndex = 8, columnName = "uuid_column", displayType = "UUID", dataType = "uuid"),
     JSONB_TYPE(columnIndex = 9, columnName = "jsonb_column", displayType = "JSONB", dataType = "jsonb"),
+    BIG_SERIAL_TYPE(
+        columnIndex = 10,
+        columnName = "big_serial_column",
+        displayType = "BIGSERIAL",
+        dataType = "bigserial"
+    ),
     ;
 
     companion object {

@@ -7,18 +7,18 @@ import io.github.ustudiocompany.uframework.eventsourcing.aggregate.History
 import io.github.ustudiocompany.uframework.eventsourcing.event.TestEvent
 import io.github.ustudiocompany.uframework.failure.Failure
 
-public data class TestAggregate(
+internal data class TestAggregate(
     override val history: History,
-    public val entity: TestEntity
+    val entity: TestEntity
 ) : Aggregate<TestEntityId> {
 
     override val id: TestEntityId
         get() = entity.id
 
-    public companion object;
+    companion object;
 }
 
-public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): ResultK<TestAggregate, Failure> = result {
+internal fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): ResultK<TestAggregate, Failure> = result {
     TestAggregate(
         history = History.of(event.revision, event.messageId).bind(),
         entity = TestEntity(
@@ -29,7 +29,7 @@ public fun TestAggregate.Companion.applyEvent(event: TestEvent.Registered): Resu
     )
 }
 
-public fun TestAggregate.applyEvent(event: TestEvent.Updated): ResultK<TestAggregate, Failure> =
+internal fun TestAggregate.applyEvent(event: TestEvent.Updated): ResultK<TestAggregate, Failure> =
     result {
         TestAggregate(
             history = history.add(event.revision, event.messageId).bind(),

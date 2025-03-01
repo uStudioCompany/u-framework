@@ -4,17 +4,17 @@ import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
 import io.github.ustudiocompany.uframework.eventsourcing.model.TestEntityId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
-public sealed class TestEvent : AbstractEvent<TestEntityId, TestEvent.Name> {
+internal sealed class TestEvent : AbstractEvent<TestEntityId, TestEvent.Name> {
 
-    public enum class Name(override val get: String) : EventName {
+    enum class Name(override val get: String) : EventName {
         REGISTERED("registered"),
         UPDATED("updated")
     }
 
-    public class Registered(
+    class Registered(
         override val messageId: MessageId,
         override val revision: Revision,
-        public val data: TestRegistered
+        val data: TestRegistered
     ) : TestEvent() {
 
         override val aggregateId: TestEntityId
@@ -24,10 +24,10 @@ public sealed class TestEvent : AbstractEvent<TestEntityId, TestEvent.Name> {
             get() = Name.REGISTERED
     }
 
-    public class Updated(
+    class Updated(
         override val messageId: MessageId,
         override val revision: Revision,
-        public val data: TestUpdated
+        val data: TestUpdated
     ) : TestEvent() {
 
         override val aggregateId: TestEntityId

@@ -1,3 +1,7 @@
+public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BigSerialExtractorKt {
+	public static final fun getBigSerial (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
 public final class io/github/ustudiocompany/uframework/jdbc/row/extractor/BooleanExtractorKt {
 	public static final fun getBoolean (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
 	public static final fun getBooleanOrNull (Lio/github/ustudiocompany/uframework/jdbc/row/ResultRow;I)Lio/github/airflux/commons/types/resultk/ResultK;
