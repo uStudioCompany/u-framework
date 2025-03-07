@@ -1,72 +1,9 @@
-public final class io/github/ustudiocompany/uframework/failure/Details : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Details$Companion;
-	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun add (ILio/github/ustudiocompany/uframework/failure/Details$Item;)V
-	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Z
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun addAll (ILjava/util/Collection;)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public fun clear ()V
-	public fun contains (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Z
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public fun get (I)Lio/github/ustudiocompany/uframework/failure/Details$Item;
-	public synthetic fun get (I)Ljava/lang/Object;
-	public final fun get (Ljava/lang/String;)Ljava/lang/String;
-	public fun getSize ()I
-	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/Details$Item;)I
-	public final fun indexOf (Ljava/lang/Object;)I
-	public fun isEmpty ()Z
-	public fun iterator ()Ljava/util/Iterator;
-	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/failure/Details$Item;)I
-	public final fun lastIndexOf (Ljava/lang/Object;)I
-	public fun listIterator ()Ljava/util/ListIterator;
-	public fun listIterator (I)Ljava/util/ListIterator;
-	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details;
-	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Details;)Lio/github/ustudiocompany/uframework/failure/Details;
-	public fun remove (I)Lio/github/ustudiocompany/uframework/failure/Details$Item;
-	public synthetic fun remove (I)Ljava/lang/Object;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
-	public fun retainAll (Ljava/util/Collection;)Z
-	public fun set (ILio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
-	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
-	public final fun size ()I
-	public fun sort (Ljava/util/Comparator;)V
-	public fun subList (II)Ljava/util/List;
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/failure/Details$Companion {
-	public final fun getNONE ()Lio/github/ustudiocompany/uframework/failure/Details;
-	public final fun of (Ljava/util/List;)Lio/github/ustudiocompany/uframework/failure/Details;
-	public final fun of ([Lio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details;
-	public final fun of ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/failure/Details;
-}
-
-public final class io/github/ustudiocompany/uframework/failure/Details$Item {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Details$Item;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getKey ()Ljava/lang/String;
-	public final fun getValue ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure {
 	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Failure$Companion;
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public abstract fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/failure/Failure$Cause {
@@ -104,9 +41,72 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Non
 public final class io/github/ustudiocompany/uframework/failure/Failure$Companion {
 }
 
+public final class io/github/ustudiocompany/uframework/failure/FailureDetails : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lio/github/ustudiocompany/uframework/failure/FailureDetails$Companion;
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun add (ILio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)V
+	public synthetic fun add (ILjava/lang/Object;)V
+	public fun add (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)Z
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun addAll (ILjava/util/Collection;)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public fun clear ()V
+	public fun contains (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)Z
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public fun get (I)Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;
+	public synthetic fun get (I)Ljava/lang/Object;
+	public final fun get (Ljava/lang/String;)Ljava/lang/String;
+	public fun getSize ()I
+	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)I
+	public final fun indexOf (Ljava/lang/Object;)I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)I
+	public final fun lastIndexOf (Ljava/lang/Object;)I
+	public fun listIterator ()Ljava/util/ListIterator;
+	public fun listIterator (I)Ljava/util/ListIterator;
+	public final fun plus (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public final fun plus (Lio/github/ustudiocompany/uframework/failure/FailureDetails;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun remove (I)Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;
+	public synthetic fun remove (I)Ljava/lang/Object;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
+	public fun retainAll (Ljava/util/Collection;)Z
+	public fun set (ILio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;
+	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun size ()I
+	public fun sort (Ljava/util/Comparator;)V
+	public fun subList (II)Ljava/util/List;
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/FailureDetails$Companion {
+	public final fun getNONE ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public final fun of (Ljava/util/List;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public final fun of ([Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public final fun of ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/FailureDetails$Item {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/FailureDetails$Item;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/failure/FailureKt {
 	public static final fun allDescriptions (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/util/List;
-	public static final fun allDetails (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Details;
+	public static final fun allDetails (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/FailureDetails;
 	public static final fun exceptionOrNull (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/lang/Throwable;
 	public static final fun fold (Lio/github/ustudiocompany/uframework/failure/Failure;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
 	public static final fun fullCode (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Ljava/lang/String;

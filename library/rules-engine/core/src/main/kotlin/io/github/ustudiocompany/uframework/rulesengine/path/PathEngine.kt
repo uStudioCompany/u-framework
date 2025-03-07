@@ -6,8 +6,8 @@ import com.jayway.jsonpath.PathNotFoundException
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
@@ -40,7 +40,7 @@ public class PathEngine(private val config: Configuration) {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
-            override val details: Details = Details.of(
+            override val details: FailureDetails = FailureDetails.of(
                 DETAILS_KEY_PATH to path
             )
         }
@@ -49,7 +49,7 @@ public class PathEngine(private val config: Configuration) {
             override val code: String = PREFIX + "2"
             override val description: String = "The error of searching by json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-            override val details: Details = Details.of(
+            override val details: FailureDetails = FailureDetails.of(
                 DETAILS_KEY_PATH to path
             )
         }

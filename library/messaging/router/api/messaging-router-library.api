@@ -38,7 +38,7 @@ public abstract class io/github/ustudiocompany/uframework/messaging/router/Route
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader : io/github/ustudiocompany/uframework/messaging/router/RouterErrors {
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader {
@@ -58,7 +58,7 @@ public final class io/github/ustudiocompany/uframework/messaging/router/RouterEr
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageNameHeader {
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader$InvalidValue : io/github/ustudiocompany/uframework/messaging/router/RouterErrors$MessageVersionHeader {
@@ -81,7 +81,7 @@ public final class io/github/ustudiocompany/uframework/messaging/router/RouterEr
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/RouteSelector;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/router/RouterKt {

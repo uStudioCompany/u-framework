@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.rulesengine.feel
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
@@ -82,7 +82,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         public class Parsing(public val expression: String, message: String) : Errors() {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing expression: '$expression'. $message"
-            override val details: Details = Details.of(
+            override val details: FailureDetails = FailureDetails.of(
                 DETAILS_KEY_PATH to expression
             )
         }
@@ -91,7 +91,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             override val code: String = PREFIX + "2"
             override val description: String = "The error of evaluating expression: '$expression'" +
                 if (message != null) "($message)." else "."
-            override val details: Details = Details.of(
+            override val details: FailureDetails = FailureDetails.of(
                 DETAILS_KEY_PATH to expression
             )
         }

@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.utils
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Details
+import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeOf
 import io.github.ustudiocompany.uframework.failure.typeOf
@@ -38,7 +38,7 @@ public abstract class EnumElementProvider<T>(private val info: EnumInfo<T>)
             override val description: String =
                 "Unexpected value. Actual value: `$value`, expected values: ${expected.joinToString { it.key }}"
 
-            override val details: Details = Details.of(
+            override val details: FailureDetails = FailureDetails.of(
                 ACTUAL_VALUE_DETAIL_KEY to value,
                 EXPECTED_VALUES_DETAIL_KEY to expected.joinToString { it.key }
             )

@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.saga.engine.error
 
-import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ReplyHandlerErrors
 
@@ -80,7 +80,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
         override val code: String = PREFIX + "6"
         override val description: String = "The saga does not contain a step that is referenced by a step in history."
 
-        override val details: Details = Details.of(
+        override val details: FailureDetails = FailureDetails.of(
             STEP_INDEX_DETAIL_KEY to index.toString(),
             STEP_LABEL_DETAIL_KEY to label.get
         )

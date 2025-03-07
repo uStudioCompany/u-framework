@@ -12,29 +12,32 @@ internal class AllDetailsFailureTest : UnitTest() {
             withData(
                 nameFn = { (failure, _) -> failure.toString() },
                 listOf(
-                    failure(code = CODE_1) to Details.NONE,
-                    failure(code = CODE_1, details = Details.of(KEY_1 to VALUE_1)) to Details.of(KEY_1 to VALUE_1),
-                    failure(code = CODE_2, cause = failure(code = CODE_1)) to Details.NONE,
+                    failure(code = CODE_1) to FailureDetails.NONE,
+                    failure(
+                        code = CODE_1,
+                        details = FailureDetails.of(KEY_1 to VALUE_1)
+                    ) to FailureDetails.of(KEY_1 to VALUE_1),
+                    failure(code = CODE_2, cause = failure(code = CODE_1)) to FailureDetails.NONE,
                     failure(
                         code = CODE_2,
                         cause = failure(CODE_1),
-                        details = Details.of(KEY_1 to VALUE_1)
-                    ) to Details.of(KEY_1 to VALUE_1),
+                        details = FailureDetails.of(KEY_1 to VALUE_1)
+                    ) to FailureDetails.of(KEY_1 to VALUE_1),
                     failure(
                         code = CODE_2,
                         cause = failure(
                             code = CODE_1,
-                            details = Details.of(KEY_1 to VALUE_1)
+                            details = FailureDetails.of(KEY_1 to VALUE_1)
                         )
-                    ) to Details.of(KEY_1 to VALUE_1),
+                    ) to FailureDetails.of(KEY_1 to VALUE_1),
                     failure(
                         code = CODE_2,
                         cause = failure(
                             code = CODE_1,
-                            details = Details.of(KEY_1 to VALUE_1)
+                            details = FailureDetails.of(KEY_1 to VALUE_1)
                         ),
-                        details = Details.of(KEY_2 to VALUE_2)
-                    ) to Details.of(KEY_1 to VALUE_1, KEY_2 to VALUE_2)
+                        details = FailureDetails.of(KEY_2 to VALUE_2)
+                    ) to FailureDetails.of(KEY_1 to VALUE_1, KEY_2 to VALUE_2)
                 )
             ) { (failure, expected) ->
                 failure.allDetails() shouldContainOnly expected
@@ -42,8 +45,10 @@ internal class AllDetailsFailureTest : UnitTest() {
         }
     }
 
-    private fun failure(code: String, details: Details = Details.NONE): Failure = Root(code = code, details = details)
-    private fun failure(code: String, cause: Failure, details: Details = Details.NONE): Failure =
+    private fun failure(code: String, details: FailureDetails = FailureDetails.NONE): Failure =
+        Root(code = code, details = details)
+
+    private fun failure(code: String, cause: Failure, details: FailureDetails = FailureDetails.NONE): Failure =
         Child(code = code, cause = Failure.Cause.Failure(cause), details = details)
 
     private companion object {
@@ -58,12 +63,12 @@ internal class AllDetailsFailureTest : UnitTest() {
 
     private data class Root(
         override val code: String,
-        override val details: Details = Details.NONE
+        override val details: FailureDetails = FailureDetails.NONE
     ) : Failure
 
     private data class Child(
         override val code: String,
         override val cause: Failure.Cause,
-        override val details: Details = Details.NONE
+        override val details: FailureDetails = FailureDetails.NONE
     ) : Failure
 }

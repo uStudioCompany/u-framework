@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.error
 
-import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.failure.fullCode
 import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
@@ -25,22 +25,22 @@ public sealed class JDBCErrors : Failure {
 
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
 
-        override val details: Details =
+        override val details: FailureDetails =
             if (exception is SQLException)
-                Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+                FailureDetails.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
-                Details.NONE
+                FailureDetails.NONE
     }
 
     public class Connection(exception: Exception) : JDBCErrors() {
         override val code: String = PREFIX + "CONNECTION-1"
         override val description: String = "The connection error."
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-        override val details: Details =
+        override val details: FailureDetails =
             if (exception is SQLException)
-                Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+                FailureDetails.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
-                Details.NONE
+                FailureDetails.NONE
     }
 
     public sealed class Row : JDBCErrors() {
@@ -48,11 +48,11 @@ public sealed class JDBCErrors : Failure {
         public class UndefinedColumn(public val label: ColumnLabel) : Row() {
             override val code: String = PREFIX + "ROW-1"
             override val description: String = "Undefined column."
-            override val details: Details = mutableListOf<Details.Item>()
+            override val details: FailureDetails = mutableListOf<FailureDetails.Item>()
                 .apply {
-                    add(Details.Item(key = label.detailsKey, value = label.detailsValue))
+                    add(FailureDetails.Item(key = label.detailsKey, value = label.detailsValue))
                 }
-                .let { Details.of(it) }
+                .let { FailureDetails.of(it) }
 
             public constructor(name: String) : this(label = ColumnLabel.Name(name))
             public constructor(index: Int) : this(ColumnLabel.Index(index))
@@ -65,13 +65,13 @@ public sealed class JDBCErrors : Failure {
         ) : Row() {
             override val code: String = PREFIX + "ROW-2"
             override val description: String = "The type of a column is mismatched."
-            override val details: Details = mutableListOf<Details.Item>()
+            override val details: FailureDetails = mutableListOf<FailureDetails.Item>()
                 .apply {
-                    add(Details.Item(key = label.detailsKey, value = label.detailsValue))
-                    add(Details.Item(key = EXPECTED_COLUMN_TYPE_DETAILS_KEY, value = expected))
-                    add(Details.Item(key = ACTUAL_COLUMN_TYPE_DETAILS_KEY, value = actual))
+                    add(FailureDetails.Item(key = label.detailsKey, value = label.detailsValue))
+                    add(FailureDetails.Item(key = EXPECTED_COLUMN_TYPE_DETAILS_KEY, value = expected))
+                    add(FailureDetails.Item(key = ACTUAL_COLUMN_TYPE_DETAILS_KEY, value = actual))
                 }
-                .let { Details.of(it) }
+                .let { FailureDetails.of(it) }
 
             public constructor(name: String, expected: String, actual: String) :
                 this(ColumnLabel.Name(name), expected, actual)
@@ -84,13 +84,13 @@ public sealed class JDBCErrors : Failure {
             override val code: String = PREFIX + "ROW-3"
             override val description: String = "The error of reading column value"
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)
-            override val details: Details = mutableListOf<Details.Item>()
+            override val details: FailureDetails = mutableListOf<FailureDetails.Item>()
                 .apply {
-                    add(Details.Item(key = label.detailsKey, value = label.detailsValue))
+                    add(FailureDetails.Item(key = label.detailsKey, value = label.detailsValue))
                     if (cause is SQLException)
-                        add(Details.Item(key = SQL_STATE_DETAILS_KEY, value = cause.sqlState))
+                        add(FailureDetails.Item(key = SQL_STATE_DETAILS_KEY, value = cause.sqlState))
                 }
-                .let { Details.of(it) }
+                .let { FailureDetails.of(it) }
 
             public constructor(name: String, cause: Throwable) : this(ColumnLabel.Name(name), cause)
             public constructor(index: Int, cause: Throwable) : this(ColumnLabel.Index(index), cause)
@@ -103,11 +103,11 @@ public sealed class JDBCErrors : Failure {
             override val code: String = PREFIX + "DATA-1"
             override val description: String = "The duplicate key value violates a unique constraint."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-            override val details: Details =
+            override val details: FailureDetails =
                 if (exception is SQLException)
-                    Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+                    FailureDetails.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
                 else
-                    Details.NONE
+                    FailureDetails.NONE
         }
     }
 
@@ -116,11 +116,11 @@ public sealed class JDBCErrors : Failure {
         override val code: String = PREFIX + "CUSTOM"
         override val description: String = ""
         override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-        override val details: Details =
+        override val details: FailureDetails =
             if (exception is SQLException)
-                Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+                FailureDetails.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
             else
-                Details.NONE
+                FailureDetails.NONE
     }
 
     private companion object {
