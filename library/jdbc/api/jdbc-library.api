@@ -19,18 +19,18 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors 
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Connection : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
 	public fun <init> (Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Custom : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getState ()Ljava/lang/String;
 }
 
@@ -39,10 +39,10 @@ public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Data$DuplicateKeyValue : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Data {
 	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
@@ -52,10 +52,10 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public fun <init> (ILjava/lang/Throwable;)V
 	public fun <init> (Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;Ljava/lang/Throwable;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
 
@@ -66,7 +66,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public final fun getActual ()Ljava/lang/String;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getExpected ()Ljava/lang/String;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
@@ -77,16 +77,16 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Unexpected : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
 	public fun <init> (Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getException ()Ljava/lang/Throwable;
 }
 

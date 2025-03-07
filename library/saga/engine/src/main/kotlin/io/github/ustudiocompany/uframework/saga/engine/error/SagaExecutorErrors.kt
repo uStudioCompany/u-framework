@@ -1,5 +1,7 @@
 package io.github.ustudiocompany.uframework.saga.engine.error
 
+import io.github.ustudiocompany.uframework.failure.Cause
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.saga.core.step.SagaStepLabel
 import io.github.ustudiocompany.uframework.saga.core.step.action.handler.ReplyHandlerErrors
@@ -20,7 +22,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataInitialize(cause: Failure) : SagaExecutorErrors() {
         override val code: String = PREFIX + "2"
         override val description: String = "An error of initialize the saga instance initial data."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val cause: Cause = Cause.Failure(cause)
     }
 
     /**
@@ -29,7 +31,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataDeserialization(cause: Failure) : SagaExecutorErrors() {
         override val code: String = PREFIX + "3"
         override val description: String = "An error of deserialization the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val cause: Cause = Cause.Failure(cause)
     }
 
     /**
@@ -38,7 +40,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class DataSerialization(cause: Failure) : SagaExecutorErrors() {
         override val code: String = PREFIX + "4"
         override val description: String = "An error of serialization the saga instance data."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val cause: Cause = Cause.Failure(cause)
     }
 
     /**
@@ -58,17 +60,17 @@ public sealed class SagaExecutorErrors : SagaErrors {
 
         public class ReplyBodyMissing(cause: ReplyHandlerErrors.ReplyBodyMissing) : Reply() {
             override val code: String = PREFIX + "REPLY-1"
-            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val cause: Cause = Cause.Failure(cause)
         }
 
         public class ReplyBodyDeserialization(cause: ReplyHandlerErrors.ReplyBodyDeserialization) : Reply() {
             override val code: String = PREFIX + "REPLY-2"
-            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val cause: Cause = Cause.Failure(cause)
         }
 
         public class ReplyHandle(cause: ReplyHandlerErrors.ReplyHandle) : Reply() {
             override val code: String = PREFIX + "REPLY-3"
-            override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+            override val cause: Cause = Cause.Failure(cause)
         }
     }
 
@@ -79,7 +81,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
         override val code: String = PREFIX + "6"
         override val description: String = "The saga does not contain a step that is referenced by a step in history."
 
-        override val details: Failure.Details = Failure.Details.of(
+        override val details: Details = Details.of(
             STEP_INDEX_DETAIL_KEY to index.toString(),
             STEP_LABEL_DETAIL_KEY to label.get
         )
@@ -96,7 +98,7 @@ public sealed class SagaExecutorErrors : SagaErrors {
     public class MakeRequest(cause: Failure) : SagaExecutorErrors() {
         override val code: String = PREFIX + "8"
         override val description: String = "An error of create a request."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val cause: Cause = Cause.Failure(cause)
     }
 
     public companion object {

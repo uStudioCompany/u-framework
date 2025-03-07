@@ -785,7 +785,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getExpression ()Ljava/lang/String;
 }
 
@@ -793,7 +793,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getExpression ()Ljava/lang/String;
 }
 
@@ -826,19 +826,19 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 
 public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getPath ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getPath ()Ljava/lang/String;
 }
 

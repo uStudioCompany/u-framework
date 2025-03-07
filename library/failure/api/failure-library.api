@@ -1,80 +1,81 @@
-public abstract interface class io/github/ustudiocompany/uframework/failure/Failure {
-	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Failure$Companion;
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public abstract fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+public abstract interface class io/github/ustudiocompany/uframework/failure/Causal {
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/failure/Failure$Cause {
+public abstract interface class io/github/ustudiocompany/uframework/failure/Cause {
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Exception : io/github/ustudiocompany/uframework/failure/Failure$Cause {
+public final class io/github/ustudiocompany/uframework/failure/Cause$Exception : io/github/ustudiocompany/uframework/failure/Cause {
 	public fun <init> (Ljava/lang/Throwable;)V
 	public final fun component1 ()Ljava/lang/Throwable;
-	public final fun copy (Ljava/lang/Throwable;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Exception;
+	public final fun copy (Ljava/lang/Throwable;)Lio/github/ustudiocompany/uframework/failure/Cause$Exception;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Cause$Exception;Ljava/lang/Throwable;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Cause$Exception;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Ljava/lang/Throwable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$Failure : io/github/ustudiocompany/uframework/failure/Failure$Cause {
+public final class io/github/ustudiocompany/uframework/failure/Cause$Failure : io/github/ustudiocompany/uframework/failure/Cause {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/failure/Failure;
-	public final fun copy (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;Lio/github/ustudiocompany/uframework/failure/Failure;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Cause$Failure;
+	public final fun copy (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Cause$Failure;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Cause$Failure;Lio/github/ustudiocompany/uframework/failure/Failure;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Cause$Failure;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Lio/github/ustudiocompany/uframework/failure/Failure;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Cause$None : io/github/ustudiocompany/uframework/failure/Failure$Cause {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/failure/Failure$Cause$None;
+public final class io/github/ustudiocompany/uframework/failure/Cause$None : io/github/ustudiocompany/uframework/failure/Cause {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/failure/Cause$None;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Companion {
+public abstract interface class io/github/ustudiocompany/uframework/failure/Describable {
+	public fun getDescription ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Details : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Failure$Details$Companion;
+public abstract interface class io/github/ustudiocompany/uframework/failure/Detailed {
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/Details : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Details$Companion;
 	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun add (ILio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)V
+	public fun add (ILio/github/ustudiocompany/uframework/failure/Details$Item;)V
 	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Z
+	public fun add (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Z
 	public synthetic fun add (Ljava/lang/Object;)Z
 	public fun addAll (ILjava/util/Collection;)Z
 	public fun addAll (Ljava/util/Collection;)Z
 	public fun clear ()V
-	public fun contains (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Z
+	public fun contains (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Z
 	public final fun contains (Ljava/lang/Object;)Z
 	public fun containsAll (Ljava/util/Collection;)Z
-	public fun get (I)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public fun get (I)Lio/github/ustudiocompany/uframework/failure/Details$Item;
 	public synthetic fun get (I)Ljava/lang/Object;
 	public final fun get (Ljava/lang/String;)Ljava/lang/String;
 	public fun getSize ()I
-	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)I
+	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/Details$Item;)I
 	public final fun indexOf (Ljava/lang/Object;)I
 	public fun isEmpty ()Z
 	public fun iterator ()Ljava/util/Iterator;
-	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)I
+	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/failure/Details$Item;)I
 	public final fun lastIndexOf (Ljava/lang/Object;)I
 	public fun listIterator ()Ljava/util/ListIterator;
 	public fun listIterator (I)Ljava/util/ListIterator;
-	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Failure$Details;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public fun remove (I)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details;
+	public final fun plus (Lio/github/ustudiocompany/uframework/failure/Details;)Lio/github/ustudiocompany/uframework/failure/Details;
+	public fun remove (I)Lio/github/ustudiocompany/uframework/failure/Details$Item;
 	public synthetic fun remove (I)Ljava/lang/Object;
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
 	public fun retainAll (Ljava/util/Collection;)Z
-	public fun set (ILio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public fun set (ILio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
 	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun size ()I
 	public fun sort (Ljava/util/Comparator;)V
@@ -84,19 +85,19 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details :
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Details$Companion {
-	public final fun getNONE ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun of (Ljava/util/List;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun of ([Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun of ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+public final class io/github/ustudiocompany/uframework/failure/Details$Companion {
+	public final fun getNONE ()Lio/github/ustudiocompany/uframework/failure/Details;
+	public final fun of (Ljava/util/List;)Lio/github/ustudiocompany/uframework/failure/Details;
+	public final fun of ([Lio/github/ustudiocompany/uframework/failure/Details$Item;)Lio/github/ustudiocompany/uframework/failure/Details;
+	public final fun of ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
-public final class io/github/ustudiocompany/uframework/failure/Failure$Details$Item {
+public final class io/github/ustudiocompany/uframework/failure/Details$Item {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Failure$Details$Item;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/failure/Details$Item;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/failure/Details$Item;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getKey ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
@@ -104,9 +105,17 @@ public final class io/github/ustudiocompany/uframework/failure/Failure$Details$I
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface class io/github/ustudiocompany/uframework/failure/Failure : io/github/ustudiocompany/uframework/failure/Causal, io/github/ustudiocompany/uframework/failure/Describable, io/github/ustudiocompany/uframework/failure/Detailed {
+	public static final field Companion Lio/github/ustudiocompany/uframework/failure/Failure$Companion;
+	public abstract fun getCode ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/failure/Failure$Companion {
+}
+
 public final class io/github/ustudiocompany/uframework/failure/FailureKt {
 	public static final fun allDescriptions (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/util/List;
-	public static final fun allDetails (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public static final fun allDetails (Lio/github/ustudiocompany/uframework/failure/Failure;)Lio/github/ustudiocompany/uframework/failure/Details;
 	public static final fun exceptionOrNull (Lio/github/ustudiocompany/uframework/failure/Failure;)Ljava/lang/Throwable;
 	public static final fun fold (Lio/github/ustudiocompany/uframework/failure/Failure;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
 	public static final fun fullCode (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Ljava/lang/String;

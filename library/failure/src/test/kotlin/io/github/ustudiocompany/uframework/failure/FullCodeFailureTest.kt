@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.failure
 
-import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe

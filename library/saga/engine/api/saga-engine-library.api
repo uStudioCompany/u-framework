@@ -51,28 +51,28 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExe
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$DataDeserialization : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$DataInitialize : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$DataSerialization : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$MakeRequest : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
@@ -83,19 +83,19 @@ public abstract class io/github/ustudiocompany/uframework/saga/engine/error/Saga
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyBodyDeserialization : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyDeserialization;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyBodyMissing : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyMissing;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply$ReplyHandle : io/github/ustudiocompany/uframework/saga/engine/error/SagaExecutorErrors$Reply {
 	public fun <init> (Lio/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyHandle;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 }
 
@@ -121,7 +121,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExe
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract class io/github/ustudiocompany/uframework/saga/engine/error/SagaManagerErrors : io/github/ustudiocompany/uframework/saga/engine/error/SagaErrors {
@@ -139,7 +139,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
@@ -148,7 +148,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel--Ek4fEY ()Ljava/lang/String;
 }
 
@@ -156,7 +156,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/engine/error/SagaPublisherErrors : io/github/ustudiocompany/uframework/saga/engine/error/SagaErrors {
@@ -164,7 +164,7 @@ public abstract interface class io/github/ustudiocompany/uframework/saga/engine/
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaPublisherErrors$CommandPublishing : io/github/ustudiocompany/uframework/saga/engine/error/SagaPublisherErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
@@ -174,7 +174,7 @@ public abstract interface class io/github/ustudiocompany/uframework/saga/engine/
 
 public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaStorageErrors$Storage : io/github/ustudiocompany/uframework/saga/engine/error/SagaStorageErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }

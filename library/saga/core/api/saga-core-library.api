@@ -248,7 +248,7 @@ public abstract class io/github/ustudiocompany/uframework/saga/core/step/action/
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyBodyDeserialization : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
@@ -261,7 +261,7 @@ public final class io/github/ustudiocompany/uframework/saga/core/step/action/han
 
 public final class io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors$ReplyHandle : io/github/ustudiocompany/uframework/saga/core/step/action/handler/ReplyHandlerErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }

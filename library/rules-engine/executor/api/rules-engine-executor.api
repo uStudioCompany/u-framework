@@ -53,7 +53,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/cont
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
@@ -63,10 +63,10 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
@@ -74,7 +74,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
@@ -82,7 +82,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
@@ -97,21 +97,21 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/FeelExpressionError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
@@ -128,10 +128,10 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$InvalidUriTemplate : io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getTemplate ()Ljava/lang/String;
 }
 
@@ -139,7 +139,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getName ()Ljava/lang/String;
 }
 

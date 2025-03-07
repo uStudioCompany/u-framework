@@ -2,6 +2,8 @@ package io.github.ustudiocompany.uframework.messaging.publisher
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.ustudiocompany.uframework.failure.Cause
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
@@ -46,8 +48,8 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         public class Publish(failure: MessageSender.Errors) : Errors() {
             override val code: String = PREFIX + "1"
             override val description: String = "A message publishing error."
-            override val details: Failure.Details = Failure.Details.NONE
-            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
+            override val details: Details = Details.NONE
+            override val cause: Cause = Cause.Failure(failure)
         }
 
         private companion object {

@@ -26,7 +26,7 @@ public final class io/github/ustudiocompany/uframework/utils/EnumElementProvider
 	public synthetic fun <init> (Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Enum;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
