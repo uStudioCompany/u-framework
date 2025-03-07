@@ -4,8 +4,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.eventsourcing.common.Revision
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageId
 
 @JvmInline
@@ -50,7 +50,7 @@ public value class History private constructor(
             override val code: String = PREFIX + "2"
             override val description: String =
                 "Invalid revision. Expected: `${expected.get}`, actual: `${actual.get}`"
-            override val details: FailureDetails = FailureDetails.of(
+            override val details: Details = Details.of(
                 EXPECTED_DETAILS_KEY to expected.get.toString(),
                 ACTUAL_DETAILS_KEY to actual.get.toString()
             )
@@ -65,7 +65,7 @@ public value class History private constructor(
             override val code: String = PREFIX + "3"
             override val description: String =
                 "Non-unique message id. The message id: `${id.get}`"
-            override val details: FailureDetails = FailureDetails.of(
+            override val details: Details = Details.of(
                 MESSAGE_ID_DETAILS_KEY to id.get
             )
 

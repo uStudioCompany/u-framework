@@ -22,7 +22,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Con
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Custom : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
@@ -30,7 +30,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Cus
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getState ()Ljava/lang/String;
 }
 
@@ -42,7 +42,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Dat
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row : io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors {
@@ -55,7 +55,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
 
@@ -66,7 +66,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public final fun getActual ()Ljava/lang/String;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getExpected ()Ljava/lang/String;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
@@ -77,7 +77,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Row
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel ()Lio/github/ustudiocompany/uframework/jdbc/sql/ColumnLabel;
 }
 
@@ -86,7 +86,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/error/JDBCErrors$Une
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getException ()Ljava/lang/Throwable;
 }
 

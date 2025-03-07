@@ -20,7 +20,7 @@ public interface Failure {
     /**
      * The details of the failure.
      */
-    public val details: FailureDetails get() = FailureDetails.NONE
+    public val details: Details get() = Details.NONE
 
     public sealed interface Cause {
 
@@ -63,15 +63,15 @@ public fun Failure.fullCode(delimiter: String = "."): String =
  * Returns all details of the failure and its causes.
  * @return the all details.
  */
-public fun Failure.allDetails(): FailureDetails {
+public fun Failure.allDetails(): Details {
     val allDetails =
-        fold(initial = { mutableListOf<FailureDetails.Item>().apply { addAll(it.details) } }) { acc, failure ->
+        fold(initial = { mutableListOf<Details.Item>().apply { addAll(it.details) } }) { acc, failure ->
             acc.apply { addAll(failure.details) }
         }
     return if (allDetails.isEmpty())
-        FailureDetails.NONE
+        Details.NONE
     else
-        FailureDetails.of(allDetails)
+        Details.of(allDetails)
 }
 
 /**

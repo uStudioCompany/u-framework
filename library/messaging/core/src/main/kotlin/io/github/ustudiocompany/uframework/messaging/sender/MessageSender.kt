@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.messaging.sender
 
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.failure.FailureDetails
 import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
@@ -20,7 +20,7 @@ public fun interface MessageSender<T> {
             override val description: String =
                 "The error of sending a message to channel `$channel` with key `$key`."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-            override val details: FailureDetails = FailureDetails.of(
+            override val details: Details = Details.of(
                 MESSAGE_CHANNEL_NAME_DETAIL_KEY to channel.get,
                 MESSAGE_KEY_DETAIL_KEY to (key?.toString() ?: "None")
             )

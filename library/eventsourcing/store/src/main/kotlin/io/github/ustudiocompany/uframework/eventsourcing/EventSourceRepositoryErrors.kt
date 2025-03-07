@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.eventsourcing
 
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.failure.FailureDetails
 
 public sealed class EventSourceRepositoryErrors : Failure {
 
@@ -11,7 +11,7 @@ public sealed class EventSourceRepositoryErrors : Failure {
             override val code: String = PREFIX + "AGGREGATE-1"
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
             override val description: String = "The error of loading aggregate."
-            override val details: FailureDetails = FailureDetails.NONE
+            override val details: Details = Details.NONE
         }
     }
 
@@ -21,14 +21,14 @@ public sealed class EventSourceRepositoryErrors : Failure {
             override val code: String = PREFIX + "SNAPSHOT-1"
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
             override val description: String = "The error of loading snapshot."
-            override val details: FailureDetails = FailureDetails.NONE
+            override val details: Details = Details.NONE
         }
 
         public class Save(failure: Failure) : Snapshot() {
             override val code: String = PREFIX + "SNAPSHOT-2"
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
             override val description: String = "The error of saving snapshot."
-            override val details: FailureDetails = FailureDetails.NONE
+            override val details: Details = Details.NONE
         }
     }
 
@@ -38,14 +38,14 @@ public sealed class EventSourceRepositoryErrors : Failure {
             override val code: String = PREFIX + "EVENT-1"
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
             override val description: String = "The error of loading event."
-            override val details: FailureDetails = FailureDetails.NONE
+            override val details: Details = Details.NONE
         }
 
         public class Save(failure: Failure) : Event() {
             override val code: String = PREFIX + "EVENT-2"
             override val cause: Failure.Cause = Failure.Cause.Failure(failure)
             override val description: String = "The error of saving event."
-            override val details: FailureDetails = FailureDetails.NONE
+            override val details: Details = Details.NONE
         }
     }
 

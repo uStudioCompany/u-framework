@@ -24,7 +24,7 @@ public final class io/github/ustudiocompany/uframework/messaging/header/type/Cor
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageId {
@@ -54,7 +54,7 @@ public final class io/github/ustudiocompany/uframework/messaging/header/type/Mes
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageName : java/lang/Comparable {
@@ -80,7 +80,7 @@ public final class io/github/ustudiocompany/uframework/messaging/header/type/Mes
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/header/type/MessageStatus : java/lang/Enum, io/github/ustudiocompany/uframework/utils/EnumElementProvider$Key {
@@ -137,7 +137,7 @@ public final class io/github/ustudiocompany/uframework/messaging/header/type/Mes
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/FailureDetails;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors$InvalidVersionSegmentValue : io/github/ustudiocompany/uframework/messaging/header/type/MessageVersion$Errors {

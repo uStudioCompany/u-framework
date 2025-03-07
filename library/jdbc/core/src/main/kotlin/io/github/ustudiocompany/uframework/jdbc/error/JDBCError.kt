@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.jdbc.error
 
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.failure.FailureDetails
 import java.sql.SQLException
 
 public class JDBCError(
@@ -15,11 +15,11 @@ public class JDBCError(
     else
         Failure.Cause.None
 
-    override val details: FailureDetails =
+    override val details: Details =
         if (exception is SQLException)
-            FailureDetails.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
+            Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
         else
-            FailureDetails.NONE
+            Details.NONE
 
     private companion object {
         private const val SQL_STATE_DETAILS_KEY = "sql-state"
