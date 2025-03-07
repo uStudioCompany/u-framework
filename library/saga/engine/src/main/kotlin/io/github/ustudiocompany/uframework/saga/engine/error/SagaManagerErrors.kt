@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.saga.engine.error
 
-import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.messaging.header.type.CorrelationId
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageName
 import io.github.ustudiocompany.uframework.messaging.header.type.MessageVersion
@@ -13,7 +13,7 @@ public sealed class SagaManagerErrors : SagaErrors {
      */
     public class SagaInstanceNotFound(public val correlationId: CorrelationId) : SagaManagerErrors() {
         override val code: String = PREFIX + "1"
-        override val details: Failure.Details = Failure.Details.of(
+        override val details: Details = Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get
         )
     }
@@ -28,7 +28,7 @@ public sealed class SagaManagerErrors : SagaErrors {
         public val version: MessageVersion
     ) : SagaManagerErrors() {
         override val code: String = PREFIX + "2"
-        override val details: Failure.Details = Failure.Details.of(
+        override val details: Details = Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get,
             MESSAGE_ACTION_DETAIL_KEY to name.name,
             MESSAGE_VERSION_DETAIL_KEY to version.toString()
@@ -40,7 +40,7 @@ public sealed class SagaManagerErrors : SagaErrors {
         public val label: SagaLabel
     ) : SagaManagerErrors() {
         override val code: String = PREFIX + "3"
-        override val details: Failure.Details = Failure.Details.of(
+        override val details: Details = Details.of(
             CORRELATION_ID_DETAIL_KEY to correlationId.get,
             SAGA_LABEL_DETAIL_KEY to label.get
         )

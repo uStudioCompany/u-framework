@@ -48,7 +48,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public final fun getActual-xP0aac4 ()J
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getExpected-xP0aac4 ()J
 }
 
@@ -56,7 +56,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/aggregate/H
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getId-e-GfBr8 ()Ljava/lang/String;
 }
 
@@ -110,7 +110,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/common/Revi
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getValue ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

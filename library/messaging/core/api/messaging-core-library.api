@@ -122,7 +122,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public fun getName ()Ljava/lang/String;
 }
 
@@ -130,7 +130,7 @@ public final class io/github/ustudiocompany/uframework/messaging/message/header/
 	public fun <init> (Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public fun getName ()Ljava/lang/String;
 }
 
@@ -178,7 +178,7 @@ public final class io/github/ustudiocompany/uframework/messaging/sender/MessageS
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/sender/SentMessageMetadata {

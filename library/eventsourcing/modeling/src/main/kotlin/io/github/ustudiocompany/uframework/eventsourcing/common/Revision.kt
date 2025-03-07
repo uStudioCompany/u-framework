@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.eventsourcing.common
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.TypeFailure
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.ACTUAL_VALUE_DETAIL_KEY
 import io.github.ustudiocompany.uframework.failure.TypeOf
@@ -39,7 +39,7 @@ public value class Revision private constructor(public val get: Long) : Comparab
             override val description: String
                 get() = "The value is negative."
 
-            override val details: Failure.Details = Failure.Details.of(
+            override val details: Details = Details.of(
                 ACTUAL_VALUE_DETAIL_KEY to value.toString()
             )
         }
