@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Com
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeCreateTableSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeInsertEmptyRowSql
 import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.Companion.makeSelectEmptyRowSql
-import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB
+import io.github.ustudiocompany.uframework.jdbc.row.extract.MultiColumnTable.JSONB_TYPE
 import io.github.ustudiocompany.uframework.jdbc.row.extractor.getJsonb
 import io.github.ustudiocompany.uframework.jdbc.sql.ColumnLabel
 import io.kotest.datatest.withData
@@ -25,8 +25,8 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
 
             "when column index is valid" - {
                 withData(
-                    ts = columnTypes(JSONB),
-                    nameFn = { "when column type is '${it.dataType}'" },
+                    ts = columnTypes(JSONB_TYPE),
+                    nameFn = { "when column type is '${it.displayType}'" },
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -47,8 +47,8 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then function should return an error}" },
-                    ts = getColumnsExclude(JSONB),
+                    nameFn = { "when column type is '${it.displayType}' then function should return an error}" },
+                    ts = getColumnsExclude(JSONB_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())
@@ -76,8 +76,8 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
 
             "when column name is valid" - {
                 withData(
-                    nameFn = { "when column type is '${it.dataType}'" },
-                    ts = columnTypes(JSONB),
+                    nameFn = { "when column type is '${it.displayType}'" },
+                    ts = columnTypes(JSONB_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
 
@@ -97,8 +97,8 @@ internal class JsonbExtractorColumnValueTest : AbstractExtractorColumnValueTest(
                 }
 
                 withData(
-                    nameFn = { "when column type is '${it.dataType}' then function should return error" },
-                    ts = getColumnsExclude(JSONB),
+                    nameFn = { "when column type is '${it.displayType}' then function should return error" },
+                    ts = getColumnsExclude(JSONB_TYPE),
                 ) { metadata ->
                     container.truncateTable(MULTI_COLUMN_TABLE_NAME)
                     container.executeSql(makeInsertEmptyRowSql())

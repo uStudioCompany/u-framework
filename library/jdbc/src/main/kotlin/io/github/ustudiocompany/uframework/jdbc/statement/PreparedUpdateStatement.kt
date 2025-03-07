@@ -11,9 +11,11 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public fun Connection.createPreparedUpdateStatement(sql: ParametrizedSql): PreparedUpdateStatement =
     PreparedUpdateStatementImpl(this, sql)
 
+@Deprecated(message = "Do not use.", level = DeprecationLevel.WARNING)
 public interface PreparedUpdateStatement {
     public val originalSql: String
     public fun clearParameters()

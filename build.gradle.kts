@@ -21,7 +21,7 @@ allprojects {
         }
     }
 
-    version = "0.0.1-alpha.4-SNAPSHOT"
+    version = "0.0.1-alpha.5-SNAPSHOT"
     group = "io.github.ustudiocompany"
 
     configurations.all {
@@ -52,6 +52,8 @@ dependencies {
     kover(project(":saga-engine-library"))
     kover(project(":retry-library"))
     kover(project(":jdbc-library"))
+    kover(project(":jdbc-core-library"))
+    kover(project(":jdbc-std-library"))
     kover(project(":jdbc-test-library"))
     kover(project(":event-sourcing-modeling-library"))
     kover(project(":event-sourcing-store-library"))
