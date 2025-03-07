@@ -57,4 +57,6 @@ dependencies {
     kover(project(":jdbc-test-library"))
     kover(project(":event-sourcing-modeling-library"))
     kover(project(":event-sourcing-store-library"))
+    kover(project(":rules-engine-core"))
+    kover(project(":rules-engine-executor"))
 }

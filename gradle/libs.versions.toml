@@ -3,9 +3,10 @@
 coroutines = "1.7.3"
 
 #Libs
-airflux-functional = "0.0.1-SNAPSHOT"
 airflux-commons = "0.0.1-alpha.6-SNAPSHOT"
+feel-engine = "1.19.0"
 jackson = "2.16.1"
+json-path = "2.9.0"
 
 #Messaging
 kafka = "3.6.0"
@@ -44,6 +45,11 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
 #Libs
 airflux-commons-collections = { module = "io.github.airflux:airflux-commons-collections-jdk17", version.ref = "airflux-commons" }
 airflux-commons-types = { module = "io.github.airflux:airflux-commons-types-jdk17", version.ref = "airflux-commons" }
+feel-engine = { module = "org.camunda.feel:feel-engine", version.ref = "feel-engine" }
+json-path = { module = "com.jayway.jsonpath:json-path", version.ref = "json-path" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jsckson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 
 #Messaging
 kafka-client = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
@@ -59,6 +65,9 @@ logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback"
 logstash-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-over = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+
+#Docs
+knit-test = { module = "org.jetbrains.kotlinx:kotlinx-knit-test", version.ref = "knit" }
 
 #Test
 airflux-commons-types-kotest-matchers = { module = "io.github.airflux:airflux-commons-types-kotest-matchers-jdk17", version.ref = "airflux-commons" }
@@ -91,3 +100,4 @@ database = ["hikaricp", "postgresql"]
 testcontainers-core = ["testcontainers-junit"]
 testcontainers-postgresql = ["testcontainers-postgresql", "liquibase-core"]
 testcontainers-kafka = ["testcontainers-kafka"]
+jackson = ["jackson-core", "jackson-databind", "jsckson-module-kotlin"]

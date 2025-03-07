@@ -100,3 +100,14 @@ project(":event-sourcing-modeling-library").projectDir = file("./library/eventso
 
 include(":event-sourcing-store-library")
 project(":event-sourcing-store-library").projectDir = file("./library/eventsourcing/store")
+
+/* Rules Engine */
+include(":rules-engine-core")
+project(":rules-engine-core").projectDir = file("./library/rules-engine/core")
+
+include(":rules-engine-feel-functions")
+project(":rules-engine-feel-functions").projectDir = file("./library/rules-engine/feel/functions")
+
+
+include(":rules-engine-executor")
+project(":rules-engine-executor").projectDir = file("./library/rules-engine/executor")
