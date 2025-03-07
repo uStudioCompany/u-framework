@@ -119,7 +119,7 @@ public abstract class io/github/ustudiocompany/uframework/messaging/message/head
 
 public final class io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors$InvalidValue : io/github/ustudiocompany/uframework/messaging/message/header/HeaderErrors {
 	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
@@ -175,7 +175,7 @@ public abstract class io/github/ustudiocompany/uframework/messaging/sender/Messa
 
 public final class io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors$Send : io/github/ustudiocompany/uframework/messaging/sender/MessageSender$Errors {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Exception;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;

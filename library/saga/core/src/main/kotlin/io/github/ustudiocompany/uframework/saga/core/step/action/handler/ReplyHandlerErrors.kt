@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.saga.core.step.action.handler
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Failure
 
 public sealed class ReplyHandlerErrors : Failure {
@@ -19,7 +18,7 @@ public sealed class ReplyHandlerErrors : Failure {
     public class ReplyBodyDeserialization(cause: Failure) : ReplyHandlerErrors() {
         override val code: String = PREFIX + "2"
         override val description: String = "An error of deserialize the reply body."
-        override val cause: Cause = Cause.Failure(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     /**
@@ -28,7 +27,7 @@ public sealed class ReplyHandlerErrors : Failure {
     public class ReplyHandle(cause: Failure) : ReplyHandlerErrors() {
         override val code: String = PREFIX + "3"
         override val description: String = "An error of handle the reply."
-        override val cause: Cause = Cause.Failure(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {

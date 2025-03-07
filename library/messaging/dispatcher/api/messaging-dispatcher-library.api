@@ -39,21 +39,21 @@ public abstract class io/github/ustudiocompany/uframework/messaging/dispatcher/D
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$Handler : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$PostHandler : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors$Route : io/github/ustudiocompany/uframework/messaging/dispatcher/DispatcherErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/RouterErrors;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }

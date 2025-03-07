@@ -1,13 +1,5 @@
 package io.github.ustudiocompany.uframework.failure
 
-public interface Detailed {
-
-    /**
-     * The details of the failure.
-     */
-    public val details: Details get() = Details.NONE
-}
-
 public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
 
     /**

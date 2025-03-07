@@ -14,7 +14,7 @@ public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSou
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Aggregate$Create : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Aggregate {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
@@ -25,7 +25,7 @@ public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSou
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Load : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
@@ -33,7 +33,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/EventSource
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event$Save : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Event {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
@@ -44,7 +44,7 @@ public abstract class io/github/ustudiocompany/uframework/eventsourcing/EventSou
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Load : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
@@ -52,7 +52,7 @@ public final class io/github/ustudiocompany/uframework/eventsourcing/EventSource
 
 public final class io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot$Save : io/github/ustudiocompany/uframework/eventsourcing/EventSourceRepositoryErrors$Snapshot {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Cause;
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;

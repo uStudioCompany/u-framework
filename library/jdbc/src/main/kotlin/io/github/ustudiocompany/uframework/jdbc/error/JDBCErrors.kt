@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.jdbc.error
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.fullCode
@@ -24,7 +23,7 @@ public sealed class JDBCErrors : Failure {
 
         override val description: String = "Unexpected error: '${exception.message}'."
 
-        override val cause: Cause = Cause.Exception(exception)
+        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
 
         override val details: Details =
             if (exception is SQLException)
@@ -36,7 +35,7 @@ public sealed class JDBCErrors : Failure {
     public class Connection(exception: Exception) : JDBCErrors() {
         override val code: String = PREFIX + "CONNECTION-1"
         override val description: String = "The connection error."
-        override val cause: Cause = Cause.Exception(exception)
+        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
         override val details: Details =
             if (exception is SQLException)
                 Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
@@ -84,7 +83,7 @@ public sealed class JDBCErrors : Failure {
         public class ReadColumn(public val label: ColumnLabel, cause: Throwable) : Row() {
             override val code: String = PREFIX + "ROW-3"
             override val description: String = "The error of reading column value"
-            override val cause: Cause = Cause.Exception(cause)
+            override val cause: Failure.Cause = Failure.Cause.Exception(cause)
             override val details: Details = mutableListOf<Details.Item>()
                 .apply {
                     add(Details.Item(key = label.detailsKey, value = label.detailsValue))
@@ -103,7 +102,7 @@ public sealed class JDBCErrors : Failure {
         public class DuplicateKeyValue(exception: Throwable) : Data() {
             override val code: String = PREFIX + "DATA-1"
             override val description: String = "The duplicate key value violates a unique constraint."
-            override val cause: Cause = Cause.Exception(exception)
+            override val cause: Failure.Cause = Failure.Cause.Exception(exception)
             override val details: Details =
                 if (exception is SQLException)
                     Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
@@ -116,7 +115,7 @@ public sealed class JDBCErrors : Failure {
     public class Custom(public val state: String, exception: Throwable) : JDBCErrors() {
         override val code: String = PREFIX + "CUSTOM"
         override val description: String = ""
-        override val cause: Cause = Cause.Exception(exception)
+        override val cause: Failure.Cause = Failure.Cause.Exception(exception)
         override val details: Details =
             if (exception is SQLException)
                 Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)

@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor.error
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -26,7 +25,7 @@ public sealed interface ContextError : RuleEngineError {
     public class Merge(public val source: Source, cause: Failure) : ContextError {
         override val code: String = PREFIX + "3"
         override val description: String = "The error of updating the source '${source.get}'."
-        override val cause: Cause = Cause.Failure(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Details = Details.of(
             DETAILS_KEY_SOURCE to source.get
         )

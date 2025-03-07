@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.messaging.router
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Details
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.messaging.header.MESSAGE_NAME_HEADER_NAME
@@ -33,7 +32,7 @@ public sealed class RouterErrors : Failure {
             override val code: String = PREFIX + "HEADER-MESSAGE-NAME-1"
             override val description: String =
                 "The `$MESSAGE_NAME_HEADER_NAME` header is invalid data."
-            override val cause: Cause = Cause.Failure(failure)
+            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }
 
@@ -52,7 +51,7 @@ public sealed class RouterErrors : Failure {
             override val code: String = PREFIX + "HEADER-MESSAGE-VERSION-2"
             override val description: String =
                 "The `$MESSAGE_VERSION_HEADER_NAME` header is invalid data."
-            override val cause: Cause = Cause.Failure(failure)
+            override val cause: Failure.Cause = Failure.Cause.Failure(failure)
         }
     }
 

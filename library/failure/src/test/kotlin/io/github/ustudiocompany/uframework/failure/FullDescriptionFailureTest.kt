@@ -42,7 +42,7 @@ internal class FullDescriptionFailureTest : UnitTest() {
 
     private fun failure(code: String, description: String): Failure = Root(code = code, description = description)
     private fun failure(code: String, description: String, cause: Failure): Failure =
-        Child(code = code, cause = Cause.Failure(cause), description = description)
+        Child(code = code, cause = Failure.Cause.Failure(cause), description = description)
 
     private companion object {
         private const val CODE_1 = "CODE-1"
@@ -61,7 +61,7 @@ internal class FullDescriptionFailureTest : UnitTest() {
 
     private data class Child(
         override val code: String,
-        override val cause: Cause,
+        override val cause: Failure.Cause,
         override val description: String
     ) : Failure
 }

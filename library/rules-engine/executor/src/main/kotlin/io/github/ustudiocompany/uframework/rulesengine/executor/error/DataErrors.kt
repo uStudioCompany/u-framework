@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor.error
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Details
+import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
@@ -11,7 +11,7 @@ public sealed interface DataErrors : RuleEngineError {
     public class Search(cause: PathEngine.Errors) : DataErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "The error of searching."
-        override val cause: Cause = Cause.Failure(cause)
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     public class Missing(public val source: Source, public val path: Path) : DataErrors {

@@ -1,10 +1,44 @@
 package io.github.ustudiocompany.uframework.failure
 
-public interface Failure : Describable, Causal, Detailed {
+public interface Failure {
+
     /**
      * The code of the failure.
      */
     public val code: String
+
+    /**
+     * The description of the failure.
+     */
+    public val description: String get() = ""
+
+    /**
+     * The cause of the failure.
+     */
+    public val cause: Cause get() = Cause.None
+
+    /**
+     * The details of the failure.
+     */
+    public val details: Details get() = Details.NONE
+
+    public sealed interface Cause {
+
+        /**
+         * The cause is not specified.
+         */
+        public data object None : Cause
+
+        /**
+         * The cause is an exception.
+         */
+        public data class Exception(public val get: Throwable) : Cause
+
+        /**
+         * The cause is a failure.
+         */
+        public data class Failure(public val get: io.github.ustudiocompany.uframework.failure.Failure) : Cause
+    }
 
     public companion object
 }
@@ -62,9 +96,9 @@ public fun Failure.fullDescription(separator: String = " "): String =
  */
 public tailrec fun Failure.exceptionOrNull(): Throwable? =
     when (val cause = this.cause) {
-        is Cause.None -> null
-        is Cause.Exception -> cause.get
-        is Cause.Failure -> cause.get.exceptionOrNull()
+        is Failure.Cause.None -> null
+        is Failure.Cause.Exception -> cause.get
+        is Failure.Cause.Failure -> cause.get.exceptionOrNull()
     }
 
 /**
@@ -73,7 +107,7 @@ public tailrec fun Failure.exceptionOrNull(): Throwable? =
 public inline fun <S> Failure.fold(initial: (Failure) -> S, operation: (acc: S, Failure) -> S): S {
     var accumulator: S = initial(this)
     var next = this.cause
-    while (next is Cause.Failure) {
+    while (next is Failure.Cause.Failure) {
         accumulator = operation(accumulator, next.get)
         next = next.get.cause
     }

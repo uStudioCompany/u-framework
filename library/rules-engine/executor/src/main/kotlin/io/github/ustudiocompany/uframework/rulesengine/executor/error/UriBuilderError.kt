@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor.error
 
-import io.github.ustudiocompany.uframework.failure.Cause
 import io.github.ustudiocompany.uframework.failure.Details
+import io.github.ustudiocompany.uframework.failure.Failure
 
 public sealed interface UriBuilderError : RuleEngineError {
 
@@ -16,7 +16,7 @@ public sealed interface UriBuilderError : RuleEngineError {
     public class InvalidUriTemplate(public val template: String, cause: Throwable) : UriBuilderError {
         override val code: String = PREFIX + "2"
         override val description: String = "The error of creating URI from the template: '$template'."
-        override val cause: Cause = Cause.Exception(cause)
+        override val cause: Failure.Cause = Failure.Cause.Exception(cause)
         override val details: Details = Details.of(
             DETAILS_KEY_TEMPLATE to template
         )
