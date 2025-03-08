@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.uframework.failure
 
-public class Details private constructor(private val items: MutableList<Item>) : List<Details.Item> by items {
+public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
 
     /**
      * Returns the value of the item from details by the specified [key] or null if the item is not found.
@@ -14,26 +14,14 @@ public class Details private constructor(private val items: MutableList<Item>) :
      * @param details the details to concatenate.
      * @return the new details.
      */
-    public operator fun plus(details: Details): Details = Details((this.items + details).toMutableList())
+    public operator fun plus(details: Details): Details = Details(this.items + details)
 
     /**
      * Adds the specified [item] to the details.
      * @param item the item to add.
      * @return the new details.
      */
-    public operator fun plus(item: Item): Details = Details((this.items + item).toMutableList())
-
-    public fun add(item: Pair<String, String>) {
-        add(Item(key = item.first, value = item.second))
-    }
-
-    public fun add(item: Item) {
-        items.add(item)
-    }
-
-    public fun add(details: Details) {
-        items.addAll(details)
-    }
+    public operator fun plus(item: Item): Details = Details(this.items + item)
 
     override fun toString(): String = items.joinToString(prefix = "[", postfix = "]") { it.toString() }
 
@@ -46,7 +34,7 @@ public class Details private constructor(private val items: MutableList<Item>) :
         /**
          * The empty details.
          */
-        public val NONE: Details = Details(mutableListOf())
+        public val NONE: Details = Details(emptyList())
 
         /**
          * Creates a new details with the specified [items].
@@ -68,10 +56,6 @@ public class Details private constructor(private val items: MutableList<Item>) :
          * @param items the items to create a new details.
          * @return the new details.
          */
-        public fun of(items: List<Item>): Details =
-            if (items.isNotEmpty())
-                Details(mutableListOf<Item>().apply { addAll(items) })
-            else
-                NONE
+        public fun of(items: List<Item>): Details = if (items.isNotEmpty()) Details(items) else NONE
     }
 }
