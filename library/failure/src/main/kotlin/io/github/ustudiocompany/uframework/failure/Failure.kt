@@ -13,14 +13,14 @@ public interface Failure {
     public val description: String get() = ""
 
     /**
-     * The cause of the failure.
-     */
-    public val cause: Cause get() = Cause.None
-
-    /**
      * The details of the failure.
      */
     public val details: Details get() = Details.NONE
+
+    /**
+     * The cause of the failure.
+     */
+    public val cause: Cause get() = Cause.None
 
     public sealed interface Cause {
 
