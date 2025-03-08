@@ -3,8 +3,11 @@ public final class io/github/ustudiocompany/uframework/failure/Details : java/ut
 	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun add (ILio/github/ustudiocompany/uframework/failure/Details$Item;)V
 	public synthetic fun add (ILjava/lang/Object;)V
+	public final fun add (Lio/github/ustudiocompany/uframework/failure/Details$Item;)V
 	public fun add (Lio/github/ustudiocompany/uframework/failure/Details$Item;)Z
+	public final fun add (Lio/github/ustudiocompany/uframework/failure/Details;)V
 	public synthetic fun add (Ljava/lang/Object;)Z
+	public final fun add (Lkotlin/Pair;)V
 	public fun addAll (ILjava/util/Collection;)Z
 	public fun addAll (Ljava/util/Collection;)Z
 	public fun clear ()V
@@ -13,6 +16,7 @@ public final class io/github/ustudiocompany/uframework/failure/Details : java/ut
 	public fun containsAll (Ljava/util/Collection;)Z
 	public fun get (I)Lio/github/ustudiocompany/uframework/failure/Details$Item;
 	public synthetic fun get (I)Ljava/lang/Object;
+	public final fun get (Ljava/lang/String;)Ljava/lang/String;
 	public fun getSize ()I
 	public fun indexOf (Lio/github/ustudiocompany/uframework/failure/Details$Item;)I
 	public final fun indexOf (Ljava/lang/Object;)I
