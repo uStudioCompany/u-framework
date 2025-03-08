@@ -3,13 +3,6 @@ package io.github.ustudiocompany.uframework.failure
 public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
 
     /**
-     * Returns the value of the item from details by the specified [key] or null if the item is not found.
-     * @param key the key for search.
-     * @return the value or null.
-     */
-    public operator fun get(key: String): String? = items.find { it.key == key }?.value
-
-    /**
      * Concatenates two details.
      * @param details the details to concatenate.
      * @return the new details.
