@@ -1,6 +1,10 @@
 package io.github.ustudiocompany.uframework.failure
 
-public class Details private constructor(private val items: List<Item>) : List<Details.Item> by items {
+/**
+ * This type representing a collection of key-value pairs, called details.
+ * The order of items in the details is not guaranteed.
+ */
+public class Details private constructor(private val items: List<Item>) : Iterable<Details.Item> by items {
 
     /**
      * Returns the value of the item from details by the specified [key] or null if the item is not found.
