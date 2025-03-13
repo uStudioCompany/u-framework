@@ -1,3 +1,18 @@
+public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion;
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
+	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Z
+	public final fun get (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
+	public final fun getImmutable ()Ljava/util/Map;
+	public final fun replace (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion {
+	public final fun empty ()Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+	public final fun invoke (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Data {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)V
 	public final fun getGet ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;

@@ -1,8 +1,10 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -12,11 +14,11 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class DataStepExecutorTest : UnitTest() {
 
     init {
@@ -38,8 +40,7 @@ internal class DataStepExecutorTest : UnitTest() {
 
                     "then the context should contain the generated data" {
                         val result = context[SOURCE]
-                        result.shouldBeSuccess()
-                        result.value shouldBe EXPECTED_DATA
+                        result shouldBe EXPECTED_DATA
                     }
                 }
             }
@@ -61,8 +62,7 @@ internal class DataStepExecutorTest : UnitTest() {
 
                         "then the context should contain the generated data" {
                             val result = context[SOURCE]
-                            result.shouldBeSuccess()
-                            result.value shouldBe EXPECTED_DATA
+                            result shouldBe EXPECTED_DATA
                         }
                     }
                 }

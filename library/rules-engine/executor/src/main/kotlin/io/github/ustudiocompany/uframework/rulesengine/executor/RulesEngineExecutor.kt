@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.isFailure
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
@@ -14,7 +15,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Error
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 public typealias ExecutionResult = ResultK<Step.ErrorCode?, RuleEngineError>
@@ -45,9 +45,18 @@ public class RulesEngineExecutor(
     private fun Steps.execute(context: Context): ResultK<ErrorCode?, RuleEngineError> {
         for (step in this) {
             val result = when (step) {
-                is CallStep -> step.execute(context, callProvider, merger)
-                is DataStep -> step.execute(context, merger)
-                is ValidationStep -> step.execute(context)
+                is CallStep -> {
+                    val p = step.execute(context, callProvider, merger)
+                    p
+                }
+                is DataStep -> {
+                    val p = step.execute(context, merger)
+                    p
+                }
+                is ValidationStep -> {
+                    val p = step.execute(context)
+                    p
+                }
             }
             if (result.isFailure() || result.value != null) return result
         }

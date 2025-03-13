@@ -8,6 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -20,7 +21,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
@@ -237,8 +237,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     "then the context should be updated" {
                         val result = context[RESULT_SOURCE]
-                        result.shouldBeSuccess()
-                        result.value shouldBe CALL_RESULT
+                        result shouldBe CALL_RESULT
                     }
                 }
             }
@@ -280,8 +279,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         "then the context should be updated" {
                             val result = context[RESULT_SOURCE]
-                            result.shouldBeSuccess()
-                            result.value shouldBe CALL_RESULT
+                            result shouldBe CALL_RESULT
                         }
                     }
                 }

@@ -1,11 +1,14 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
+import io.github.airflux.commons.types.maybe.fold
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.flatMap
 import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
@@ -14,7 +17,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 
@@ -29,6 +31,10 @@ internal fun CallStep.execute(context: Context, callProvider: CallProvider, merg
                     val source = step.result.source
                     val action = step.result.action
                     context.update(source, action, value, merger::merge)
+                        .fold(
+                            onSome = { it.asFailure() },
+                            onNone = { Success.asNull }
+                        )
                 }
             },
             ifFalse = { Success.asNull }

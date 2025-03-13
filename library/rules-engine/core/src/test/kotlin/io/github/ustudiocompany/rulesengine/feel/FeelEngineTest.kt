@@ -375,13 +375,13 @@ internal class FeelEngineTest : UnitTest() {
         private const val BOOL_VALUE_TRUE = true
         private const val BOOL_VALUE_FALSE = false
         private val NULL_VALUE: Any? = null
-        private const val KEY_A = "a"
-        private const val KEY_B = "b"
-        private const val KEY_C = "c"
-        private const val KEY_D = "d"
-        private const val KEY_E = "e"
-        private const val KEY_F = "f"
-        private const val KEY_G = "g"
-        private const val KEY_H = "h"
+        private const val KEY_A = "Aa"
+        private const val KEY_B = "Bb"
+        private const val KEY_C = "Cc"
+        private const val KEY_D = "Dd"
+        private const val KEY_E = "Ee"
+        private const val KEY_F = "Ff"
+        private const val KEY_G = "Gg"
+        private const val KEY_H = "Hh"
     }
 }
