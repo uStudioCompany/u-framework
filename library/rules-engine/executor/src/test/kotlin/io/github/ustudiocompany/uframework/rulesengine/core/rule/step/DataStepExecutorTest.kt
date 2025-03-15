@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.resultk.ResultK
-import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
@@ -15,7 +15,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.opera
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
-import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
 @OptIn(AirfluxTypesExperimental::class)
@@ -34,8 +33,7 @@ internal class DataStepExecutorTest : UnitTest() {
                     val result = step.execute(context, TestMerger())
 
                     "then the executor should return a success result" {
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldBeNone()
                     }
 
                     "then the context should contain the generated data" {
@@ -56,8 +54,7 @@ internal class DataStepExecutorTest : UnitTest() {
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
-                            result.shouldBeSuccess()
-                            result.value.shouldBeNull()
+                            result.shouldBeNone()
                         }
 
                         "then the context should contain the generated data" {
@@ -70,14 +67,13 @@ internal class DataStepExecutorTest : UnitTest() {
                 "when condition is not satisfied" - {
                     val condition: Condition = notSatisfiedCondition()
 
-                    "then the executor should  not perform the step" - {
+                    "then the executor should not perform the step" - {
                         val context = Context.empty()
                         val step = createStep(condition)
                         val result = step.execute(context, TestMerger())
 
                         "then the executor should return a success result" {
-                            result.shouldBeSuccess()
-                            result.value.shouldBeNull()
+                            result.shouldBeNone()
                         }
 
                         "then the context should not contain the generated data" {
