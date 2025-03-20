@@ -9,7 +9,7 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url = URI("https://nexus.devfactory-ustudio.localcert.net/repository/maven-snapshots/")
+        url = URI("https://nexus.fabrica.ustudio.company/repository/maven-snapshots/")
     }
 }
 
@@ -17,7 +17,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven {
-            url = URI("https://nexus.devfactory-ustudio.localcert.net/repository/maven-snapshots/")
+            url = URI("https://nexus.fabrica.ustudio.company/repository/maven-snapshots/")
         }
     }
 
