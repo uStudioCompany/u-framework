@@ -5,15 +5,15 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
 
-public sealed class DataErrors : RuleEngineError() {
+public sealed interface DataErrors : RuleEngineError {
 
-    public class Search(cause: PathEngine.Errors) : DataErrors() {
+    public class Search(cause: PathEngine.Errors) : DataErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "The error of searching."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    public class Missing(public val source: Source, public val path: Path) : DataErrors() {
+    public class Missing(public val source: Source, public val path: Path) : DataErrors {
         override val code: String = PREFIX + "2"
         override val description: String = "The error of searching."
         override val details: Failure.Details = Failure.Details.of(

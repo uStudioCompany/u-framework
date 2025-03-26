@@ -8,9 +8,11 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
 internal fun DataElement.search(path: Path): ResultK<DataElement?, DataErrors.Search> =
     path.searchIn(this).mapFailure { DataErrors.Search(it) }
 
-internal fun DataElement.toPlainString() = when (this) {
+internal fun DataElement.toPlainString(): String? = when (this) {
     is DataElement.Text -> this.get
     is DataElement.Decimal -> this.get.toPlainString()
     is DataElement.Bool -> this.get.toString()
-    else -> error("Invalid DataElement type: $this")
+    is DataElement.Array -> this.toString() //FIXME to JSON
+    is DataElement.Struct -> this.toString() //FIXME to JSON
+    is DataElement.Null -> null
 }

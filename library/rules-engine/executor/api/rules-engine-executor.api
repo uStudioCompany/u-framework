@@ -37,7 +37,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
@@ -65,7 +65,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors$Companion;
 }
 
@@ -95,11 +95,10 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun toString ()Ljava/lang/String;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$Companion;
 }
 

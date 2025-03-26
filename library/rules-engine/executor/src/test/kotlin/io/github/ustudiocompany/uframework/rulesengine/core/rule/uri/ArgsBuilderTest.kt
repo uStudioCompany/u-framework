@@ -56,9 +56,9 @@ internal class ArgsBuilderTest : UnitTest() {
                         )
                     )
                 )
+                val result = args.build(context = CONTEXT)
 
                 "then the function should return the error" {
-                    val result = args.build(context = CONTEXT)
                     result.shouldBeFailure()
                     result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
@@ -68,7 +68,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
     private companion object {
         private val SOURCE = Source("input")
-        private val CONTEXT = Context.Companion.empty()
+        private val CONTEXT = Context.empty()
         private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
 
         private const val ARG_NAME_1 = "name-1"

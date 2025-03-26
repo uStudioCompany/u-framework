@@ -2,16 +2,10 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.maybeFailure
-import io.github.airflux.commons.types.resultk.flatMap
-import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger

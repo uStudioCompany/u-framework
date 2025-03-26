@@ -23,11 +23,7 @@ internal fun Context.update(
     when (action) {
         Step.Result.Action.PUT -> tryAdd(source = source, value = value)
         Step.Result.Action.REPLACE -> tryReplace(source = source, value = value)
-        Step.Result.Action.MERGE -> maybeFailure {
-            val (origin) = tryGet(source = source)
-            val (updated) = merge(origin, value).mapFailure { ContextError.Merge(source, it) }
-            tryReplace(source = source, value = updated)
-        }
+        Step.Result.Action.MERGE -> tryMerge(source = source, value = value, merge = merge)
     }
 
 internal fun Context.tryGet(source: Source): ResultK<DataElement, ContextError.SourceMissing> {
@@ -51,3 +47,14 @@ internal fun Context.tryReplace(source: Source, value: DataElement): Maybe<Conte
     else
         ContextError.SourceMissing(source).asSome()
 }
+
+internal fun Context.tryMerge(
+    source: Source,
+    value: DataElement,
+    merge: (DataElement, DataElement) -> ResultK<DataElement, Failure>
+): Maybe<ContextError> =
+    maybeFailure {
+        val (origin) = tryGet(source = source)
+        val (updated) = merge(origin, value).mapFailure { ContextError.Merge(source, it) }
+        tryReplace(source = source, value = updated)
+    }

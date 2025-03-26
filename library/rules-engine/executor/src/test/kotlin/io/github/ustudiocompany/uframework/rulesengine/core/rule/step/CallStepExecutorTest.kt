@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
+import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.orThrow
@@ -18,10 +19,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
-import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
@@ -144,8 +141,8 @@ internal class CallStepExecutorTest : UnitTest() {
                         )
 
                         "then the executor should return an error result" {
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<ContextError.Merge>()
+                            result.shouldContainSomeInstance()
+                                .shouldBeInstanceOf<ContextError.Merge>()
                         }
                     }
                 }
