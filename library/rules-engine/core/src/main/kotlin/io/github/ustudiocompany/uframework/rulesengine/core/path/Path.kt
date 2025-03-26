@@ -6,7 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
 public interface Path {
 
-    public val value: String
+    public val text: String
 
     public fun searchIn(data: DataElement): ResultK<DataElement?, Errors>
 
@@ -14,10 +14,10 @@ public interface Path {
 
         public class Search(public val path: Path, exception: Exception) : Errors {
             override val code: String = PREFIX + "1"
-            override val description: String = "The error of searching by json-path: '${path.value}'."
+            override val description: String = "The error of searching by json-path: '${path.text}'."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)
             override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to path.value
+                DETAILS_KEY_PATH to path.text
             )
         }
 

@@ -22,7 +22,7 @@ public class PathEngine(private val config: Configuration) {
         private val parsedPath: JsonPath
     ) : Path {
 
-        override val value: String
+        override val text: String
             get() = parsedPath.path
 
         override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors.Search> = try {

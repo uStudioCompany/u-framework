@@ -49,7 +49,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
 
-        override val value: String
+        override val text: String
             get() = parsedExpression.text()
 
         override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.Errors.Evaluate> {

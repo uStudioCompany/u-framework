@@ -115,7 +115,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
 
         private val EXPRESSION = object : FeelExpression {
 
-            override val value: String
+            override val text: String
                 get() = "a/0"
 
             override fun evaluate(

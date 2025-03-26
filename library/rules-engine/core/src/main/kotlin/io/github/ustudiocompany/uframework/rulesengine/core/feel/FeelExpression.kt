@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 
 public interface FeelExpression {
 
-    public val value: String
+    public val text: String
 
     public fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, Errors.Evaluate>
 
@@ -15,10 +15,10 @@ public interface FeelExpression {
 
         public class Evaluate(public val expression: FeelExpression, message: String? = null) : Errors() {
             override val code: String = PREFIX + "1"
-            override val description: String = "The error of evaluating expression: '${expression.value}'" +
+            override val description: String = "The error of evaluating expression: '${expression.text}'" +
                 if (message != null) "($message)." else "."
             override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to expression.value
+                DETAILS_KEY_PATH to expression.text
             )
         }
 

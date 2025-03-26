@@ -142,7 +142,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
 	public abstract fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public abstract fun getValue ()Ljava/lang/String;
+	public abstract fun getText ()Ljava/lang/String;
 }
 
 public abstract class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -158,7 +158,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/Fee
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
-	public abstract fun getValue ()Ljava/lang/String;
+	public abstract fun getText ()Ljava/lang/String;
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

@@ -78,7 +78,7 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
         private const val PATH_VALUE = "$.id"
         private fun path(result: DataElement?) =
             object : Path {
-                override val value: String = PATH_VALUE
+                override val text: String = PATH_VALUE
 
                 override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors> =
                     result.asSuccess()

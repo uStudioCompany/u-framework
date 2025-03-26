@@ -17,7 +17,7 @@ public sealed interface DataErrors : RuleEngineError {
         override val description: String = "The error of searching."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get,
-            DETAILS_KEY_PATH to path.value
+            DETAILS_KEY_PATH to path.text
         )
     }
 
