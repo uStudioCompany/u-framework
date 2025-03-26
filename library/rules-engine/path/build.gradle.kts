@@ -13,7 +13,6 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":rules-engine-core"))
-
     implementation(project(":failure-library"))
 
     /* Libs */

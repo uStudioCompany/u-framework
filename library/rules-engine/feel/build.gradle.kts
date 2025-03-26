@@ -13,16 +13,13 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":rules-engine-core"))
-
     implementation(project(":failure-library"))
 
     /* Libs */
     implementation(libs.feel.engine)
-    implementation(libs.json.path)
     implementation(libs.airflux.commons.types) {
         isChanging = true
     }
-    implementation(libs.bundles.jackson)
 
     /* Test */
     testImplementation(libs.bundles.kotest)
