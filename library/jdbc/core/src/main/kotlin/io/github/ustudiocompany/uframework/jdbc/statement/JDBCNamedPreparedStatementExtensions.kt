@@ -2,11 +2,8 @@
 
 package io.github.ustudiocompany.uframework.jdbc.statement
 
-import io.github.airflux.commons.types.maybe.fold
-import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.apply
-import io.github.airflux.commons.types.resultk.asFailure
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.row.ResultRows
 import io.github.ustudiocompany.uframework.jdbc.sql.parameter.NamedSqlParameter
@@ -15,26 +12,14 @@ import io.github.ustudiocompany.uframework.jdbc.sql.parameter.SqlParameterSetter
 public fun JDBCResult<JDBCNamedPreparedStatement>.setParameter(
     param: NamedSqlParameter
 ): JDBCResult<JDBCNamedPreparedStatement> =
-    apply {
-        setParameter(param)
-            .fold(
-                onSome = { it.asFailure() },
-                onNone = { ResultK.Success.asUnit }
-            )
-    }
+    apply { setParameter(param) }
 
 public fun <ValueT> JDBCResult<JDBCNamedPreparedStatement>.setParameter(
     name: String,
     value: ValueT,
     setter: SqlParameterSetter<ValueT>
 ): JDBCResult<JDBCNamedPreparedStatement> =
-    apply {
-        setParameter(name, value, setter)
-            .fold(
-                onSome = { it.asFailure() },
-                onNone = { ResultK.Success.asUnit }
-            )
-    }
+    apply { setParameter(name, value, setter) }
 
 public fun JDBCResult<JDBCNamedPreparedStatement>.execute(
     vararg values: NamedSqlParameter
