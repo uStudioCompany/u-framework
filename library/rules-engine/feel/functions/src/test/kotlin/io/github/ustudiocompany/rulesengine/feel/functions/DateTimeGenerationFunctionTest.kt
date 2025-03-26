@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngine
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngineConfiguration
@@ -57,7 +58,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelEngine.Errors.Evaluate>()
+                    result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
                 }
             }
 
@@ -68,7 +69,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelEngine.Errors.Evaluate>()
+                    result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
                 }
             }
         }

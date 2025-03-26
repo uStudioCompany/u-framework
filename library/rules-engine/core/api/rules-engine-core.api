@@ -145,6 +145,18 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
+public abstract class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors$Evaluate : io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getExpression ()Ljava/lang/String;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
@@ -703,42 +715,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public final fun getProperties ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration;)V
-	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors$Evaluate : io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getExpression ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getExpression ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration {
-	public fun <init> (Ljava/lang/Iterable;)V
-	public final fun getFunctionProvider ()Lorg/camunda/feel/context/FunctionProvider;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
-	public abstract fun getBody ()Lorg/camunda/feel/context/JavaFunction;
-	public abstract fun getName ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathEngineConfigurationKt {

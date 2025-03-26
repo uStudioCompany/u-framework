@@ -12,8 +12,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    implementation(project(":failure-library"))
     implementation(project(":rules-engine-core"))
+    implementation(project(":rules-engine-feel"))
+
+    implementation(project(":failure-library"))
 
     /* Libs */
     implementation(libs.feel.engine)

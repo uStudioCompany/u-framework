@@ -4,7 +4,6 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -30,19 +29,19 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     private fun evaluate(
         expression: ParsedExpression,
         context: Map<Source, DataElement>
-    ): ResultK<DataElement, Errors.Evaluate> {
+    ): ResultK<DataElement, FeelExpression.Errors.Evaluate> {
         val evaluationResult = engine.evaluate(expression, context.convert())
         return if (evaluationResult.isSuccess) {
             val result = evaluationResult.result() as DataElement
             if (result is DataElement.Null)
-                Errors.Evaluate(
+                FeelExpression.Errors.Evaluate(
                     expression = expression.text(),
                     message = evaluationResult.descriptionSuppressedFailures()
                 ).asFailure()
             else
                 result.asSuccess()
         } else
-            Errors.Evaluate(
+            FeelExpression.Errors.Evaluate(
                 expression = expression.text(),
                 message = evaluationResult.failure().message()
             ).asFailure()
@@ -71,25 +70,15 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         private val value: ParsedExpression
     ) : FeelExpression {
 
-        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, Errors.Evaluate> =
+        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.Errors.Evaluate> =
             this@FeelEngine.evaluate(value, context)
     }
 
     public sealed class Errors : Failure {
-        override fun toString(): String = this.fullDescription()
 
         public class Parsing(public val expression: String, message: String) : Errors() {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing expression: '$expression'. $message"
-            override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to expression
-            )
-        }
-
-        public class Evaluate(public val expression: String, message: String? = null) : Errors() {
-            override val code: String = PREFIX + "2"
-            override val description: String = "The error of evaluating expression: '$expression'" +
-                if (message != null) "($message)." else "."
             override val details: Failure.Details = Failure.Details.of(
                 DETAILS_KEY_PATH to expression
             )

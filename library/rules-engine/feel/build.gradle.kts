@@ -12,10 +12,12 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    api(project(":rules-engine-core"))
+    implementation(project(":rules-engine-core"))
+
     implementation(project(":failure-library"))
 
     /* Libs */
+    implementation(libs.feel.engine)
     implementation(libs.json.path)
     implementation(libs.airflux.commons.types) {
         isChanging = true

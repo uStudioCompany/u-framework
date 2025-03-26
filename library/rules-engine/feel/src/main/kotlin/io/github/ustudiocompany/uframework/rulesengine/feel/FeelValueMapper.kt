@@ -12,6 +12,9 @@ import org.camunda.feel.syntaxtree.ValString
 import org.camunda.feel.valuemapper.JavaCustomValueMapper
 import scala.Tuple2
 import scala.collection.immutable.`$colon$colon`
+import scala.collection.immutable.List
+import scala.collection.immutable.`List$`
+import scala.collection.immutable.`Map$`
 import scala.math.BigDecimal
 import java.util.*
 import java.util.function.Function
@@ -73,7 +76,7 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         }
 
     private fun DataElement.Array.toVal(innerValueMapper: Function<Any, Val>): Val {
-        var list: scala.collection.immutable.List<Val> = scala.collection.immutable.`List$`.`MODULE$`.empty()
+        var list: List<Val> = `List$`.`MODULE$`.empty()
         forEach { item ->
             val value = innerValueMapper.apply(item)
             list = `$colon$colon`(value, list)
@@ -82,14 +85,14 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
     }
 
     private fun DataElement.Struct.toVal(innerValueMapper: Function<Any, Val>): Val {
-        var properties = scala.collection.immutable.`Map$`.`MODULE$`.newBuilder<String, Any>()
+        var properties = `Map$`.`MODULE$`.newBuilder<String, Any>()
         forEach { (key, value) ->
             properties.addOne(Tuple2(key, value.toVal(innerValueMapper)))
         }
         properties.result()
         val context = `StaticContext$`.`MODULE$`.apply(
             properties.result(),
-            scala.collection.immutable.`Map$`.`MODULE$`.empty(),
+            `Map$`.`MODULE$`.empty(),
         )
         return ValContext(context)
     }
