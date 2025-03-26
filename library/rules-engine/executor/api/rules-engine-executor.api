@@ -1,7 +1,3 @@
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriBuilderKt {
-	public static final fun build-C-laMtQ (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider {
 	public abstract fun call (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request;)Lio/github/airflux/commons/types/resultk/ResultK;
 }

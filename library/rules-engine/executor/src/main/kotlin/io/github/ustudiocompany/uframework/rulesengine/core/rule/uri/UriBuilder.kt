@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
 import java.net.URI
 
-public fun UriTemplate.build(): ResultK<URI, UriBuilderError> =
+internal fun UriTemplate.build(): ResultK<URI, UriBuilderError> =
     try {
         URI(this.get).asSuccess()
     } catch (expected: Exception) {
