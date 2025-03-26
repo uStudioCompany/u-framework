@@ -6,6 +6,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 
-internal fun FeelExpression.evaluateWithContext(context: Context): ResultK<DataElement, FeelExpressionError> =
-    evaluate(context.immutable)
-        .mapFailure { FeelExpressionError(it) }
+internal fun FeelExpression.evaluateWithContext(context: Context): ResultK<DataElement, FeelExpressionError.Evaluate> =
+    evaluate(context.toMap)
+        .mapFailure { FeelExpressionError.Evaluate(it) }

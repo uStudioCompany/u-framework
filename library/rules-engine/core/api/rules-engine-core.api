@@ -4,7 +4,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/context/
 	public final fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
 	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Z
 	public final fun get (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
-	public final fun getImmutable ()Ljava/util/Map;
+	public final fun getToMap ()Ljava/util/Map;
 	public final fun replace (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
 }
 

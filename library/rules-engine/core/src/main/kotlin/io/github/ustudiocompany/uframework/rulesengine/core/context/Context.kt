@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 
 public class Context private constructor(private val data: MutableMap<Source, DataElement>) {
 
-    public val immutable: Map<Source, DataElement>
+    public val toMap: Map<Source, DataElement>
         get() = data
 
     public operator fun get(source: Source): DataElement? = data[source]
