@@ -1,12 +1,14 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.operation
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operation
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
@@ -56,8 +58,15 @@ internal class OperationCalculatorTest : UnitTest() {
 
         private const val VALUE_1 = "value-1"
 
-        private val EXPRESSION = FeelExpression {
-            FeelExpression.Errors.Evaluate("a/0").asFailure()
+        private val EXPRESSION = object : FeelExpression {
+
+            override val value: String
+                get() = "a/0"
+
+            override fun evaluate(
+                context: Map<Source, DataElement>
+            ): ResultK<DataElement, FeelExpression.Errors.Evaluate> =
+                FeelExpression.Errors.Evaluate(this).asFailure()
         }
     }
 

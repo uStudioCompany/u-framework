@@ -1,12 +1,14 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
@@ -278,8 +280,15 @@ internal class DataSchemeBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_3 = "item-3"
         private const val ARRAY_ITEM_4 = "item-4"
 
-        private val EXPRESSION = FeelExpression {
-            FeelExpression.Errors.Evaluate("a/0").asFailure()
+        private val EXPRESSION = object : FeelExpression {
+
+            override val value: String
+                get() = "a/0"
+
+            override fun evaluate(
+                context: Map<Source, DataElement>
+            ): ResultK<DataElement, FeelExpression.Errors.Evaluate> =
+                FeelExpression.Errors.Evaluate(this).asFailure()
         }
     }
 }

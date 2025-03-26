@@ -26,27 +26,6 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
 
-    private fun evaluate(
-        expression: ParsedExpression,
-        context: Map<Source, DataElement>
-    ): ResultK<DataElement, FeelExpression.Errors.Evaluate> {
-        val evaluationResult = engine.evaluate(expression, context.convert())
-        return if (evaluationResult.isSuccess) {
-            val result = evaluationResult.result() as DataElement
-            if (result is DataElement.Null)
-                FeelExpression.Errors.Evaluate(
-                    expression = expression.text(),
-                    message = evaluationResult.descriptionSuppressedFailures()
-                ).asFailure()
-            else
-                result.asSuccess()
-        } else
-            FeelExpression.Errors.Evaluate(
-                expression = expression.text(),
-                message = evaluationResult.failure().message()
-            ).asFailure()
-    }
-
     private fun EvaluationResult.descriptionSuppressedFailures(): String {
         var failures = this.suppressedFailures()
         if (failures.isEmpty()) return ""
@@ -67,11 +46,29 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     }
 
     private inner class ExpressionInstance(
-        private val value: ParsedExpression
+        private val parsedExpression: ParsedExpression
     ) : FeelExpression {
 
-        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.Errors.Evaluate> =
-            this@FeelEngine.evaluate(value, context)
+        override val value: String
+            get() = parsedExpression.text()
+
+        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.Errors.Evaluate> {
+            val evaluationResult = engine.evaluate(parsedExpression, context.convert())
+            return if (evaluationResult.isSuccess) {
+                val result = evaluationResult.result() as DataElement
+                if (result is DataElement.Null)
+                    FeelExpression.Errors.Evaluate(
+                        expression = this,
+                        message = evaluationResult.descriptionSuppressedFailures()
+                    ).asFailure()
+                else
+                    result.asSuccess()
+            } else
+                FeelExpression.Errors.Evaluate(
+                    expression = this,
+                    message = evaluationResult.failure().message()
+                ).asFailure()
+        }
     }
 
     public sealed class Errors : Failure {
@@ -86,7 +83,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
 
         private companion object {
             private const val PREFIX = "FEEL-ENGINE-"
-            private const val DETAILS_KEY_PATH = "feel-expression-body"
+            private const val DETAILS_KEY_PATH = "feel-expression"
         }
     }
 }

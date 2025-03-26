@@ -142,18 +142,19 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
 	public abstract fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun getValue ()Ljava/lang/String;
 }
 
 public abstract class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors$Evaluate : io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/lang/String;)V
+	public synthetic fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getExpression ()Ljava/lang/String;
+	public final fun getExpression ()Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
