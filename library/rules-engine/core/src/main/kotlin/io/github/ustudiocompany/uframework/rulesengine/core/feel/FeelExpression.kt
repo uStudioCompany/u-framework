@@ -5,10 +5,10 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 
-public interface FeelExpression {
+public fun interface FeelExpression {
 
     public fun evaluate(
-        context: Map<Source, DataElement> = emptyMap()
+        context: Map<Source, DataElement>
     ): ResultK<DataElement, Errors.Evaluate>
 
     public sealed class Errors : Failure {

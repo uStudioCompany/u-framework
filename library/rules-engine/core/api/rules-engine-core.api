@@ -142,7 +142,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
 	public abstract fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
-	public static synthetic fun evaluate$default (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/util/Map;ILjava/lang/Object;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -158,7 +157,20 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/Fee
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
+	public abstract fun getValue ()Ljava/lang/String;
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;Ljava/lang/Exception;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Rule : io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Conditional {
@@ -715,40 +727,5 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public final fun getProperties ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathEngineConfigurationKt {
-	public static final fun defaultPathEngineConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
-	public static final fun defaultPathEngineConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathEngineKt {
-	public static final fun defaultPathEngine (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lio/github/ustudiocompany/uframework/rulesengine/path/PathEngine;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine {
-	public fun <init> (Lcom/jayway/jsonpath/Configuration;)V
-	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getPath ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/path/PathEngine$Errors {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getPath ()Ljava/lang/String;
 }
 

@@ -1,18 +1,15 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.airflux.commons.types.resultk.orThrow
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
+import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -253,18 +250,15 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     properties = listOf(
                         DataScheme.Property.Element(
                             name = DATA_KEY_1,
-                            value = Value.Reference(
-                                source = SOURCE,
-                                path = "path".parse()
-                            )
+                            value = Value.Expression(EXPRESSION)
                         )
                     )
                 )
 
                 "then the builder should return a failure" {
                     val result = dataScheme.build(Context.Companion.empty())
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpressionError>()
                 }
             }
         }
@@ -272,7 +266,6 @@ internal class DataSchemeBuilderTest : UnitTest() {
 
     private companion object {
         private val CONTEXT = Context.Companion.empty()
-        private val SOURCE = Source("output")
 
         private const val DATA_KEY_1 = "key-1"
         private const val DATA_VALUE_1 = "data-1"
@@ -285,7 +278,8 @@ internal class DataSchemeBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_3 = "item-3"
         private const val ARRAY_ITEM_4 = "item-4"
 
-        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
-        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
+        private val EXPRESSION = FeelExpression {
+            FeelExpression.Errors.Evaluate("a/0").asFailure()
+        }
     }
 }

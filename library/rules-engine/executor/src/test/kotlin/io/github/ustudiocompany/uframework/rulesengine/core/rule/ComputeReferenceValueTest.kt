@@ -1,16 +1,15 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -26,7 +25,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                 "then the compute function should return a failure" {
                     val value = Value.Reference(
                         source = SOURCE,
-                        path = VALID_PATH
+                        path = path(result = null)
                     )
                     val result = value.compute(context)
                     result.shouldBeFailure()
@@ -42,7 +41,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                     "then the compute function should return a failure" {
                         val value = Value.Reference(
                             source = SOURCE,
-                            path = INVALID_PATH
+                            path = path(result = null)
                         )
                         val result = value.compute(context)
                         result.shouldBeFailure()
@@ -55,7 +54,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                     "then the compute function should return a value" {
                         val value = Value.Reference(
                             source = SOURCE,
-                            path = VALID_PATH
+                            path = path(result = TEXT_VALUE)
                         )
                         val result = value.compute(context)
                         result shouldBeSuccess DataElement.Text(VALUE)
@@ -66,19 +65,24 @@ internal class ComputeReferenceValueTest : UnitTest() {
     }
 
     companion object {
-        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
-
         private const val SOURCE_NAME = "input.body"
         private val SOURCE = Source(SOURCE_NAME)
 
+        private const val KEY = "id"
         private const val VALUE = "value"
+
+        private val TEXT_VALUE = DataElement.Text(VALUE)
         private val DATA = DataElement.Struct(
-            mutableMapOf(VALUE to DataElement.Text(VALUE))
+            mutableMapOf(KEY to TEXT_VALUE)
         )
 
-        private val VALID_PATH = "$.$VALUE".parse()
-        private val INVALID_PATH = "$.id".parse()
+        private const val PATH_VALUE = "$.id"
+        private fun path(result: DataElement?) =
+            object : Path {
+                override val value: String = PATH_VALUE
 
-        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
+                override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors> =
+                    result.asSuccess()
+            }
     }
 }

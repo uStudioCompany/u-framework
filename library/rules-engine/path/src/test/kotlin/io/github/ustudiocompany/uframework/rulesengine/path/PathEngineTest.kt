@@ -1,11 +1,9 @@
-package io.github.ustudiocompany.rulesengine.core.path
+package io.github.ustudiocompany.uframework.rulesengine.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 

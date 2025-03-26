@@ -22,14 +22,17 @@ public class PathEngine(private val config: Configuration) {
         private val parsedPath: JsonPath
     ) : Path {
 
-        override fun searchIn(data: DataElement): ResultK<DataElement?, Errors.Search> = try {
+        override val value: String
+            get() = parsedPath.path
+
+        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors.Search> = try {
             parsedPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            Errors.Search(parsedPath.path, expected).asFailure()
+            Path.Errors.Search(path = this, exception = expected).asFailure()
         }
     }
 
@@ -44,17 +47,8 @@ public class PathEngine(private val config: Configuration) {
             )
         }
 
-        public class Search(public val path: String, exception: Exception) : Errors {
-            override val code: String = PREFIX + "2"
-            override val description: String = "The error of searching by json-path: '$path'."
-            override val cause: Failure.Cause = Failure.Cause.Exception(exception)
-            override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to path
-            )
-        }
-
         private companion object {
-            private const val PREFIX = "JSON-PATH-"
+            private const val PREFIX = "JSON-PATH-ENGINE-"
             private const val DETAILS_KEY_PATH = "json-path"
         }
     }

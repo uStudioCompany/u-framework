@@ -1,16 +1,13 @@
-package io.github.ustudiocompany.rulesengine.core.path
+package io.github.ustudiocompany.uframework.rulesengine.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jayway.jsonpath.Option
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.path.PathEngine
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngineConfiguration
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -81,8 +78,8 @@ internal class PathTest : UnitTest() {
 
                     "then the function should return an error" {
                         val result = path.searchIn(DATA)
-                        result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<PathEngine.Errors.Search>()
+                        result.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<Path.Errors.Search>()
                     }
                 }
             }

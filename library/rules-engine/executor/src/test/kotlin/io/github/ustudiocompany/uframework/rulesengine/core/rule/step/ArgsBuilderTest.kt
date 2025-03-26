@@ -1,20 +1,17 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
+import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.airflux.commons.types.resultk.orThrow
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
+import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -51,31 +48,28 @@ internal class ArgsBuilderTest : UnitTest() {
                     listOf(
                         Arg(
                             name = ARG_NAME_1,
-                            value = Value.Reference(
-                                source = SOURCE,
-                                path = "$.id".parse()
-                            )
+                            value = Value.Expression(EXPRESSION)
                         )
                     )
                 )
                 val result = args.build(context = CONTEXT)
 
                 "then the function should return the error" {
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpressionError>()
                 }
             }
         }
     }
 
     private companion object {
-        private val SOURCE = Source("input")
-        private val CONTEXT = Context.Companion.empty()
-        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
+        private val CONTEXT = Context.empty()
 
         private const val ARG_NAME_1 = "name-1"
         private const val ARG_VALUE_1 = "value-1"
 
-        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
+        private val EXPRESSION = FeelExpression {
+            FeelExpression.Errors.Evaluate("a/0").asFailure()
+        }
     }
 }
