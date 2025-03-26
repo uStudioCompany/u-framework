@@ -26,17 +26,6 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
 
-    private fun EvaluationResult.descriptionSuppressedFailures(): String {
-        var failures = this.suppressedFailures()
-        if (failures.isEmpty()) return ""
-        return buildString {
-            while (!failures.isEmpty()) {
-                append(failures.head())
-                failures = failures.tail()
-            }
-        }
-    }
-
     private fun Map<Source, DataElement>.convert(): Map<String, DataElement> {
         val result = mutableMapOf<String, DataElement>()
         forEach { (source, value) ->
@@ -57,17 +46,25 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             return if (evaluationResult.isSuccess) {
                 val result = evaluationResult.result() as DataElement
                 if (result is DataElement.Null)
-                    FeelExpression.Errors.Evaluate(
-                        expression = this,
-                        message = evaluationResult.descriptionSuppressedFailures()
-                    ).asFailure()
+                    evaluateError(evaluationResult.descriptionSuppressedFailures())
                 else
                     result.asSuccess()
             } else
-                FeelExpression.Errors.Evaluate(
-                    expression = this,
-                    message = evaluationResult.failure().message()
-                ).asFailure()
+                evaluateError(evaluationResult.failure().message())
+        }
+
+        private fun evaluateError(message: String) =
+            FeelExpression.Errors.Evaluate(expression = this, message = message).asFailure()
+
+        private fun EvaluationResult.descriptionSuppressedFailures(): String {
+            var failures = this.suppressedFailures()
+            if (failures.isEmpty()) return ""
+            return buildString {
+                while (!failures.isEmpty()) {
+                    append(failures.head())
+                    failures = failures.tail()
+                }
+            }
         }
     }
 
