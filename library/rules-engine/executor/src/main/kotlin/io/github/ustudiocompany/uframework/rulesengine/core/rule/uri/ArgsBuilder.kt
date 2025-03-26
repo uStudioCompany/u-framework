@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.header
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.uri
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
@@ -9,11 +9,11 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
-internal fun Headers.build(context: Context): ResultK<List<CallProvider.Request.Header>, RuleEngineError> {
-    val values = mutableListOf<CallProvider.Request.Header>()
-    forEach { header ->
-        val value = header.value.compute(context).getOrForward { return it }
-        values.add(CallProvider.Request.Header(header.name, value.toPlainString()))
+internal fun Args.build(context: Context): ResultK<List<CallProvider.Request.Arg>, RuleEngineError> {
+    val values = mutableListOf<CallProvider.Request.Arg>()
+    forEach { arg ->
+        val value = arg.value.compute(context).getOrForward { return it }
+        values.add(CallProvider.Request.Arg(arg.name, value.toPlainString()))
     }
     return values.asSuccess()
 }

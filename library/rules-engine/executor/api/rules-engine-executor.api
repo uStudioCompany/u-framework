@@ -1,5 +1,5 @@
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriBuilderKt {
-	public static final fun build-9lHStMU (Ljava/lang/String;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun build-C-laMtQ (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider {
@@ -8,16 +8,16 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request {
 	public fun <init> (Ljava/net/URI;Ljava/util/List;)V
-	public final fun getHeaders ()Ljava/util/List;
+	public final fun getArgs ()Ljava/util/List;
 	public final fun getUri ()Ljava/net/URI;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Header {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Header;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Header;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Header;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
@@ -58,7 +58,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/error/ContextError {
@@ -86,7 +86,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors$Companion;
 }
 
@@ -116,10 +116,11 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
+	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$Companion;
 }
 
@@ -133,13 +134,5 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 	public final fun getTemplate ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$ParamMissing : io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError {
-	public fun <init> (Ljava/lang/String;)V
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getName ()Ljava/lang/String;
 }
 

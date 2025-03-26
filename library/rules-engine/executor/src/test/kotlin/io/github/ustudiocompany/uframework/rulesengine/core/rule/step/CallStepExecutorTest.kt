@@ -14,12 +14,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.Headers
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
-import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
@@ -46,14 +43,11 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = INVALID_URI_TEMPLATE,
-                            params = UriTemplateParams(
+                            args = Args(
                                 ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(
-                                        ID_PARAM_VALUE
-                                    )
+                                    fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            headers = Headers(emptyList()),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.PUT
@@ -63,8 +57,8 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                                merger = Merger { origin, _ -> origin.asSuccess() }
+                                callProvider = { CALL_RESULT.asSuccess() },
+                                merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
                             result.cause.shouldBeInstanceOf<UriBuilderError.InvalidUriTemplate>()
@@ -75,64 +69,12 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = URI_TEMPLATE,
-                            params = UriTemplateParams(
-                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".parse())
-                            ),
-                            headers = Headers(emptyList()),
-                            result = Step.Result(
-                                source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
-                            )
-                        )
-
-                        "then the executor should return an error result" {
-                            val result = step.execute(
-                                context = CONTEXT,
-                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                                merger = Merger { origin, _ -> origin.asSuccess() }
-                            )
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
-                        }
-                    }
-
-                    "when some param is missing for building a URI by a template" - {
-                        val step = CallStep(
-                            condition = condition,
-                            uri = URI_TEMPLATE,
-                            params = UriTemplateParams(emptyList()),
-                            headers = Headers(emptyList()),
-                            result = Step.Result(
-                                source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
-                            )
-                        )
-
-                        "then the executor should return an error result" {
-                            val result = step.execute(
-                                context = CONTEXT,
-                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                                merger = Merger { origin, _ -> origin.asSuccess() }
-                            )
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<UriBuilderError.ParamMissing>()
-                        }
-                    }
-
-                    "when an error computing some header" - {
-                        val step = CallStep(
-                            condition = condition,
-                            uri = URI_TEMPLATE,
-                            params = UriTemplateParams(
-                                ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(
-                                        ID_PARAM_VALUE
-                                    )
+                            args = Args(
+                                ID_PARAM_NAME to Value.Reference(
+                                    source = PARAM_SOURCE,
+                                    path = "$.id".parse()
                                 )
                             ),
-                            headers = Headers(
-                                ID_PARAM_NAME to Value.Reference(source = PARAM_SOURCE, path = "$.id".parse())
-                            ),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.PUT
@@ -142,8 +84,8 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                                merger = Merger { origin, _ -> origin.asSuccess() }
+                                callProvider = { CALL_RESULT.asSuccess() },
+                                merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
                             result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
@@ -154,14 +96,11 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = URI_TEMPLATE,
-                            params = UriTemplateParams(
+                            args = Args(
                                 ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(
-                                        ID_PARAM_VALUE
-                                    )
+                                    fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            headers = Headers(emptyList()),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.PUT
@@ -171,8 +110,8 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                callProvider = CallProvider { Errors.TestDataProviderError.asFailure() },
-                                merger = Merger { origin, _ -> origin.asSuccess() }
+                                callProvider = { Errors.TestDataProviderError.asFailure() },
+                                merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeFailure()
                             result.cause.shouldBeInstanceOf<CallStepError>()
@@ -184,14 +123,11 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = URI_TEMPLATE,
-                            params = UriTemplateParams(
+                            args = Args(
                                 ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(
-                                        ID_PARAM_VALUE
-                                    )
+                                    fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            headers = Headers(emptyList()),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.MERGE
@@ -200,8 +136,8 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                            merger = Merger { _, _ -> Errors.TestMergerError.asFailure() }
+                            callProvider = { CALL_RESULT.asSuccess() },
+                            merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
 
                         "then the executor should return an error result" {
@@ -216,8 +152,11 @@ internal class CallStepExecutorTest : UnitTest() {
                     val step = CallStep(
                         condition = condition,
                         uri = URI_TEMPLATE,
-                        params = UriTemplateParams(ID_PARAM_NAME to Value.Literal(fact = DataElement.Text(ID_PARAM_VALUE))),
-                        headers = Headers(emptyList()),
+                        args = Args(
+                            ID_PARAM_NAME to Value.Literal(
+                                fact = DataElement.Text(ID_PARAM_VALUE)
+                            )
+                        ),
                         result = Step.Result(
                             source = RESULT_SOURCE,
                             action = Step.Result.Action.PUT
@@ -226,8 +165,8 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     val result = step.execute(
                         context = context,
-                        callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                        merger = Merger { origin, _ -> origin.asSuccess() }
+                        callProvider = { CALL_RESULT.asSuccess() },
+                        merger = { origin, _ -> origin.asSuccess() }
                     )
 
                     "then the executor should return a success result" {
@@ -253,14 +192,11 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = URI_TEMPLATE,
-                            params = UriTemplateParams(
+                            args = Args(
                                 ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(
-                                        ID_PARAM_VALUE
-                                    )
+                                    fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            headers = Headers(emptyList()),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.PUT
@@ -269,8 +205,8 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = CallProvider { CALL_RESULT.asSuccess() },
-                            merger = Merger { origin, _ -> origin.asSuccess() }
+                            callProvider = { CALL_RESULT.asSuccess() },
+                            merger = { origin, _ -> origin.asSuccess() }
                         )
 
                         "then the executor should return a success result" {
@@ -293,8 +229,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         val step = CallStep(
                             condition = condition,
                             uri = INVALID_URI_TEMPLATE,
-                            params = UriTemplateParams(),
-                            headers = Headers(emptyList()),
+                            args = Args(),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
                                 action = Step.Result.Action.PUT
@@ -303,8 +238,8 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = CONTEXT,
-                            callProvider = CallProvider { Errors.TestDataProviderError.asFailure() },
-                            merger = Merger { _, _ -> Errors.TestMergerError.asFailure() }
+                            callProvider = { Errors.TestDataProviderError.asFailure() },
+                            merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeSuccess()
                         result.value.shouldBeNull()
@@ -321,8 +256,8 @@ internal class CallStepExecutorTest : UnitTest() {
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
 
-        private val URI_TEMPLATE = UriTemplate("http://example.com/users/{id}")
-        private val INVALID_URI_TEMPLATE = UriTemplate("http[:]//example.com/users/{id}")
+        private val URI_TEMPLATE = UriTemplate("users:id")
+        private val INVALID_URI_TEMPLATE = UriTemplate("users[:]id")
 
         private const val ID_PARAM_NAME = "id"
         private const val ID_PARAM_VALUE = "1"

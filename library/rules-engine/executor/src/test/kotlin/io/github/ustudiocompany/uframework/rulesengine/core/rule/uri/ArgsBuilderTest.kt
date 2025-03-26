@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.header
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.uri
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
@@ -17,38 +17,38 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class HeadersBuilderTest : UnitTest() {
+internal class ArgsBuilderTest : UnitTest() {
 
     init {
 
-        "The headers builder" - {
+        "The args builder" - {
 
-            "when compute value of header is successful" - {
-                val headers = Headers(
+            "when compute value of arg is successful" - {
+                val args = Args(
                     listOf(
-                        Header(
-                            name = HEADER_NAME_1,
-                            value = Value.Literal(fact = DataElement.Text(HEADER_VALUE_1))
+                        Arg(
+                            name = ARG_NAME_1,
+                            value = Value.Literal(fact = DataElement.Text(ARG_VALUE_1))
                         )
                     )
                 )
-                val result = headers.build(context = CONTEXT)
+                val result = args.build(context = CONTEXT)
 
                 "then the function should return the build args" {
                     result shouldBeSuccess listOf(
-                        CallProvider.Request.Header(
-                            name = HEADER_NAME_1,
-                            value = HEADER_VALUE_1
+                        CallProvider.Request.Arg(
+                            name = ARG_NAME_1,
+                            value = ARG_VALUE_1
                         )
                     )
                 }
             }
 
-            "when compute value of header is failed" - {
-                val headers = Headers(
+            "when compute value of arg is failed" - {
+                val args = Args(
                     listOf(
-                        Header(
-                            name = HEADER_NAME_1,
+                        Arg(
+                            name = ARG_NAME_1,
                             value = Value.Reference(
                                 source = SOURCE,
                                 path = "$.id".parse()
@@ -58,7 +58,7 @@ internal class HeadersBuilderTest : UnitTest() {
                 )
 
                 "then the function should return the error" {
-                    val result = headers.build(context = CONTEXT)
+                    val result = args.build(context = CONTEXT)
                     result.shouldBeFailure()
                     result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
@@ -71,8 +71,8 @@ internal class HeadersBuilderTest : UnitTest() {
         private val CONTEXT = Context.Companion.empty()
         private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
 
-        private const val HEADER_NAME_1 = "header-1"
-        private const val HEADER_VALUE_1 = "value-1"
+        private const val ARG_NAME_1 = "name-1"
+        private const val ARG_VALUE_1 = "value-1"
 
         private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
     }

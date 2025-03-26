@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
+import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
@@ -17,6 +18,7 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
+@OptIn(AirfluxTypesExperimental::class)
 internal class DataStepExecutorTest : UnitTest() {
 
     init {

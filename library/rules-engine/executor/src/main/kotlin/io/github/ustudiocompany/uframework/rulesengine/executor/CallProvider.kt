@@ -11,10 +11,10 @@ public fun interface CallProvider {
 
     public class Request(
         public val uri: URI,
-        public val headers: List<Header>
+        public val args: List<Arg>
     ) {
 
-        public data class Header(
+        public data class Arg(
             public val name: String,
             public val value: String
         )

@@ -1,15 +1,11 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.resultk.Success
-import io.github.airflux.commons.types.resultk.flatMap
 import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.header.build
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.build
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.ExecutionResult
@@ -35,11 +31,7 @@ internal fun CallStep.execute(context: Context, callProvider: CallProvider, merg
         )
 
 private fun CallStep.buildRequest(context: Context) = result {
-    val (uri) = uri.build(context, params)
-    val (headers) = headers.build(context)
-    CallProvider.Request(uri, headers)
+    val (uri) = uri.build()
+    val (args) = args.build(context)
+    CallProvider.Request(uri, args)
 }
-
-private fun UriTemplate.build(context: Context, params: UriTemplateParams) =
-    params.build(context)
-        .flatMap { values -> this.build(values) }

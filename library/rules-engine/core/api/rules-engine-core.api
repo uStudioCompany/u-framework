@@ -431,78 +431,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/con
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header {
-	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getName ()Ljava/lang/String;
-	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/header/Headers : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)V
-	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Z
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun addAll (ILjava/util/Collection;)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Headers;
-	public fun clear ()V
-	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
-	public static fun constructor-impl ([Lkotlin/Pair;)Ljava/util/List;
-	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Z
-	public final fun contains (Ljava/lang/Object;)Z
-	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public static fun containsAll-impl (Ljava/util/List;Ljava/util/Collection;)Z
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
-	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public synthetic fun get (I)Ljava/lang/Object;
-	public static fun get-impl (Ljava/util/List;I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public fun getSize ()I
-	public static fun getSize-impl (Ljava/util/List;)I
-	public fun hashCode ()I
-	public static fun hashCode-impl (Ljava/util/List;)I
-	public fun indexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)I
-	public final fun indexOf (Ljava/lang/Object;)I
-	public static fun indexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)I
-	public fun isEmpty ()Z
-	public static fun isEmpty-impl (Ljava/util/List;)Z
-	public fun iterator ()Ljava/util/Iterator;
-	public static fun iterator-impl (Ljava/util/List;)Ljava/util/Iterator;
-	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)I
-	public final fun lastIndexOf (Ljava/lang/Object;)I
-	public static fun lastIndexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)I
-	public fun listIterator ()Ljava/util/ListIterator;
-	public fun listIterator (I)Ljava/util/ListIterator;
-	public static fun listIterator-impl (Ljava/util/List;)Ljava/util/ListIterator;
-	public static fun listIterator-impl (Ljava/util/List;I)Ljava/util/ListIterator;
-	public fun remove (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public synthetic fun remove (I)Ljava/lang/Object;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
-	public fun retainAll (Ljava/util/Collection;)Z
-	public fun set (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/header/Header;
-	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
-	public synthetic fun size ()I
-	public fun sort (Ljava/util/Comparator;)V
-	public fun subList (II)Ljava/util/List;
-	public static fun subList-impl (Ljava/util/List;II)Ljava/util/List;
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Ljava/util/List;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation {
 	public abstract fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public abstract fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
@@ -532,18 +460,16 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
 	public final fun component2-n182VEg ()Ljava/lang/String;
-	public final fun component3-6R7Mt0U ()Ljava/util/List;
-	public final fun component4-JLvjk0g ()Ljava/util/List;
-	public final fun component5 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public final fun copy-OKWukHc (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
-	public static synthetic fun copy-OKWukHc$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
+	public final fun component3-DSJ7EtE ()Ljava/util/List;
+	public final fun component4 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
+	public final fun copy-4a1XYbY (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
+	public static synthetic fun copy-4a1XYbY$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArgs-DSJ7EtE ()Ljava/util/List;
 	public fun getCondition-znD00Y0 ()Ljava/util/List;
-	public final fun getHeaders-JLvjk0g ()Ljava/util/List;
-	public final fun getParams-6R7Mt0U ()Ljava/util/List;
 	public final fun getResult ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
 	public final fun getUri-n182VEg ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -678,33 +604,12 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate : java/lang/CharSequence {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate;
-	public final fun charAt (I)C
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
-	public fun get (I)C
-	public static fun get-impl (Ljava/lang/String;I)C
-	public fun getLength ()I
-	public static fun getLength-impl (Ljava/lang/String;)I
-	public fun hashCode ()I
-	public static fun hashCode-impl (Ljava/lang/String;)I
-	public synthetic fun length ()I
-	public fun subSequence (II)Ljava/lang/CharSequence;
-	public static fun subSequence-impl (Ljava/lang/String;II)Ljava/lang/CharSequence;
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg {
 	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
+	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
@@ -712,53 +617,53 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParams : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)V
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Args : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)V
 	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Z
+	public fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
 	public synthetic fun add (Ljava/lang/Object;)Z
 	public fun addAll (ILjava/util/Collection;)Z
 	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParams;
+	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Args;
 	public fun clear ()V
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
 	public static fun constructor-impl ([Lkotlin/Pair;)Ljava/util/List;
-	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Z
+	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
 	public final fun contains (Ljava/lang/Object;)Z
-	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Z
+	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
 	public fun containsAll (Ljava/util/Collection;)Z
 	public static fun containsAll-impl (Ljava/util/List;Ljava/util/Collection;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
-	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
+	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
 	public synthetic fun get (I)Ljava/lang/Object;
-	public static fun get-impl (Ljava/util/List;I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
+	public static fun get-impl (Ljava/util/List;I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
 	public fun getSize ()I
 	public static fun getSize-impl (Ljava/util/List;)I
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/util/List;)I
-	public fun indexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)I
+	public fun indexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
 	public final fun indexOf (Ljava/lang/Object;)I
-	public static fun indexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)I
+	public static fun indexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
 	public fun isEmpty ()Z
 	public static fun isEmpty-impl (Ljava/util/List;)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (Ljava/util/List;)Ljava/util/Iterator;
-	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)I
+	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
 	public final fun lastIndexOf (Ljava/lang/Object;)I
-	public static fun lastIndexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)I
+	public static fun lastIndexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
 	public fun listIterator ()Ljava/util/ListIterator;
 	public fun listIterator (I)Ljava/util/ListIterator;
 	public static fun listIterator-impl (Ljava/util/List;)Ljava/util/ListIterator;
 	public static fun listIterator-impl (Ljava/util/List;I)Ljava/util/ListIterator;
-	public fun remove (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
+	public fun remove (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
 	public synthetic fun remove (I)Ljava/lang/Object;
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
 	public fun retainAll (Ljava/util/Collection;)Z
-	public fun set (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplateParam;
+	public fun set (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
 	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun size ()I
 	public fun sort (Ljava/util/Comparator;)V
@@ -769,6 +674,20 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/util/List;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/util/List;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {
