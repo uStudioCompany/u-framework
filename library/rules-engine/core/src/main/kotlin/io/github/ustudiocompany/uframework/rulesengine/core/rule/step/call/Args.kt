@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.uri
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call
 
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 

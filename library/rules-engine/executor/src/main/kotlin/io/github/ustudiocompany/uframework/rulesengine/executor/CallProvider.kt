@@ -3,20 +3,16 @@ package io.github.ustudiocompany.uframework.rulesengine.executor
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import java.net.URI
 
 public fun interface CallProvider {
 
-    public fun call(request: Request): ResultK<DataElement, Failure>
+    public fun call(method: Method, args: List<Arg>): ResultK<DataElement, Failure>
 
-    public class Request(
-        public val uri: URI,
-        public val args: List<Arg>
-    ) {
+    @JvmInline
+    public value class Method(public val get: String)
 
-        public data class Arg(
-            public val name: String,
-            public val value: String
-        )
-    }
+    public data class Arg(
+        public val name: String,
+        public val value: String
+    )
 }

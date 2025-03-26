@@ -5,5 +5,5 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
 public fun interface Merger {
-    public fun merge(origin: DataElement, target: DataElement): ResultK<DataElement, Failure>
+    public fun merge(dst: DataElement, src: DataElement): ResultK<DataElement, Failure>
 }

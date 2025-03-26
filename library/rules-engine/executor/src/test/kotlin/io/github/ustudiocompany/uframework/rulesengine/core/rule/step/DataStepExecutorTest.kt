@@ -6,13 +6,13 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -138,7 +138,7 @@ internal class DataStepExecutorTest : UnitTest() {
     }
 
     private class TestMerger : Merger {
-        override fun merge(origin: DataElement, target: DataElement): ResultK<DataElement, Failure> {
+        override fun merge(dst: DataElement, src: DataElement): ResultK<DataElement, Failure> {
             error("Not implemented")
         }
     }

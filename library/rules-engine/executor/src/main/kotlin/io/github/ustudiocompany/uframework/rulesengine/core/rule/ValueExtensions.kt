@@ -5,10 +5,10 @@ import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.filterNotNull
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.context.tryGet
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.evaluateWithContext
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.tryGet
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 

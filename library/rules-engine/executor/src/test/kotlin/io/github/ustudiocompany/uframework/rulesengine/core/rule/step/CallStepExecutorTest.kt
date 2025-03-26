@@ -1,28 +1,23 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.Args
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Method
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
-import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -39,63 +34,10 @@ internal class CallStepExecutorTest : UnitTest() {
 
                 "when execution of the step is fail" - {
 
-                    "when uri template is invalid" - {
-                        val step = CallStep(
-                            condition = condition,
-                            uri = INVALID_URI_TEMPLATE,
-                            args = Args(
-                                ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(ID_PARAM_VALUE)
-                                )
-                            ),
-                            result = Step.Result(
-                                source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
-                            )
-                        )
-
-                        "then the executor should return an error result" {
-                            val result = step.execute(
-                                context = CONTEXT,
-                                callProvider = { CALL_RESULT.asSuccess() },
-                                merger = { origin, _ -> origin.asSuccess() }
-                            )
-                            result.shouldBeSome()
-                            result.value.shouldBeInstanceOf<UriBuilderError.InvalidUriTemplate>()
-                        }
-                    }
-
-                    "when an error computing some parameter for uri-template" - {
-                        val step = CallStep(
-                            condition = condition,
-                            uri = URI_TEMPLATE,
-                            args = Args(
-                                ID_PARAM_NAME to Value.Reference(
-                                    source = PARAM_SOURCE,
-                                    path = "$.id".parse()
-                                )
-                            ),
-                            result = Step.Result(
-                                source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
-                            )
-                        )
-
-                        "then the executor should return an error result" {
-                            val result = step.execute(
-                                context = CONTEXT,
-                                callProvider = { CALL_RESULT.asSuccess() },
-                                merger = { origin, _ -> origin.asSuccess() }
-                            )
-                            result.shouldBeSome()
-                            result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
-                        }
-                    }
-
                     "when an external call error" - {
                         val step = CallStep(
                             condition = condition,
-                            uri = URI_TEMPLATE,
+                            method = METHOD,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -110,7 +52,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                callProvider = { Errors.TestDataProviderError.asFailure() },
+                                callProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldBeSome()
@@ -122,7 +64,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         val context = Context(mapOf(RESULT_SOURCE to DataElement.Text(ORIGIN_VALUE)))
                         val step = CallStep(
                             condition = condition,
-                            uri = URI_TEMPLATE,
+                            method = METHOD,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -136,7 +78,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = { CALL_RESULT.asSuccess() },
+                            callProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
 
@@ -151,7 +93,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     val context = Context.empty()
                     val step = CallStep(
                         condition = condition,
-                        uri = URI_TEMPLATE,
+                        method = METHOD,
                         args = Args(
                             ID_PARAM_NAME to Value.Literal(
                                 fact = DataElement.Text(ID_PARAM_VALUE)
@@ -165,7 +107,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     val result = step.execute(
                         context = context,
-                        callProvider = { CALL_RESULT.asSuccess() },
+                        callProvider = { _, _ -> CALL_RESULT.asSuccess() },
                         merger = { origin, _ -> origin.asSuccess() }
                     )
 
@@ -189,7 +131,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         val context = Context.empty()
                         val step = CallStep(
                             condition = condition,
-                            uri = URI_TEMPLATE,
+                            method = METHOD,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -203,7 +145,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = { CALL_RESULT.asSuccess() },
+                            callProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { origin, _ -> origin.asSuccess() }
                         )
 
@@ -224,7 +166,7 @@ internal class CallStepExecutorTest : UnitTest() {
                     "then the step is not performed" {
                         val step = CallStep(
                             condition = condition,
-                            uri = INVALID_URI_TEMPLATE,
+                            method = METHOD,
                             args = Args(),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
@@ -234,7 +176,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = CONTEXT,
-                            callProvider = { Errors.TestDataProviderError.asFailure() },
+                            callProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeNone()
@@ -251,19 +193,14 @@ internal class CallStepExecutorTest : UnitTest() {
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
 
-        private val URI_TEMPLATE = UriTemplate("users:id")
-        private val INVALID_URI_TEMPLATE = UriTemplate("users[:]id")
+        private val METHOD = Method("users:id")
 
         private const val ID_PARAM_NAME = "id"
         private const val ID_PARAM_VALUE = "1"
 
-        private val PARAM_SOURCE = Source("input")
         private val RESULT_SOURCE = Source("output")
 
         private val CALL_RESULT = DataElement.Text("data")
-
-        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
-        private fun String.parse(): Path = PATH_ENGINE.parse(this).orThrow { error(it.description) }
 
         private fun satisfiedCondition() = Condition(
             listOf(

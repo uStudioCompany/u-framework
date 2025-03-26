@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.context
+package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
@@ -6,11 +6,9 @@ import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.update
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe

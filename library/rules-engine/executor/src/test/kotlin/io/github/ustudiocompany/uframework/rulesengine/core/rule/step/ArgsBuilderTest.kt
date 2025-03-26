@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule.uri
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
@@ -10,6 +10,8 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Arg
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
@@ -36,7 +38,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
                 "then the function should return the build args" {
                     result shouldBeSuccess listOf(
-                        CallProvider.Request.Arg(
+                        CallProvider.Arg(
                             name = ARG_NAME_1,
                             value = ARG_VALUE_1
                         )
@@ -68,7 +70,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
     private companion object {
         private val SOURCE = Source("input")
-        private val CONTEXT = Context.empty()
+        private val CONTEXT = Context.Companion.empty()
         private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
 
         private const val ARG_NAME_1 = "name-1"

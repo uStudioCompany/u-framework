@@ -149,109 +149,6 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Array;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Array;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Array;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getItems ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Array;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Array;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Array;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getItems ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Element : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
-	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Element;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Element;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Element;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Struct;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Struct;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Item$Struct;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getProperties ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property {
-	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Array;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Array;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Array;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getItems ()Ljava/util/List;
-	public final fun getName ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Element : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property {
-	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Element;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Element;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Element;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getName ()Ljava/lang/String;
-	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property {
-	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Struct;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Struct;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Property$Struct;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getName ()Ljava/lang/String;
-	public final fun getProperties ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme {
-	public fun <init> (Ljava/util/List;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Struct;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Struct;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme$Struct;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getProperties ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Rule : io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Conditional {
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
@@ -477,30 +374,30 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
-	public final fun component2-n182VEg ()Ljava/lang/String;
-	public final fun component3-DSJ7EtE ()Ljava/util/List;
+	public final fun component2-57mw1S4 ()Ljava/lang/String;
+	public final fun component3-qlLp--c ()Ljava/util/List;
 	public final fun component4 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public final fun copy-4a1XYbY (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
-	public static synthetic fun copy-4a1XYbY$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
+	public final fun copy-Jjuoays (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
+	public static synthetic fun copy-Jjuoays$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/CallStep;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getArgs-DSJ7EtE ()Ljava/util/List;
+	public final fun getArgs-qlLp--c ()Ljava/util/List;
 	public fun getCondition-znD00Y0 ()Ljava/util/List;
+	public final fun getMethod-57mw1S4 ()Ljava/lang/String;
 	public final fun getResult ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public final fun getUri-n182VEg ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
-	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme;
 	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
-	public final fun copy-yhc3wkg (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;
-	public static synthetic fun copy-yhc3wkg$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;
+	public final fun copy-yhc3wkg (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;
+	public static synthetic fun copy-yhc3wkg$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataStep;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCondition-znD00Y0 ()Ljava/util/List;
-	public final fun getDataScheme ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/DataScheme;
+	public final fun getDataScheme ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme;
 	public final fun getResult ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -619,12 +516,12 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg {
 	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
@@ -632,53 +529,53 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Args : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
-	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)V
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Args : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)V
 	public synthetic fun add (ILjava/lang/Object;)V
-	public fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
+	public fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)Z
 	public synthetic fun add (Ljava/lang/Object;)Z
 	public fun addAll (ILjava/util/Collection;)Z
 	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Args;
+	public static final synthetic fun box-impl (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Args;
 	public fun clear ()V
 	public static fun constructor-impl (Ljava/util/List;)Ljava/util/List;
 	public static fun constructor-impl ([Lkotlin/Pair;)Ljava/util/List;
-	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
+	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)Z
 	public final fun contains (Ljava/lang/Object;)Z
-	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Z
+	public static fun contains-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)Z
 	public fun containsAll (Ljava/util/Collection;)Z
 	public static fun containsAll-impl (Ljava/util/List;Ljava/util/Collection;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/util/List;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/util/List;Ljava/util/List;)Z
-	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
 	public synthetic fun get (I)Ljava/lang/Object;
-	public static fun get-impl (Ljava/util/List;I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public static fun get-impl (Ljava/util/List;I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
 	public fun getSize ()I
 	public static fun getSize-impl (Ljava/util/List;)I
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/util/List;)I
-	public fun indexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
+	public fun indexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)I
 	public final fun indexOf (Ljava/lang/Object;)I
-	public static fun indexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
+	public static fun indexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)I
 	public fun isEmpty ()Z
 	public static fun isEmpty-impl (Ljava/util/List;)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (Ljava/util/List;)Ljava/util/Iterator;
-	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
+	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)I
 	public final fun lastIndexOf (Ljava/lang/Object;)I
-	public static fun lastIndexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)I
+	public static fun lastIndexOf-impl (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)I
 	public fun listIterator ()Ljava/util/ListIterator;
 	public fun listIterator (I)Ljava/util/ListIterator;
 	public static fun listIterator-impl (Ljava/util/List;)Ljava/util/ListIterator;
 	public static fun listIterator-impl (Ljava/util/List;I)Ljava/util/ListIterator;
-	public fun remove (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public fun remove (I)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
 	public synthetic fun remove (I)Ljava/lang/Object;
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun replaceAll (Ljava/util/function/UnaryOperator;)V
 	public fun retainAll (Ljava/util/Collection;)Z
-	public fun set (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/Arg;
+	public fun set (ILio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Arg;
 	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun size ()I
 	public fun sort (Ljava/util/Comparator;)V
@@ -691,8 +588,8 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public final synthetic fun unbox-impl ()Ljava/util/List;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/uri/UriTemplate;
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Method {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/call/Method;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -703,6 +600,109 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/uri
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Array;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Array;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Array;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Array;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Array;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Array;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Element : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Element;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Element;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Element;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Struct;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Struct;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Item$Struct;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getProperties ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Array : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Array;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Array;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Array;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Element : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property {
+	public fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public final fun copy (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Element;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Element;Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Element;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Struct;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Struct;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Property$Struct;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getProperties ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Struct : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Struct;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Struct;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/data/DataScheme$Struct;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getProperties ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {

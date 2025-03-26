@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor.context
+package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.asSome
@@ -8,7 +8,6 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
@@ -18,7 +17,7 @@ internal fun Context.update(
     source: Source,
     action: Step.Result.Action,
     value: DataElement,
-    merge: (DataElement, DataElement) -> ResultK<DataElement, Failure>
+    merge: (dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
 ): Maybe<ContextError> =
     when (action) {
         Step.Result.Action.PUT -> tryAdd(source = source, value = value)
@@ -51,7 +50,7 @@ internal fun Context.tryReplace(source: Source, value: DataElement): Maybe<Conte
 internal fun Context.tryMerge(
     source: Source,
     value: DataElement,
-    merge: (DataElement, DataElement) -> ResultK<DataElement, Failure>
+    merge: (dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
 ): Maybe<ContextError> =
     maybeFailure {
         val (origin) = tryGet(source = source)

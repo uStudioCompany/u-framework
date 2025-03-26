@@ -1,24 +1,32 @@
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider {
-	public abstract fun call (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun call-zsmAeps (Ljava/lang/String;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request {
-	public fun <init> (Ljava/net/URI;Ljava/util/List;)V
-	public final fun getArgs ()Ljava/util/List;
-	public final fun getUri ()Ljava/net/URI;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Request$Arg;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Method {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Method;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
@@ -96,21 +104,5 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
-	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$Companion;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$Companion {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError$InvalidUriTemplate : io/github/ustudiocompany/uframework/rulesengine/executor/error/UriBuilderError {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getTemplate ()Ljava/lang/String;
 }
 

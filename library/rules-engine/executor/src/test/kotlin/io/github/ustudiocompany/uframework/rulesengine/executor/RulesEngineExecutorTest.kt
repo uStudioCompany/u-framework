@@ -26,8 +26,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
             "test1" {
                 val executor = RulesEngineExecutor(
-                    CallProvider { CALL_RESULT.asSuccess() },
-                    Merger { origin, _ -> origin.asSuccess() }
+                    callProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                    merger = { origin, _ -> origin.asSuccess() }
                 )
                 val context = Context.empty()
 
@@ -57,8 +57,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
             "test2" {
                 val executor = RulesEngineExecutor(
-                    CallProvider { CALL_RESULT.asSuccess() },
-                    Merger { origin, _ -> origin.asSuccess() }
+                    callProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                    merger = { origin, _ -> origin.asSuccess() }
                 )
                 val context = Context(mapOf(Source("test") to DataElement.Text("test")))
                 val rules = Rules(

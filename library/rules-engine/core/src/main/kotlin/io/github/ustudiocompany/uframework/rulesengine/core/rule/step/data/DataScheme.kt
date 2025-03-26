@@ -1,4 +1,6 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.rule
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data
+
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 
 public sealed interface DataScheme {
 

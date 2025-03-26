@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.executor
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
@@ -8,9 +8,9 @@ import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -262,7 +262,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 )
 
                 "then the builder should return a failure" {
-                    val result = dataScheme.build(Context.empty())
+                    val result = dataScheme.build(Context.Companion.empty())
                     result.shouldBeFailure()
                     result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
@@ -271,7 +271,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
     }
 
     private companion object {
-        private val CONTEXT = Context.empty()
+        private val CONTEXT = Context.Companion.empty()
         private val SOURCE = Source("output")
 
         private const val DATA_KEY_1 = "key-1"
