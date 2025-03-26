@@ -2,12 +2,13 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
+import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
-import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.orThrow
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -17,13 +18,15 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplate
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.uri.UriTemplateParams
+import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.UriBuilderError
 import io.github.ustudiocompany.uframework.rulesengine.path.defaultPathEngine
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
-import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -60,8 +63,8 @@ internal class CallStepExecutorTest : UnitTest() {
                                 callProvider = { CALL_RESULT.asSuccess() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<UriBuilderError.InvalidUriTemplate>()
+                            result.shouldBeSome()
+                            result.value.shouldBeInstanceOf<UriBuilderError.InvalidUriTemplate>()
                         }
                     }
 
@@ -87,8 +90,8 @@ internal class CallStepExecutorTest : UnitTest() {
                                 callProvider = { CALL_RESULT.asSuccess() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                            result.shouldBeSome()
+                            result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
                         }
                     }
 
@@ -113,8 +116,8 @@ internal class CallStepExecutorTest : UnitTest() {
                                 callProvider = { Errors.TestDataProviderError.asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
-                            result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<CallStepError>()
+                            result.shouldBeSome()
+                            result.value.shouldBeInstanceOf<CallStepError>()
                         }
                     }
 
@@ -170,14 +173,12 @@ internal class CallStepExecutorTest : UnitTest() {
                     )
 
                     "then the executor should return a success result" {
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldBeNone()
                     }
 
                     "then the context should be updated" {
                         val result = context[RESULT_SOURCE]
-                        result.shouldBeSuccess()
-                        result.value shouldBe CALL_RESULT
+                        result shouldBe CALL_RESULT
                     }
                 }
             }
@@ -210,14 +211,12 @@ internal class CallStepExecutorTest : UnitTest() {
                         )
 
                         "then the executor should return a success result" {
-                            result.shouldBeSuccess()
-                            result.value.shouldBeNull()
+                            result.shouldBeNone()
                         }
 
                         "then the context should be updated" {
                             val result = context[RESULT_SOURCE]
-                            result.shouldBeSuccess()
-                            result.value shouldBe CALL_RESULT
+                            result shouldBe CALL_RESULT
                         }
                     }
                 }
@@ -241,8 +240,7 @@ internal class CallStepExecutorTest : UnitTest() {
                             callProvider = { Errors.TestDataProviderError.asFailure() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldBeNone()
                     }
                 }
             }

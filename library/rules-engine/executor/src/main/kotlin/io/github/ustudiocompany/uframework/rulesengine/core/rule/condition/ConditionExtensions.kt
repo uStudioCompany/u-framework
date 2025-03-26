@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.getOrForward
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
-import io.github.ustudiocompany.uframework.rulesengine.executor.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
 internal fun Condition?.isSatisfied(context: Context): ResultK<Boolean, RuleEngineError> =
