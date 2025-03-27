@@ -93,7 +93,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

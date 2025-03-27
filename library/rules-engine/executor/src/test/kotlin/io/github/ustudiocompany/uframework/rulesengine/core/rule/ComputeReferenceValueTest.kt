@@ -81,7 +81,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
             object : Path {
                 override val text: String = PATH_VALUE
 
-                override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors> =
+                override fun searchIn(data: DataElement): ResultK<DataElement?, Path.SearchErrors> =
                     result.asSuccess()
             }
     }

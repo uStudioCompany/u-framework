@@ -25,14 +25,14 @@ public class PathEngine(private val config: Configuration) {
         override val text: String
             get() = parsedPath.path
 
-        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors> = try {
+        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.SearchErrors> = try {
             parsedPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            Path.Errors.Search(path = this, exception = expected).asFailure()
+            Path.SearchErrors.Unexpected(path = this, exception = expected).asFailure()
         }
     }
 

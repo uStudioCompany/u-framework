@@ -173,10 +173,10 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors$Search : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors$Unexpected : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
