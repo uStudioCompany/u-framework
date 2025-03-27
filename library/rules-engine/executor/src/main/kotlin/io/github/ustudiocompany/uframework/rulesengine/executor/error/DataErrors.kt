@@ -11,7 +11,7 @@ public sealed interface DataErrors : RuleEngineError {
      *
      * @param cause The specific error related to the path causing this search error.
      */
-    public class Search(cause: Path.SearchErrors) : DataErrors {
+    public class Search(cause: Path.SearchError) : DataErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "Data search error."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

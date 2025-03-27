@@ -77,8 +77,8 @@ internal class ArgsBuilderTest : UnitTest() {
 
             override fun evaluate(
                 context: Map<Source, DataElement>
-            ): ResultK<DataElement, FeelExpression.Errors.Evaluate> =
-                FeelExpression.Errors.Evaluate(this).asFailure()
+            ): ResultK<DataElement, FeelExpression.EvaluateError> =
+                FeelExpression.EvaluateError(this).asFailure()
         }
     }
 }

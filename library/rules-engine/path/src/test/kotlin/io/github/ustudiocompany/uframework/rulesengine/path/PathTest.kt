@@ -79,7 +79,7 @@ internal class PathTest : UnitTest() {
                     "then the function should return an error" {
                         val result = path.searchIn(DATA)
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<Path.SearchErrors.Unexpected>()
+                            .shouldBeInstanceOf<Path.SearchError>()
                     }
                 }
             }

@@ -58,7 +58,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
+                    result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
                 }
             }
 
@@ -69,7 +69,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then the engine should return the evaluation error" {
                     result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
+                    result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
                 }
             }
         }

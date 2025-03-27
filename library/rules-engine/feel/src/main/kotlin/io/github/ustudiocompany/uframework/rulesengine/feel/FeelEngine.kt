@@ -21,7 +21,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     public fun parse(expression: String): ResultK<FeelExpression, Errors> {
         val result = engine.parseExpression(expression)
         return if (result.isSuccess)
-            ExpressionInstance(result.parsedExpression()).asSuccess()
+            FeelExpressionInstance(result.parsedExpression()).asSuccess()
         else
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
@@ -34,14 +34,14 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         return result
     }
 
-    private inner class ExpressionInstance(
+    private inner class FeelExpressionInstance(
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
 
         override val text: String
             get() = parsedExpression.text()
 
-        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.Errors.Evaluate> {
+        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.EvaluateError> {
             val evaluationResult = engine.evaluate(parsedExpression, context.convert())
             return if (evaluationResult.isSuccess) {
                 val result = evaluationResult.result() as DataElement
@@ -54,7 +54,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         }
 
         private fun evaluateError(message: String) =
-            FeelExpression.Errors.Evaluate(expression = this, message = message).asFailure()
+            FeelExpression.EvaluateError(expression = this, message = message).asFailure()
 
         private fun EvaluationResult.descriptionSuppressedFailures(): String {
             var failures = this.suppressedFailures()

@@ -9,6 +9,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
+import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.SearchError
 
 public class PathEngine(private val config: Configuration) {
 
@@ -25,14 +26,14 @@ public class PathEngine(private val config: Configuration) {
         override val text: String
             get() = parsedPath.path
 
-        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.SearchErrors> = try {
+        override fun searchIn(data: DataElement): ResultK<DataElement?, SearchError> = try {
             parsedPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            Path.SearchErrors.Unexpected(path = this, exception = expected).asFailure()
+            SearchError(path = this, exception = expected).asFailure()
         }
     }
 

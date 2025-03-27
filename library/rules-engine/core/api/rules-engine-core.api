@@ -156,10 +156,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun getText ()Ljava/lang/String;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors$Evaluate : io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$EvaluateError : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/lang/String;)V
 	public synthetic fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
@@ -173,10 +170,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors : io/github/ustudiocompany/uframework/failure/Failure {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors$Unexpected : io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchError : io/github/ustudiocompany/uframework/failure/Failure {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;Ljava/lang/Exception;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;

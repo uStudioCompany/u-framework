@@ -218,7 +218,7 @@ internal class FeelEngineTest : UnitTest() {
 
                         "then the engine should return a evaluation error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
+                            result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
                         }
                     }
 
@@ -230,7 +230,7 @@ internal class FeelEngineTest : UnitTest() {
 
                         "then the engine should return a evaluation error" {
                             result.shouldBeFailure()
-                            result.cause.shouldBeInstanceOf<FeelExpression.Errors.Evaluate>()
+                            result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
                         }
                     }
                 }

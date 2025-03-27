@@ -93,7 +93,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors$Search : io/github/ustudiocompany/uframework/rulesengine/executor/error/DataErrors {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchErrors;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchError;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
@@ -103,7 +103,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/FeelExpressionError$Evaluate : io/github/ustudiocompany/uframework/rulesengine/executor/error/FeelExpressionError {
-	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression$EvaluateError;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
