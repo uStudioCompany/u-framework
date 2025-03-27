@@ -39,7 +39,7 @@ internal class ArgsBuilderTest : UnitTest() {
                     result shouldBeSuccess listOf(
                         CallProvider.Arg(
                             name = ARG_NAME_1,
-                            value = ARG_VALUE_1
+                            value = "\"" + ARG_VALUE_1 + "\""
                         )
                     )
                 }

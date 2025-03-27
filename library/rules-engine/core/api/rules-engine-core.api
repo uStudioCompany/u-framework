@@ -19,6 +19,8 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Companion;
+	public abstract fun toJson ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement, java/util/List, kotlin/jvm/internal/markers/KMutableList {
@@ -63,6 +65,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun subList (II)Ljava/util/List;
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -74,7 +77,11 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Z
 	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Companion {
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Decimal : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement {
@@ -85,6 +92,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Ljava/math/BigDecimal;
 	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -92,6 +100,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public static final field INSTANCE Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Null;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -125,6 +134,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public final synthetic fun remove (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
 	public final fun size ()I
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 	public final fun values ()Ljava/util/Collection;
 }
@@ -137,6 +147,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGet ()Ljava/lang/String;
 	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
