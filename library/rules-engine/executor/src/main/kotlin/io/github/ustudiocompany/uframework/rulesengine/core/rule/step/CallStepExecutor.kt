@@ -19,7 +19,7 @@ internal fun CallStep.execute(context: Context, callProvider: CallProvider, merg
             val (args) = args.build(context)
             val method = CallProvider.Method(step.method.get)
             val (value) = callProvider.call(method, args)
-                .mapFailure { CallStepError(it) }
+                .mapFailure { CallStepError.Call(it) }
             val source = step.result.source
             val action = step.result.action
             context.update(source, action, value, merger::merge)

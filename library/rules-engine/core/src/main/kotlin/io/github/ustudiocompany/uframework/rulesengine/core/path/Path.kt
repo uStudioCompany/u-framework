@@ -12,7 +12,13 @@ public interface Path {
 
     public sealed interface Errors : Failure {
 
-        public class Search(public val path: Path, exception: Exception) : Errors {
+        /**
+         * Represents a search error that occurs while attempting to retrieve data using a JSON path.
+         *
+         * @property path The JSON path that caused the error.
+         * @property exception The exception that triggered the search error.
+         */
+        public class Search(public val path: Path, public val exception: Exception) : Errors {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of searching by json-path: '${path.text}'."
             override val cause: Failure.Cause = Failure.Cause.Exception(exception)

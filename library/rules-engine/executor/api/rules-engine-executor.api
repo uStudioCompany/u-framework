@@ -38,7 +38,10 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Rule
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleEngineError {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError$Call : io/github/ustudiocompany/uframework/rulesengine/executor/error/CallStepError {
 	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;

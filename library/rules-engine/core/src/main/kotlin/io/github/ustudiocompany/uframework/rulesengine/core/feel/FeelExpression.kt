@@ -9,10 +9,15 @@ public interface FeelExpression {
 
     public val text: String
 
-    public fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, Errors.Evaluate>
+    public fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, Errors>
 
     public sealed class Errors : Failure {
 
+        /**
+         * Represents an evaluation error when processing a FEEL expression.
+         *
+         * @property expression The expression that caused the evaluation error.
+         */
         public class Evaluate(public val expression: FeelExpression, message: String? = null) : Errors() {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of evaluating expression: '${expression.text}'" +

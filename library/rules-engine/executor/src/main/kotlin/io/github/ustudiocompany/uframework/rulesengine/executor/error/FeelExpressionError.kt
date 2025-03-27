@@ -4,6 +4,11 @@ import io.github.ustudiocompany.uframework.failure.Failure
 
 public sealed interface FeelExpressionError : RuleEngineError {
 
+    /**
+     * Represents an error that occurs during the evaluation of a FEEL (Friendly Enough Expression Language) expression.
+     *
+     * @param cause The root failure that caused the evaluation error.
+     */
     public class Evaluate(cause: Failure) : FeelExpressionError {
         override val code: String = PREFIX + "1"
         override val description: String = "The error of evaluating the expression."

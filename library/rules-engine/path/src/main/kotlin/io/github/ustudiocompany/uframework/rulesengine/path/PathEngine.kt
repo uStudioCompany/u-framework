@@ -25,7 +25,7 @@ public class PathEngine(private val config: Configuration) {
         override val text: String
             get() = parsedPath.path
 
-        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors.Search> = try {
+        override fun searchIn(data: DataElement): ResultK<DataElement?, Path.Errors> = try {
             parsedPath.read<DataElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull

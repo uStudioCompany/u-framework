@@ -171,6 +171,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Pat
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public final fun getException ()Ljava/lang/Exception;
 	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
 }
 
