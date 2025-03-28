@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
+import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
@@ -52,8 +52,8 @@ internal class ContextUpdateTest : UnitTest() {
                     )
 
                     "then call the function should be failed" {
-                        result.shouldBeSome()
-                        result.value.shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
                     }
                 }
             }
@@ -68,8 +68,8 @@ internal class ContextUpdateTest : UnitTest() {
                     val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
 
                     "then call the function should be failed" {
-                        result.shouldBeSome()
-                        result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<ContextError.SourceMissing>()
                     }
                 }
 
@@ -104,8 +104,8 @@ internal class ContextUpdateTest : UnitTest() {
                     val result = context.update(source = SOURCE, action = action, value = newValue, merge = MERGER)
 
                     "then call the function should be failed" {
-                        result.shouldBeSome()
-                        result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<ContextError.SourceMissing>()
                     }
                 }
 
@@ -140,8 +140,8 @@ internal class ContextUpdateTest : UnitTest() {
                         }
 
                         "then call the function should be failed" {
-                            result.shouldBeSome()
-                            result.value.shouldBeInstanceOf<ContextError.Merge>()
+                            result.shouldContainSomeInstance()
+                                .shouldBeInstanceOf<ContextError.Merge>()
                         }
                     }
                 }

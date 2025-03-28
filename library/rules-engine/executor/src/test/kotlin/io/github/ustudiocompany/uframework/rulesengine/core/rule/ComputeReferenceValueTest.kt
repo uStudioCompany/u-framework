@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
@@ -28,8 +28,8 @@ internal class ComputeReferenceValueTest : UnitTest() {
                         path = path(result = null)
                     )
                     val result = value.compute(context)
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
             }
 
@@ -44,8 +44,8 @@ internal class ComputeReferenceValueTest : UnitTest() {
                             path = path(result = null)
                         )
                         val result = value.compute(context)
-                        result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<DataErrors.Missing>()
+                        result.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<DataErrors.Missing>()
                     }
                 }
 

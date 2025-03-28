@@ -3,8 +3,9 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
+import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
@@ -28,8 +29,8 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
                         path = path(result = null)
                     )
                     val result = value.computeOrNull(context)
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
             }
 
@@ -44,8 +45,8 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
                             path = path(result = null)
                         )
                         val result = value.computeOrNull(context)
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldContainSuccessInstance()
+                            .shouldBeNull()
                     }
                 }
 

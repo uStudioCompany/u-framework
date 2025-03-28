@@ -2,6 +2,7 @@ package io.github.ustudiocompany.rulesengine.feel.functions
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngine
@@ -25,8 +26,8 @@ internal class UuidGenerationFunctionTest : UnitTest() {
                 val result = expression.evaluate(variables)
 
                 "then the engine should return an value by UUID format" {
-                    result.shouldBeSuccess()
-                    val value = result.value.shouldBeInstanceOf<DataElement.Text>()
+                    val value = result.shouldContainSuccessInstance()
+                        .shouldBeInstanceOf<DataElement.Text>()
                     value.get shouldContain UUID_PATTERN
                 }
             }

@@ -2,8 +2,8 @@ package io.github.ustudiocompany.uframework.rulesengine.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -28,8 +28,8 @@ internal class PathEngineTest : UnitTest() {
                     val path = PATH_ENGINE.parse(INVALID_PATH)
 
                     "then the parsing should be a failure" {
-                        path.shouldBeFailure()
-                        path.cause.shouldBeInstanceOf<PathEngine.Errors.Parsing>()
+                        path.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<PathEngine.Errors.Parsing>()
                     }
                 }
             }

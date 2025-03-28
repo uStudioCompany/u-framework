@@ -1,8 +1,9 @@
 package io.github.ustudiocompany.rulesengine.feel.functions
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
+import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -29,8 +30,8 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 val result = expression.evaluate(variables)
 
                 "then the engine should return an value by format" {
-                    result.shouldBeSuccess()
-                    val value = result.value.shouldBeInstanceOf<DataElement.Text>()
+                    val value = result.shouldContainSuccessInstance()
+                        .shouldBeInstanceOf<DataElement.Text>()
                     val actual = LocalDateTime.parse(value.get, FORMATTER)
                     val expected = LocalDateTime.now()
                     actual shouldBeLessThan expected
@@ -43,8 +44,8 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 val result = expression.evaluate(variables)
 
                 "then the engine should return an value by default format" {
-                    result.shouldBeSuccess()
-                    val value = result.value.shouldBeInstanceOf<DataElement.Text>()
+                    val value = result.shouldContainSuccessInstance()
+                        .shouldBeInstanceOf<DataElement.Text>()
                     val actual = LocalDateTime.parse(value.get, DEFAULT_FORMATTER)
                     val expected = LocalDateTime.now()
                     actual shouldBeLessThan expected
@@ -57,8 +58,8 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 val result = expression.evaluate(variables)
 
                 "then the engine should return the evaluation error" {
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                 }
             }
 
@@ -68,8 +69,8 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 val result = expression.evaluate(variables)
 
                 "then the engine should return the evaluation error" {
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                 }
             }
         }

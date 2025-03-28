@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -22,8 +22,8 @@ internal class TryGetFromContextTest : UnitTest() {
 
                 "then function should return an error" {
                     val result = context.tryGet(SOURCE)
-                    result.shouldBeFailure()
-                    result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
             }
 
@@ -35,8 +35,8 @@ internal class TryGetFromContextTest : UnitTest() {
 
                     "then function should return an error" {
                         val result = context.tryGet(UNKNOWN_SOURCE)
-                        result.shouldBeFailure()
-                        result.cause.shouldBeInstanceOf<ContextError.SourceMissing>()
+                        result.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<ContextError.SourceMissing>()
                     }
                 }
 

@@ -2,7 +2,6 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
@@ -55,8 +54,8 @@ internal class CallStepExecutorTest : UnitTest() {
                                 callProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
-                            result.shouldBeSome()
-                            result.value.shouldBeInstanceOf<CallStepError>()
+                            result.shouldContainSomeInstance()
+                                .shouldBeInstanceOf<CallStepError>()
                         }
                     }
 

@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -28,8 +28,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
                     "then the executor should return a success result" {
                         val result = step.execute(CONTEXT)
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldContainSuccessInstance()
+                            .shouldBeNull()
                     }
                 }
 
@@ -38,8 +38,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
                     "then the executor should return an error result" {
                         val result = step.execute(CONTEXT)
-                        result.shouldBeSuccess()
-                        val error = result.value.shouldBeInstanceOf<Step.ErrorCode>()
+                        val error = result.shouldContainSuccessInstance()
+                            .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                         error shouldBe ERROR_CODE
                     }
                 }
@@ -55,8 +55,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
                         "then the executor should return a success result" {
                             val result = step.execute(CONTEXT)
-                            result.shouldBeSuccess()
-                            result.value.shouldBeNull()
+                            result.shouldContainSuccessInstance()
+                                .shouldBeNull()
                         }
                     }
 
@@ -65,8 +65,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             val result = step.execute(CONTEXT)
-                            result.shouldBeSuccess()
-                            val error = result.value.shouldBeInstanceOf<Step.ErrorCode>()
+                            val error = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                             error shouldBe ERROR_CODE
                         }
                     }
@@ -79,8 +79,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
                         val step = failStep(condition)
 
                         val result = step.execute(CONTEXT)
-                        result.shouldBeSuccess()
-                        result.value.shouldBeNull()
+                        result.shouldContainSuccessInstance()
+                            .shouldBeNull()
                     }
                 }
             }
@@ -89,7 +89,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
     private companion object {
         private val CONTEXT = Context.empty()
-        private val ERROR_CODE = Step.ErrorCode("err-1")
+        private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
 

@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.executor
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
+import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
@@ -11,7 +12,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -42,7 +42,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         value = Value.Literal(fact = DataElement.Text("test")),
                                         operator = EQ,
-                                        errorCode = Step.ErrorCode("err-1")
+                                        errorCode = ValidationStep.ErrorCode("err-1")
                                     )
                                 )
                             )
@@ -72,7 +72,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         value = Value.Literal(fact = DataElement.Text("test2")),
                                         operator = EQ,
-                                        errorCode = Step.ErrorCode("err-1")
+                                        errorCode = ValidationStep.ErrorCode("err-1")
                                     )
                                 )
                             )
@@ -81,8 +81,9 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 )
 
                 val result = executor.execute(context, rules)
-                result.shouldBeSuccess()
-                result.value.shouldBeInstanceOf<Step.ErrorCode>().get shouldBe "err-1"
+                val error = result.shouldContainSuccessInstance()
+                    .shouldBeInstanceOf<ValidationStep.ErrorCode>()
+                error.get shouldBe "err-1"
             }
         }
     }

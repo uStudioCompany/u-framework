@@ -437,17 +437,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step : io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Conditional {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode {
-	public fun <init> (Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getGet ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
@@ -462,12 +451,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action : java/lang/Enum {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action$Companion;
 	public static final field MERGE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static final field PUT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static final field REPLACE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action$Companion {
+	public final fun orNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$Result$Action;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Steps : java/util/List, kotlin/jvm/internal/markers/KMappedMarker {
@@ -529,20 +523,31 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/Operation, io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
-	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-znD00Y0 ()Ljava/util/List;
 	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public final fun component3 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public final fun component4 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
-	public final fun component5 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
-	public final fun copy-KU6tOVM (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
-	public static synthetic fun copy-KU6tOVM$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
+	public final fun component5 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;
+	public final fun copy-KU6tOVM (Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
+	public static synthetic fun copy-KU6tOVM$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;Ljava/util/List;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getCondition-znD00Y0 ()Ljava/util/List;
-	public final fun getErrorCode ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step$ErrorCode;
+	public final fun getErrorCode ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;
 	public fun getOperator ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public fun getTarget ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
 	public fun getValue ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/ValidationStep$ErrorCode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGet ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

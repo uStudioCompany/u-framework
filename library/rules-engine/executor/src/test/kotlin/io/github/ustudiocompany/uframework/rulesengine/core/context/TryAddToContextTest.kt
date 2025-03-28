@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
+import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -48,8 +48,8 @@ internal class TryAddToContextTest : UnitTest() {
                     val result = context.tryAdd(SOURCE, newValue)
 
                     "then function should return an error" {
-                        result.shouldBeSome()
-                        result.value.shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
                     }
 
                     "then the context should contain the source" {

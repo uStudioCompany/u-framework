@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldBeSome
+import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -25,8 +25,8 @@ internal class TryReplaceInContextTest : UnitTest() {
                 val result = context.tryReplace(SOURCE, value)
 
                 "then function should return an error" {
-                    result.shouldBeSome()
-                    result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
+                    result.shouldContainSomeInstance()
+                        .shouldBeInstanceOf<ContextError.SourceMissing>()
                 }
             }
 
@@ -61,8 +61,8 @@ internal class TryReplaceInContextTest : UnitTest() {
                     val result = context.tryReplace(UNKNOWN_SOURCE, newValue)
 
                     "then function should return an error" {
-                        result.shouldBeSome()
-                        result.value.shouldBeInstanceOf<ContextError.SourceMissing>()
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<ContextError.SourceMissing>()
                     }
 
                     "then the context should not contain the source" {
