@@ -16,7 +16,7 @@ public final class io/github/ustudiocompany/uframework/messaging/publisher/Messa
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Fixed : io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher {

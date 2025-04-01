@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.failure
 
-import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -27,11 +26,12 @@ internal class ExceptionOrNullFailureTest : UnitTest() {
     }
 
     private fun failure(code: String, exception: Throwable? = null): Failure {
-        val cause = if (exception != null) Cause.Exception(exception) else Cause.None
+        val cause = if (exception != null) Failure.Cause.Exception(exception) else Failure.Cause.None
         return Root(code = code, cause = cause)
     }
 
-    private fun failure(code: String, cause: Failure): Failure = Child(code = code, cause = Cause.Failure(cause))
+    private fun failure(code: String, cause: Failure): Failure =
+        Child(code = code, cause = Failure.Cause.Failure(cause))
 
     private companion object {
         private val EXCEPTION = Exception("EXCEPTION")
@@ -40,6 +40,6 @@ internal class ExceptionOrNullFailureTest : UnitTest() {
         private const val CODE_3 = "CODE-3"
     }
 
-    private data class Root(override val code: String, override val cause: Cause) : Failure
-    private data class Child(override val code: String, override val cause: Cause) : Failure
+    private data class Root(override val code: String, override val cause: Failure.Cause) : Failure
+    private data class Child(override val code: String, override val cause: Failure.Cause) : Failure
 }

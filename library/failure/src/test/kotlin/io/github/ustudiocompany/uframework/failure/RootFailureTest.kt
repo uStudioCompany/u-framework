@@ -1,6 +1,5 @@
 package io.github.ustudiocompany.uframework.failure
 
-import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -32,9 +31,9 @@ internal class RootFailureTest : UnitTest() {
         private val CHILD_1: Failure = Child(code = CODE_2, cause = cause(ROOT))
         private val CHILD_2: Failure = Child(code = CODE_3, cause = cause(Child(code = CODE_2, cause = cause(ROOT))))
 
-        private fun cause(failure: Failure): Cause = Cause.Failure(failure)
+        private fun cause(failure: Failure): Failure.Cause = Failure.Cause.Failure(failure)
     }
 
     private data class Root(override val code: String) : Failure
-    private data class Child(override val code: String, override val cause: Cause) : Failure
+    private data class Child(override val code: String, override val cause: Failure.Cause) : Failure
 }

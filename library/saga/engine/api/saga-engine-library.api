@@ -121,7 +121,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaExe
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract class io/github/ustudiocompany/uframework/saga/engine/error/SagaManagerErrors : io/github/ustudiocompany/uframework/saga/engine/error/SagaErrors {
@@ -139,7 +139,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getName ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageName;
 	public final fun getVersion ()Lio/github/ustudiocompany/uframework/messaging/header/type/MessageVersion;
 }
@@ -148,7 +148,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 	public final fun getLabel--Ek4fEY ()Ljava/lang/String;
 }
 
@@ -156,7 +156,7 @@ public final class io/github/ustudiocompany/uframework/saga/engine/error/SagaMan
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCode ()Ljava/lang/String;
 	public final fun getCorrelationId-nc0Dkak ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Details;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/saga/engine/error/SagaPublisherErrors : io/github/ustudiocompany/uframework/saga/engine/error/SagaErrors {
