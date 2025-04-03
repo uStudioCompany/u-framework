@@ -18,7 +18,7 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class DataStepExecutorTest : UnitTest() {
+internal class DataBuildStepExecutorTest : UnitTest() {
 
     init {
 
@@ -120,7 +120,7 @@ internal class DataStepExecutorTest : UnitTest() {
         )
 
         private fun createStep(condition: Condition?) =
-            DataStep(
+            DataBuildStep(
                 condition = condition,
                 dataScheme = DataScheme.Struct(
                     properties = listOf(

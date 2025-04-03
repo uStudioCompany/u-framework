@@ -12,7 +12,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
-import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -37,7 +37,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
                 "then the function should return the build args" {
                     result shouldBeSuccess listOf(
-                        CallProvider.Arg(
+                        DataProvider.Arg(
                             name = ARG_NAME_1,
                             value = "\"" + ARG_VALUE_1 + "\""
                         )

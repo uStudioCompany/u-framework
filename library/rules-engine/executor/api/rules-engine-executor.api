@@ -1,13 +1,13 @@
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider {
-	public abstract fun call-zsmAeps (Ljava/lang/String;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider {
+	public abstract fun get-2nBdgHM (Ljava/lang/String;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Arg {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Arg;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Arg;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Arg;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Arg;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValue ()Ljava/lang/String;
@@ -15,9 +15,9 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Call
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Method {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider$Method;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Uri {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Uri$Companion;
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Uri;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -29,12 +29,16 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Call
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Uri$Companion {
+	public final fun from-n2y1qp0 (Ljava/lang/String;)Ljava/lang/String;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
 	public abstract fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/CallProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 

@@ -9,8 +9,8 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.CallStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
@@ -20,7 +20,7 @@ public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RuleEngine
 
 @Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
-    private val callProvider: CallProvider,
+    private val dataProvider: DataProvider,
     private val merger: Merger
 ) {
 
@@ -44,11 +44,11 @@ public class RulesEngineExecutor(
     private fun Steps.execute(context: Context): ExecutionResult {
         for (step in this) {
             val result = when (step) {
-                is CallStep ->
-                    step.execute(context, callProvider, merger)
+                is DataRetrieveStep ->
+                    step.execute(context, dataProvider, merger)
                         .toResultAsFailureOr(ResultK.Success.asNull)
 
-                is DataStep ->
+                is DataBuildStep ->
                     step.execute(context, merger)
                         .toResultAsFailureOr(ResultK.Success.asNull)
 

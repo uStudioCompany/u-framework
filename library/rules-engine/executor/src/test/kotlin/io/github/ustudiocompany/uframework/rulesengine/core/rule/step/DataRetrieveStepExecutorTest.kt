@@ -14,7 +14,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Method
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Uri
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -22,11 +22,11 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class CallStepExecutorTest : UnitTest() {
+internal class DataRetrieveStepExecutorTest : UnitTest() {
 
     init {
 
-        "The call step executor" - {
+        "The data retrieve step executor" - {
 
             "when condition is missing" - {
                 val condition: Condition? = null
@@ -34,9 +34,9 @@ internal class CallStepExecutorTest : UnitTest() {
                 "when execution of the step is fail" - {
 
                     "when an external call error" - {
-                        val step = CallStep(
+                        val step = DataRetrieveStep(
                             condition = condition,
-                            method = METHOD,
+                            uri = Uri,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -51,7 +51,7 @@ internal class CallStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                callProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
+                                dataProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldContainSomeInstance()
@@ -61,9 +61,9 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     "when an error of merging" - {
                         val context = Context(mapOf(RESULT_SOURCE to DataElement.Text(ORIGIN_VALUE)))
-                        val step = CallStep(
+                        val step = DataRetrieveStep(
                             condition = condition,
-                            method = METHOD,
+                            uri = Uri,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -77,7 +77,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                            dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
 
@@ -90,9 +90,9 @@ internal class CallStepExecutorTest : UnitTest() {
 
                 "when execution of the step is successful" - {
                     val context = Context.empty()
-                    val step = CallStep(
+                    val step = DataRetrieveStep(
                         condition = condition,
-                        method = METHOD,
+                        uri = Uri,
                         args = Args(
                             ID_PARAM_NAME to Value.Literal(
                                 fact = DataElement.Text(ID_PARAM_VALUE)
@@ -106,7 +106,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     val result = step.execute(
                         context = context,
-                        callProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                        dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                         merger = { origin, _ -> origin.asSuccess() }
                     )
 
@@ -128,9 +128,9 @@ internal class CallStepExecutorTest : UnitTest() {
 
                     "when execution of the step is successful" - {
                         val context = Context.empty()
-                        val step = CallStep(
+                        val step = DataRetrieveStep(
                             condition = condition,
-                            method = METHOD,
+                            uri = Uri,
                             args = Args(
                                 ID_PARAM_NAME to Value.Literal(
                                     fact = DataElement.Text(ID_PARAM_VALUE)
@@ -144,7 +144,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = context,
-                            callProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                            dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { origin, _ -> origin.asSuccess() }
                         )
 
@@ -163,9 +163,9 @@ internal class CallStepExecutorTest : UnitTest() {
                     val condition: Condition = notSatisfiedCondition()
 
                     "then the step is not performed" {
-                        val step = CallStep(
+                        val step = DataRetrieveStep(
                             condition = condition,
-                            method = METHOD,
+                            uri = Uri,
                             args = Args(),
                             result = Step.Result(
                                 source = RESULT_SOURCE,
@@ -175,7 +175,7 @@ internal class CallStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = CONTEXT,
-                            callProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
+                            dataProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeNone()
@@ -192,7 +192,7 @@ internal class CallStepExecutorTest : UnitTest() {
         private val TEXT_VALUE_1 = DataElement.Text("value-1")
         private val TEXT_VALUE_2 = DataElement.Text("value-2")
 
-        private val METHOD = Method("users:id")
+        private val Uri = Uri("users:id")
 
         private const val ID_PARAM_NAME = "id"
         private const val ID_PARAM_VALUE = "1"

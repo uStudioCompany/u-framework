@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSat
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleEngineError
 
-internal fun DataStep.execute(context: Context, merger: Merger): Maybe<RuleEngineError> {
+internal fun DataBuildStep.execute(context: Context, merger: Merger): Maybe<RuleEngineError> {
     val step = this
     return maybeFailure {
         val (isSatisfied) = condition.isSatisfied(context)
