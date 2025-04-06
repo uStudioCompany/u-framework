@@ -14,7 +14,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSat
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
-internal fun DataRetrieveStep.execute(
+internal fun DataRetrieveStep.executeIfSatisfied(
     context: Context,
     dataProvider: DataProvider,
     merger: Merger

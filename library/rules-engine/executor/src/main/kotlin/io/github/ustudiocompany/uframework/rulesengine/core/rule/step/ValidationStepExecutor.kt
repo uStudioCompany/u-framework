@@ -13,8 +13,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 
-internal fun ValidationStep.execute(context: Context): ResultK<ValidationStep.ErrorCode?, ValidationStepExecuteError> {
-    val operation = this@execute
+internal fun ValidationStep.executeIfSatisfied(
+    context: Context
+): ResultK<ValidationStep.ErrorCode?, ValidationStepExecuteError> {
+    val operation = this@executeIfSatisfied
     return condition.isSatisfied(context)
         .mapFailure { failure ->
             ValidationStepExecuteError.CheckingConditionSatisfaction(failure)

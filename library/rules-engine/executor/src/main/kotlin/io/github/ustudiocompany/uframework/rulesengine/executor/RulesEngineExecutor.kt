@@ -15,10 +15,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildS
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.RulesExecutionError
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.executeIfSatisfied
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.RulesEngineExecutorError
 
-public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesExecutionError>
+public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngineExecutorError>
 
 @Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
@@ -39,7 +39,7 @@ public class RulesEngineExecutor(
     private fun Rule.executeIfSatisfied(context: Context): ExecutionResult =
         condition.isSatisfied(context)
             .mapFailure { failure ->
-                RulesExecutionError.CheckingConditionSatisfactionRule(failure)
+                RulesEngineExecutorError.CheckingConditionSatisfactionRule(failure)
             }
             .flatMapBoolean(
                 ifTrue = { this.steps.execute(context) },
@@ -49,28 +49,27 @@ public class RulesEngineExecutor(
     private fun Steps.execute(context: Context): ExecutionResult {
         for (step in this) {
             val result = when (step) {
-                is DataRetrieveStep ->
-                    step.execute(context, dataProvider, merger)
-                        .map { failure ->
-                            RulesExecutionError.DataRetrievingStepExecute(failure)
-                        }
-                        .toResultAsFailureOr(ResultK.Success.asNull)
-
-                is DataBuildStep ->
-                    step.execute(context, merger)
-                        .map { failure ->
-                            RulesExecutionError.DataBuildStepExecute(failure)
-                        }
-                        .toResultAsFailureOr(ResultK.Success.asNull)
-
+                is DataRetrieveStep -> step.execute(context)
+                is DataBuildStep -> step.execute(context)
                 is ValidationStep -> step.execute(context)
-                    .mapFailure { failure ->
-                        RulesExecutionError.ValidationStepExecute(failure)
-                    }
             }
 
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
+
+    private fun DataRetrieveStep.execute(context: Context): ExecutionResult =
+        executeIfSatisfied(context, dataProvider, merger)
+            .map { failure -> RulesEngineExecutorError.DataRetrievingStepExecute(failure) }
+            .toResultAsFailureOr(ResultK.Success.asNull)
+
+    private fun DataBuildStep.execute(context: Context): ExecutionResult =
+        executeIfSatisfied(context, merger)
+            .map { failure -> RulesEngineExecutorError.DataBuildStepExecute(failure) }
+            .toResultAsFailureOr(ResultK.Success.asNull)
+
+    private fun ValidationStep.execute(context: Context): ExecutionResult =
+        executeIfSatisfied(context)
+            .mapFailure { failure -> RulesEngineExecutorError.ValidationStepExecute(failure) }
 }

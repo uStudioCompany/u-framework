@@ -63,28 +63,28 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Rule
 	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError$CheckingConditionSatisfactionRule : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$CheckingConditionSatisfactionRule : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError$DataBuildStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$DataBuildStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError$DataRetrievingStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$DataRetrievingStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError$ValidationStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesExecutionError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$ValidationStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

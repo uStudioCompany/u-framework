@@ -13,7 +13,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Check
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
-internal fun DataBuildStep.execute(context: Context, merger: Merger): Maybe<DataBuildStepExecuteError> {
+internal fun DataBuildStep.executeIfSatisfied(context: Context, merger: Merger): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
         val (isSatisfied) = condition.isSatisfied(context)

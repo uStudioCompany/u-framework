@@ -30,7 +30,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                 "then the executor should perform the step" - {
                     val context = Context.empty()
                     val step = createStep(condition)
-                    val result = step.execute(context, TestMerger())
+                    val result = step.executeIfSatisfied(context, TestMerger())
 
                     "then the executor should return a success result" {
                         result.shouldBeNone()
@@ -51,7 +51,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     "then the executor should perform the step" - {
                         val context = Context.empty()
                         val step = createStep(condition)
-                        val result = step.execute(context, TestMerger())
+                        val result = step.executeIfSatisfied(context, TestMerger())
 
                         "then the executor should return a success result" {
                             result.shouldBeNone()
@@ -70,7 +70,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     "then the executor should not perform the step" - {
                         val context = Context.empty()
                         val step = createStep(condition)
-                        val result = step.execute(context, TestMerger())
+                        val result = step.executeIfSatisfied(context, TestMerger())
 
                         "then the executor should return a success result" {
                             result.shouldBeNone()

@@ -27,7 +27,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     val step = successfulStep(condition)
 
                     "then the executor should return a success result" {
-                        val result = step.execute(CONTEXT)
+                        val result = step.executeIfSatisfied(CONTEXT)
                         result.shouldContainSuccessInstance()
                             .shouldBeNull()
                     }
@@ -37,7 +37,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     val step = failStep(condition)
 
                     "then the executor should return an error result" {
-                        val result = step.execute(CONTEXT)
+                        val result = step.executeIfSatisfied(CONTEXT)
                         val error = result.shouldContainSuccessInstance()
                             .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                         error shouldBe ERROR_CODE
@@ -54,7 +54,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                         val step = successfulStep(condition)
 
                         "then the executor should return a success result" {
-                            val result = step.execute(CONTEXT)
+                            val result = step.executeIfSatisfied(CONTEXT)
                             result.shouldContainSuccessInstance()
                                 .shouldBeNull()
                         }
@@ -64,7 +64,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                         val step = failStep(condition)
 
                         "then the executor should return an error result" {
-                            val result = step.execute(CONTEXT)
+                            val result = step.executeIfSatisfied(CONTEXT)
                             val error = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                             error shouldBe ERROR_CODE
@@ -78,7 +78,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     "then the step is not performed" - {
                         val step = failStep(condition)
 
-                        val result = step.execute(CONTEXT)
+                        val result = step.executeIfSatisfied(CONTEXT)
                         result.shouldContainSuccessInstance()
                             .shouldBeNull()
                     }

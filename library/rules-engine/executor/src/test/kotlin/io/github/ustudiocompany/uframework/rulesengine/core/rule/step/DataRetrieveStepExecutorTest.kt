@@ -48,7 +48,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         "then the executor should return an error result" {
-                            val result = step.execute(
+                            val result = step.executeIfSatisfied(
                                 context = CONTEXT,
                                 dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
@@ -75,7 +75,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             )
                         )
 
-                        val result = step.execute(
+                        val result = step.executeIfSatisfied(
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
@@ -105,7 +105,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
                     )
 
-                    val result = step.execute(
+                    val result = step.executeIfSatisfied(
                         context = context,
                         dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                         merger = { origin, _ -> origin.asSuccess() }
@@ -143,7 +143,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             )
                         )
 
-                        val result = step.execute(
+                        val result = step.executeIfSatisfied(
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { origin, _ -> origin.asSuccess() }
@@ -174,7 +174,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             )
                         )
 
-                        val result = step.execute(
+                        val result = step.executeIfSatisfied(
                             context = CONTEXT,
                             dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }

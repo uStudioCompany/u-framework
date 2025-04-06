@@ -7,11 +7,11 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildS
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStepExecuteError
 
-public sealed interface RulesExecutionError : BasicRulesEngineError {
+public sealed interface RulesEngineExecutorError : BasicRulesEngineError {
 
     public class CheckingConditionSatisfactionRule internal constructor(
         cause: CheckingConditionSatisfactionErrors
-    ) : RulesExecutionError {
+    ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "1"
         override val description: String = "Error checking condition satisfaction of a rule."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
@@ -19,7 +19,7 @@ public sealed interface RulesExecutionError : BasicRulesEngineError {
 
     public class DataRetrievingStepExecute internal constructor(
         cause: DataRetrieveStepExecuteErrors
-    ) : RulesExecutionError {
+    ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "2"
         override val description: String = "The error of execution the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
@@ -27,7 +27,7 @@ public sealed interface RulesExecutionError : BasicRulesEngineError {
 
     public class DataBuildStepExecute internal constructor(
         cause: DataBuildStepExecuteError
-    ) : RulesExecutionError {
+    ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "3"
         override val description: String = "The error of execution the 'Data Build' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
@@ -35,7 +35,7 @@ public sealed interface RulesExecutionError : BasicRulesEngineError {
 
     public class ValidationStepExecute internal constructor(
         cause: ValidationStepExecuteError
-    ) : RulesExecutionError {
+    ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "4"
         override val description: String = "The error of execution the 'Validation' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
