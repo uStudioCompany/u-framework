@@ -1,3 +1,6 @@
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion;
 	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -162,7 +165,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/Fee
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getExpression ()Lio/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {

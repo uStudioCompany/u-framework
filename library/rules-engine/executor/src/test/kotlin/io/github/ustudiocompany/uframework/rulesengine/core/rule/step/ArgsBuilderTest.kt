@@ -13,7 +13,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -58,7 +57,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
                 "then the function should return the error" {
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<FeelExpressionError>()
+                        .shouldBeInstanceOf<DataProviderArgsErrors.ArgValueBuild>()
                 }
             }
         }

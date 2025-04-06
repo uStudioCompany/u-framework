@@ -6,7 +6,6 @@ import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -49,7 +48,7 @@ internal class TryAddToContextTest : UnitTest() {
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
+                            .shouldBeInstanceOf<AddDataToContextErrors.SourceAlreadyExists>()
                     }
 
                     "then the context should contain the source" {

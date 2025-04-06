@@ -9,7 +9,6 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -53,7 +52,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextError.SourceAlreadyExists>()
+                            .shouldBeInstanceOf<UpdateContextErrors.AddingData>()
                     }
                 }
             }
@@ -69,7 +68,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextError.SourceMissing>()
+                            .shouldBeInstanceOf<UpdateContextErrors.ReplacingData>()
                     }
                 }
 
@@ -105,7 +104,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextError.SourceMissing>()
+                            .shouldBeInstanceOf<UpdateContextErrors.MergingData>()
                     }
                 }
 
@@ -141,7 +140,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                         "then call the function should be failed" {
                             result.shouldContainSomeInstance()
-                                .shouldBeInstanceOf<ContextError.Merge>()
+                                .shouldBeInstanceOf<UpdateContextErrors.MergingData>()
                         }
                     }
                 }

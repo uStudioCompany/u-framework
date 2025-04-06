@@ -8,8 +8,6 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.DataErrors
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -29,7 +27,8 @@ internal class ComputeReferenceValueTest : UnitTest() {
                     )
                     val result = value.compute(context)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<ContextError.SourceMissing>()
+                        //TODO add other error
+                        .shouldBeInstanceOf<ValueComputeErrors.GettingDataFromContext>()
                 }
             }
 
@@ -45,7 +44,8 @@ internal class ComputeReferenceValueTest : UnitTest() {
                         )
                         val result = value.compute(context)
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<DataErrors.Missing>()
+                            //TODO add other error
+                            .shouldBeInstanceOf<ValueComputeErrors.DataByPathIsNotFound>()
                     }
                 }
 

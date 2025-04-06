@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -260,7 +259,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 "then the builder should return a failure" {
                     val result = dataScheme.build(Context.Companion.empty())
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<FeelExpressionError>()
+                        .shouldBeInstanceOf<DataBuildErrors>()
                 }
             }
         }

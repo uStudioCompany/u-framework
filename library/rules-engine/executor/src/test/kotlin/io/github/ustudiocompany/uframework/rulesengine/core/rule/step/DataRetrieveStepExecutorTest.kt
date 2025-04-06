@@ -15,8 +15,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Uri
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.CallStepError
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
+import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -51,11 +50,12 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.execute(
                                 context = CONTEXT,
-                                dataProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
+                                dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                                 merger = { origin, _ -> origin.asSuccess() }
                             )
                             result.shouldContainSomeInstance()
-                                .shouldBeInstanceOf<CallStepError>()
+                                //TODO add other error
+                                .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.RetrievingExternalData>()
                         }
                     }
 
@@ -83,7 +83,8 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             result.shouldContainSomeInstance()
-                                .shouldBeInstanceOf<ContextError.Merge>()
+                                //TODO add other error
+                                .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.UpdatingContext>()
                         }
                     }
                 }
@@ -175,7 +176,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         val result = step.execute(
                             context = CONTEXT,
-                            dataProvider = { _, _ -> Errors.TestDataProviderError.asFailure() },
+                            dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                             merger = { _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeNone()

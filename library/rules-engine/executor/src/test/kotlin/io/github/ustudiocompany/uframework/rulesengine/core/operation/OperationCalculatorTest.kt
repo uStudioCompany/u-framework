@@ -13,7 +13,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operation
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.Operator
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -37,7 +36,21 @@ internal class OperationCalculatorTest : UnitTest() {
                 }
             }
 
-            "when computing the operation returns an error" - {
+            "when computing the operation returns an error of computing the target" - {
+                val operation = TestOperation(
+                    target = Value.Expression(expression = EXPRESSION),
+                    value = Value.Literal(fact = DataElement.Text(VALUE_1)),
+                    operator = EQ
+                )
+
+                "then the function should return an error" {
+                    val result = operation.calculate(CONTEXT)
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<CalculateOperationErrors.ComputingTarget>()
+                }
+            }
+
+            "when computing the operation returns an error of computing the value" - {
                 val operation = TestOperation(
                     target = Value.Literal(fact = DataElement.Text(VALUE_1)),
                     value = Value.Expression(expression = EXPRESSION),
@@ -47,7 +60,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 "then the function should return an error" {
                     val result = operation.calculate(CONTEXT)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<FeelExpressionError>()
+                        .shouldBeInstanceOf<CalculateOperationErrors.ComputingValue>()
                 }
             }
         }

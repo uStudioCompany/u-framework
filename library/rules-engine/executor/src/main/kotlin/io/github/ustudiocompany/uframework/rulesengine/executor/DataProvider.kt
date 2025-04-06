@@ -2,13 +2,14 @@ package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
 
 public fun interface DataProvider {
 
-    public fun get(uri: Uri, args: List<Arg>): ResultK<DataElement, Failure>
+    public fun get(uri: Uri, args: List<Arg>): ResultK<DataElement, Errors.GetData>
 
     @JvmInline
     public value class Uri private constructor(public val get: String) {
@@ -22,4 +23,26 @@ public fun interface DataProvider {
         public val name: String,
         public val value: String
     )
+
+    public sealed interface Errors : BasicRulesEngineError {
+
+        public class GetData(
+            message: String = "",
+            exception: Exception? = null,
+            override val details: Failure.Details = Failure.Details.NONE
+        ) : Errors {
+            override val code: String = PREFIX + "1"
+            override val description: String =
+                "The error of getting data." + if (message.isNotEmpty()) " $message" else ""
+            override val cause: Failure.Cause =
+                if (exception == null)
+                    Failure.Cause.None
+                else
+                    Failure.Cause.Exception(exception)
+        }
+
+        private companion object {
+            private const val PREFIX = "DATA-PROVIDER-"
+        }
+    }
 }

@@ -11,7 +11,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.FeelExpressionError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -100,7 +99,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     "then function should return an error" {
                         val result = condition.isSatisfied(CONTEXT)
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<FeelExpressionError>()
+                            .shouldBeInstanceOf<CheckingConditionSatisfactionErrors>()
                     }
                 }
             }

@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.SearchError
@@ -37,9 +38,9 @@ public class PathEngine(private val config: Configuration) {
         }
     }
 
-    public sealed interface Errors : Failure {
+    public sealed interface Errors : BasicRulesEngineError {
 
-        public class Parsing(public val path: String, cause: Exception) : Errors {
+        public class Parsing(path: String, cause: Exception) : Errors {
             override val code: String = PREFIX + "1"
             override val description: String = "The error of parsing json-path: '$path'."
             override val cause: Failure.Cause = Failure.Cause.Exception(cause)

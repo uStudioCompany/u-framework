@@ -6,7 +6,6 @@ import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -26,7 +25,7 @@ internal class TryReplaceInContextTest : UnitTest() {
 
                 "then function should return an error" {
                     result.shouldContainSomeInstance()
-                        .shouldBeInstanceOf<ContextError.SourceMissing>()
+                        .shouldBeInstanceOf<ReplaceDataInContextErrors.SourceMissing>()
                 }
             }
 
@@ -62,7 +61,7 @@ internal class TryReplaceInContextTest : UnitTest() {
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextError.SourceMissing>()
+                            .shouldBeInstanceOf<ReplaceDataInContextErrors.SourceMissing>()
                     }
 
                     "then the context should not contain the source" {

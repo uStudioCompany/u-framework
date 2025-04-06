@@ -9,7 +9,6 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInsta
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.ContextError
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -30,7 +29,8 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
                     )
                     val result = value.computeOrNull(context)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<ContextError.SourceMissing>()
+                        //TODO add other error
+                        .shouldBeInstanceOf<OptionalValueComputeErrors.GettingDataFromContext>()
                 }
             }
 

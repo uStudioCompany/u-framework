@@ -16,17 +16,17 @@ public interface FeelExpression {
      *
      * @property expression The expression that caused the evaluation error.
      */
-    public class EvaluateError(public val expression: FeelExpression, message: String? = null) : Failure {
+    public class EvaluateError(expression: FeelExpression, message: String? = null) : Failure {
         override val code: String = PREFIX + "1"
         override val description: String = "The error of evaluating expression: '${expression.text}'" +
             if (message != null) "($message)." else "."
         override val details: Failure.Details = Failure.Details.of(
-            DETAILS_KEY_PATH to expression.text
+            DETAILS_KEY_EXPRESSION to expression.text
         )
 
         private companion object {
             private const val PREFIX = "EVALUATE-FEEL-EXPRESSION-"
-            private const val DETAILS_KEY_PATH = "feel-expression"
+            private const val DETAILS_KEY_EXPRESSION = "feel-expression"
         }
     }
 }
