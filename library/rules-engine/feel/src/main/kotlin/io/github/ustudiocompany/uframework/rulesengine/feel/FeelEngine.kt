@@ -21,17 +21,15 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
     public fun parse(expression: String): ResultK<FeelExpression, Errors> {
         val result = engine.parseExpression(expression)
         return if (result.isSuccess)
-            FeelExpressionInstance(result.parsedExpression()).asSuccess()
+            FeelExpressionInstance(text = expression, parsedExpression = result.parsedExpression()).asSuccess()
         else
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
 
     private inner class FeelExpressionInstance(
+        override val text: String,
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
-
-        override val text: String
-            get() = parsedExpression.text()
 
         override fun evaluate(context: Context): ResultK<DataElement, FeelExpression.EvaluateError> {
             val evaluationResult = engine.evaluate(parsedExpression, context.convert())

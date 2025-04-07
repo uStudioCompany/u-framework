@@ -15,17 +15,15 @@ import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.SearchErro
 public class PathEngine(private val config: Configuration) {
 
     public fun parse(path: String): ResultK<Path, Errors.Parsing> = try {
-        PathInstance(JsonPath.compile(path)).asSuccess()
+        PathInstance(text = path, parsedPath = JsonPath.compile(path)).asSuccess()
     } catch (expected: Exception) {
         Errors.Parsing(path, expected).asFailure()
     }
 
     private inner class PathInstance(
+        override val text: String,
         private val parsedPath: JsonPath
     ) : Path {
-
-        override val text: String
-            get() = parsedPath.path
 
         override fun searchIn(data: DataElement): ResultK<DataElement?, SearchError> = try {
             parsedPath.read<DataElement>(data, config)
