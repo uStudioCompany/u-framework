@@ -14,8 +14,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataSearchError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
-import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpressionError
-import io.github.ustudiocompany.uframework.rulesengine.core.feel.evaluateWithContext
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 internal fun Value.compute(context: Context): ResultK<DataElement, ValueComputeErrors> =
@@ -34,9 +32,9 @@ internal fun Value.compute(context: Context): ResultK<DataElement, ValueComputeE
                     .filterNotNull { ValueComputeErrors.DataByPathIsNotFound(source = source, path = path) }
             }
 
-        is Value.Expression -> expression.evaluateWithContext(context)
+        is Value.Expression -> expression.evaluate(context)
             .mapFailure { failure ->
-                ValueComputeErrors.EvaluatingFeelExpression(expression = expression, cause = failure)
+                ValueComputeErrors.EvaluatingFeelExpression(cause = failure)
             }
     }
 
@@ -71,20 +69,16 @@ internal sealed interface ValueComputeErrors : BasicRulesEngineError {
         )
     }
 
-    class EvaluatingFeelExpression(expression: FeelExpression, cause: FeelExpressionError) : ValueComputeErrors {
+    class EvaluatingFeelExpression(cause: FeelExpression.EvaluateError) : ValueComputeErrors {
         override val code: String = PREFIX + "4"
         override val description: String = "Error evaluating a FEEL expression for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-        override val details: Failure.Details = Failure.Details.of(
-            DETAILS_KEY_EXPRESSION to expression.text
-        )
     }
 
     private companion object {
         private const val PREFIX = "VALUE-COMPUTE-"
         private const val DETAILS_KEY_PATH = "json-path"
         private const val DETAILS_KEY_SOURCE = "source-name"
-        private const val DETAILS_KEY_EXPRESSION = "feel-expression"
     }
 }
 
@@ -103,9 +97,9 @@ internal fun Value.computeOrNull(context: Context): ResultK<DataElement?, Option
                     }
             }
 
-        is Value.Expression -> expression.evaluateWithContext(context)
+        is Value.Expression -> expression.evaluate(context)
             .mapFailure { failure ->
-                OptionalValueComputeErrors.EvaluatingFeelExpression(expression = expression, cause = failure)
+                OptionalValueComputeErrors.EvaluatingFeelExpression(cause = failure)
             }
     }
 
@@ -130,22 +124,15 @@ internal sealed interface OptionalValueComputeErrors : BasicRulesEngineError {
         )
     }
 
-    class EvaluatingFeelExpression(
-        expression: FeelExpression,
-        cause: FeelExpressionError
-    ) : OptionalValueComputeErrors {
+    class EvaluatingFeelExpression(cause: FeelExpression.EvaluateError) : OptionalValueComputeErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error evaluating an expression for computing value."
+        override val description: String = "Error evaluating an expression for computing optional value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-        override val details: Failure.Details = Failure.Details.of(
-            DETAILS_KEY_EXPRESSION to expression.text
-        )
     }
 
     private companion object {
         private const val PREFIX = "OPTIONAL-VALUE-COMPUTE-"
         private const val DETAILS_KEY_PATH = "json-path"
         private const val DETAILS_KEY_SOURCE = "source-name"
-        private const val DETAILS_KEY_EXPRESSION = "feel-expression"
     }
 }

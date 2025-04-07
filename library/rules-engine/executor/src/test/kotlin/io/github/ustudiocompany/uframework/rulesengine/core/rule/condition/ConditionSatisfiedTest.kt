@@ -8,7 +8,6 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -118,7 +117,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                 get() = "a/0"
 
             override fun evaluate(
-                context: Map<Source, DataElement>
+                context: Context
             ): ResultK<DataElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()
         }

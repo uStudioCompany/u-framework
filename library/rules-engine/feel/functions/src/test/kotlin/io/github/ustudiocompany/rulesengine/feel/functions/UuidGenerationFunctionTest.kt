@@ -3,8 +3,8 @@ package io.github.ustudiocompany.rulesengine.feel.functions
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngine
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelEngineConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.functions.UuidGenerationFunction
@@ -22,8 +22,8 @@ internal class UuidGenerationFunctionTest : UnitTest() {
             val expression = shouldBeSuccess { engine.parse("uuid()") }
 
             "when the engine evaluates the expression" - {
-                val variables = emptyMap<Source, DataElement>()
-                val result = expression.evaluate(variables)
+                val context = Context.empty()
+                val result = expression.evaluate(context)
 
                 "then the engine should return an value by UUID format" {
                     val value = result.shouldContainSuccessInstance()

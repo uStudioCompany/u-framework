@@ -4,9 +4,9 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import org.camunda.feel.api.EvaluationResult
 import org.camunda.feel.api.FeelEngineApi
 import org.camunda.feel.api.FeelEngineBuilder
@@ -26,14 +26,6 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
             Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
     }
 
-    private fun Map<Source, DataElement>.convert(): Map<String, DataElement> {
-        val result = mutableMapOf<String, DataElement>()
-        forEach { (source, value) ->
-            result[source.get] = value
-        }
-        return result
-    }
-
     private inner class FeelExpressionInstance(
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
@@ -41,7 +33,7 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
         override val text: String
             get() = parsedExpression.text()
 
-        override fun evaluate(context: Map<Source, DataElement>): ResultK<DataElement, FeelExpression.EvaluateError> {
+        override fun evaluate(context: Context): ResultK<DataElement, FeelExpression.EvaluateError> {
             val evaluationResult = engine.evaluate(parsedExpression, context.convert())
             return if (evaluationResult.isSuccess) {
                 val result = evaluationResult.result() as DataElement
@@ -51,6 +43,14 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
                     result.asSuccess()
             } else
                 evaluateError(evaluationResult.failure().message())
+        }
+
+        private fun Context.convert(): Map<String, DataElement> {
+            val result = mutableMapOf<String, DataElement>()
+            toMap.forEach { (source, value) ->
+                result[source.get] = value
+            }
+            return result
         }
 
         private fun evaluateError(message: String) =

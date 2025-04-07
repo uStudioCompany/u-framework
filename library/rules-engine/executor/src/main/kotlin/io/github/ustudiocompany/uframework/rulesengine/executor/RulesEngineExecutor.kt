@@ -20,7 +20,6 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.RulesEngin
 
 public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngineExecutorError>
 
-@Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
     private val dataProvider: DataProvider,
     private val merger: Merger

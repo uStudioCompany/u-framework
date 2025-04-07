@@ -16,11 +16,10 @@ internal fun Condition?.isSatisfied(context: Context): ResultK<Boolean, Checking
 
 private fun Condition.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> {
     val isAllSatisfied = all { predicate ->
-        val isSatisfied = predicate.isSatisfied(context)
+        predicate.isSatisfied(context)
             .getOrForward {
                 return CheckingConditionSatisfactionErrors(it.cause).asFailure()
             }
-        isSatisfied == true
     }
     return if (isAllSatisfied) Success.asTrue else Success.asFalse
 }

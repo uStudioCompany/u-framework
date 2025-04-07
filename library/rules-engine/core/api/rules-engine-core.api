@@ -155,7 +155,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
-	public abstract fun evaluate (Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun evaluate (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getText ()Ljava/lang/String;
 }
 
