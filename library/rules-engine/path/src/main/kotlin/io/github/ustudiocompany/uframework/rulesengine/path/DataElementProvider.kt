@@ -79,7 +79,7 @@ internal class DataElementProvider(
             ?: throw JsonPathException("index '$idx' missing in the array ")
     }
 
-    @Deprecated("")
+    @Deprecated("This method is deprecated in interface")
     override fun getArrayIndex(obj: Any, idx: Int, unwrap: Boolean): Any = getArrayIndex(obj, idx)
 
     override fun setArrayIndex(array: Any, index: Int, newValue: Any?) {
@@ -237,7 +237,7 @@ internal class DataElementProvider(
             null -> DataElement.Null
             is DataElement -> o
             is String -> DataElement.Text(o)
-            is Boolean -> DataElement.Bool(o)
+            is Boolean -> DataElement.Bool.valueOf(o)
             is BigDecimal -> DataElement.Decimal(o)
             else -> DataElement.Text(o.toString())
         }

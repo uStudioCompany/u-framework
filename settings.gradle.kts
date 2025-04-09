@@ -105,6 +105,9 @@ project(":event-sourcing-store-library").projectDir = file("./library/eventsourc
 include(":rules-engine-core")
 project(":rules-engine-core").projectDir = file("./library/rules-engine/core")
 
+include(":rules-engine-parser-jackson")
+project(":rules-engine-parser-jackson").projectDir = file("./library/rules-engine/parser/jackson")
+
 include(":rules-engine-feel")
 project(":rules-engine-feel").projectDir = file("./library/rules-engine/feel")
 
@@ -113,7 +116,6 @@ project(":rules-engine-feel-functions").projectDir = file("./library/rules-engin
 
 include(":rules-engine-path")
 project(":rules-engine-path").projectDir = file("./library/rules-engine/path")
-
 
 include(":rules-engine-executor")
 project(":rules-engine-executor").projectDir = file("./library/rules-engine/executor")

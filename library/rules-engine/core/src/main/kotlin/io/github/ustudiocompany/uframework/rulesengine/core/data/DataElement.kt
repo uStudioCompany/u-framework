@@ -13,7 +13,16 @@ public sealed interface DataElement {
     }
 
     public data class Bool(val get: Boolean) : DataElement {
+
         override fun toJson(): String = get.toString()
+
+        public companion object {
+            public val asTrue: Bool = Bool(true)
+            public val asFalse: Bool = Bool(false)
+
+            @JvmStatic
+            public fun valueOf(value: Boolean): Bool = if (value) asTrue else asFalse
+        }
     }
 
     public data class Text(val get: String) : DataElement {
@@ -34,6 +43,13 @@ public sealed interface DataElement {
         private val items: MutableList<DataElement> = mutableListOf()
     ) : DataElement, MutableList<DataElement> by items {
 
+        public constructor(vararg items: DataElement) : this(
+            mutableListOf<DataElement>()
+                .apply {
+                    items.forEach { this.add(it) }
+                }
+        )
+
         override fun toJson(): String = buildString {
             append("[")
             items.forEachIndexed { index, item ->
@@ -47,6 +63,15 @@ public sealed interface DataElement {
     public data class Struct(
         private val properties: MutableMap<String, DataElement> = mutableMapOf()
     ) : DataElement, MutableMap<String, DataElement> by properties {
+
+        public constructor(vararg properties: Pair<String, DataElement>) : this(
+            mutableMapOf<String, DataElement>()
+                .apply {
+                    properties.forEach { (name, value) ->
+                        this[name] = value
+                    }
+                }
+        )
 
         override fun toJson(): String = buildString {
             append("{")

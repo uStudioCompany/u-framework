@@ -21,7 +21,7 @@ internal abstract class AbstractOperatorTest : UnitTest() {
 
     protected fun text(value: String) = DataElement.Text(value)
     protected fun decimal(value: Number) = DataElement.Decimal(BigDecimal(value.toString()))
-    protected fun bool(value: Boolean) = DataElement.Bool(value)
+    protected fun bool(value: Boolean) = DataElement.Bool.valueOf(value)
     protected fun struct(vararg properties: Pair<String, DataElement>) =
         DataElement.Struct(properties.toMap().toMutableMap())
 

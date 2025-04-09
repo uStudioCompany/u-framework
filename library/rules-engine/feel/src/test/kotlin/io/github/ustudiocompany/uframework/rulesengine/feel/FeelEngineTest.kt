@@ -130,8 +130,8 @@ internal class FeelEngineTest : UnitTest() {
                             array shouldContainExactly listOf(
                                 DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
                                 DataElement.Text(TEXT_VALUE_1),
-                                DataElement.Bool(BOOL_VALUE_TRUE),
-                                DataElement.Bool(BOOL_VALUE_FALSE),
+                                DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
                                 DataElement.Null,
                                 DataElement.Array(
                                     mutableListOf(
@@ -175,8 +175,8 @@ internal class FeelEngineTest : UnitTest() {
                                 mutableMapOf(
                                     KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
                                     KEY_B to DataElement.Text(TEXT_VALUE_1),
-                                    KEY_C to DataElement.Bool(BOOL_VALUE_TRUE),
-                                    KEY_D to DataElement.Bool(BOOL_VALUE_FALSE),
+                                    KEY_C to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                    KEY_D to DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
                                     KEY_E to DataElement.Null,
                                     KEY_F to DataElement.Array(
                                         mutableListOf(
@@ -258,8 +258,8 @@ internal class FeelEngineTest : UnitTest() {
                     "when the variables are a boolean values" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Bool(BOOL_VALUE_TRUE),
-                                Source(KEY_B) to DataElement.Bool(BOOL_VALUE_FALSE)
+                                Source(KEY_A) to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                Source(KEY_B) to DataElement.Bool.valueOf(BOOL_VALUE_FALSE)
                             )
                         )
                         val expression = shouldBeSuccess {

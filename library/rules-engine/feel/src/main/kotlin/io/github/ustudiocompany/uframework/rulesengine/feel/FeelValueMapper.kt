@@ -31,7 +31,7 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
 
     private fun Val.toDataElement(innerValueMapper: Function<Val, Any>): Optional<Any> =
         when (this) {
-            is ValBoolean -> Optional.of(DataElement.Bool(value()))
+            is ValBoolean -> Optional.of(DataElement.Bool.valueOf(value()))
             is ValString -> Optional.of(DataElement.Text(value()))
             is ValNumber -> Optional.of(DataElement.Decimal(java.math.BigDecimal(value().toString())))
             is ValList -> Optional.of(this.asArray(innerValueMapper))

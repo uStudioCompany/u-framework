@@ -28,8 +28,8 @@ internal class DataElementToJsonTest : UnitTest() {
         private fun testElement(): List<Pair<DataElement, String>> = listOf(
             DataElement.Null to "null",
             DataElement.Text("test") to "\"test\"",
-            DataElement.Bool(true) to "true",
-            DataElement.Bool(false) to "false",
+            DataElement.Bool.valueOf(true) to "true",
+            DataElement.Bool.valueOf(false) to "false",
             DataElement.Decimal(BigDecimal("1.0")) to "1.0",
             emptyArray(),
             arrayWithSimpleElements(),
@@ -44,8 +44,8 @@ internal class DataElementToJsonTest : UnitTest() {
             mutableListOf(
                 DataElement.Null,
                 DataElement.Text("test"),
-                DataElement.Bool(true),
-                DataElement.Bool(false),
+                DataElement.Bool.valueOf(true),
+                DataElement.Bool.valueOf(false),
                 DataElement.Decimal(BigDecimal("1.0"))
             )
         ) to "[null, \"test\", true, false, 1.0]"
@@ -66,8 +66,8 @@ internal class DataElementToJsonTest : UnitTest() {
             mutableMapOf(
                 "a" to DataElement.Null,
                 "b" to DataElement.Text("test"),
-                "c" to DataElement.Bool(true),
-                "d" to DataElement.Bool(false),
+                "c" to DataElement.Bool.valueOf(true),
+                "d" to DataElement.Bool.valueOf(false),
                 "e" to DataElement.Decimal(BigDecimal("1.0")),
                 "f" to DataElement.Array(
                     mutableListOf(
@@ -83,8 +83,8 @@ internal class DataElementToJsonTest : UnitTest() {
                 "a" to DataElement.Struct(
                     mutableMapOf(
                         "b" to DataElement.Text("test"),
-                        "c" to DataElement.Bool(true),
-                        "d" to DataElement.Bool(false),
+                        "c" to DataElement.Bool.valueOf(true),
+                        "d" to DataElement.Bool.valueOf(false),
                     )
                 ),
                 "e" to DataElement.Struct(

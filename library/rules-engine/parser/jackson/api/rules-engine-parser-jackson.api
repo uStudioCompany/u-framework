@@ -1,0 +1,4 @@
+public final class io/github/ustudiocompany/uframework/rulesengine/parser/DataElementModule : com/fasterxml/jackson/databind/module/SimpleModule {
+	public fun <init> ()V
+}
+
