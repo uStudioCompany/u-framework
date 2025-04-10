@@ -401,13 +401,14 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ope
 	public fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Boolean;
 	public synthetic fun compute (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Ljava/lang/Object;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public final fun getKey ()Ljava/lang/String;
+	public static final fun orNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
 	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators$Companion {
-	public final fun of (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/BooleanOperators;
+	public final fun orNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/operation/operator/Operator {

@@ -17,6 +17,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.Operator
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
@@ -37,7 +38,6 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueMo
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.ConditionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.operator.OperatorModel
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.operator.Operators
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ActionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgsModel
@@ -185,22 +185,16 @@ internal class Converter(
                     .asFailure()
             }
 
-    private fun OperatorModel.convertOperator(): ResultK<BooleanOperators, Errors.Conversion> =
-        Operators.orNull(this)
-            ?.let { operator ->
-                when (operator) {
-                    Operators.CONTAINS -> BooleanOperators.CONTAINS
-                    Operators.EQ -> BooleanOperators.EQ
-                    Operators.IN -> BooleanOperators.IN
-                    Operators.IS_PRESENT -> BooleanOperators.IS_PRESENT
-                }.asSuccess()
-            }
+    private fun OperatorModel.convertOperator(): ResultK<Operator<Boolean>, Errors.Conversion> {
+        return BooleanOperators.orNull(this)
+            ?.asSuccess()
             ?: run {
-                val expectedActions = Operators.entries
+                val expectedActions = BooleanOperators.entries
                     .joinToString(prefix = "[", separator = ", ", postfix = "]") { action -> action.key }
                 Errors.Conversion("Unrecognized operator. Expected one of: $expectedActions, but was: '$this'")
                     .asFailure()
             }
+    }
 
     private fun ValueModel.convert(): ResultK<Value, Errors.Conversion> = result {
         val value = this@convert
