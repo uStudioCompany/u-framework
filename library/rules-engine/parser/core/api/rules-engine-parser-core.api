@@ -1,0 +1,14 @@
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/parser/RulesParser {
+	public abstract fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract class io/github/ustudiocompany/uframework/rulesengine/parser/RulesParser$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/parser/RulesParser$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/parser/RulesParser$Errors {
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+}
+

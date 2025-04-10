@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.parser
+package io.github.ustudiocompany.uframework.rulesengine.parser.module
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
@@ -6,9 +6,10 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.rulesengine.parser.ParsingException
 import java.util.*
 
-public class DataElementModule : SimpleModule() {
+internal class DataElementModule : SimpleModule() {
 
     init {
         addDeserializer(DataElement::class.java, Deserializer())
@@ -130,8 +131,6 @@ public class DataElementModule : SimpleModule() {
         } catch (expected: Exception) {
             throw ParsingException("Invalid number value: $this", expected)
         }
-
-        class ParsingException(message: String, cause: Exception? = null) : RuntimeException(message, cause)
 
         private sealed class DeserializerContext {
 

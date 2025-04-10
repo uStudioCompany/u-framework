@@ -105,6 +105,9 @@ project(":event-sourcing-store-library").projectDir = file("./library/eventsourc
 include(":rules-engine-core")
 project(":rules-engine-core").projectDir = file("./library/rules-engine/core")
 
+include(":rules-engine-parser-core")
+project(":rules-engine-parser-core").projectDir = file("./library/rules-engine/parser/core")
+
 include(":rules-engine-parser-jackson")
 project(":rules-engine-parser-jackson").projectDir = file("./library/rules-engine/parser/jackson")
 
