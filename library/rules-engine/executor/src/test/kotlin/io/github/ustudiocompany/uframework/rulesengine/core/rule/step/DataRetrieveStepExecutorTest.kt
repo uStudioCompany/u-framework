@@ -13,8 +13,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Uri
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -41,9 +39,9 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            result = Step.Result(
+                            result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
+                                action = StepResult.Action.PUT
                             )
                         )
 
@@ -69,9 +67,9 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            result = Step.Result(
+                            result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = Step.Result.Action.MERGE
+                                action = StepResult.Action.MERGE
                             )
                         )
 
@@ -99,9 +97,9 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                 fact = DataElement.Text(ID_PARAM_VALUE)
                             )
                         ),
-                        result = Step.Result(
+                        result = StepResult(
                             source = RESULT_SOURCE,
-                            action = Step.Result.Action.PUT
+                            action = StepResult.Action.PUT
                         )
                     )
 
@@ -137,9 +135,9 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     fact = DataElement.Text(ID_PARAM_VALUE)
                                 )
                             ),
-                            result = Step.Result(
+                            result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
+                                action = StepResult.Action.PUT
                             )
                         )
 
@@ -168,9 +166,9 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             condition = condition,
                             uri = Uri,
                             args = Args(),
-                            result = Step.Result(
+                            result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = Step.Result.Action.PUT
+                                action = StepResult.Action.PUT
                             )
                         )
 

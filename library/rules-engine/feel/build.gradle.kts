@@ -16,7 +16,7 @@ dependencies {
     implementation(project(":failure-library"))
 
     /* Libs */
-    implementation(libs.feel.engine)
+    api(libs.feel.engine)
     implementation(libs.airflux.commons.types) {
         isChanging = true
     }

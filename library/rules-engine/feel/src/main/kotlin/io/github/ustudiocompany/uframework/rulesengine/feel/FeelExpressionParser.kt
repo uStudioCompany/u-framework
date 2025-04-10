@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.rulesengine.feel
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
@@ -12,18 +11,22 @@ import org.camunda.feel.api.FeelEngineApi
 import org.camunda.feel.api.FeelEngineBuilder
 import org.camunda.feel.syntaxtree.ParsedExpression
 
-public class FeelEngine(configuration: FeelEngineConfiguration) {
+public fun feelExpressionParser(configuration: FeelExpressionParserConfiguration): ExpressionParser =
+    FeelExpressionParser(configuration)
+
+private class FeelExpressionParser(configuration: FeelExpressionParserConfiguration) : ExpressionParser {
     private val engine: FeelEngineApi = FeelEngineBuilder.forJava()
         .withFunctionProvider(configuration.functionProvider)
         .withCustomValueMapper(FeelValueMapper())
         .build()
 
-    public fun parse(expression: String): ResultK<FeelExpression, Errors> {
+    override fun parse(expression: String): ResultK<FeelExpression, ExpressionParser.Errors> {
         val result = engine.parseExpression(expression)
         return if (result.isSuccess)
             FeelExpressionInstance(text = expression, parsedExpression = result.parsedExpression()).asSuccess()
         else
-            Errors.Parsing(expression = expression, message = result.failure().message()).asFailure()
+            ExpressionParser.Errors.Parsing(expression = expression, message = result.failure().message())
+                .asFailure()
     }
 
     private inner class FeelExpressionInstance(
@@ -63,22 +66,6 @@ public class FeelEngine(configuration: FeelEngineConfiguration) {
                     failures = failures.tail()
                 }
             }
-        }
-    }
-
-    public sealed class Errors : Failure {
-
-        public class Parsing(public val expression: String, message: String) : Errors() {
-            override val code: String = PREFIX + "1"
-            override val description: String = "The error of parsing expression: '$expression'. $message"
-            override val details: Failure.Details = Failure.Details.of(
-                DETAILS_KEY_PATH to expression
-            )
-        }
-
-        private companion object {
-            private const val PREFIX = "FEEL-ENGINE-"
-            private const val DETAILS_KEY_PATH = "feel-expression"
         }
     }
 }

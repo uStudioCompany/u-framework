@@ -8,16 +8,16 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class PathEngineTest : UnitTest() {
+internal class DefaultPathParserTest : UnitTest() {
 
     init {
 
-        "The `PathEngine` type" - {
+        "The `DefaultPathParser` type" - {
 
             "the `parse` function" - {
 
                 "when path is valid" - {
-                    val path = PATH_ENGINE.parse(VALID_PATH)
+                    val path = PATH_PARSER.parse(VALID_PATH)
 
                     "then the parsing should be a success" {
                         path.shouldBeSuccess()
@@ -25,11 +25,11 @@ internal class PathEngineTest : UnitTest() {
                 }
 
                 "when path is invalid" - {
-                    val path = PATH_ENGINE.parse(INVALID_PATH)
+                    val path = PATH_PARSER.parse(INVALID_PATH)
 
                     "then the parsing should be a failure" {
                         path.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<PathEngine.Errors.Parsing>()
+                            .shouldBeInstanceOf<PathParser.Errors.Parsing>()
                     }
                 }
             }
@@ -37,7 +37,7 @@ internal class PathEngineTest : UnitTest() {
     }
 
     private companion object {
-        private val PATH_ENGINE = defaultPathEngine(ObjectMapper())
+        private val PATH_PARSER = defaultPathParser(ObjectMapper())
         private const val VALID_PATH = "$.id"
         private const val INVALID_PATH = "[[]"
     }

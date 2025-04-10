@@ -12,26 +12,26 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 
 internal fun Context.update(
     source: Source,
-    action: Step.Result.Action,
+    action: StepResult.Action,
     value: DataElement,
     merge: (dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
 ): Maybe<UpdateContextErrors> =
     when (action) {
-        Step.Result.Action.PUT -> tryAdd(source = source, value = value)
+        StepResult.Action.PUT -> tryAdd(source = source, value = value)
             .map { failure ->
                 UpdateContextErrors.AddingData(source = source, cause = failure)
             }
 
-        Step.Result.Action.REPLACE -> tryReplace(source = source, value = value)
+        StepResult.Action.REPLACE -> tryReplace(source = source, value = value)
             .map { failure ->
                 UpdateContextErrors.ReplacingData(source = source, cause = failure)
             }
 
-        Step.Result.Action.MERGE -> tryMerge(source = source, value = value, merge = merge)
+        StepResult.Action.MERGE -> tryMerge(source = source, value = value, merge = merge)
             .map { failure ->
                 UpdateContextErrors.MergingData(source = source, cause = failure)
             }

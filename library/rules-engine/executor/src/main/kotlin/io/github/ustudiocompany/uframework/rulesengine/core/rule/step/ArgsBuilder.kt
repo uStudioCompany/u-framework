@@ -8,8 +8,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Arg
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.call.Args
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 
 internal fun Args.build(context: Context): ResultK<List<DataProvider.Arg>, DataProviderArgsErrors> = result {

@@ -1,12 +1,11 @@
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration;)V
-	public final fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser {
+	public abstract fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors : io/github/ustudiocompany/uframework/failure/Failure {
+public abstract class io/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser$Errors : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngine$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser$Errors {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
@@ -14,9 +13,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngi
 	public final fun getExpression ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelEngineConfiguration {
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelExpressionParserConfiguration {
 	public fun <init> (Ljava/lang/Iterable;)V
 	public final fun getFunctionProvider ()Lorg/camunda/feel/context/FunctionProvider;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelExpressionParserConfigurationKt {
+	public static final fun feelExpressionParserConfiguration (Ljava/lang/Iterable;)Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelExpressionParserConfiguration;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/FeelExpressionParserKt {
+	public static final fun feelExpressionParser (Lio/github/ustudiocompany/uframework/rulesengine/feel/FeelExpressionParserConfiguration;)Lio/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {

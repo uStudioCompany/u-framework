@@ -15,25 +15,24 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import java.math.BigDecimal
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class FeelEngineTest : UnitTest() {
-    private val engine = FeelEngine(FeelEngineConfiguration(functionRegistry = emptyList()))
+internal class FeelExpressionParserTest : UnitTest() {
 
     init {
 
-        "The `FeelEngine` type" - {
+        "The `FeelExpressionParser` type" - {
 
-            "when the engine parses the valid expression" - {
+            "when parsing a valid expression" - {
 
                 "when the expression does not contain variables" - {
                     val context = Context.empty()
 
                     "when the expression is the bool" - {
                         val expression = shouldBeSuccess {
-                            engine.parse("2 > 1")
+                            parser.parse("2 > 1")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value by Decimal format" {
+                        "then should be returned a value by Decimal format" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Bool>()
                             value.get shouldBe true
@@ -44,11 +43,11 @@ internal class FeelEngineTest : UnitTest() {
 
                         "when the expression is a simple text" - {
                             val expression = shouldBeSuccess {
-                                engine.parse(""""$TEXT_VALUE_1" + " " + "$TEXT_VALUE_2"""")
+                                parser.parse(""""$TEXT_VALUE_1" + " " + "$TEXT_VALUE_2"""")
                             }
                             val result = expression.evaluate(context)
 
-                            "then the engine should return an value as Text type" {
+                            "then should be returned a value as Text type" {
                                 val value = result.shouldContainSuccessInstance()
                                     .shouldBeInstanceOf<DataElement.Text>()
                                 value.get shouldBe "$TEXT_VALUE_1 $TEXT_VALUE_2"
@@ -60,11 +59,11 @@ internal class FeelEngineTest : UnitTest() {
 
                         "when the result is a number" - {
                             val expression = shouldBeSuccess {
-                                engine.parse("$NUMBER_VALUE_1 + $NUMBER_VALUE_2")
+                                parser.parse("$NUMBER_VALUE_1 + $NUMBER_VALUE_2")
                             }
                             val result = expression.evaluate(context)
 
-                            "then the engine should return an value as Decimal type" {
+                            "then should be returned a value as Decimal type" {
                                 val value = result.shouldContainSuccessInstance()
                                     .shouldBeInstanceOf<DataElement.Decimal>()
                                 value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
@@ -73,11 +72,11 @@ internal class FeelEngineTest : UnitTest() {
 
                         "when the result is a struct" - {
                             val expression = shouldBeSuccess {
-                                engine.parse("""{ "$KEY_A": $NUMBER_VALUE_1 + $NUMBER_VALUE_2 }""")
+                                parser.parse("""{ "$KEY_A": $NUMBER_VALUE_1 + $NUMBER_VALUE_2 }""")
                             }
                             val result = expression.evaluate(context)
 
-                            "then the engine should return an value as Struct type" {
+                            "then should be returned a value as Struct type" {
                                 val struct = result.shouldContainSuccessInstance()
                                     .shouldBeInstanceOf<DataElement.Struct>()
                                 val value = struct[KEY_A].shouldBeInstanceOf<DataElement.Decimal>()
@@ -87,11 +86,11 @@ internal class FeelEngineTest : UnitTest() {
 
                         "when the result is an array" - {
                             val expression = shouldBeSuccess {
-                                engine.parse("""[$NUMBER_VALUE_1 + $NUMBER_VALUE_2]""")
+                                parser.parse("""[$NUMBER_VALUE_1 + $NUMBER_VALUE_2]""")
                             }
                             val result = expression.evaluate(context)
 
-                            "then the engine should return an value as Array type" {
+                            "then should be returned a value as Array type" {
                                 val array = result.shouldContainSuccessInstance()
                                     .shouldBeInstanceOf<DataElement.Array>()
                                 array.size shouldBe 1
@@ -103,7 +102,7 @@ internal class FeelEngineTest : UnitTest() {
 
                     "when the expression contains an array" - {
                         val expression = shouldBeSuccess {
-                            engine.parse(
+                            parser.parse(
                                 """
                                     | [
                                     |   $NUMBER_VALUE_1,
@@ -124,7 +123,7 @@ internal class FeelEngineTest : UnitTest() {
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Array type" {
+                        "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Array>()
                             array shouldContainExactly listOf(
@@ -150,7 +149,7 @@ internal class FeelEngineTest : UnitTest() {
 
                     "when the expression contains a structure" - {
                         val expression = shouldBeSuccess {
-                            engine.parse(
+                            parser.parse(
                                 """
                                     | {
                                     |   "$KEY_A": $NUMBER_VALUE_1,
@@ -168,7 +167,7 @@ internal class FeelEngineTest : UnitTest() {
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Struct type" {
+                        "then should be returned a value as Struct type" {
                             val struct = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Struct>()
                             struct shouldBe DataElement.Struct(
@@ -198,11 +197,11 @@ internal class FeelEngineTest : UnitTest() {
 
                     "when the expression is mixed" - {
                         val expression = shouldBeSuccess {
-                            engine.parse("[{a: 1}, {b: 2}].a")
+                            parser.parse("[{a: 1}, {b: 2}].a")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Array type" {
+                        "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Array>()
                             array shouldContainExactly listOf(
@@ -214,11 +213,11 @@ internal class FeelEngineTest : UnitTest() {
 
                     "when the expression contains an unknown function" - {
                         val expression = shouldBeSuccess {
-                            engine.parse("1 + abc()")
+                            parser.parse("1 + abc()")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return a evaluation error" {
+                        "then should be returned the evaluation error" {
                             result.shouldContainFailureInstance()
                                 .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                         }
@@ -226,11 +225,11 @@ internal class FeelEngineTest : UnitTest() {
 
                     "when the expression contains an assert" - {
                         val expression = shouldBeSuccess {
-                            engine.parse("assert(a, a != null)")
+                            parser.parse("assert(a, a != null)")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return a evaluation error" {
+                        "then should be returned the evaluation error" {
                             result.shouldContainFailureInstance()
                                 .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                         }
@@ -242,13 +241,13 @@ internal class FeelEngineTest : UnitTest() {
                     "when the variable is a null value" - {
                         val context = Context(mapOf(Source(KEY_A) to DataElement.Null))
                         val expression = shouldBeSuccess {
-                            engine.parse(
+                            parser.parse(
                                 """ if $KEY_A = null then $BOOL_VALUE_TRUE else $BOOL_VALUE_FALSE """
                             )
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Bool type" {
+                        "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Bool>()
                             value.get shouldBe BOOL_VALUE_TRUE
@@ -263,11 +262,11 @@ internal class FeelEngineTest : UnitTest() {
                             )
                         )
                         val expression = shouldBeSuccess {
-                            engine.parse("$KEY_A and $KEY_B")
+                            parser.parse("$KEY_A and $KEY_B")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Bool type" {
+                        "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Bool>()
                             value.get shouldBe false
@@ -282,11 +281,11 @@ internal class FeelEngineTest : UnitTest() {
                             )
                         )
                         val expression = shouldBeSuccess {
-                            engine.parse("""$KEY_A + " " + $KEY_B""")
+                            parser.parse("""$KEY_A + " " + $KEY_B""")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Text type" {
+                        "then should be returned a value as Text type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Text>()
                             value.get shouldBe "$TEXT_VALUE_1 $TEXT_VALUE_2"
@@ -305,11 +304,11 @@ internal class FeelEngineTest : UnitTest() {
                             )
                         )
                         val expression = shouldBeSuccess {
-                            engine.parse("$KEY_A + $KEY_B")
+                            parser.parse("$KEY_A + $KEY_B")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Decimal type" {
+                        "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
@@ -328,11 +327,11 @@ internal class FeelEngineTest : UnitTest() {
                             )
                         )
                         val expression = shouldBeSuccess {
-                            engine.parse("""sum($KEY_A)""")
+                            parser.parse("""sum($KEY_A)""")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Decimal type" {
+                        "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
@@ -351,11 +350,11 @@ internal class FeelEngineTest : UnitTest() {
                             )
                         )
                         val expression = shouldBeSuccess {
-                            engine.parse("""$KEY_A.$KEY_B + $KEY_C.$KEY_D""")
+                            parser.parse("""$KEY_A.$KEY_B + $KEY_C.$KEY_D""")
                         }
                         val result = expression.evaluate(context)
 
-                        "then the engine should return an value as Decimal type" {
+                        "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
@@ -364,12 +363,12 @@ internal class FeelEngineTest : UnitTest() {
                 }
             }
 
-            "when the engine parse the invalid expression" - {
-                val result = engine.parse("1 ++ 1")
+            "when parsing an invalid expression" - {
+                val result = parser.parse("1 ++ 1")
 
-                "then the engine should return a parsing error" {
+                "then should be returned the parsing error" {
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<FeelEngine.Errors.Parsing>()
+                        .shouldBeInstanceOf<ExpressionParser.Errors.Parsing>()
                 }
             }
         }
@@ -394,5 +393,7 @@ internal class FeelEngineTest : UnitTest() {
         private const val KEY_F = "Ff"
         private const val KEY_G = "Gg"
         private const val KEY_H = "Hh"
+
+        private val parser = feelExpressionParser(feelExpressionParserConfiguration(customFunctions = emptyList()))
     }
 }

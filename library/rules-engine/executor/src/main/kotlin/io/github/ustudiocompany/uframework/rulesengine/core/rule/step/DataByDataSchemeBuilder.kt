@@ -13,7 +13,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
 
 internal fun DataScheme.build(context: Context): ResultK<DataElement, DataBuildErrors> =
     when (this) {
