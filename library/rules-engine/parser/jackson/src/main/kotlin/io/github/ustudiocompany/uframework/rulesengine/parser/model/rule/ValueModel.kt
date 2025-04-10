@@ -17,15 +17,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 internal sealed interface ValueModel {
 
     data class Literal(
-        @JsonProperty("fact") public val fact: FactModel
+        @JsonProperty("fact") val fact: FactModel
     ) : ValueModel
 
     data class Reference(
-        @JsonProperty("source") public val source: SourceModel,
-        @JsonProperty("path") public val path: PathModel
+        @JsonProperty("source") val source: SourceModel,
+        @JsonProperty("path") val path: PathModel
     ) : ValueModel
 
     data class Expression(
-        @JsonProperty("expression") public val expression: FeelExpressionModel
+        @JsonProperty("expression") val expression: FeelExpressionModel
     ) : ValueModel
 }
