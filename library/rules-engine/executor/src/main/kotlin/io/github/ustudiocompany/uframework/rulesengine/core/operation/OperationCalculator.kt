@@ -12,13 +12,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Opera
 
 internal fun <T> Operation<T>.calculate(context: Context): ResultK<T, CalculateOperationErrors> = result {
     val (target) = target.computeOrNull(context)
-        .mapFailure { failure ->
-            CalculateOperationErrors.ComputingTarget(cause = failure)
-        }
-    val (value) = value.computeOrNull(context)
-        .mapFailure { failure ->
-            CalculateOperationErrors.ComputingValue(cause = failure)
-        }
+        .mapFailure { failure -> CalculateOperationErrors.ComputingTarget(cause = failure) }
+    val value = value?.computeOrNull(context)
+        ?.mapFailure { failure -> CalculateOperationErrors.ComputingValue(cause = failure) }
+        ?.bind()
     operator.compute(target = target, value = value)
 }
 

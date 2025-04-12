@@ -72,7 +72,7 @@ internal class Converter(
         Predicate(
             target = target.convert().bind(),
             operator = operator.convertOperator().bind(),
-            value = value.convert().bind()
+            value = value?.convert()?.bind()
         )
     }
 
@@ -87,7 +87,7 @@ internal class Converter(
                 condition = step.condition?.convertCondition()?.bind(),
                 target = step.target.convert().bind(),
                 operator = step.operator.convertOperator().bind(),
-                value = step.value.convert().bind(),
+                value = step.value?.convert()?.bind(),
                 errorCode = ValidationStep.ErrorCode(step.errorCode),
             )
 

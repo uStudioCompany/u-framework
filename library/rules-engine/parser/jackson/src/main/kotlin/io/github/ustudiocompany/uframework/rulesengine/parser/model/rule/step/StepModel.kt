@@ -26,7 +26,7 @@ internal sealed interface StepModel {
         @JsonProperty("condition") val condition: ConditionModel?,
         @JsonProperty("target") val target: ValueModel,
         @JsonProperty("operator") val operator: OperatorModel,
-        @JsonProperty("value") val value: ValueModel,
+        @JsonProperty("value") val value: ValueModel?,
         @JsonProperty("errorCode") val errorCode: ErrorCode
     ) : StepModel
 
