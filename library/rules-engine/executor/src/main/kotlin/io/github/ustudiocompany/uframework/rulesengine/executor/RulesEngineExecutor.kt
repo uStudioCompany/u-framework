@@ -28,7 +28,7 @@ public class RulesEngineExecutor(
     public fun execute(context: Context, rules: Rules): ExecutionResult = rules.execute(context)
 
     private fun Rules.execute(context: Context): ExecutionResult {
-        for (rule in this) {
+        for (rule in this.get) {
             val result = rule.executeIfSatisfied(context)
             if (result.isFailure() || result.value != null) return result
         }
