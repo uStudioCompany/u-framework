@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.condition
 
 @JvmInline
-public value class Condition private constructor(private val get: List<Predicate>) : List<Predicate> by get {
+public value class Condition private constructor(public val predicates: List<Predicate>) {
 
     public companion object {
         public val NONE: Condition = Condition(emptyList())

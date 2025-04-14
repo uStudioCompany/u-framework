@@ -12,10 +12,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateO
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 
 internal fun Condition.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
-    if (this.isEmpty())
+    if (predicates.isEmpty())
         Success.asTrue
     else {
-        val isAllSatisfied = all { predicate ->
+        val isAllSatisfied = predicates.all { predicate ->
             predicate.isSatisfied(context)
                 .getOrForward {
                     return CheckingConditionSatisfactionErrors(it.cause).asFailure()
