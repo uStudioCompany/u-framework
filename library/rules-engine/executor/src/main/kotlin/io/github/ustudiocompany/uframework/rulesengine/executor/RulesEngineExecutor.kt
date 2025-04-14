@@ -46,7 +46,7 @@ public class RulesEngineExecutor(
             )
 
     private fun Steps.execute(context: Context): ExecutionResult {
-        for (step in this) {
+        for (step in get) {
             val result = when (step) {
                 is DataRetrieveStep -> step.execute(context)
                 is DataBuildStep -> step.execute(context)
