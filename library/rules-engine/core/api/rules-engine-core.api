@@ -364,7 +364,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Args$Companion {
 	public final fun getNONE-okKJLwA ()Ljava/util/List;
 	public final fun invoke-7nTlyR0 (Ljava/util/List;)Ljava/util/List;
-	public final fun invoke-7nTlyR0 ([Lkotlin/Pair;)Ljava/util/List;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataBuildStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {

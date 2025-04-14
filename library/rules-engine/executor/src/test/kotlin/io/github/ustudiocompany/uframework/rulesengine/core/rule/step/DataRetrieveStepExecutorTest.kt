@@ -35,8 +35,13 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             condition = condition,
                             uri = Uri,
                             args = Args(
-                                ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(ID_PARAM_VALUE)
+                                listOf(
+                                    Arg(
+                                        name = ID_PARAM_NAME,
+                                        value = Value.Literal(
+                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                        )
+                                    )
                                 )
                             ),
                             result = StepResult(
@@ -63,8 +68,13 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             condition = condition,
                             uri = Uri,
                             args = Args(
-                                ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(ID_PARAM_VALUE)
+                                listOf(
+                                    Arg(
+                                        name = ID_PARAM_NAME,
+                                        value = Value.Literal(
+                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                        )
+                                    )
                                 )
                             ),
                             result = StepResult(
@@ -93,8 +103,13 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         condition = condition,
                         uri = Uri,
                         args = Args(
-                            ID_PARAM_NAME to Value.Literal(
-                                fact = DataElement.Text(ID_PARAM_VALUE)
+                            listOf(
+                                Arg(
+                                    name = ID_PARAM_NAME,
+                                    value = Value.Literal(
+                                        fact = DataElement.Text(ID_PARAM_VALUE)
+                                    )
+                                )
                             )
                         ),
                         result = StepResult(
@@ -131,8 +146,13 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             condition = condition,
                             uri = Uri,
                             args = Args(
-                                ID_PARAM_NAME to Value.Literal(
-                                    fact = DataElement.Text(ID_PARAM_VALUE)
+                                listOf(
+                                    Arg(
+                                        name = ID_PARAM_NAME,
+                                        value = Value.Literal(
+                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                        )
+                                    )
                                 )
                             ),
                             result = StepResult(
@@ -165,7 +185,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         val step = DataRetrieveStep(
                             condition = condition,
                             uri = Uri,
-                            args = Args(),
+                            args = Args.NONE,
                             result = StepResult(
                                 source = RESULT_SOURCE,
                                 action = StepResult.Action.PUT
