@@ -14,7 +14,7 @@ internal fun Args.build(context: Context): ResultK<List<DataProvider.Arg>, DataP
     val args = this@build
     mutableListOf<DataProvider.Arg>()
         .apply {
-            args.forEach { arg ->
+            args.get.forEach { arg ->
                 val (value) = arg.value.compute(context)
                     .mapFailure { failure ->
                         DataProviderArgsErrors.ArgValueBuild(arg = arg, cause = failure)
