@@ -23,7 +23,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
         "The data step executor" - {
 
             "when condition is missing" - {
-                val condition: Condition? = null
+                val condition: Condition = Condition.NONE
 
                 "then the executor should perform the step" - {
                     val context = Context.empty()
@@ -117,7 +117,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun createStep(condition: Condition?) =
+        private fun createStep(condition: Condition) =
             DataBuildStep(
                 condition = condition,
                 dataSchema = DataSchema.Struct(

@@ -117,7 +117,7 @@ internal class DataRetrieveStepDeserializationTest : FreeSpec() {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<StepModel.DataRetrieve>()
                     value shouldBe StepModel.DataRetrieve(
-                        condition = null,
+                        condition = emptyList(),
                         uri = URI,
                         args = listOf(
                             ArgModel(

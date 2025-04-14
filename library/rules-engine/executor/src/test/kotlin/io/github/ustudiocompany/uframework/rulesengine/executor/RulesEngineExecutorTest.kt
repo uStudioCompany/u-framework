@@ -11,6 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
@@ -34,11 +35,11 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
-                            condition = null,
+                            condition = Condition.NONE,
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
-                                        condition = null,
+                                        condition = Condition.NONE,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         value = Value.Literal(fact = DataElement.Text("test")),
                                         operator = EQ,
@@ -64,11 +65,11 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
-                            condition = null,
+                            condition = Condition.NONE,
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
-                                        condition = null,
+                                        condition = Condition.NONE,
                                         target = Value.Literal(fact = DataElement.Text("test")),
                                         value = Value.Literal(fact = DataElement.Text("test2")),
                                         operator = EQ,

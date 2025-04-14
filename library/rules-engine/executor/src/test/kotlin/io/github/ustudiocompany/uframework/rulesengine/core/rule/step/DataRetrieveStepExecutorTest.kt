@@ -26,7 +26,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
         "The data retrieve step executor" - {
 
             "when condition is missing" - {
-                val condition: Condition? = null
+                val condition: Condition = Condition.NONE
 
                 "when execution of the step is fail" - {
 

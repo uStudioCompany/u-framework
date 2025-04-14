@@ -23,7 +23,7 @@ internal typealias ErrorCode = String
 internal sealed interface StepModel {
 
     data class Validation(
-        @JsonProperty("condition") val condition: ConditionModel?,
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("target") val target: ValueModel,
         @JsonProperty("operator") val operator: OperatorModel,
         @JsonProperty("value") val value: ValueModel?,
@@ -31,14 +31,14 @@ internal sealed interface StepModel {
     ) : StepModel
 
     data class DataRetrieve(
-        @JsonProperty("condition") val condition: ConditionModel?,
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("uri") val uri: UriModel,
         @JsonProperty("args") val args: ArgsModel,
         @JsonProperty("result") val result: Result
     ) : StepModel
 
     data class DataBuild(
-        @JsonProperty("condition") val condition: ConditionModel?,
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("dataSchema") val dataSchema: DataSchemaModel,
         @JsonProperty("result") val result: Result
     ) : StepModel

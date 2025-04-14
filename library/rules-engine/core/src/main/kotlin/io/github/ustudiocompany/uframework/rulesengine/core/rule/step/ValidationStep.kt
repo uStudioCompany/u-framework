@@ -6,7 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Opera
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.Operator
 
 public data class ValidationStep(
-    public override val condition: Condition?,
+    public override val condition: Condition,
     override val target: Value,
     override val operator: Operator<Boolean>,
     override val value: Value?,

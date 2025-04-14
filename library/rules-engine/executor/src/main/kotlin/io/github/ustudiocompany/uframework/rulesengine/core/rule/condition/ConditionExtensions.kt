@@ -11,18 +11,18 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateOperationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 
-internal fun Condition?.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
-    if (this != null) isSatisfied(context) else Success.asTrue
-
-private fun Condition.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> {
-    val isAllSatisfied = all { predicate ->
-        predicate.isSatisfied(context)
-            .getOrForward {
-                return CheckingConditionSatisfactionErrors(it.cause).asFailure()
-            }
+internal fun Condition.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
+    if (this.isEmpty())
+        Success.asTrue
+    else {
+        val isAllSatisfied = all { predicate ->
+            predicate.isSatisfied(context)
+                .getOrForward {
+                    return CheckingConditionSatisfactionErrors(it.cause).asFailure()
+                }
+        }
+        if (isAllSatisfied) Success.asTrue else Success.asFalse
     }
-    return if (isAllSatisfied) Success.asTrue else Success.asFalse
-}
 
 internal class CheckingConditionSatisfactionErrors(cause: CheckingPredicateSatisfactionErrors) : BasicRulesEngineError {
     override val code: String = PREFIX + "1"

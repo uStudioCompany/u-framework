@@ -103,7 +103,7 @@ internal class ValidationStepDeserializationTest : FreeSpec() {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<StepModel.Validation>()
                     value shouldBe StepModel.Validation(
-                        condition = null,
+                        condition = emptyList(),
                         target = ValueModel.Reference(source = SOURCE_INPUT, path = PATH_INPUT),
                         operator = OPERATOR_IN,
                         value = ValueModel.Reference(source = SOURCE_VARS, path = PATH_VARS),

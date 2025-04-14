@@ -59,7 +59,7 @@ internal class Converter(
 
     private fun RuleModel.convert(): ResultK<Rule, Errors.Conversion> = result {
         Rule(
-            condition = condition?.convertCondition()?.bind(),
+            condition = condition.convertCondition().bind(),
             steps = steps.convertSteps().bind()
         )
     }
@@ -84,7 +84,7 @@ internal class Converter(
         val step = this@convertStep
         when (step) {
             is StepModel.Validation -> ValidationStep(
-                condition = step.condition?.convertCondition()?.bind(),
+                condition = step.condition.convertCondition().bind(),
                 target = step.target.convert().bind(),
                 operator = step.operator.convertOperator().bind(),
                 value = step.value?.convert()?.bind(),
@@ -92,14 +92,14 @@ internal class Converter(
             )
 
             is StepModel.DataRetrieve -> DataRetrieveStep(
-                condition = step.condition?.convertCondition()?.bind(),
+                condition = step.condition.convertCondition().bind(),
                 uri = Uri(step.uri),
                 args = step.args.convertArgs().bind(),
                 result = step.result.convert().bind()
             )
 
             is StepModel.DataBuild -> DataBuildStep(
-                condition = step.condition?.convertCondition()?.bind(),
+                condition = step.condition.convertCondition().bind(),
                 dataSchema = step.dataSchema.convert().bind(),
                 result = step.result.convert().bind()
             )

@@ -21,7 +21,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
         "The validation step executor" - {
 
             "when condition is missing" - {
-                val condition: Condition? = null
+                val condition: Condition = Condition.NONE
 
                 "when execution of the step is successful" - {
                     val step = successfulStep(condition)
@@ -113,7 +113,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun successfulStep(condition: Condition?) =
+        private fun successfulStep(condition: Condition) =
             ValidationStep(
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
@@ -122,7 +122,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                 errorCode = ERROR_CODE
             )
 
-        private fun failStep(condition: Condition?) =
+        private fun failStep(condition: Condition) =
             ValidationStep(
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),

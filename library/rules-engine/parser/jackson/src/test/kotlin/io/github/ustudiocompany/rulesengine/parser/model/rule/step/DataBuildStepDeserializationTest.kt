@@ -124,7 +124,7 @@ internal class DataBuildStepDeserializationTest : FreeSpec() {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<StepModel.DataBuild>()
                     value shouldBe StepModel.DataBuild(
-                        condition = null,
+                        condition = emptyList(),
                         dataSchema = DataSchemaModel.Struct(
                             properties = listOf(
                                 DataSchemaModel.StructProperty.Element(
