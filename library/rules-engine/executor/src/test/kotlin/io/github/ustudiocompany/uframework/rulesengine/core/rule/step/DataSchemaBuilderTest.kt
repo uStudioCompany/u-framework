@@ -14,28 +14,28 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class DataSchemeBuilderTest : UnitTest() {
+internal class DataSchemaBuilderTest : UnitTest() {
 
     init {
 
-        "The extension function 'build' tor the `DataScheme` type" - {
+        "The extension function 'build' tor the `DataSchema` type" - {
 
             "when the data schema describes a structure" - {
 
                 "when the structure is empty" - {
-                    val dataScheme = DataScheme.Struct(properties = emptyList())
+                    val dataSchema = DataSchema.Struct(properties = emptyList())
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(properties = mutableMapOf())
                     }
                 }
 
                 "when the structure contains a single element" - {
-                    val dataScheme = DataScheme.Struct(
+                    val dataSchema = DataSchema.Struct(
                         properties = listOf(
-                            DataScheme.Property.Element(
+                            DataSchema.Property.Element(
                                 name = DATA_KEY_1,
                                 value = Value.Literal(fact = DataElement.Text(DATA_VALUE_1))
                             )
@@ -43,7 +43,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
                             properties = mutableMapOf(
@@ -54,15 +54,15 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 }
 
                 "when the structure contains an array" - {
-                    val dataScheme = DataScheme.Struct(
+                    val dataSchema = DataSchema.Struct(
                         properties = listOf(
-                            DataScheme.Property.Array(
+                            DataSchema.Property.Array(
                                 name = DATA_KEY_1,
                                 items = mutableListOf(
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
                                     ),
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
                                     )
                                 )
@@ -71,7 +71,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
                             properties = mutableMapOf(
@@ -87,12 +87,12 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 }
 
                 "when the structure contains a nested structure" - {
-                    val dataScheme = DataScheme.Struct(
+                    val dataSchema = DataSchema.Struct(
                         properties = listOf(
-                            DataScheme.Property.Struct(
+                            DataSchema.Property.Struct(
                                 name = DATA_KEY_1,
                                 properties = mutableListOf(
-                                    DataScheme.Property.Element(
+                                    DataSchema.Property.Element(
                                         name = DATA_KEY_2,
                                         value = Value.Literal(fact = DataElement.Text(DATA_VALUE_2))
                                     )
@@ -102,7 +102,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
                             properties = mutableMapOf(
@@ -120,29 +120,29 @@ internal class DataSchemeBuilderTest : UnitTest() {
             "when the data schema describes an array" - {
 
                 "when the array is empty" - {
-                    val dataScheme = DataScheme.Array(items = emptyList())
+                    val dataSchema = DataSchema.Array(items = emptyList())
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(mutableListOf())
                     }
                 }
 
                 "when the array contains an elements of a primitive type" - {
-                    val dataScheme = DataScheme.Array(
+                    val dataSchema = DataSchema.Array(
                         items = mutableListOf(
-                            DataScheme.Item.Element(
+                            DataSchema.Item.Element(
                                 Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
                             ),
-                            DataScheme.Item.Element(
+                            DataSchema.Item.Element(
                                 Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
                             )
                         )
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
                             mutableListOf(
@@ -154,19 +154,19 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 }
 
                 "when the array contains a structure" - {
-                    val dataScheme = DataScheme.Array(
+                    val dataSchema = DataSchema.Array(
                         items = mutableListOf(
-                            DataScheme.Item.Struct(
+                            DataSchema.Item.Struct(
                                 properties = mutableListOf(
-                                    DataScheme.Property.Element(
+                                    DataSchema.Property.Element(
                                         name = DATA_KEY_1,
                                         value = Value.Literal(fact = DataElement.Text(DATA_VALUE_1))
                                     )
                                 )
                             ),
-                            DataScheme.Item.Struct(
+                            DataSchema.Item.Struct(
                                 properties = mutableListOf(
-                                    DataScheme.Property.Element(
+                                    DataSchema.Property.Element(
                                         name = DATA_KEY_2,
                                         value = Value.Literal(fact = DataElement.Text(DATA_VALUE_2))
                                     )
@@ -176,7 +176,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
                             mutableListOf(
@@ -196,24 +196,24 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 }
 
                 "when the array contains an array" - {
-                    val dataScheme = DataScheme.Array(
+                    val dataSchema = DataSchema.Array(
                         items = mutableListOf(
-                            DataScheme.Item.Array(
+                            DataSchema.Item.Array(
                                 items = mutableListOf(
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
                                     ),
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
                                     )
                                 )
                             ),
-                            DataScheme.Item.Array(
+                            DataSchema.Item.Array(
                                 items = mutableListOf(
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_3))
                                     ),
-                                    DataScheme.Item.Element(
+                                    DataSchema.Item.Element(
                                         value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_4))
                                     )
                                 )
@@ -222,7 +222,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataScheme.build(CONTEXT)
+                        val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
                             mutableListOf(
@@ -245,9 +245,9 @@ internal class DataSchemeBuilderTest : UnitTest() {
             }
 
             "when occurs an error" - {
-                val dataScheme = DataScheme.Struct(
+                val dataSchema = DataSchema.Struct(
                     properties = listOf(
-                        DataScheme.Property.Element(
+                        DataSchema.Property.Element(
                             name = DATA_KEY_1,
                             value = Value.Expression(EXPRESSION)
                         )
@@ -255,7 +255,7 @@ internal class DataSchemeBuilderTest : UnitTest() {
                 )
 
                 "then the builder should return a failure" {
-                    val result = dataScheme.build(Context.Companion.empty())
+                    val result = dataSchema.build(Context.Companion.empty())
                     result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<DataBuildErrors>()
                 }

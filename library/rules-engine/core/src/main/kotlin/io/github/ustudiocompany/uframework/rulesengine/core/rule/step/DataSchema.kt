@@ -2,11 +2,11 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 
-public sealed interface DataScheme {
+public sealed interface DataSchema {
 
-    public data class Struct(val properties: List<Property>) : DataScheme
+    public data class Struct(val properties: List<Property>) : DataSchema
 
-    public data class Array(val items: List<Item>) : DataScheme
+    public data class Array(val items: List<Item>) : DataSchema
 
     public sealed interface Property {
         public data class Struct(val name: String, val properties: List<Property>) : Property

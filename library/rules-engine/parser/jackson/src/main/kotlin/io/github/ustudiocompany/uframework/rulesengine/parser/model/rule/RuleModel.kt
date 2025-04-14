@@ -5,6 +5,6 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.conditi
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
 
 internal data class RuleModel(
-    @JsonProperty("condition") val condition: ConditionModel?,
+    @JsonProperty("condition") val condition: ConditionModel? = null,
     @JsonProperty("steps") val steps: StepsModel
 )

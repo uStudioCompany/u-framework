@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.rulesengine.parser
+package io.github.ustudiocompany.rulesengine.parser.module
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {"type": "string"},
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": {"$ref": "#/$defs/Condition"},
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "anyOf": [
+                {"$ref": "#/$defs/DataRetrieveStep"},
+                {"$ref": "#/$defs/ValidationStep"},
+                {"$ref": "#/$defs/DataBuildStep"}
+              ]
+            }
+          }
+        },
+        "required": ["steps"]
+      }
+    }
+  },
+  "required": ["version", "rules"],
+  "$defs": {
+    "Value": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "kind": {"enum": ["reference"]},
+            "source": {
+              "description": "Джерело, з якого треба взяти значення",
+              "type": "string"
+            },
+            "path": {
+              "description": "Шлях до атрибуту у джерелі",
+              "type": "string"
+            }
+          },
+          "required": ["kind", "source", "path"]
+        },
+        {
+          "properties": {
+            "kind": {"enum": ["fact"]},
+            "fact": {
+              "description": "Статичне значення",
+              "type": ["string", "number", "boolean", "array"]
+            }
+          },
+          "required": ["kind", "fact"]
+        },
+        {
+          "properties": {
+            "kind": {"enum": ["expression"]},
+            "expression": {
+              "description": "Вираз, що повертає значення",
+              "type": "string"
+            }
+          },
+          "required": ["kind", "expression"]
+        }
+      ]
+    },
+    "Operator": {"type": "string"},
+    "Condition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target": {"$ref": "#/$defs/Value"},
+          "operator": {"$ref": "#/$defs/Operator"},
+          "value": {"$ref": "#/$defs/Value"}
+        },
+        "required": ["target", "operator"]
+      }
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "action": {
+          "type": "string",
+          "enum": ["put", "replace", "merge"]
+        }
+      },
+      "required": ["source", "action"]
+    },
+    "DataSchemaElement": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "type": {"enum": ["struct"]},
+            "properties": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "name": {"type": "string"}
+                    },
+                    "required": ["name"]
+                  },
+                  {"$ref": "#/$defs/DataSchemaElement"}
+                ]
+              }
+            }
+          },
+          "required": ["type", "properties"]
+        },
+        {
+          "properties": {
+            "type": {"enum": ["array"]},
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/DataSchemaElement"}
+            }
+          },
+          "required": ["type", "items"]
+        },
+        {
+          "properties": {
+            "type": {"enum": ["value"]},
+            "value": {"$ref": "#/$defs/Value"}
+          },
+          "required": ["type", "value"]
+        }
+      ]
+    },
+    "DataRetrieveStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["dataRetrieve"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "uri": {"type": "string"},
+        "args": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "value": {"$ref": "#/$defs/Value"}
+            },
+            "required": ["name", "value"]
+          }
+        },
+        "result": {"$ref": "#/$defs/Result"}
+      },
+      "required": ["type", "uri", "result"]
+    },
+    "ValidationStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["validation"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "target": {"$ref": "#/$defs/Value"},
+        "operator": {"$ref": "#/$defs/Operator"},
+        "value": {"$ref": "#/$defs/Value"},
+        "errorCode": {
+          "description": "Код помилки, якщо умова не виконана",
+          "type": "string"
+        }
+      },
+      "required": ["type", "target", "operator", "errorCode"]
+    },
+    "DataBuildStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["dataBuild"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "dataSchema": {
+          "type": "object",
+          "properties": {
+            "type": {"enum": ["struct"]},
+            "properties": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "allOf": [
+                  {
+                    "properties": {
+                      "name": {"type": "string"}
+                    },
+                    "required": ["name"]
+                  },
+                  {"$ref": "#/$defs/DataSchemaElement"}
+                ]
+              }
+            }
+          },
+          "required": ["type", "properties"]
+        },
+        "result": {"$ref": "#/$defs/Result"}
+      },
+      "required": ["type", "dataSchema", "result"]
+    }
+  }
+}

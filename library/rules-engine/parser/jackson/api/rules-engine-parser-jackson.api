@@ -2,3 +2,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/parser/Jackso
 	public static final fun jacksonRulesParser (Lio/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser;Lio/github/ustudiocompany/uframework/rulesengine/path/PathParser;)Lio/github/ustudiocompany/uframework/rulesengine/parser/RulesParser;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/parser/module/FactModule : com/fasterxml/jackson/databind/module/SimpleModule {
+	public fun <init> ()V
+}
+

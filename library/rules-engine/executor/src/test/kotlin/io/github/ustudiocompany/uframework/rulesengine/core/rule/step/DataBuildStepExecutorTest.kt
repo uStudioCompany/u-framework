@@ -120,9 +120,9 @@ internal class DataBuildStepExecutorTest : UnitTest() {
         private fun createStep(condition: Condition?) =
             DataBuildStep(
                 condition = condition,
-                dataScheme = DataScheme.Struct(
+                dataSchema = DataSchema.Struct(
                     properties = listOf(
-                        DataScheme.Property.Element(
+                        DataSchema.Property.Element(
                             name = ID_DATA_KEY,
                             value = Value.Literal(fact = DataElement.Text(ID_DATA_VALUE))
                         )

@@ -39,7 +39,7 @@ internal sealed interface StepModel {
 
     data class DataBuild(
         @JsonProperty("condition") val condition: ConditionModel?,
-        @JsonProperty("dataScheme") val dataScheme: DataSchemeModel,
+        @JsonProperty("dataSchema") val dataSchema: DataSchemaModel,
         @JsonProperty("result") val result: Result
     ) : StepModel
 

@@ -22,7 +22,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataScheme
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
@@ -41,11 +41,11 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.operato
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ActionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgsModel
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemeModel
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ItemsModel
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.PropertiesModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArrayItemsModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StructPropertiesModel
 import io.github.ustudiocompany.uframework.rulesengine.path.PathParser
 
 @Suppress("TooManyFunctions")
@@ -100,7 +100,7 @@ internal class Converter(
 
             is StepModel.DataBuild -> DataBuildStep(
                 condition = step.condition?.convertCondition()?.bind(),
-                dataScheme = step.dataScheme.convert().bind(),
+                dataSchema = step.dataSchema.convert().bind(),
                 result = step.result.convert().bind()
             )
         }
@@ -117,54 +117,55 @@ internal class Converter(
         )
     }
 
-    private fun DataSchemeModel.convert(): ResultK<DataScheme, Errors.Conversion> = result {
-        val scheme = this@convert
-        when (scheme) {
-            is DataSchemeModel.Struct -> DataScheme.Struct(
-                properties = scheme.properties.convertStructProperties().bind()
+    private fun DataSchemaModel.convert(): ResultK<DataSchema, Errors.Conversion> = result {
+        val schema = this@convert
+        when (schema) {
+            is DataSchemaModel.Struct -> DataSchema.Struct(
+                properties = schema.properties.convertStructProperties().bind()
             )
 
-            is DataSchemeModel.Array -> DataScheme.Array(
-                items = scheme.items.convertArrayItems().bind()
+            is DataSchemaModel.Array -> DataSchema.Array(
+                items = schema.items.convertArrayItems().bind()
             )
         }
     }
 
-    private fun PropertiesModel.convertStructProperties(): ResultK<List<DataScheme.Property>, Errors.Conversion> =
+    private fun StructPropertiesModel.convertStructProperties(): ResultK<List<DataSchema.Property>, Errors.Conversion> =
         traverse { property -> property.convertProperty() }
 
-    private fun DataSchemeModel.Property.convertProperty(): ResultK<DataScheme.Property, Errors.Conversion> = result {
-        val property = this@convertProperty
-        when (property) {
-            is DataSchemeModel.Property.Struct -> DataScheme.Property.Struct(
-                name = property.name,
-                properties = property.properties.convertStructProperties().bind()
-            )
+    private fun DataSchemaModel.StructProperty.convertProperty(): ResultK<DataSchema.Property, Errors.Conversion> =
+        result {
+            val property = this@convertProperty
+            when (property) {
+                is DataSchemaModel.StructProperty.Struct -> DataSchema.Property.Struct(
+                    name = property.name,
+                    properties = property.properties.convertStructProperties().bind()
+                )
 
-            is DataSchemeModel.Property.Array -> DataScheme.Property.Array(
-                name = property.name,
-                items = property.items.convertArrayItems().bind()
-            )
+                is DataSchemaModel.StructProperty.Array -> DataSchema.Property.Array(
+                    name = property.name,
+                    items = property.items.convertArrayItems().bind()
+                )
 
-            is DataSchemeModel.Property.Element -> DataScheme.Property.Element(
-                name = property.name,
-                value = property.value.convert().bind()
-            )
+                is DataSchemaModel.StructProperty.Element -> DataSchema.Property.Element(
+                    name = property.name,
+                    value = property.value.convert().bind()
+                )
+            }
         }
-    }
 
-    private fun ItemsModel.convertArrayItems(): ResultK<List<DataScheme.Item>, Errors.Conversion> =
+    private fun ArrayItemsModel.convertArrayItems(): ResultK<List<DataSchema.Item>, Errors.Conversion> =
         traverse { item -> item.convertItem() }
 
-    private fun DataSchemeModel.Item.convertItem(): ResultK<DataScheme.Item, Errors.Conversion> = result {
+    private fun DataSchemaModel.ArrayItem.convertItem(): ResultK<DataSchema.Item, Errors.Conversion> = result {
         val item = this@convertItem
         when (item) {
-            is DataSchemeModel.Item.Struct -> DataScheme.Item.Struct(
+            is DataSchemaModel.ArrayItem.Struct -> DataSchema.Item.Struct(
                 properties = item.properties.convertStructProperties().bind()
             )
 
-            is DataSchemeModel.Item.Array -> DataScheme.Item.Array(items = item.items.convertArrayItems().bind())
-            is DataSchemeModel.Item.Element -> DataScheme.Item.Element(value = item.value.convert().bind())
+            is DataSchemaModel.ArrayItem.Array -> DataSchema.Item.Array(items = item.items.convertArrayItems().bind())
+            is DataSchemaModel.ArrayItem.Element -> DataSchema.Item.Element(value = item.value.convert().bind())
         }
     }
 
@@ -199,7 +200,7 @@ internal class Converter(
     private fun ValueModel.convert(): ResultK<Value, Errors.Conversion> = result {
         val value = this@convert
         when (value) {
-            is ValueModel.Literal -> Value.Literal(fact)
+            is ValueModel.Literal -> Value.Literal(fact.get)
 
             is ValueModel.Reference -> Value.Reference(
                 source = source.convertSource(),
