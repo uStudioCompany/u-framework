@@ -20,17 +20,8 @@ internal class ConditionSatisfiedTest : UnitTest() {
 
         "The extension function `isSatisfied` for the `Condition` type" - {
 
-            "when the condition is null" - {
-                val condition: Condition? = null
-
-                "then the function should return the value true" {
-                    val result = condition.isSatisfied(CONTEXT)
-                    result shouldBeSuccess true
-                }
-            }
-
-            "when the condition is empty" - {
-                val condition = Condition(emptyList())
+            "when the condition is missing" - {
+                val condition = Condition.NONE
 
                 "then the function should return the value true" {
                     val result = condition.isSatisfied(CONTEXT)

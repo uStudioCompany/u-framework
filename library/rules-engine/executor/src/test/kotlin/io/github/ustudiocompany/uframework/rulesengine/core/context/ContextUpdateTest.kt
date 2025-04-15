@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -21,7 +21,7 @@ internal class ContextUpdateTest : UnitTest() {
         "The extension function `update` for `Context` type" - {
 
             "when the action is PUT" - {
-                val action = Step.Result.Action.PUT
+                val action = StepResult.Action.PUT
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -58,7 +58,7 @@ internal class ContextUpdateTest : UnitTest() {
             }
 
             "when the action is REPLACE" - {
-                val action = Step.Result.Action.REPLACE
+                val action = StepResult.Action.REPLACE
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -94,7 +94,7 @@ internal class ContextUpdateTest : UnitTest() {
             }
 
             "when the action is MERGE" - {
-                val action = Step.Result.Action.MERGE
+                val action = StepResult.Action.MERGE
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()

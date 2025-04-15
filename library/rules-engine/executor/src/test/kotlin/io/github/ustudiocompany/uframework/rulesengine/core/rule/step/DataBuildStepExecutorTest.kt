@@ -11,8 +11,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step.Result.Action
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.data.DataScheme
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -25,7 +23,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
         "The data step executor" - {
 
             "when condition is missing" - {
-                val condition: Condition? = null
+                val condition: Condition = Condition.NONE
 
                 "then the executor should perform the step" - {
                     val context = Context.empty()
@@ -119,20 +117,20 @@ internal class DataBuildStepExecutorTest : UnitTest() {
             )
         )
 
-        private fun createStep(condition: Condition?) =
+        private fun createStep(condition: Condition) =
             DataBuildStep(
                 condition = condition,
-                dataScheme = DataScheme.Struct(
+                dataSchema = DataSchema.Struct(
                     properties = listOf(
-                        DataScheme.Property.Element(
+                        DataSchema.Property.Element(
                             name = ID_DATA_KEY,
                             value = Value.Literal(fact = DataElement.Text(ID_DATA_VALUE))
                         )
                     )
                 ),
-                result = Step.Result(
+                result = StepResult(
                     source = SOURCE,
-                    action = Action.PUT
+                    action = StepResult.Action.PUT
                 )
             )
     }

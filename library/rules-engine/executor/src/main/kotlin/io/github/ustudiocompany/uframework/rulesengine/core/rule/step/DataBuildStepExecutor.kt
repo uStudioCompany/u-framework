@@ -22,7 +22,7 @@ internal fun DataBuildStep.executeIfSatisfied(context: Context, merger: Merger):
             }
 
         if (isSatisfied) {
-            val (value) = dataScheme.build(context)
+            val (value) = dataSchema.build(context)
                 .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
             val source = step.result.source
             val action = step.result.action

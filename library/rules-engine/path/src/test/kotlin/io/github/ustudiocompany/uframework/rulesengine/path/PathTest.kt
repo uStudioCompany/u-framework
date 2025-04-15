@@ -23,8 +23,8 @@ internal class PathTest : UnitTest() {
             "the `searchIn` function" - {
 
                 "when option `SUPPRESS_EXCEPTIONS` is enabled" - {
-                    val pathEngine = PathEngine(
-                        defaultPathEngineConfiguration(ObjectMapper(), Option.SUPPRESS_EXCEPTIONS)
+                    val pathEngine = defaultPathParser(
+                        defaultPathParserConfiguration(ObjectMapper(), Option.SUPPRESS_EXCEPTIONS)
                     )
 
                     "when the data contains a value by path" - {
@@ -49,7 +49,7 @@ internal class PathTest : UnitTest() {
                 }
 
                 "when option `SUPPRESS_EXCEPTIONS` is not enabled" - {
-                    val pathEngine = defaultPathEngine(ObjectMapper())
+                    val pathEngine = defaultPathParser(ObjectMapper())
 
                     "when the data contains a value by path" - {
                         val path = "$.id".parse(pathEngine)
@@ -73,7 +73,7 @@ internal class PathTest : UnitTest() {
                 }
 
                 "when occurs an error during the search" - {
-                    val pathEngine = defaultPathEngine(ObjectMapper(), Option.AS_PATH_LIST)
+                    val pathEngine = defaultPathParser(ObjectMapper(), Option.AS_PATH_LIST)
                     val path = "$.id.sum()".parse(pathEngine)
 
                     "then the function should return an error" {
@@ -93,7 +93,7 @@ internal class PathTest : UnitTest() {
             mutableMapOf(DATA_KEY_1 to DataElement.Text(DATA_VALUE_1))
         )
 
-        private fun String.parse(engine: PathEngine): Path =
-            engine.parse(this).orThrow { error(it.description) }
+        private fun String.parse(parser: PathParser): Path =
+            parser.parse(this).orThrow { error(it.description) }
     }
 }

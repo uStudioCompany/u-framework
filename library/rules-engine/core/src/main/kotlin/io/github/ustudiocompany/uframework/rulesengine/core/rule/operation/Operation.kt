@@ -6,5 +6,5 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.opera
 public interface Operation<T> {
     public val target: Value
     public val operator: Operator<T>
-    public val value: Value
+    public val value: Value?
 }

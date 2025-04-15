@@ -1,18 +1,18 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator
 
 public enum class BooleanOperators(
-    private val tag: String,
+    public val key: String,
     private val operator: Operator<Boolean>
 ) : Operator<Boolean> by operator {
-    CONTAINS(tag = "contains", operator = ContainsOperator),
-    EQ(tag = "eq", operator = EqualOperator),
-    IN(tag = "in", operator = InOperator),
-    IS_PRESENT(tag = "isPresent", operator = IsPresentOperator),
+    CONTAINS(key = "contains", operator = ContainsOperator),
+    EQ(key = "eq", operator = EqualOperator),
+    IN(key = "in", operator = InOperator),
+    IS_PRESENT(key = "isPresent", operator = IsPresentOperator),
     ;
 
     public companion object {
 
         @JvmStatic
-        public fun of(value: String): BooleanOperators = entries.first { it.tag.equals(value, true) }
+        public fun orNull(value: String): Operator<Boolean>? = entries.firstOrNull { it.key.equals(value, true) }
     }
 }
