@@ -38,11 +38,11 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueMo
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.ConditionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.operator.OperatorModel
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ActionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArrayItemsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ResultModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StructPropertiesModel
@@ -169,22 +169,39 @@ internal class Converter(
         }
     }
 
-    private fun StepModel.Result.convert(): ResultK<StepResult, Errors.Conversion> = result {
-        StepResult(
-            source = source.convertSource(),
-            action = action.convertAction().bind()
-        )
-    }
-
-    private fun ActionModel.convertAction(): ResultK<StepResult.Action, Errors.Conversion> =
-        StepResult.Action.orNull(this)
-            ?.asSuccess()
-            ?: run {
-                val expectedActions = StepResult.Action.entries
-                    .joinToString(prefix = "[", separator = ", ", postfix = "]") { action -> action.key }
-                Errors.Conversion("Invalid action type. Expected one of: $expectedActions, but was: '$this'")
-                    .asFailure()
+    private fun ResultModel.convert(): ResultK<StepResult, Errors.Conversion> = result {
+        val result = this@convert
+        when (result) {
+            is ResultModel.Put -> {
+                val source = result.source.convertSource()
+                val action = StepResult.Action.Put
+                StepResult(
+                    source = source,
+                    action = action
+                )
             }
+
+            is ResultModel.Replace -> {
+                val source = result.source.convertSource()
+                val action = StepResult.Action.Replace
+                StepResult(
+                    source = source,
+                    action = action
+                )
+            }
+
+            is ResultModel.Merge -> {
+                val source = result.source.convertSource()
+                val action = StepResult.Action.Merge(
+                    strategyCode = StepResult.Action.Merge.StrategyCode(result.mergeStrategyCode)
+                )
+                StepResult(
+                    source = source,
+                    action = action
+                )
+            }
+        }
+    }
 
     private fun OperatorModel.convertOperator(): ResultK<Operator<Boolean>, Errors.Conversion> {
         return BooleanOperators.orNull(this)

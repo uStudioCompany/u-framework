@@ -14,7 +14,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.MergeStrategyCode
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -47,13 +46,12 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             ),
                             result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = StepResult.Action.PUT
+                                action = StepResult.Action.Put
                             )
                         )
 
                         "then the executor should return an error result" {
                             val result = step.executeIfSatisfied(
-                                mergeStrategyCode = MERGE_STRATEGY_CODE,
                                 context = CONTEXT,
                                 dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                                 merger = { _, origin, _ -> origin.asSuccess() }
@@ -81,12 +79,11 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             ),
                             result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = StepResult.Action.MERGE
+                                action = StepResult.Action.Merge(strategyCode = MERGE_STRATEGY_CODE)
                             )
                         )
 
                         val result = step.executeIfSatisfied(
-                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, _, _ -> Errors.TestMergerError.asFailure() }
@@ -117,12 +114,11 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         ),
                         result = StepResult(
                             source = RESULT_SOURCE,
-                            action = StepResult.Action.PUT
+                            action = StepResult.Action.Put
                         )
                     )
 
                     val result = step.executeIfSatisfied(
-                        mergeStrategyCode = MERGE_STRATEGY_CODE,
                         context = context,
                         dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, origin, _ -> origin.asSuccess() }
@@ -161,12 +157,11 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             ),
                             result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = StepResult.Action.PUT
+                                action = StepResult.Action.Put
                             )
                         )
 
                         val result = step.executeIfSatisfied(
-                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, origin, _ -> origin.asSuccess() }
@@ -193,12 +188,11 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             args = Args.NONE,
                             result = StepResult(
                                 source = RESULT_SOURCE,
-                                action = StepResult.Action.PUT
+                                action = StepResult.Action.Put
                             )
                         )
 
                         val result = step.executeIfSatisfied(
-                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = CONTEXT,
                             dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
                             merger = { _, _, _ -> Errors.TestMergerError.asFailure() }
@@ -225,7 +219,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
         private val RESULT_SOURCE = Source("output")
 
         private val CALL_RESULT = DataElement.Text("data")
-        private val MERGE_STRATEGY_CODE = MergeStrategyCode("merge-strategy-code")
+        private val MERGE_STRATEGY_CODE = StepResult.Action.Merge.StrategyCode("merge-strategy-code")
 
         private fun satisfiedCondition() = Condition(
             listOf(

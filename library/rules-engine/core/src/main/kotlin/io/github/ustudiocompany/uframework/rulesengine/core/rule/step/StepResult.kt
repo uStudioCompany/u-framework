@@ -7,14 +7,11 @@ public data class StepResult(
     public val action: Action
 ) {
 
-    public enum class Action(public val key: String) {
-        PUT("put"),
-        REPLACE("replace"),
-        MERGE("merge");
-
-        public companion object {
-            public fun orNull(value: String): Action? =
-                entries.firstOrNull { it.key.equals(value, ignoreCase = true) }
+    public sealed interface Action {
+        public data object Put : Action
+        public data object Replace : Action
+        public data class Merge(public val strategyCode: StrategyCode) : Action {
+            public class StrategyCode(public val get: String)
         }
     }
 }

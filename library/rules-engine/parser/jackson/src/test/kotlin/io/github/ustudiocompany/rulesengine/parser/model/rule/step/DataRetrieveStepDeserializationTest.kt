@@ -8,6 +8,7 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactMod
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ResultModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -79,10 +80,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
                                 )
                             )
                         ),
-                        result = StepModel.Result(
-                            source = SOURCE_RESULT,
-                            action = ACTION
-                        )
+                        result = ResultModel.Put(source = SOURCE_RESULT)
                     )
                 }
             }
@@ -127,10 +125,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
                                 )
                             )
                         ),
-                        result = StepModel.Result(
-                            source = SOURCE_RESULT,
-                            action = ACTION
-                        )
+                        result = ResultModel.Put(source = SOURCE_RESULT)
                     )
                 }
             }

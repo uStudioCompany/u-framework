@@ -9,7 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.ParsingException
 import java.util.*
 
-internal class DataElementModule : SimpleModule() {
+public class DataElementModule : SimpleModule() {
 
     init {
         addDeserializer(DataElement::class.java, Deserializer())

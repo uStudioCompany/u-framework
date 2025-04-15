@@ -517,19 +517,37 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action : java/lang/Enum {
-	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Companion;
-	public static final field MERGE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
-	public static final field PUT Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
-	public static final field REPLACE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public final fun getKey ()Ljava/lang/String;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
-	public static fun values ()[Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Companion {
-	public final fun orNull (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action;
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getStrategyCode ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getGet ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Put : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Put;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Replace : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Replace;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Steps {

@@ -51,7 +51,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(MERGE_STRATEGY_CODE, context, rules)
+                val result = executor.execute(context, rules)
                 result.shouldBeSuccess()
                 result.value shouldBe null
             }
@@ -81,7 +81,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(MERGE_STRATEGY_CODE, context, rules)
+                val result = executor.execute(context, rules)
                 val error = result.shouldContainSuccessInstance()
                     .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                 error.get shouldBe "err-1"
@@ -91,7 +91,6 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
     private companion object {
         private val DATA_RETRIEVE_RESULT = DataElement.Text("data")
-        private val MERGE_STRATEGY_CODE = MergeStrategyCode("merge-strategy-code")
     }
 
     private sealed interface Errors : Failure {

@@ -25,32 +25,32 @@ public class RulesEngineExecutor(
     private val merger: Merger
 ) {
 
-    public fun execute(mergeStrategyCode: MergeStrategyCode, context: Context, rules: Rules): ExecutionResult =
-        rules.execute(mergeStrategyCode, context)
+    public fun execute(context: Context, rules: Rules): ExecutionResult =
+        rules.execute(context)
 
-    private fun Rules.execute(mergeStrategyCode: MergeStrategyCode, context: Context): ExecutionResult {
+    private fun Rules.execute(context: Context): ExecutionResult {
         for (rule in this.get) {
-            val result = rule.executeIfSatisfied(mergeStrategyCode, context)
+            val result = rule.executeIfSatisfied(context)
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
 
-    private fun Rule.executeIfSatisfied(mergeStrategyCode: MergeStrategyCode, context: Context): ExecutionResult =
+    private fun Rule.executeIfSatisfied(context: Context): ExecutionResult =
         condition.isSatisfied(context)
             .mapFailure { failure ->
                 RulesEngineExecutorError.CheckingConditionSatisfactionRule(failure)
             }
             .flatMapBoolean(
-                ifTrue = { this.steps.execute(mergeStrategyCode, context) },
+                ifTrue = { this.steps.execute(context) },
                 ifFalse = { Success.asNull }
             )
 
-    private fun Steps.execute(mergeStrategyCode: MergeStrategyCode, context: Context): ExecutionResult {
+    private fun Steps.execute(context: Context): ExecutionResult {
         for (step in get) {
             val result = when (step) {
-                is DataRetrieveStep -> step.execute(mergeStrategyCode, context)
-                is DataBuildStep -> step.execute(mergeStrategyCode, context)
+                is DataRetrieveStep -> step.execute(context)
+                is DataBuildStep -> step.execute(context)
                 is ValidationStep -> step.execute(context)
             }
 
@@ -59,13 +59,13 @@ public class RulesEngineExecutor(
         return Success.asNull
     }
 
-    private fun DataRetrieveStep.execute(mergeStrategyCode: MergeStrategyCode, context: Context): ExecutionResult =
-        executeIfSatisfied(mergeStrategyCode, context, dataProvider, merger)
+    private fun DataRetrieveStep.execute(context: Context): ExecutionResult =
+        executeIfSatisfied(context, dataProvider, merger)
             .map { failure -> RulesEngineExecutorError.DataRetrievingStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun DataBuildStep.execute(mergeStrategyCode: MergeStrategyCode, context: Context): ExecutionResult =
-        executeIfSatisfied(mergeStrategyCode, context, merger)
+    private fun DataBuildStep.execute(context: Context): ExecutionResult =
+        executeIfSatisfied(context, merger)
             .map { failure -> RulesEngineExecutorError.DataBuildStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 

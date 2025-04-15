@@ -18,23 +18,27 @@ internal fun Context.update(
     source: Source,
     action: StepResult.Action,
     value: DataElement,
-    merge: (dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
+    merge: (StepResult.Action.Merge.StrategyCode, dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
 ): Maybe<UpdateContextErrors> =
     when (action) {
-        StepResult.Action.PUT -> tryAdd(source = source, value = value)
+        is StepResult.Action.Put -> tryAdd(source = source, value = value)
             .map { failure ->
                 UpdateContextErrors.AddingData(source = source, cause = failure)
             }
 
-        StepResult.Action.REPLACE -> tryReplace(source = source, value = value)
+        is StepResult.Action.Replace -> tryReplace(source = source, value = value)
             .map { failure ->
                 UpdateContextErrors.ReplacingData(source = source, cause = failure)
             }
 
-        StepResult.Action.MERGE -> tryMerge(source = source, value = value, merge = merge)
-            .map { failure ->
-                UpdateContextErrors.MergingData(source = source, cause = failure)
-            }
+        is StepResult.Action.Merge -> tryMerge(
+            source = source,
+            value = value,
+            strategyCode = action.strategyCode,
+            merge = merge
+        ).map { failure ->
+            UpdateContextErrors.MergingData(source = source, cause = failure)
+        }
     }
 
 internal sealed interface UpdateContextErrors : BasicRulesEngineError {
@@ -142,12 +146,13 @@ internal sealed interface ReplaceDataInContextErrors : BasicRulesEngineError {
 internal fun Context.tryMerge(
     source: Source,
     value: DataElement,
-    merge: (dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
+    strategyCode: StepResult.Action.Merge.StrategyCode,
+    merge: (StepResult.Action.Merge.StrategyCode, dst: DataElement, src: DataElement) -> ResultK<DataElement, Failure>
 ): Maybe<MergeDataInContextErrors> =
     maybeFailure {
         val (origin) = tryGet(source = source)
             .mapFailure { failure -> MergeDataInContextErrors.GettingDataFromContext(source = source, cause = failure) }
-        val (updated) = merge(origin, value)
+        val (updated) = merge(strategyCode, origin, value)
             .mapFailure { failure -> MergeDataInContextErrors.MergingData(cause = failure) }
         tryReplace(source = source, value = updated)
             .map { failure -> MergeDataInContextErrors.ReplacingDataInContext(source = source, cause = failure) }

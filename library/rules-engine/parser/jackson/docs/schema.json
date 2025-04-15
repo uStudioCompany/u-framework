@@ -5,14 +5,12 @@
     "version": {"type": "string"},
     "rules": {
       "type": "array",
-      "minItems": 1,
       "items": {
         "type": "object",
         "properties": {
           "condition": {"$ref": "#/$defs/Condition"},
           "steps": {
             "type": "array",
-            "minItems": 1,
             "items": {
               "anyOf": [
                 {"$ref": "#/$defs/DataRetrieveStep"},
@@ -82,14 +80,30 @@
     },
     "Result": {
       "type": "object",
-      "properties": {
-        "source": {"type": "string"},
-        "action": {
-          "type": "string",
-          "enum": ["put", "replace", "merge"]
+      "anyOf": [
+        {
+          "properties": {
+            "source": {"type": "string"},
+            "action": {"enum": ["put"]}
+          },
+          "required": ["source", "action"]
+        },
+        {
+          "properties": {
+            "source": {"type": "string"},
+            "action": {"enum": ["replace"]}
+          },
+          "required": ["source", "action"]
+        },
+        {
+          "properties": {
+            "source": {"type": "string"},
+            "action": {"enum": ["merge"]},
+            "mergeStrategyCode": {"type": "string"}
+          },
+          "required": ["source", "action", "mergeStrategyCode"]
         }
-      },
-      "required": ["source", "action"]
+      ]
     },
     "DataSchemaElement": {
       "type": "object",
@@ -99,7 +113,6 @@
             "type": {"enum": ["struct"]},
             "properties": {
               "type": "array",
-              "minItems": 1,
               "items": {
                 "allOf": [
                   {
@@ -120,7 +133,6 @@
             "type": {"enum": ["array"]},
             "items": {
               "type": "array",
-              "minItems": 1,
               "items": {"$ref": "#/$defs/DataSchemaElement"}
             }
           },
@@ -143,7 +155,6 @@
         "uri": {"type": "string"},
         "args": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "properties": {
@@ -183,7 +194,6 @@
             "type": {"enum": ["struct"]},
             "properties": {
               "type": "array",
-              "minItems": 1,
               "items": {
                 "allOf": [
                   {

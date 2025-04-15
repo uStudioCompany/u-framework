@@ -12,11 +12,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
-import io.github.ustudiocompany.uframework.rulesengine.executor.MergeStrategyCode
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
 internal fun DataRetrieveStep.executeIfSatisfied(
-    mergeStrategyCode: MergeStrategyCode,
     context: Context,
     dataProvider: DataProvider,
     merger: Merger
@@ -36,8 +34,8 @@ internal fun DataRetrieveStep.executeIfSatisfied(
                 .mapFailure { failure -> DataRetrieveStepExecuteErrors.RetrievingExternalData(failure) }
             val source = step.result.source
             val action = step.result.action
-            context.update(source, action, value) { dst, src ->
-                merger.merge(mergeStrategyCode, dst, src)
+            context.update(source, action, value) { code, dst, src ->
+                merger.merge(code, dst, src)
             }.map { failure ->
                 DataRetrieveStepExecuteErrors.UpdatingContext(failure)
             }

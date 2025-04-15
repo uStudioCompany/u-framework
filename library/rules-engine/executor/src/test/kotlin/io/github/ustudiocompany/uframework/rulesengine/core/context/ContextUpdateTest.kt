@@ -21,7 +21,7 @@ internal class ContextUpdateTest : UnitTest() {
         "The extension function `update` for `Context` type" - {
 
             "when the action is PUT" - {
-                val action = StepResult.Action.PUT
+                val action = StepResult.Action.Put
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -31,7 +31,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _ -> Errors.TestMergerError.asFailure() }
+                        merge = { _, _, _ -> Errors.TestMergerError.asFailure() }
                     )
 
                     "then call the function should be successful" {
@@ -47,7 +47,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _ -> Errors.TestMergerError.asFailure() }
+                        merge = { _, _, _ -> Errors.TestMergerError.asFailure() }
                     )
 
                     "then call the function should be failed" {
@@ -58,7 +58,7 @@ internal class ContextUpdateTest : UnitTest() {
             }
 
             "when the action is REPLACE" - {
-                val action = StepResult.Action.REPLACE
+                val action = StepResult.Action.Replace
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -94,7 +94,7 @@ internal class ContextUpdateTest : UnitTest() {
             }
 
             "when the action is MERGE" - {
-                val action = StepResult.Action.MERGE
+                val action = StepResult.Action.Merge(strategyCode = MERGE_STRATEGY_CODE)
 
                 "when the context is not contain the source" - {
                     val context = Context.empty()
@@ -134,7 +134,7 @@ internal class ContextUpdateTest : UnitTest() {
                         val context = Context(mapOf(SOURCE to DataElement.Text(ORIGIN_VALUE)))
 
                         val newValue = DataElement.Text(NEW_VALUE)
-                        val result = context.update(source = SOURCE, action = action, value = newValue) { _, _ ->
+                        val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->
                             Errors.TestMergerError.asFailure()
                         }
 
@@ -152,7 +152,8 @@ internal class ContextUpdateTest : UnitTest() {
         private val SOURCE = Source("source")
         private const val ORIGIN_VALUE = "value-1"
         private const val NEW_VALUE = "value-2"
-        private val MERGER = { o: DataElement, n: DataElement ->
+        private val MERGE_STRATEGY_CODE = StepResult.Action.Merge.StrategyCode("merge-strategy-code")
+        private val MERGER = { c: StepResult.Action.Merge.StrategyCode, o: DataElement, n: DataElement ->
             DataElement.Text((o as DataElement.Text).get + (n as DataElement.Text).get)
                 .asSuccess()
         }

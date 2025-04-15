@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.SourceModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.ConditionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.operator.OperatorModel
@@ -34,17 +33,12 @@ internal sealed interface StepModel {
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("uri") val uri: UriModel,
         @JsonProperty("args") val args: ArgsModel,
-        @JsonProperty("result") val result: Result
+        @JsonProperty("result") val result: ResultModel
     ) : StepModel
 
     data class DataBuild(
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("dataSchema") val dataSchema: DataSchemaModel,
-        @JsonProperty("result") val result: Result
+        @JsonProperty("result") val result: ResultModel
     ) : StepModel
-
-    data class Result(
-        @JsonProperty("source") val source: SourceModel,
-        @JsonProperty("action") val action: ActionModel
-    )
 }
