@@ -8,12 +8,12 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactMod
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
-import io.kotest.core.spec.style.FreeSpec
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class ValidationStepDeserializationTest : FreeSpec() {
+internal class ValidationStepDeserializationTest : UnitTest() {
 
     init {
 
