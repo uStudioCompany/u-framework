@@ -14,6 +14,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.MergeStrategyCode
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -52,9 +53,10 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             val result = step.executeIfSatisfied(
+                                mergeStrategyCode = MERGE_STRATEGY_CODE,
                                 context = CONTEXT,
                                 dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
-                                merger = { origin, _ -> origin.asSuccess() }
+                                merger = { _, origin, _ -> origin.asSuccess() }
                             )
                             result.shouldContainSomeInstance()
                                 //TODO add other error
@@ -84,9 +86,10 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                            merger = { _, _ -> Errors.TestMergerError.asFailure() }
+                            merger = { _, _, _ -> Errors.TestMergerError.asFailure() }
                         )
 
                         "then the executor should return an error result" {
@@ -119,9 +122,10 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     )
 
                     val result = step.executeIfSatisfied(
+                        mergeStrategyCode = MERGE_STRATEGY_CODE,
                         context = context,
                         dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                        merger = { origin, _ -> origin.asSuccess() }
+                        merger = { _, origin, _ -> origin.asSuccess() }
                     )
 
                     "then the executor should return a success result" {
@@ -162,9 +166,10 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                            merger = { origin, _ -> origin.asSuccess() }
+                            merger = { _, origin, _ -> origin.asSuccess() }
                         )
 
                         "then the executor should return a success result" {
@@ -193,9 +198,10 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            mergeStrategyCode = MERGE_STRATEGY_CODE,
                             context = CONTEXT,
                             dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
-                            merger = { _, _ -> Errors.TestMergerError.asFailure() }
+                            merger = { _, _, _ -> Errors.TestMergerError.asFailure() }
                         )
                         result.shouldBeNone()
                     }
@@ -219,6 +225,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
         private val RESULT_SOURCE = Source("output")
 
         private val CALL_RESULT = DataElement.Text("data")
+        private val MERGE_STRATEGY_CODE = MergeStrategyCode("merge-strategy-code")
 
         private fun satisfiedCondition() = Condition(
             listOf(

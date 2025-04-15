@@ -54,13 +54,27 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Data
 	public final fun from-n2y1qp0 (Ljava/lang/String;)Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/MergeStrategyCode {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/MergeStrategyCode;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
-	public abstract fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun merge-_EhWR_k (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
-	public final fun execute-D_v1WV8 (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun execute-ydtF6EY (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
