@@ -8,12 +8,12 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserialize
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
-import io.kotest.core.spec.style.FreeSpec
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class ConditionModelDeserializationTest : FreeSpec() {
+internal class ConditionModelDeserializationTest : UnitTest() {
 
     init {
 

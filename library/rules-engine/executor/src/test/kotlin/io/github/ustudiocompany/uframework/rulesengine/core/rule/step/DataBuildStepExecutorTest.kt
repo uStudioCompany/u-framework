@@ -11,6 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.executor.MergeStrategyCode
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -28,7 +29,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                 "then the executor should perform the step" - {
                     val context = Context.empty()
                     val step = createStep(condition)
-                    val result = step.executeIfSatisfied(context, TestMerger())
+                    val result = step.executeIfSatisfied(MERGE_STRATEGY_CODE, context, TestMerger())
 
                     "then the executor should return a success result" {
                         result.shouldBeNone()
@@ -49,7 +50,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     "then the executor should perform the step" - {
                         val context = Context.empty()
                         val step = createStep(condition)
-                        val result = step.executeIfSatisfied(context, TestMerger())
+                        val result = step.executeIfSatisfied(MERGE_STRATEGY_CODE, context, TestMerger())
 
                         "then the executor should return a success result" {
                             result.shouldBeNone()
@@ -68,7 +69,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     "then the executor should not perform the step" - {
                         val context = Context.empty()
                         val step = createStep(condition)
-                        val result = step.executeIfSatisfied(context, TestMerger())
+                        val result = step.executeIfSatisfied(MERGE_STRATEGY_CODE, context, TestMerger())
 
                         "then the executor should return a success result" {
                             result.shouldBeNone()
@@ -89,6 +90,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
         private const val ID_DATA_KEY = "id"
         private const val ID_DATA_VALUE = "0000-0000-0000-0000"
 
+        private val MERGE_STRATEGY_CODE = MergeStrategyCode("merge-strategy-code")
         private val SOURCE = Source("output")
 
         private val EXPECTED_DATA = DataElement.Struct(
@@ -136,7 +138,11 @@ internal class DataBuildStepExecutorTest : UnitTest() {
     }
 
     private class TestMerger : Merger {
-        override fun merge(dst: DataElement, src: DataElement): ResultK<DataElement, Failure> {
+        override fun merge(
+            mergeStrategyCode: MergeStrategyCode,
+            dst: DataElement,
+            src: DataElement
+        ): ResultK<DataElement, Failure> {
             error("Not implemented")
         }
     }

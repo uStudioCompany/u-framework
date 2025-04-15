@@ -6,12 +6,12 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
-import io.kotest.core.spec.style.FreeSpec
+import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class ValueModelDeserializationTest : FreeSpec() {
+internal class ValueModelDeserializationTest : UnitTest() {
 
     init {
 

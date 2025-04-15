@@ -27,8 +27,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
             "test1" {
                 val executor = RulesEngineExecutor(
-                    dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                    merger = { origin, _ -> origin.asSuccess() }
+                    dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val context = Context.empty()
 
@@ -51,15 +51,15 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(context, rules)
+                val result = executor.execute(MERGE_STRATEGY_CODE, context, rules)
                 result.shouldBeSuccess()
                 result.value shouldBe null
             }
 
             "test2" {
                 val executor = RulesEngineExecutor(
-                    dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                    merger = { origin, _ -> origin.asSuccess() }
+                    dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val context = Context(mapOf(Source("test") to DataElement.Text("test")))
                 val rules = Rules(
@@ -81,7 +81,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(context, rules)
+                val result = executor.execute(MERGE_STRATEGY_CODE, context, rules)
                 val error = result.shouldContainSuccessInstance()
                     .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                 error.get shouldBe "err-1"
@@ -90,7 +90,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
     }
 
     private companion object {
-        private val CALL_RESULT = DataElement.Text("data")
+        private val DATA_RETRIEVE_RESULT = DataElement.Text("data")
+        private val MERGE_STRATEGY_CODE = MergeStrategyCode("merge-strategy-code")
     }
 
     private sealed interface Errors : Failure {

@@ -11,9 +11,14 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContex
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
+import io.github.ustudiocompany.uframework.rulesengine.executor.MergeStrategyCode
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
-internal fun DataBuildStep.executeIfSatisfied(context: Context, merger: Merger): Maybe<DataBuildStepExecuteError> {
+internal fun DataBuildStep.executeIfSatisfied(
+    mergeStrategyCode: MergeStrategyCode,
+    context: Context,
+    merger: Merger
+): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
         val (isSatisfied) = condition.isSatisfied(context)
@@ -26,10 +31,11 @@ internal fun DataBuildStep.executeIfSatisfied(context: Context, merger: Merger):
                 .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
             val source = step.result.source
             val action = step.result.action
-            context.update(source, action, value, merger::merge)
-                .map { failure ->
-                    DataBuildStepExecuteError.UpdatingContext(failure)
-                }
+            context.update(source, action, value) { dst, src ->
+                merger.merge(mergeStrategyCode, dst, src)
+            }.map { failure ->
+                DataBuildStepExecuteError.UpdatingContext(failure)
+            }
         } else
             Maybe.none()
     }
