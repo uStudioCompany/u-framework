@@ -20,20 +20,15 @@ internal fun DataBuildStep.executeIfSatisfied(
     val step = this
     return maybeFailure {
         val (isSatisfied) = condition.isSatisfied(context)
-            .mapFailure { failure ->
-                DataBuildStepExecuteError.CheckingConditionSatisfaction(failure)
-            }
+            .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
 
         if (isSatisfied) {
             val (value) = dataSchema.build(context)
                 .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
             val source = step.result.source
             val action = step.result.action
-            context.update(source, action, value) { code, dst, src ->
-                merger.merge(code, dst, src)
-            }.map { failure ->
-                DataBuildStepExecuteError.UpdatingContext(failure)
-            }
+            context.update(source, action, value, merger)
+                .map { failure -> DataBuildStepExecuteError.UpdatingContext(failure) }
         } else
             Maybe.none()
     }

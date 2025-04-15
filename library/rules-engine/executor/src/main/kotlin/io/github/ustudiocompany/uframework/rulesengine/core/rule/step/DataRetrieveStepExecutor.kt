@@ -22,9 +22,7 @@ internal fun DataRetrieveStep.executeIfSatisfied(
     val step = this
     return maybeFailure {
         val (isSatisfied) = condition.isSatisfied(context)
-            .mapFailure { failure ->
-                DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure)
-            }
+            .mapFailure { failure -> DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
         if (isSatisfied) {
             val (args) = args.build(context)
@@ -34,11 +32,8 @@ internal fun DataRetrieveStep.executeIfSatisfied(
                 .mapFailure { failure -> DataRetrieveStepExecuteErrors.RetrievingExternalData(failure) }
             val source = step.result.source
             val action = step.result.action
-            context.update(source, action, value) { code, dst, src ->
-                merger.merge(code, dst, src)
-            }.map { failure ->
-                DataRetrieveStepExecuteErrors.UpdatingContext(failure)
-            }
+            context.update(source, action, value, merger)
+                .map { failure -> DataRetrieveStepExecuteErrors.UpdatingContext(failure) }
         } else
             Maybe.none()
     }
