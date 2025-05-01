@@ -31,7 +31,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Merger.Errors.Merge().asFailure() }
+                        merge = { _, _, _ -> Merger.Error().asFailure() }
                     )
 
                     "then call the function should be successful" {
@@ -47,7 +47,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Merger.Errors.Merge().asFailure() }
+                        merge = { _, _, _ -> Merger.Error().asFailure() }
                     )
 
                     "then call the function should be failed" {
@@ -135,7 +135,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                         val newValue = DataElement.Text(NEW_VALUE)
                         val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->
-                            Merger.Errors.Merge().asFailure()
+                            Merger.Error().asFailure()
                         }
 
                         "then call the function should be failed" {

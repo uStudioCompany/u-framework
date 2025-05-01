@@ -12,24 +12,21 @@ public fun interface Merger {
         strategyCode: StepResult.Action.Merge.StrategyCode,
         dst: DataElement,
         src: DataElement
-    ): ResultK<DataElement, Errors.Merge>
+    ): ResultK<DataElement, Error>
 
-    public sealed interface Errors : BasicRulesEngineError {
-
-        public class Merge(
-            message: String = "",
-            exception: Throwable? = null,
-            override val details: Failure.Details = Failure.Details.NONE
-        ) : Errors {
-            override val code: String = PREFIX + "1"
-            override val description: String =
-                "The error of merging data." + if (message.isNotEmpty()) " $message" else ""
-            override val cause: Failure.Cause =
-                if (exception == null)
-                    Failure.Cause.None
-                else
-                    Failure.Cause.Exception(exception)
-        }
+    public class Error(
+        message: String = "",
+        exception: Throwable? = null,
+        override val details: Failure.Details = Failure.Details.NONE
+    ) : BasicRulesEngineError {
+        override val code: String = PREFIX + "1"
+        override val description: String =
+            "The error of merging data." + if (message.isNotEmpty()) " $message" else ""
+        override val cause: Failure.Cause =
+            if (exception == null)
+                Failure.Cause.None
+            else
+                Failure.Cause.Exception(exception)
 
         private companion object {
             private const val PREFIX = "DATA-MERGE-"

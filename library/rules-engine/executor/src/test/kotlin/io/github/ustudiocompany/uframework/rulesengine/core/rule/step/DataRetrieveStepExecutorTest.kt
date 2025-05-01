@@ -53,7 +53,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         "then the executor should return an error result" {
                             val result = step.executeIfSatisfied(
                                 context = CONTEXT,
-                                dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
+                                dataProvider = { _, _ -> DataProvider.Error().asFailure() },
                                 merger = { _, origin, _ -> origin.asSuccess() }
                             )
                             result.shouldContainSomeInstance()
@@ -86,7 +86,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         val result = step.executeIfSatisfied(
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                            merger = { _, _, _ -> Merger.Errors.Merge().asFailure() }
+                            merger = { _, _, _ -> Merger.Error().asFailure() }
                         )
 
                         "then the executor should return an error result" {
@@ -194,8 +194,8 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         val result = step.executeIfSatisfied(
                             context = CONTEXT,
-                            dataProvider = { _, _ -> DataProvider.Errors.GetData().asFailure() },
-                            merger = { _, _, _ -> Merger.Errors.Merge().asFailure() }
+                            dataProvider = { _, _ -> DataProvider.Error().asFailure() },
+                            merger = { _, _, _ -> Merger.Error().asFailure() }
                         )
                         result.shouldBeNone()
                     }

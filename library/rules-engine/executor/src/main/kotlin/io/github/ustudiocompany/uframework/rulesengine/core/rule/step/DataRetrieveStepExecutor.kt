@@ -53,7 +53,7 @@ internal sealed interface DataRetrieveStepExecuteErrors : BasicRulesEngineError 
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class RetrievingExternalData(cause: DataProvider.Errors) : DataRetrieveStepExecuteErrors {
+    class RetrievingExternalData(cause: DataProvider.Error) : DataRetrieveStepExecuteErrors {
         override val code: String = PREFIX + "3"
         override val description: String = "Error retrieving external data of 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

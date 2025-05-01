@@ -139,7 +139,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
             strategyCode: StepResult.Action.Merge.StrategyCode,
             dst: DataElement,
             src: DataElement
-        ): ResultK<DataElement, Merger.Errors.Merge> {
+        ): ResultK<DataElement, Merger.Error> {
             error("Not implemented")
         }
     }

@@ -23,10 +23,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Data
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Errors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Errors$GetData : io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Error : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -58,10 +55,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public abstract fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Error : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
