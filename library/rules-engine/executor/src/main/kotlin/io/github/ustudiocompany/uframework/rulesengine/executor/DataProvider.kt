@@ -28,7 +28,7 @@ public fun interface DataProvider {
 
         public class GetData(
             message: String = "",
-            exception: Exception? = null,
+            exception: Throwable? = null,
             override val details: Failure.Details = Failure.Details.NONE
         ) : Errors {
             override val code: String = PREFIX + "1"

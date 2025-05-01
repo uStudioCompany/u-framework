@@ -5,10 +5,10 @@ import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
+import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -31,7 +31,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Errors.TestMergerError.asFailure() }
+                        merge = { _, _, _ -> Merger.Errors.Merge().asFailure() }
                     )
 
                     "then call the function should be successful" {
@@ -47,7 +47,7 @@ internal class ContextUpdateTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Errors.TestMergerError.asFailure() }
+                        merge = { _, _, _ -> Merger.Errors.Merge().asFailure() }
                     )
 
                     "then call the function should be failed" {
@@ -135,7 +135,7 @@ internal class ContextUpdateTest : UnitTest() {
 
                         val newValue = DataElement.Text(NEW_VALUE)
                         val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->
-                            Errors.TestMergerError.asFailure()
+                            Merger.Errors.Merge().asFailure()
                         }
 
                         "then call the function should be failed" {
@@ -156,13 +156,6 @@ internal class ContextUpdateTest : UnitTest() {
         private val MERGER = { c: StepResult.Action.Merge.StrategyCode, o: DataElement, n: DataElement ->
             DataElement.Text((o as DataElement.Text).get + (n as DataElement.Text).get)
                 .asSuccess()
-        }
-    }
-
-    private sealed interface Errors : Failure {
-
-        data object TestMergerError : Errors {
-            override val code: String = "MERGER_ERROR"
         }
     }
 }

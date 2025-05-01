@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.resultk.ResultK
-import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -140,7 +139,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
             strategyCode: StepResult.Action.Merge.StrategyCode,
             dst: DataElement,
             src: DataElement
-        ): ResultK<DataElement, Failure> {
+        ): ResultK<DataElement, Merger.Errors.Merge> {
             error("Not implemented")
         }
     }

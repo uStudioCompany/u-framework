@@ -28,8 +28,8 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Errors$GetData : io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider$Errors {
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Exception;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
@@ -56,6 +56,19 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Data
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger {
 	public abstract fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/StepResult$Action$Merge$StrategyCode;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors$Merge : io/github/ustudiocompany/uframework/rulesengine/executor/Merger$Errors {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
