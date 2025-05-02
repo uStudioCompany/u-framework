@@ -26,17 +26,12 @@ public fun interface DataProvider {
 
     public class Error(
         message: String = "",
-        exception: Throwable? = null,
+        override val cause: Failure.Cause = Failure.Cause.None,
         override val details: Failure.Details = Failure.Details.NONE
     ) : BasicRulesEngineError {
         override val code: String = PREFIX + "1"
         override val description: String =
             "The error of getting data." + if (message.isNotEmpty()) " $message" else ""
-        override val cause: Failure.Cause =
-            if (exception == null)
-                Failure.Cause.None
-            else
-                Failure.Cause.Exception(exception)
 
         private companion object {
             private const val PREFIX = "DATA-PROVIDER-"
