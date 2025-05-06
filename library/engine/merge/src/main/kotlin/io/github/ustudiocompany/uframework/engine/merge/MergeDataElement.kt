@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 private typealias ID = List<DataElement>
 
 public fun DataElement.merge(src: DataElement, strategy: MergeStrategy): ResultK<DataElement?, MergeError> =
-    merge(dst = this, src = src, strategy = strategy, path = emptyList())
+    merge(dst = this, src = src, strategy = strategy, path = AttributePath.None)
 
 private fun merge(
     dst: DataElement,
@@ -116,7 +116,7 @@ private fun mergeStruct(
     dst.forEach { (key, oldValue) ->
         val newValue = src[key]
         if (newValue != null)
-            merge(dst = oldValue, src = newValue, strategy = strategy, path = path + key)
+            merge(dst = oldValue, src = newValue, strategy = strategy, path = path.append(key))
                 .getOrForward { return it }
                 ?.let { mergedValue -> properties.put(key, mergedValue) }
         else
@@ -155,7 +155,7 @@ private fun mergeByAttributes(
 
         val id: ID = attributes.map { attribute ->
             struct[attribute]
-                ?: return MergeError.Source.AttributeForMergeStrategyMissing(path + attribute).asFailure()
+                ?: return MergeError.Source.AttributeForMergeStrategyMissing(path.append(attribute)).asFailure()
         }
 
         id to struct
@@ -169,7 +169,8 @@ private fun mergeByAttributes(
 
         val id: ID = attributes.map { attribute ->
             dstValue[attribute]
-                ?: return MergeError.Destination.AttributeForMergeStrategyMissing(path + attribute).asFailure()
+                ?: return MergeError.Destination.AttributeForMergeStrategyMissing(path.append(attribute))
+                    .asFailure()
         }
 
         val srcValue = srcItems[id]
@@ -230,4 +231,4 @@ private fun DataElement.Struct.normalize(): DataElement? =
             if (properties.isNotEmpty()) DataElement.Struct(properties) else null
         }
 
-private fun DataElement.getTypeName(): String = this::class.simpleName ?: "Unknown"
+private fun DataElement.getTypeName(): String = this::class.simpleName!!

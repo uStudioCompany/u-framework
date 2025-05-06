@@ -1,0 +1,88 @@
+public final class io/github/ustudiocompany/uframework/engine/merge/AttributeName {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/engine/merge/AttributeName;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/engine/merge/AttributePath {
+	public static final field Companion Lio/github/ustudiocompany/uframework/engine/merge/AttributePath$Companion;
+	public fun append (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;
+	public fun append-Xnx77mk (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;
+	public abstract fun isEmpty ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/AttributePath$Companion {
+	public final fun invoke ([Ljava/lang/String;)Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/AttributePath$None : io/github/ustudiocompany/uframework/engine/merge/AttributePath {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/engine/merge/AttributePath$None;
+	public fun isEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeDataElementKt {
+	public static final fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/engine/merge/MergeError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/engine/merge/MergeError$Destination : io/github/ustudiocompany/uframework/engine/merge/MergeError {
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$Destination$AttributeForMergeStrategyMissing : io/github/ustudiocompany/uframework/engine/merge/MergeError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$RuleMissing : io/github/ustudiocompany/uframework/engine/merge/MergeError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/engine/merge/MergeError$Source : io/github/ustudiocompany/uframework/engine/merge/MergeError {
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$Source$AttributeForMergeStrategyMissing : io/github/ustudiocompany/uframework/engine/merge/MergeError {
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$Source$TypeMismatch : io/github/ustudiocompany/uframework/engine/merge/MergeError$Source {
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/AttributePath;Ljava/lang/String;Ljava/lang/String;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/engine/merge/MergeRule {
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeRule$MergeByAttributes : io/github/ustudiocompany/uframework/engine/merge/MergeRule {
+	public fun <init> (Ljava/util/List;)V
+	public final fun getAttributes ()Ljava/util/List;
+}
+
+public final class io/github/ustudiocompany/uframework/engine/merge/MergeRule$WholeListMerge : io/github/ustudiocompany/uframework/engine/merge/MergeRule {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/engine/merge/MergeRule$WholeListMerge;
+}
+

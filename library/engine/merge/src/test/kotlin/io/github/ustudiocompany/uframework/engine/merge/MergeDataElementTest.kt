@@ -27,10 +27,10 @@ internal class MergeDataElementTest : UnitTest() {
                 }
 
             val strategy: MergeStrategy = mapOf(
-                listOf("identifierMerge") to MergeRule.MergeByAttributes(listOf("id")),
-                listOf("identifierMerge", "subarray") to MergeRule.MergeByAttributes(listOf("id")),
-                listOf("identifierMerge", "arrayForReplace") to MergeRule.WholeListMerge,
-                listOf("roles") to MergeRule.WholeListMerge
+                AttributePath("identifierMerge") to MergeRule.MergeByAttributes(listOf("id")),
+                AttributePath("identifierMerge", "subarray") to MergeRule.MergeByAttributes(listOf("id")),
+                AttributePath("identifierMerge", "arrayForReplace") to MergeRule.WholeListMerge,
+                AttributePath("roles") to MergeRule.WholeListMerge
             )
 
             val dst = mapper.readValue(DST, DataElement::class.java)
