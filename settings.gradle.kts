@@ -122,3 +122,6 @@ project(":rules-engine-path").projectDir = file("./library/rules-engine/path")
 
 include(":rules-engine-executor")
 project(":rules-engine-executor").projectDir = file("./library/rules-engine/executor")
+
+include(":merge-engine")
+project(":merge-engine").projectDir = file("./library/engine/merge")
