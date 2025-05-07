@@ -107,7 +107,7 @@ private fun mergeStruct(
     strategy: MergeStrategy,
     path: AttributePath
 ): ResultK<DataElement?, MergeError> {
-    val properties = mutableMapOf<String, DataElement>()
+    val properties: MutableMap<String, DataElement> = LinkedHashMap()
 
     //Update
     dst.forEach { (key, oldValue) ->
@@ -123,7 +123,8 @@ private fun mergeStruct(
     //Append
     src.forEach { (key, value) ->
         if (key !in dst)
-            value.normalize()?.let { properties.put(key, it) }
+            value.normalize()
+                ?.let { properties.put(key, it) }
     }
 
     return if (properties.isNotEmpty())
@@ -133,7 +134,9 @@ private fun mergeStruct(
 }
 
 private fun wholeListMerge(src: DataElement): ResultK<DataElement?, MergeError> =
-    src.normalize()?.asSuccess() ?: ResultK.Success.asNull
+    src.normalize()
+        ?.asSuccess()
+        ?: ResultK.Success.asNull
 
 private fun mergeByAttributes(
     attributes: List<String>,
@@ -142,23 +145,13 @@ private fun mergeByAttributes(
     strategy: MergeStrategy,
     path: AttributePath
 ): ResultK<DataElement.Array, MergeError> {
-    val srcItems = src.map { item ->
-        val struct = item as? DataElement.Struct
-            ?: return MergeError.Source.TypeMismatch(path = path, expected = DataElement.Struct::class, actual = item)
-                .asFailure()
-
-        val id: ID = attributes.map { attribute ->
-            struct[attribute]
-                ?: return MergeError.Source.AttributeForMergeStrategyMissing(path.append(attribute)).asFailure()
-        }
-
-        id to struct
-    }.toMap()
+    val srcById = src.grouping(attributes, path)
+        .getOrForward { return it }
 
     val resultItems = mutableListOf<DataElement>()
 
     //Update
-    val itemIds: List<ID> = dst.map { item ->
+    val dstIds: List<ID> = dst.map { item ->
         val dstValue = item as? DataElement.Struct
             ?: return MergeError.Destination.TypeMismatch(
                 path = path,
@@ -172,7 +165,7 @@ private fun mergeByAttributes(
                     .asFailure()
         }
 
-        val srcValue = srcItems[id]
+        val srcValue = srcById[id]
         val mergedValue = if (srcValue != null)
             merge(dst = dstValue, src = srcValue, strategy = strategy, path = path)
                 .getOrForward { return it }
@@ -185,12 +178,34 @@ private fun mergeByAttributes(
     }
 
     //Append
-    srcItems.forEach { (id, struct) ->
-        if (id !in itemIds)
-            struct.normalize()?.let { resultItems.add(it) }
+    srcById.forEach { (id, struct) ->
+        if (id !in dstIds)
+            struct.normalize()
+                ?.let { resultItems.add(it) }
     }
 
     return DataElement.Array(resultItems).asSuccess()
+}
+
+private fun DataElement.Array.grouping(
+    attributes: List<String>,
+    path: AttributePath
+): ResultK<Map<ID, DataElement>, MergeError> {
+    val result: MutableMap<ID, DataElement> = LinkedHashMap()
+    this.forEach { item ->
+        val struct = item as? DataElement.Struct
+            ?: return MergeError.Source.TypeMismatch(path = path, expected = DataElement.Struct::class, actual = item)
+                .asFailure()
+
+        val id: ID = attributes.map { attribute ->
+            struct[attribute]
+                ?: return MergeError.Source.AttributeForMergeStrategyMissing(path.append(attribute))
+                    .asFailure()
+        }
+
+        result[id] = struct
+    }
+    return result.asSuccess()
 }
 
 private fun DataElement.normalize(): DataElement? {
@@ -213,12 +228,12 @@ private fun DataElement.Array.normalize(): DataElement? =
                 if (normalizedItem != null) add(normalizedItem)
             }
         }
-        .let {
-            if (it.isNotEmpty()) DataElement.Array(it) else null
+        .let { items ->
+            if (items.isNotEmpty()) DataElement.Array(items) else null
         }
 
 private fun DataElement.Struct.normalize(): DataElement? =
-    mutableMapOf<String, DataElement>()
+    LinkedHashMap<String, DataElement>()
         .apply {
             val properties = this@normalize
             properties.forEach { (key, value) ->
