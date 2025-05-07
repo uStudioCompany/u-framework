@@ -78,13 +78,7 @@ private fun mergeArray(
         is MergeRule.WholeListMerge -> wholeListMerge(src)
 
         is MergeRule.MergeByAttributes ->
-            mergeByAttributes(
-                attributes = rule.attributes,
-                dst = dst,
-                src = src,
-                strategy = strategy,
-                path = path
-            )
+            mergeByAttributes(attributes = rule.attributes, dst = dst, src = src, strategy = strategy, path = path)
     }
 }
 
