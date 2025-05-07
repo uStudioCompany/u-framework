@@ -28,7 +28,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Struct(properties = mutableMapOf())
+                        result.value shouldBe DataElement.Struct()
                     }
                 }
 
@@ -46,9 +46,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
-                            )
+                            DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
                         )
                     }
                 }
@@ -74,13 +72,9 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_1),
-                                        DataElement.Text(ARRAY_ITEM_2)
-                                    )
-                                )
+                            DATA_KEY_1 to DataElement.Array(
+                                DataElement.Text(ARRAY_ITEM_1),
+                                DataElement.Text(ARRAY_ITEM_2)
                             )
                         )
                     }
@@ -105,12 +99,8 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_2 to DataElement.Text(DATA_VALUE_2)
-                                    )
-                                )
+                            DATA_KEY_1 to DataElement.Struct(
+                                DATA_KEY_2 to DataElement.Text(DATA_VALUE_2)
                             )
                         )
                     }
@@ -125,7 +115,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Array(mutableListOf())
+                        result.value shouldBe DataElement.Array()
                     }
                 }
 
@@ -145,10 +135,8 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Text(ARRAY_ITEM_1),
-                                DataElement.Text(ARRAY_ITEM_2)
-                            )
+                            DataElement.Text(ARRAY_ITEM_1),
+                            DataElement.Text(ARRAY_ITEM_2)
                         )
                     }
                 }
@@ -179,18 +167,8 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
-                                    )
-                                ),
-                                DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_2 to DataElement.Text(DATA_VALUE_2)
-                                    )
-                                )
-                            )
+                            DataElement.Struct(DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)),
+                            DataElement.Struct(DATA_KEY_2 to DataElement.Text(DATA_VALUE_2))
                         )
                     }
                 }
@@ -225,19 +203,13 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Array(
-                                    items = mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_1),
-                                        DataElement.Text(ARRAY_ITEM_2)
-                                    )
-                                ),
-                                DataElement.Array(
-                                    items = mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_3),
-                                        DataElement.Text(ARRAY_ITEM_4)
-                                    )
-                                )
+                            DataElement.Array(
+                                DataElement.Text(ARRAY_ITEM_1),
+                                DataElement.Text(ARRAY_ITEM_2)
+                            ),
+                            DataElement.Array(
+                                DataElement.Text(ARRAY_ITEM_3),
+                                DataElement.Text(ARRAY_ITEM_4)
                             )
                         )
                     }

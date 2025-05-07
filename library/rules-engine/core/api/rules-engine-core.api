@@ -27,9 +27,7 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement, java/util/List, kotlin/jvm/internal/markers/KMutableList {
-	public fun <init> ()V
-	public fun <init> (Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> ([Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)V
 	public fun add (ILio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)V
 	public synthetic fun add (ILjava/lang/Object;)V
@@ -41,8 +39,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
 	public final fun contains (Ljava/lang/Object;)Z
 	public fun containsAll (Ljava/util/Collection;)Z
-	public final fun copy (Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun get (I)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
 	public synthetic fun get (I)Ljava/lang/Object;
@@ -70,7 +66,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toJson ()Ljava/lang/String;
-	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array$Builder {
+	public fun <init> ()V
+	public final fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array$Builder;
+	public final fun build ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Array;
+	public final fun getHasItems ()Z
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Bool : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement {
@@ -117,17 +119,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement, java/util/Map, kotlin/jvm/internal/markers/KMutableMap {
-	public fun <init> ()V
-	public fun <init> (Ljava/util/Map;)V
-	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> ([Lkotlin/Pair;)V
 	public fun clear ()V
 	public final fun containsKey (Ljava/lang/Object;)Z
 	public fun containsKey (Ljava/lang/String;)Z
 	public fun containsValue (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Z
 	public final fun containsValue (Ljava/lang/Object;)Z
-	public final fun copy (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct;Ljava/util/Map;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct;
 	public final fun entrySet ()Ljava/util/Set;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun get (Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
@@ -148,8 +146,14 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;
 	public final fun size ()I
 	public fun toJson ()Ljava/lang/String;
-	public fun toString ()Ljava/lang/String;
 	public final fun values ()Ljava/util/Collection;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct$Builder {
+	public fun <init> ()V
+	public final fun build ()Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct;
+	public final fun getHasProperties ()Z
+	public final fun set (Ljava/lang/String;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Struct$Builder;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement$Text : io/github/ustudiocompany/uframework/rulesengine/core/data/DataElement {

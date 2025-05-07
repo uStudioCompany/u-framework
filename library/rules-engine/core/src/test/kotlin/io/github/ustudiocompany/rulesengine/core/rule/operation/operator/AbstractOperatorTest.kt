@@ -23,9 +23,13 @@ internal abstract class AbstractOperatorTest : UnitTest() {
     protected fun decimal(value: Number) = DataElement.Decimal(BigDecimal(value.toString()))
     protected fun bool(value: Boolean) = DataElement.Bool.valueOf(value)
     protected fun struct(vararg properties: Pair<String, DataElement>) =
-        DataElement.Struct(properties.toMap().toMutableMap())
+        DataElement.Struct.Builder()
+            .apply { properties.forEach { (key, value) -> this[key] = value } }
+            .build()
 
-    protected fun array(vararg items: DataElement) = DataElement.Array(items.toMutableList())
+    protected fun array(vararg items: DataElement) = DataElement.Array.Builder()
+        .apply { items.forEach { this.add(it) } }
+        .build()
 
     protected data class TestData(
         val target: DataElement?,

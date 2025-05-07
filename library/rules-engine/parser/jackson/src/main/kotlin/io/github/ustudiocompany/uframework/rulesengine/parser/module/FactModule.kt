@@ -38,11 +38,11 @@ public class FactModule : SimpleModule() {
         fun deserializeArray(
             jsonParser: JsonParser,
             deserializationContext: DeserializationContext,
-            list: MutableList<DataElement> = mutableListOf()
+            builder: DataElement.Array.Builder = DataElement.Array.Builder(),
         ): FactModel {
             jsonParser.nextToken()
             val token = jsonParser.currentToken
-            if (token == JsonToken.END_ARRAY) return FactModel(DataElement.Array(list))
+            if (token == JsonToken.END_ARRAY) return FactModel(builder.build())
             val item = when (token) {
                 JsonToken.VALUE_NULL -> DataElement.Null
                 JsonToken.VALUE_STRING -> DataElement.Text(jsonParser.text)
@@ -53,7 +53,7 @@ public class FactModule : SimpleModule() {
                 else -> throw ParsingException("Incorrect value of the fact: '${jsonParser.text}'.")
             }
 
-            return deserializeArray(jsonParser, deserializationContext, list.apply { add(item) })
+            return deserializeArray(jsonParser, deserializationContext, builder.apply { add(item) })
         }
 
         override fun getNullValue(ctxt: DeserializationContext?): FactModel = FactModel(DataElement.Null)

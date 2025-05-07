@@ -133,15 +133,11 @@ internal class FeelExpressionParserTest : UnitTest() {
                                 DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
                                 DataElement.Null,
                                 DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
-                                    )
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
                                 ),
                                 DataElement.Struct(
-                                    mutableMapOf(
-                                        KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_5))
-                                    )
+                                    KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_5))
                                 )
                             )
                         }
@@ -171,24 +167,18 @@ internal class FeelExpressionParserTest : UnitTest() {
                             val struct = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<DataElement.Struct>()
                             struct shouldBe DataElement.Struct(
-                                mutableMapOf(
-                                    KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                    KEY_B to DataElement.Text(TEXT_VALUE_1),
-                                    KEY_C to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
-                                    KEY_D to DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
-                                    KEY_E to DataElement.Null,
-                                    KEY_F to DataElement.Array(
-                                        mutableListOf(
-                                            DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
-                                            DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
-                                        )
-                                    ),
-                                    KEY_G to DataElement.Struct(
-                                        mutableMapOf(
-                                            KEY_H to DataElement.Decimal(
-                                                BigDecimal.valueOf(NUMBER_VALUE_5)
-                                            )
-                                        )
+                                KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                KEY_B to DataElement.Text(TEXT_VALUE_1),
+                                KEY_C to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                KEY_D to DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
+                                KEY_E to DataElement.Null,
+                                KEY_F to DataElement.Array(
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
+                                ),
+                                KEY_G to DataElement.Struct(
+                                    KEY_H to DataElement.Decimal(
+                                        BigDecimal.valueOf(NUMBER_VALUE_5)
                                     )
                                 )
                             )
@@ -319,10 +309,8 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val context = Context(
                             mapOf(
                                 Source(KEY_A) to DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
-                                    )
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                    DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
                                 )
                             )
                         )
@@ -342,10 +330,10 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val context = Context(
                             mapOf(
                                 Source(KEY_A) to DataElement.Struct(
-                                    mutableMapOf(KEY_B to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)))
+                                    KEY_B to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
                                 ),
                                 Source(KEY_C) to DataElement.Struct(
-                                    mutableMapOf(KEY_D to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2)))
+                                    KEY_D to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
                                 )
                             )
                         )

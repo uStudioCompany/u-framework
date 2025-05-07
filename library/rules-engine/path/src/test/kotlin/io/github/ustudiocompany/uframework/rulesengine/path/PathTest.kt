@@ -90,7 +90,7 @@ internal class PathTest : UnitTest() {
         private const val DATA_KEY_1 = "id"
         private const val DATA_VALUE_1 = "data-1"
         private val DATA = DataElement.Struct(
-            mutableMapOf(DATA_KEY_1 to DataElement.Text(DATA_VALUE_1))
+            DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
         )
 
         private fun String.parse(parser: PathParser): Path =

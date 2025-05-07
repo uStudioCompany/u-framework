@@ -4,9 +4,9 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.fold
+import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.mapFailure
-import io.github.airflux.commons.types.resultk.traverseTo
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
@@ -39,17 +39,23 @@ private fun DataSchema.Item.build(context: Context): ResultK<DataElement, DataBu
             .mapFailure { failure -> DataBuildErrors.BuildingArrayItem(cause = failure) }
     }
 
-private fun List<DataSchema.Property>.toStruct(context: Context): ResultK<DataElement.Struct, DataBuildErrors> =
-    this.traverseTo(
-        destination = mutableMapOf<String, DataElement>(),
-        transform = { property -> property.build(context) }
-    ).map { DataElement.Struct(it) }
+private fun List<DataSchema.Property>.toStruct(context: Context): ResultK<DataElement.Struct, DataBuildErrors> {
+    val builder = DataElement.Struct.Builder()
+    this.forEach { spec ->
+        val property = spec.build(context).getOrForward { return it }
+        builder[property.first] = property.second
+    }
+    return builder.build().asSuccess()
+}
 
-private fun List<DataSchema.Item>.toArray(context: Context): ResultK<DataElement.Array, DataBuildErrors> =
-    this.traverseTo(
-        destination = mutableListOf<DataElement>(),
-        transform = { item -> item.build(context) }
-    ).map { DataElement.Array(it) }
+private fun List<DataSchema.Item>.toArray(context: Context): ResultK<DataElement.Array, DataBuildErrors> {
+    val builder = DataElement.Array.Builder()
+    this.forEach { spec ->
+        val value = spec.build(context).getOrForward { return it }
+        builder.add(value)
+    }
+    return builder.build().asSuccess()
+}
 
 internal sealed interface DataBuildErrors : BasicRulesEngineError {
 

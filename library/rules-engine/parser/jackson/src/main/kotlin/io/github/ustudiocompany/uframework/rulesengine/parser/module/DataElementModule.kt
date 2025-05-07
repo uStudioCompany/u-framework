@@ -137,25 +137,24 @@ public class DataElementModule : SimpleModule() {
             abstract fun addValue(value: DataElement): DeserializerContext
 
             class ReadingList : DeserializerContext() {
-                private val items: MutableList<DataElement> = mutableListOf()
-                override fun addValue(value: DataElement): DeserializerContext = this.apply { items.add(value) }
-                fun toDataElement(): DataElement.Array = DataElement.Array(items)
+                private val builder = DataElement.Array.Builder()
+                override fun addValue(value: DataElement): DeserializerContext = this.apply { builder.add(value) }
+                fun toDataElement(): DataElement.Array = builder.build()
             }
 
             class ReadingObject : DeserializerContext() {
-                private val _properties: MutableList<Pair<String, DataElement>> = mutableListOf()
+                private val builder = DataElement.Struct.Builder()
 
                 fun setField(fieldName: String): KeyRead = KeyRead(fieldName)
 
                 override fun addValue(value: DataElement): DeserializerContext =
                     throw ParsingException("Cannot add a value on an object without a key, malformed JSON object!")
 
-                fun toDataElement(): DataElement.Struct =
-                    DataElement.Struct(_properties.toMap().toMutableMap())
+                fun toDataElement(): DataElement.Struct = builder.build()
 
                 inner class KeyRead(val fieldName: String) : DeserializerContext() {
                     override fun addValue(value: DataElement): DeserializerContext =
-                        this@ReadingObject.apply { _properties.add(fieldName to value) }
+                        this@ReadingObject.apply { builder[fieldName] = value }
                 }
             }
         }

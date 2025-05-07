@@ -90,11 +90,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
         private val SOURCE = Source("output")
 
-        private val EXPECTED_DATA = DataElement.Struct(
-            mutableMapOf(
-                ID_DATA_KEY to DataElement.Text(ID_DATA_VALUE)
-            )
-        )
+        private val EXPECTED_DATA = DataElement.Struct(ID_DATA_KEY to DataElement.Text(ID_DATA_VALUE))
 
         private fun satisfiedCondition() = Condition(
             listOf(

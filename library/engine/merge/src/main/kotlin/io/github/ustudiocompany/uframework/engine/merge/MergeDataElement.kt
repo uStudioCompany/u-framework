@@ -107,7 +107,7 @@ private fun mergeStruct(
     strategy: MergeStrategy,
     path: AttributePath
 ): ResultK<DataElement?, MergeError> {
-    val properties: MutableMap<String, DataElement> = LinkedHashMap()
+    val builder = DataElement.Struct.Builder()
 
     //Update
     dst.forEach { (key, oldValue) ->
@@ -115,7 +115,7 @@ private fun mergeStruct(
         if (newValue != null)
             merge(dst = oldValue, src = newValue, strategy = strategy, path = path.append(key))
                 .getOrForward { return it }
-                ?.let { mergedValue -> properties.put(key, mergedValue) }
+                ?.let { mergedValue -> builder[key] = mergedValue }
         else
             oldValue
     }
@@ -124,11 +124,11 @@ private fun mergeStruct(
     src.forEach { (key, value) ->
         if (key !in dst)
             value.normalize()
-                ?.let { properties.put(key, it) }
+                ?.let { builder[key] = it }
     }
 
-    return if (properties.isNotEmpty())
-        DataElement.Struct(properties).asSuccess()
+    return if (builder.hasProperties)
+        builder.build().asSuccess()
     else
         ResultK.Success.asNull
 }
@@ -148,7 +148,7 @@ private fun mergeByAttributes(
     val srcById = src.grouping(attributes, path)
         .getOrForward { return it }
 
-    val resultItems = mutableListOf<DataElement>()
+    val builder = DataElement.Array.Builder()
 
     //Update
     val dstIds: List<ID> = dst.map { item ->
@@ -172,7 +172,7 @@ private fun mergeByAttributes(
         else
             item
 
-        if (mergedValue != null) resultItems.add(mergedValue)
+        if (mergedValue != null) builder.add(mergedValue)
 
         id
     }
@@ -181,17 +181,17 @@ private fun mergeByAttributes(
     srcById.forEach { (id, struct) ->
         if (id !in dstIds)
             struct.normalize()
-                ?.let { resultItems.add(it) }
+                ?.let { builder.add(it) }
     }
 
-    return DataElement.Array(resultItems).asSuccess()
+    return builder.build().asSuccess()
 }
 
 private fun DataElement.Array.grouping(
     attributes: List<String>,
     path: AttributePath
 ): ResultK<Map<ID, DataElement>, MergeError> {
-    val result: MutableMap<ID, DataElement> = LinkedHashMap()
+    val result: MutableMap<ID, DataElement> = mutableMapOf()
     this.forEach { item ->
         val struct = item as? DataElement.Struct
             ?: return MergeError.Source.TypeMismatch(path = path, expected = DataElement.Struct::class, actual = item)
@@ -219,28 +219,20 @@ private fun DataElement.normalize(): DataElement? {
     }
 }
 
-private fun DataElement.Array.normalize(): DataElement? =
-    mutableListOf<DataElement>()
-        .apply {
-            val items = this@normalize
-            items.forEach { item ->
-                val normalizedItem = item.normalize()
-                if (normalizedItem != null) add(normalizedItem)
-            }
-        }
-        .let { items ->
-            if (items.isNotEmpty()) DataElement.Array(items) else null
-        }
+private fun DataElement.Array.normalize(): DataElement? {
+    val builder = DataElement.Array.Builder()
+    forEach { item ->
+        val normalizedItem = item.normalize()
+        if (normalizedItem != null) builder.add(normalizedItem)
+    }
+    return if (builder.hasItems) builder.build() else null
+}
 
-private fun DataElement.Struct.normalize(): DataElement? =
-    LinkedHashMap<String, DataElement>()
-        .apply {
-            val properties = this@normalize
-            properties.forEach { (key, value) ->
-                val normalizedValue = value.normalize()
-                if (normalizedValue != null) put(key, normalizedValue)
-            }
-        }
-        .let { properties ->
-            if (properties.isNotEmpty()) DataElement.Struct(properties) else null
-        }
+private fun DataElement.Struct.normalize(): DataElement? {
+    val builder = DataElement.Struct.Builder()
+    forEach { (key, value) ->
+        val normalizedValue = value.normalize()
+        if (normalizedValue != null) builder[key] = normalizedValue
+    }
+    return if (builder.hasProperties) builder.build() else null
+}

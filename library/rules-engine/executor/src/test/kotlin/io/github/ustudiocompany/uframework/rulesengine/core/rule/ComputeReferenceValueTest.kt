@@ -72,9 +72,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
         private const val VALUE = "value"
 
         private val TEXT_VALUE = DataElement.Text(VALUE)
-        private val DATA = DataElement.Struct(
-            mutableMapOf(KEY to TEXT_VALUE)
-        )
+        private val DATA = DataElement.Struct(KEY to TEXT_VALUE)
 
         private const val PATH_VALUE = "$.id"
         private fun path(result: DataElement?) =

@@ -39,7 +39,7 @@ public sealed interface DataElement {
         override fun toJson(): String = get.toPlainString()
     }
 
-    public data class Array(
+    public class Array private constructor(
         private val items: MutableList<DataElement> = mutableListOf()
     ) : DataElement, MutableList<DataElement> by items {
 
@@ -58,9 +58,27 @@ public sealed interface DataElement {
             }
             append("]")
         }
+
+        override fun hashCode(): Int = items.hashCode()
+
+        override fun equals(other: Any?): Boolean =
+            this === other || (other is Array && items == other.items)
+
+        public class Builder {
+            public val hasItems: Boolean
+                get() = items.isNotEmpty()
+
+            private val items: MutableList<DataElement> = mutableListOf()
+
+            public fun add(value: DataElement): Builder = apply {
+                items.add(value)
+            }
+
+            public fun build(): Array = Array(items)
+        }
     }
 
-    public data class Struct(
+    public class Struct private constructor(
         private val properties: MutableMap<String, DataElement> = mutableMapOf()
     ) : DataElement, MutableMap<String, DataElement> by properties {
 
@@ -89,6 +107,24 @@ public sealed interface DataElement {
                 append(value.toJson())
             }
             append("}")
+        }
+
+        override fun hashCode(): Int = properties.hashCode()
+
+        override fun equals(other: Any?): Boolean =
+            this === other || (other is Struct && properties == other.properties)
+
+        public class Builder {
+            public val hasProperties: Boolean
+                get() = properties.isNotEmpty()
+
+            private val properties: MutableList<Pair<String, DataElement>> = mutableListOf()
+
+            public operator fun set(name: String, value: DataElement): Builder = apply {
+                properties.add(name to value)
+            }
+
+            public fun build(): Struct = Struct(properties.toMap().toMutableMap())
         }
     }
 }

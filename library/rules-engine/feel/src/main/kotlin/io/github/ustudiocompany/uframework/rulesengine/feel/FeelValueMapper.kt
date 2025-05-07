@@ -41,28 +41,28 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
         }
 
     private fun ValList.asArray(innerValueMapper: Function<Val, Any>): DataElement.Array {
-        val list = mutableListOf<DataElement>()
+        val builder = DataElement.Array.Builder()
         var items = this.items()
         while (!items.isEmpty) {
             val item = items.head()
-            list.add(innerValueMapper.apply(item) as DataElement)
+            builder.add(innerValueMapper.apply(item) as DataElement)
             items = items.tail()
         }
-        return DataElement.Array(list)
+        return builder.build()
     }
 
     private fun ValContext.asStruct(innerValueMapper: Function<Val, Any>): DataElement.Struct {
-        val map = mutableMapOf<String, DataElement>()
+        val builder = DataElement.Struct.Builder()
         val variableProvider = this.context().variableProvider()
         var variables = variableProvider.getVariables()
         while (!variables.isEmpty) {
             val entry = variables.head()
             val key = entry._1
             val value = innerValueMapper.apply(entry._2 as Val) as DataElement
-            map[key] = value
+            builder[key] = value
             variables = variables.tail()
         }
-        return DataElement.Struct(map)
+        return builder.build()
     }
 
     private fun DataElement.toVal(innerValueMapper: Function<Any, Val>): Val =
