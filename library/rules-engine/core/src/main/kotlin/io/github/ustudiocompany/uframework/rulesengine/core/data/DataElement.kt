@@ -65,10 +65,10 @@ public sealed interface DataElement {
             this === other || (other is Array && items == other.items)
 
         public class Builder {
+            private val items: MutableList<DataElement> = mutableListOf()
+
             public val hasItems: Boolean
                 get() = items.isNotEmpty()
-
-            private val items: MutableList<DataElement> = mutableListOf()
 
             public fun add(value: DataElement): Builder = apply {
                 items.add(value)
@@ -83,7 +83,7 @@ public sealed interface DataElement {
     ) : DataElement, MutableMap<String, DataElement> by properties {
 
         public constructor(vararg properties: Pair<String, DataElement>) : this(
-            LinkedHashMap<String, DataElement>()
+            mutableMapOf<String, DataElement>()
                 .apply {
                     properties.forEach { (name, value) ->
                         this[name] = value
@@ -115,10 +115,10 @@ public sealed interface DataElement {
             this === other || (other is Struct && properties == other.properties)
 
         public class Builder {
+            private val properties = mutableMapOf<String, DataElement>()
+
             public val hasProperties: Boolean
                 get() = properties.isNotEmpty()
-
-            private val properties = LinkedHashMap<String, DataElement>()
 
             public operator fun set(name: String, value: DataElement): Builder = apply {
                 properties.put(name, value)
