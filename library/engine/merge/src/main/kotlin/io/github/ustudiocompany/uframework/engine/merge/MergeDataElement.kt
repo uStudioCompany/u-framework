@@ -32,7 +32,7 @@ private fun mergeBool(src: DataElement, path: AttributePath): ResultK<DataElemen
     when (src) {
         is DataElement.Null -> ResultK.Success.asNull
         is DataElement.Bool -> src.asSuccess()
-        else -> MergeError.Source.TypeMismatch(path = path, expected = "Bool", actual = src.getTypeName())
+        else -> MergeError.Source.TypeMismatch(path = path, expected = DataElement.Bool::class, actual = src)
             .asFailure()
     }
 
@@ -40,7 +40,7 @@ private fun mergeText(src: DataElement, path: AttributePath): ResultK<DataElemen
     when (src) {
         is DataElement.Null -> ResultK.Success.asNull
         is DataElement.Text -> src.asSuccess()
-        else -> MergeError.Source.TypeMismatch(path = path, expected = "Text", actual = src.getTypeName())
+        else -> MergeError.Source.TypeMismatch(path = path, expected = DataElement.Text::class, actual = src)
             .asFailure()
     }
 
@@ -48,7 +48,7 @@ private fun mergeDecimal(src: DataElement, path: AttributePath): ResultK<DataEle
     when (src) {
         is DataElement.Null -> ResultK.Success.asNull
         is DataElement.Decimal -> src.asSuccess()
-        else -> MergeError.Source.TypeMismatch(path = path, expected = "Decimal", actual = src.getTypeName())
+        else -> MergeError.Source.TypeMismatch(path = path, expected = DataElement.Decimal::class, actual = src)
             .asFailure()
     }
 
@@ -61,7 +61,7 @@ private fun mergeArray(
     when (src) {
         is DataElement.Null -> ResultK.Success.asNull
         is DataElement.Array -> mergeArray(dst = dst, src = src, strategy = strategy, path = path)
-        else -> MergeError.Source.TypeMismatch(path = path, expected = "Array", actual = src.getTypeName())
+        else -> MergeError.Source.TypeMismatch(path = path, expected = DataElement.Array::class, actual = src)
             .asFailure()
     }
 
@@ -97,11 +97,8 @@ private fun mergeStruct(
     when (src) {
         is DataElement.Null -> ResultK.Success.asNull
         is DataElement.Struct -> mergeStruct(dst = dst, src = src, strategy = strategy, path = path)
-        else -> MergeError.Source.TypeMismatch(
-            path = path,
-            expected = "Struct",
-            actual = src.getTypeName()
-        ).asFailure()
+        else -> MergeError.Source.TypeMismatch(path = path, expected = DataElement.Struct::class, actual = src)
+            .asFailure()
     }
 
 private fun mergeStruct(
@@ -147,11 +144,8 @@ private fun mergeByAttributes(
 ): ResultK<DataElement.Array, MergeError> {
     val srcItems = src.map { item ->
         val struct = item as? DataElement.Struct
-            ?: return MergeError.Source.TypeMismatch(
-                path = path,
-                expected = "Struct",
-                actual = item.getTypeName()
-            ).asFailure()
+            ?: return MergeError.Source.TypeMismatch(path = path, expected = DataElement.Struct::class, actual = item)
+                .asFailure()
 
         val id: ID = attributes.map { attribute ->
             struct[attribute]
@@ -165,7 +159,12 @@ private fun mergeByAttributes(
 
     //Update
     val itemIds: List<ID> = dst.map { item ->
-        val dstValue = item as DataElement.Struct
+        val dstValue = item as? DataElement.Struct
+            ?: return MergeError.Destination.TypeMismatch(
+                path = path,
+                expected = DataElement.Struct::class,
+                actual = item
+            ).asFailure()
 
         val id: ID = attributes.map { attribute ->
             dstValue[attribute]
@@ -230,5 +229,3 @@ private fun DataElement.Struct.normalize(): DataElement? =
         .let { properties ->
             if (properties.isNotEmpty()) DataElement.Struct(properties) else null
         }
-
-private fun DataElement.getTypeName(): String = this::class.simpleName!!
