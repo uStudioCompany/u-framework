@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import java.math.BigDecimal
 
@@ -16,7 +16,7 @@ internal class MergeBoolElementTest : UnitTest() {
         "The function of the merge `Bool` type of elements" - {
 
             "when source is a Bool type" - {
-                val src: DataElement = BOOL_VALUE
+                val src: JsonElement = BOOL_VALUE
 
                 val result = mergeBool(src = src, currentPath = AttributePath(PATH_ATTRIBUTE))
 
@@ -26,7 +26,7 @@ internal class MergeBoolElementTest : UnitTest() {
             }
 
             "when source is a Null type" - {
-                val src: DataElement = NULL_VALUE
+                val src: JsonElement = NULL_VALUE
 
                 val result = mergeBool(src = src, currentPath = AttributePath(PATH_ATTRIBUTE))
 
@@ -50,7 +50,7 @@ internal class MergeBoolElementTest : UnitTest() {
 
                         val expectedError = MergeError.Source.TypeMismatch(
                             path = AttributePath(PATH_ATTRIBUTE),
-                            expected = DataElement.Bool::class,
+                            expected = JsonElement.Bool::class,
                             actual = src,
                         )
                         result.cause failuresShouldBeEqual expectedError
@@ -62,11 +62,11 @@ internal class MergeBoolElementTest : UnitTest() {
 
     private companion object {
         private const val PATH_ATTRIBUTE = "id"
-        private val NULL_VALUE = DataElement.Null
-        private val BOOL_VALUE = DataElement.Bool(true)
-        private val TEXT_VALUE = DataElement.Text("text")
-        private val DECIMAL_VALUE = DataElement.Decimal(BigDecimal(123))
-        private val ARRAY_VALUE = DataElement.Array(NULL_VALUE, BOOL_VALUE)
-        private val STRUCT_VALUE = DataElement.Struct(PATH_ATTRIBUTE to DECIMAL_VALUE)
+        private val NULL_VALUE = JsonElement.Null
+        private val BOOL_VALUE = JsonElement.Bool(true)
+        private val TEXT_VALUE = JsonElement.Text("text")
+        private val DECIMAL_VALUE = JsonElement.Decimal(BigDecimal(123))
+        private val ARRAY_VALUE = JsonElement.Array(NULL_VALUE, BOOL_VALUE)
+        private val STRUCT_VALUE = JsonElement.Struct(PATH_ATTRIBUTE to DECIMAL_VALUE)
     }
 }

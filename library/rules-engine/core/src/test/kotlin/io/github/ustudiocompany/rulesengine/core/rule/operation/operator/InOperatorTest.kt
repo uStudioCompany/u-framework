@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.IN
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -31,7 +31,7 @@ internal class InOperatorTest : AbstractOperatorTest() {
 
     private fun compareNone() = listOf(
         TestData(target = null, value = null, expected = false),
-        TestData(target = null, value = DataElement.Null, expected = false),
+        TestData(target = null, value = JsonElement.Null, expected = false),
         TestData(target = null, value = bool(true), expected = false),
         TestData(target = null, value = bool(false), expected = false),
         TestData(target = null, value = text(TEXT_VALUE_1), expected = false),
@@ -41,17 +41,17 @@ internal class InOperatorTest : AbstractOperatorTest() {
     )
 
     private fun compareNull(): List<TestData> {
-        val target = DataElement.Null
+        val target = JsonElement.Null
         return listOf(
             TestData(target = target, value = null, expected = false),
-            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = JsonElement.Null, expected = false),
             TestData(target = target, value = bool(true), expected = false),
             TestData(target = target, value = bool(false), expected = false),
             TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
             TestData(target = target, value = decimal(NUMBER_VALUE_1), expected = false),
             TestData(target = target, value = struct(), expected = false),
             TestData(target = target, value = array(), expected = false),
-            TestData(target = target, value = array(DataElement.Null), expected = true)
+            TestData(target = target, value = array(JsonElement.Null), expected = true)
         )
     }
 
@@ -62,8 +62,8 @@ internal class InOperatorTest : AbstractOperatorTest() {
         TestData(target = bool(false), value = bool(false), expected = false),
         TestData(target = bool(true), value = bool(false), expected = false),
         TestData(target = bool(false), value = bool(true), expected = false),
-        TestData(target = bool(true), value = DataElement.Null, expected = false),
-        TestData(target = bool(false), value = DataElement.Null, expected = false),
+        TestData(target = bool(true), value = JsonElement.Null, expected = false),
+        TestData(target = bool(false), value = JsonElement.Null, expected = false),
         TestData(target = bool(true), value = text(TEXT_VALUE_1), expected = false),
         TestData(target = bool(false), value = text(TEXT_VALUE_1), expected = false),
         TestData(target = bool(true), value = decimal(NUMBER_VALUE_1), expected = false),
@@ -84,7 +84,7 @@ internal class InOperatorTest : AbstractOperatorTest() {
         val target = text(TEXT_VALUE_1)
         return listOf(
             TestData(target = target, value = null, expected = false),
-            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = JsonElement.Null, expected = false),
             TestData(target = target, value = bool(true), expected = false),
             TestData(target = target, value = bool(false), expected = false),
             TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
@@ -99,7 +99,7 @@ internal class InOperatorTest : AbstractOperatorTest() {
         val target = decimal(NUMBER_VALUE_1)
         return listOf(
             TestData(target = target, value = null, expected = false),
-            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = JsonElement.Null, expected = false),
             TestData(target = target, value = bool(true), expected = false),
             TestData(target = target, value = bool(false), expected = false),
             TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
@@ -120,7 +120,7 @@ internal class InOperatorTest : AbstractOperatorTest() {
         val target = struct()
         return listOf(
             TestData(target = target, value = null, expected = false),
-            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = JsonElement.Null, expected = false),
             TestData(target = target, value = bool(true), expected = false),
             TestData(target = target, value = bool(false), expected = false),
             TestData(target = target, value = text(TEXT_VALUE_1), expected = false),
@@ -156,7 +156,7 @@ internal class InOperatorTest : AbstractOperatorTest() {
         val target = array(text(TEXT_VALUE_1))
         return listOf(
             TestData(target = target, value = null, expected = false),
-            TestData(target = target, value = DataElement.Null, expected = false),
+            TestData(target = target, value = JsonElement.Null, expected = false),
             TestData(target = target, value = bool(true), expected = false),
             TestData(target = target, value = bool(false), expected = false),
             TestData(target = target, value = text(TEXT_VALUE_1), expected = false),

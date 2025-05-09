@@ -10,27 +10,27 @@ import io.github.ustudiocompany.uframework.engine.merge.merge
 import io.github.ustudiocompany.uframework.engine.merge.normalize
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 @Suppress("ReturnCount")
 internal fun mergeByAttributes(
     attributes: List<String>,
-    dst: DataElement.Array,
-    src: DataElement.Array,
+    dst: JsonElement.Array,
+    src: JsonElement.Array,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement.Array, MergeError> {
+): ResultK<JsonElement.Array, MergeError> {
     val srcById = src.grouping(attributes, currentPath)
         .getOrForward { return it }
 
-    val builder = DataElement.Array.Builder()
+    val builder = JsonElement.Array.Builder()
 
     //Update
     val dstIds: List<ID> = dst.map { item ->
-        val dstValue = item as? DataElement.Struct
+        val dstValue = item as? JsonElement.Struct
             ?: return MergeError.Destination.TypeMismatch(
                 path = currentPath,
-                expected = DataElement.Struct::class,
+                expected = JsonElement.Struct::class,
                 actual = item
             ).asFailure()
 
@@ -62,16 +62,16 @@ internal fun mergeByAttributes(
     return builder.build().asSuccess()
 }
 
-private fun DataElement.Array.grouping(
+private fun JsonElement.Array.grouping(
     attributes: List<String>,
     currentPath: AttributePath
-): ResultK<Map<ID, DataElement>, MergeError> {
-    val result: MutableMap<ID, DataElement> = mutableMapOf()
+): ResultK<Map<ID, JsonElement>, MergeError> {
+    val result: MutableMap<ID, JsonElement> = mutableMapOf()
     this.forEach { item ->
-        val struct = item as? DataElement.Struct
+        val struct = item as? JsonElement.Struct
             ?: return MergeError.Source.TypeMismatch(
                 path = currentPath,
-                expected = DataElement.Struct::class,
+                expected = JsonElement.Struct::class,
                 actual = item
             ).asFailure()
 

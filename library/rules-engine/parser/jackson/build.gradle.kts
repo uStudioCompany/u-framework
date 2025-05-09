@@ -12,10 +12,11 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
+    implementation(project(":json-element"))
     implementation(project(":rules-engine-core"))
-    api(project(":rules-engine-feel"))
-    api(project(":rules-engine-path"))
-    api(project(":rules-engine-parser-core"))
+    implementation(project(":rules-engine-feel"))
+    implementation(project(":rules-engine-path"))
+    implementation(project(":rules-engine-parser-core"))
     implementation(project(":failure-library"))
 
     /* Libs */

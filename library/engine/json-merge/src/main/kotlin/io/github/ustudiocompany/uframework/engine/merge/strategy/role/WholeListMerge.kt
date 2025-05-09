@@ -4,9 +4,9 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.engine.merge.MergeError
 import io.github.ustudiocompany.uframework.engine.merge.normalize
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
-internal fun wholeListMerge(src: DataElement): ResultK<DataElement?, MergeError> =
+internal fun wholeListMerge(src: JsonElement): ResultK<JsonElement?, MergeError> =
     src.normalize()
         ?.asSuccess()
         ?: ResultK.Success.asNull

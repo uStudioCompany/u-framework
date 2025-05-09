@@ -9,8 +9,8 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
@@ -18,7 +18,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 internal fun Context.update(
     source: Source,
     action: StepResult.Action,
-    value: DataElement,
+    value: JsonElement,
     merge: Merger
 ): Maybe<UpdateContextErrors> =
     when (action) {
@@ -71,7 +71,7 @@ internal sealed interface UpdateContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryGet(source: Source): ResultK<DataElement, GetDataFromContextErrors> {
+internal fun Context.tryGet(source: Source): ResultK<JsonElement, GetDataFromContextErrors> {
     val value = this[source]
     return value?.asSuccess()
         ?: GetDataFromContextErrors.SourceMissing(source).asFailure()
@@ -92,7 +92,7 @@ internal sealed interface GetDataFromContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryAdd(source: Source, value: DataElement): Maybe<AddDataToContextErrors.SourceAlreadyExists> {
+internal fun Context.tryAdd(source: Source, value: JsonElement): Maybe<AddDataToContextErrors.SourceAlreadyExists> {
     val isAdded = add(source, value)
     return if (isAdded)
         Maybe.none()
@@ -115,7 +115,7 @@ internal sealed interface AddDataToContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryReplace(source: Source, value: DataElement): Maybe<ReplaceDataInContextErrors> {
+internal fun Context.tryReplace(source: Source, value: JsonElement): Maybe<ReplaceDataInContextErrors> {
     val isReplaced = replace(source, value)
     return if (isReplaced)
         Maybe.none()
@@ -140,7 +140,7 @@ internal sealed interface ReplaceDataInContextErrors : BasicRulesEngineError {
 
 internal fun Context.tryMerge(
     source: Source,
-    value: DataElement,
+    value: JsonElement,
     strategyCode: StepResult.Action.Merge.StrategyCode,
     merge: Merger
 ): Maybe<MergeDataInContextErrors> =

@@ -10,7 +10,6 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.parser.module.DataElementModule
 import io.github.ustudiocompany.uframework.rulesengine.parser.module.FactModule
 
 internal class JacksonDeserializer {
@@ -21,7 +20,6 @@ internal class JacksonDeserializer {
         .build()
         .apply {
             registerKotlinModule()
-            registerModules(DataElementModule())
             registerModules(FactModule())
         }
 

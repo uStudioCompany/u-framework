@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.module.FactModule
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -42,20 +42,20 @@ internal class FactModuleTest : UnitTest() {
     }
 
     private fun acceptableTestData() = listOf(
-        """{"fact": null}""" to DataElement.Null,
-        """{"fact": true}""" to DataElement.Bool.asTrue,
-        """{"fact": false}""" to DataElement.Bool.asFalse,
-        """{"fact": "user-1"}""" to DataElement.Text("user-1"),
-        """{"fact": 123}""" to DataElement.Decimal(BigDecimal("123")),
-        """{"fact": 123.45}""" to DataElement.Decimal(BigDecimal("123.45")),
-        """{"fact": []}""" to DataElement.Array(),
-        """{"fact": [null,true,false,"user-1",123,123.45]}""" to DataElement.Array(
-            DataElement.Null,
-            DataElement.Bool.asTrue,
-            DataElement.Bool.asFalse,
-            DataElement.Text("user-1"),
-            DataElement.Decimal(BigDecimal("123")),
-            DataElement.Decimal(BigDecimal("123.45"))
+        """{"fact": null}""" to JsonElement.Null,
+        """{"fact": true}""" to JsonElement.Bool.asTrue,
+        """{"fact": false}""" to JsonElement.Bool.asFalse,
+        """{"fact": "user-1"}""" to JsonElement.Text("user-1"),
+        """{"fact": 123}""" to JsonElement.Decimal(BigDecimal("123")),
+        """{"fact": 123.45}""" to JsonElement.Decimal(BigDecimal("123.45")),
+        """{"fact": []}""" to JsonElement.Array(),
+        """{"fact": [null,true,false,"user-1",123,123.45]}""" to JsonElement.Array(
+            JsonElement.Null,
+            JsonElement.Bool.asTrue,
+            JsonElement.Bool.asFalse,
+            JsonElement.Text("user-1"),
+            JsonElement.Decimal(BigDecimal("123")),
+            JsonElement.Decimal(BigDecimal("123.45"))
         )
     )
 

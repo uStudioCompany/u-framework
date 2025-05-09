@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.orThrow
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
@@ -33,7 +33,7 @@ internal class PathTest : UnitTest() {
                         "then the function should return a value" {
                             val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
-                            result.value shouldBe DataElement.Text(DATA_VALUE_1)
+                            result.value shouldBe JsonElement.Text(DATA_VALUE_1)
                         }
                     }
 
@@ -57,7 +57,7 @@ internal class PathTest : UnitTest() {
                         "then the function should return a value" {
                             val result = path.searchIn(DATA)
                             result.shouldBeSuccess()
-                            result.value shouldBe DataElement.Text(DATA_VALUE_1)
+                            result.value shouldBe JsonElement.Text(DATA_VALUE_1)
                         }
                     }
 
@@ -89,8 +89,8 @@ internal class PathTest : UnitTest() {
     private companion object {
         private const val DATA_KEY_1 = "id"
         private const val DATA_VALUE_1 = "data-1"
-        private val DATA = DataElement.Struct(
-            DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
+        private val DATA = JsonElement.Struct(
+            DATA_KEY_1 to JsonElement.Text(DATA_VALUE_1)
         )
 
         private fun String.parse(parser: PathParser): Path =

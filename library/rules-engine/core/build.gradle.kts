@@ -13,6 +13,7 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":failure-library"))
+    implementation(project(":json-element"))
 
     /* Libs */
     implementation(libs.airflux.commons.types) {

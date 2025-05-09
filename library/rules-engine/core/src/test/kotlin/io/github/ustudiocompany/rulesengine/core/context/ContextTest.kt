@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.rulesengine.core.context
 
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
@@ -27,7 +27,7 @@ internal class ContextTest : UnitTest() {
             }
 
             "when context is not empty" - {
-                val origin = DataElement.Text(ORIGIN_VALUE)
+                val origin = JsonElement.Text(ORIGIN_VALUE)
                 val source = SOURCE
                 val context = Context(mapOf(source to origin))
 
@@ -53,10 +53,10 @@ internal class ContextTest : UnitTest() {
             "when adding source" - {
 
                 "when the source is missing in context" - {
-                    val origin = DataElement.Text(ORIGIN_VALUE)
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
                     val context = Context(mapOf(SOURCE to origin))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.add(NEW_SOURCE, newValue)
 
                     "then the operation should return true" {
@@ -74,10 +74,10 @@ internal class ContextTest : UnitTest() {
                 }
 
                 "when the source is present in context" - {
-                    val origin = DataElement.Text(ORIGIN_VALUE)
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
                     val context = Context(mapOf(SOURCE to origin))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.add(SOURCE, newValue)
 
                     "then the operation should return false" {
@@ -98,11 +98,11 @@ internal class ContextTest : UnitTest() {
             "when replacing source" - {
 
                 "when the source is missing in context" - {
-                    val origin = DataElement.Text(ORIGIN_VALUE)
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
                     val source = SOURCE
                     val context = Context(mapOf(source to origin))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.replace(NEW_SOURCE, newValue)
 
                     "then the operation should return false" {
@@ -113,10 +113,10 @@ internal class ContextTest : UnitTest() {
                 }
 
                 "when the source is present in context" - {
-                    val origin = DataElement.Text(ORIGIN_VALUE)
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
                     val context = Context(mapOf(SOURCE to origin))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.replace(SOURCE, newValue)
 
                     "then the operation should return true" {

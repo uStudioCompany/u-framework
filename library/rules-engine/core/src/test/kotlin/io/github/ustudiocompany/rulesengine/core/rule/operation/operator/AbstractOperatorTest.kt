@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import java.math.BigDecimal
 
@@ -19,21 +19,21 @@ internal abstract class AbstractOperatorTest : UnitTest() {
         return "$targetValue $expectedValue $compareWithValue"
     }
 
-    protected fun text(value: String) = DataElement.Text(value)
-    protected fun decimal(value: Number) = DataElement.Decimal(BigDecimal(value.toString()))
-    protected fun bool(value: Boolean) = DataElement.Bool.valueOf(value)
-    protected fun struct(vararg properties: Pair<String, DataElement>) =
-        DataElement.Struct.Builder()
+    protected fun text(value: String) = JsonElement.Text(value)
+    protected fun decimal(value: Number) = JsonElement.Decimal(BigDecimal(value.toString()))
+    protected fun bool(value: Boolean) = JsonElement.Bool.valueOf(value)
+    protected fun struct(vararg properties: Pair<String, JsonElement>) =
+        JsonElement.Struct.Builder()
             .apply { properties.forEach { (key, value) -> this[key] = value } }
             .build()
 
-    protected fun array(vararg items: DataElement) = DataElement.Array.Builder()
+    protected fun array(vararg items: JsonElement) = JsonElement.Array.Builder()
         .apply { items.forEach { this.add(it) } }
         .build()
 
     protected data class TestData(
-        val target: DataElement?,
-        val value: DataElement?,
+        val target: JsonElement?,
+        val value: JsonElement?,
         val expected: Boolean
     )
 }

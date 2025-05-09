@@ -2,7 +2,7 @@ package io.github.ustudiocompany.rulesengine.parser.model.rule.condition
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
@@ -40,7 +40,7 @@ internal class PredicateModelDeserializationTest : UnitTest() {
                 value shouldBe PredicateModel(
                     target = ValueModel.Reference(source = SOURCE, path = PATH),
                     operator = OPERATOR,
-                    value = ValueModel.Literal(fact = FactModel(DataElement.Text(FACT)))
+                    value = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
                 )
             }
         }

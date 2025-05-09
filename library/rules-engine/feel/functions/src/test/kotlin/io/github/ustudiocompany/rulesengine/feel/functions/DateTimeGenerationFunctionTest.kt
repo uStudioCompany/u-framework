@@ -4,8 +4,8 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -29,7 +29,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then should be returned a value by format" {
                     val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<DataElement.Text>()
+                        .shouldBeInstanceOf<JsonElement.Text>()
                     val actual = LocalDateTime.parse(value.get, FORMATTER)
                     val expected = LocalDateTime.now()
                     actual shouldBeLessThan expected
@@ -43,7 +43,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
                 "then should be returned a value by default format" {
                     val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<DataElement.Text>()
+                        .shouldBeInstanceOf<JsonElement.Text>()
                     val actual = LocalDateTime.parse(value.get, DEFAULT_FORMATTER)
                     val expected = LocalDateTime.now()
                     actual shouldBeLessThan expected

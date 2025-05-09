@@ -2,7 +2,7 @@ package io.github.ustudiocompany.rulesengine.parser.model.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
@@ -66,7 +66,7 @@ internal class DataSchemaModelDeserializationTest : UnitTest() {
                             ),
                             DataSchemaModel.StructProperty.Element(
                                 name = SECOND_PROP_NAME,
-                                value = ValueModel.Literal(fact = FactModel(DataElement.Text(FACT)))
+                                value = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
                             ),
                             DataSchemaModel.StructProperty.Element(
                                 name = THIRD_PROP_NAME,
@@ -120,7 +120,7 @@ internal class DataSchemaModelDeserializationTest : UnitTest() {
                                 value = ValueModel.Reference(source = SOURCE, path = PATH)
                             ),
                             DataSchemaModel.ArrayItem.Element(
-                                value = ValueModel.Literal(fact = FactModel(DataElement.Text(FACT)))
+                                value = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
                             ),
                             DataSchemaModel.ArrayItem.Element(
                                 value = ValueModel.Expression(expression = EXPRESSION)

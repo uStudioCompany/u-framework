@@ -7,27 +7,27 @@ import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
 import io.github.ustudiocompany.uframework.engine.merge.strategy.role.MergeRule
 import io.github.ustudiocompany.uframework.engine.merge.strategy.role.mergeByAttributes
 import io.github.ustudiocompany.uframework.engine.merge.strategy.role.wholeListMerge
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 internal fun mergeArray(
-    dst: DataElement.Array,
-    src: DataElement,
+    dst: JsonElement.Array,
+    src: JsonElement,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement?, MergeError> =
+): ResultK<JsonElement?, MergeError> =
     when (src) {
-        is DataElement.Null -> ResultK.Success.asNull
-        is DataElement.Array -> mergeArray(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
-        else -> MergeError.Source.TypeMismatch(path = currentPath, expected = DataElement.Array::class, actual = src)
+        is JsonElement.Null -> ResultK.Success.asNull
+        is JsonElement.Array -> mergeArray(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
+        else -> MergeError.Source.TypeMismatch(path = currentPath, expected = JsonElement.Array::class, actual = src)
             .asFailure()
     }
 
 private fun mergeArray(
-    dst: DataElement.Array,
-    src: DataElement.Array,
+    dst: JsonElement.Array,
+    src: JsonElement.Array,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement?, MergeError> {
+): ResultK<JsonElement?, MergeError> {
     val rule = strategy[currentPath]
         ?: return MergeError.RuleMissing(currentPath).asFailure()
 

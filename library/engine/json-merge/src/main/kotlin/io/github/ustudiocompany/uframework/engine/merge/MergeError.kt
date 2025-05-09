@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.engine.merge
 
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import kotlin.reflect.KClass
 
 public sealed class MergeError : Failure {
@@ -23,7 +23,7 @@ public sealed class MergeError : Failure {
 
         public class TypeMismatch private constructor(path: String, expected: String, actual: String) : Source() {
 
-            public constructor(path: AttributePath, expected: KClass<*>, actual: DataElement) :
+            public constructor(path: AttributePath, expected: KClass<*>, actual: JsonElement) :
                 this(path = path.toString(), expected = expected.simpleName!!, actual = actual::class.simpleName!!)
 
             override val code: String = PREFIX + "2"
@@ -56,7 +56,7 @@ public sealed class MergeError : Failure {
 
         public class TypeMismatch private constructor(path: String, expected: String, actual: String) : Destination() {
 
-            public constructor(path: AttributePath, expected: KClass<*>, actual: DataElement) :
+            public constructor(path: AttributePath, expected: KClass<*>, actual: JsonElement) :
                 this(path = path.toString(), expected = expected.simpleName!!, actual = actual::class.simpleName!!)
 
             override val code: String = PREFIX + "2"

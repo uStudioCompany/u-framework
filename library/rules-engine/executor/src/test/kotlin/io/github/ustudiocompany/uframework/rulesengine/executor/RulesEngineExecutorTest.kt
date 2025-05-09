@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -40,8 +40,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                 listOf(
                                     ValidationStep(
                                         condition = Condition.NONE,
-                                        target = Value.Literal(fact = DataElement.Text("test")),
-                                        value = Value.Literal(fact = DataElement.Text("test")),
+                                        target = Value.Literal(fact = JsonElement.Text("test")),
+                                        value = Value.Literal(fact = JsonElement.Text("test")),
                                         operator = EQ,
                                         errorCode = ValidationStep.ErrorCode("err-1")
                                     )
@@ -61,7 +61,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
-                val context = Context(mapOf(Source("test") to DataElement.Text("test")))
+                val context = Context(mapOf(Source("test") to JsonElement.Text("test")))
                 val rules = Rules(
                     listOf(
                         Rule(
@@ -70,8 +70,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
                                 listOf(
                                     ValidationStep(
                                         condition = Condition.NONE,
-                                        target = Value.Literal(fact = DataElement.Text("test")),
-                                        value = Value.Literal(fact = DataElement.Text("test2")),
+                                        target = Value.Literal(fact = JsonElement.Text("test")),
+                                        value = Value.Literal(fact = JsonElement.Text("test2")),
                                         operator = EQ,
                                         errorCode = ValidationStep.ErrorCode("err-1")
                                     )
@@ -90,7 +90,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
     }
 
     private companion object {
-        private val DATA_RETRIEVE_RESULT = DataElement.Text("data")
+        private val DATA_RETRIEVE_RESULT = JsonElement.Text("data")
     }
 
     private sealed interface Errors : Failure {

@@ -4,19 +4,19 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 internal fun merge(
-    dst: DataElement,
-    src: DataElement,
+    dst: JsonElement,
+    src: JsonElement,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement?, MergeError> =
+): ResultK<JsonElement?, MergeError> =
     when (dst) {
-        is DataElement.Null -> src.normalize().asSuccess()
-        is DataElement.Bool -> mergeBool(src = src, currentPath = currentPath)
-        is DataElement.Text -> mergeText(src = src, currentPath = currentPath)
-        is DataElement.Decimal -> mergeDecimal(src = src, currentPath = currentPath)
-        is DataElement.Array -> mergeArray(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
-        is DataElement.Struct -> mergeStruct(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
+        is JsonElement.Null -> src.normalize().asSuccess()
+        is JsonElement.Bool -> mergeBool(src = src, currentPath = currentPath)
+        is JsonElement.Text -> mergeText(src = src, currentPath = currentPath)
+        is JsonElement.Decimal -> mergeDecimal(src = src, currentPath = currentPath)
+        is JsonElement.Array -> mergeArray(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
+        is JsonElement.Struct -> mergeStruct(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
     }

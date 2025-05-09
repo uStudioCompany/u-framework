@@ -5,16 +5,16 @@ import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.Option
 import com.jayway.jsonpath.spi.json.JsonProvider
 import com.jayway.jsonpath.spi.mapper.MappingProvider
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 public fun defaultPathParserConfiguration(mapper: ObjectMapper, vararg options: Option): Configuration =
     defaultPathParserConfiguration(mapper, options.toSet())
 
 public fun defaultPathParserConfiguration(mapper: ObjectMapper, options: Set<Option>): Configuration {
     val jsonProvider: JsonProvider =
-        DataElementProvider(mapper, mapper.reader().forType(DataElement::class.java))
+        JsonElementProvider(mapper, mapper.reader().forType(JsonElement::class.java))
 
-    val mappingProvider: MappingProvider = DataElementMappingProvider(mapper)
+    val mappingProvider: MappingProvider = JsonElementMappingProvider(mapper)
 
     return Configuration.builder()
         .jsonProvider(jsonProvider)

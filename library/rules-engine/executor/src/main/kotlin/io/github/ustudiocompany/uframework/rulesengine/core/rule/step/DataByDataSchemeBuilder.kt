@@ -8,19 +8,19 @@ import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 
-internal fun DataSchema.build(context: Context): ResultK<DataElement, DataBuildErrors> =
+internal fun DataSchema.build(context: Context): ResultK<JsonElement, DataBuildErrors> =
     when (this) {
         is DataSchema.Struct -> properties.toStruct(context)
         is DataSchema.Array -> items.toArray(context)
     }
 
-private fun DataSchema.Property.build(context: Context): ResultK<Pair<String, DataElement>, DataBuildErrors> =
+private fun DataSchema.Property.build(context: Context): ResultK<Pair<String, JsonElement>, DataBuildErrors> =
     when (this) {
         is DataSchema.Property.Struct -> properties.toStruct(context).map { struct -> name to struct }
         is DataSchema.Property.Array -> items.toArray(context).map { array -> name to array }
@@ -31,7 +31,7 @@ private fun DataSchema.Property.build(context: Context): ResultK<Pair<String, Da
             )
     }
 
-private fun DataSchema.Item.build(context: Context): ResultK<DataElement, DataBuildErrors> =
+private fun DataSchema.Item.build(context: Context): ResultK<JsonElement, DataBuildErrors> =
     when (this) {
         is DataSchema.Item.Struct -> properties.toStruct(context)
         is DataSchema.Item.Array -> items.toArray(context)
@@ -39,8 +39,8 @@ private fun DataSchema.Item.build(context: Context): ResultK<DataElement, DataBu
             .mapFailure { failure -> DataBuildErrors.BuildingArrayItem(cause = failure) }
     }
 
-private fun List<DataSchema.Property>.toStruct(context: Context): ResultK<DataElement.Struct, DataBuildErrors> {
-    val builder = DataElement.Struct.Builder()
+private fun List<DataSchema.Property>.toStruct(context: Context): ResultK<JsonElement.Struct, DataBuildErrors> {
+    val builder = JsonElement.Struct.Builder()
     this.forEach { spec ->
         val property = spec.build(context).getOrForward { return it }
         builder[property.first] = property.second
@@ -48,8 +48,8 @@ private fun List<DataSchema.Property>.toStruct(context: Context): ResultK<DataEl
     return builder.build().asSuccess()
 }
 
-private fun List<DataSchema.Item>.toArray(context: Context): ResultK<DataElement.Array, DataBuildErrors> {
-    val builder = DataElement.Array.Builder()
+private fun List<DataSchema.Item>.toArray(context: Context): ResultK<JsonElement.Array, DataBuildErrors> {
+    val builder = JsonElement.Array.Builder()
     this.forEach { spec ->
         val value = spec.build(context).getOrForward { return it }
         builder.add(value)

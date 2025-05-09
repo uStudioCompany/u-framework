@@ -2,14 +2,14 @@ package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
 
 public fun interface DataProvider {
 
-    public fun get(uri: Uri, args: List<Arg>): ResultK<DataElement, Error>
+    public fun get(uri: Uri, args: List<Arg>): ResultK<JsonElement, Error>
 
     @JvmInline
     public value class Uri private constructor(public val get: String) {

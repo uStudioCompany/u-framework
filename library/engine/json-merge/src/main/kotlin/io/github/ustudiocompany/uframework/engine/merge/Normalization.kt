@@ -1,20 +1,20 @@
 package io.github.ustudiocompany.uframework.engine.merge
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
-internal fun DataElement.normalize(): DataElement? {
+internal fun JsonElement.normalize(): JsonElement? {
     return when (this) {
-        is DataElement.Null -> null
-        is DataElement.Bool -> this
-        is DataElement.Text -> this
-        is DataElement.Decimal -> this
-        is DataElement.Array -> normalize()
-        is DataElement.Struct -> normalize()
+        is JsonElement.Null -> null
+        is JsonElement.Bool -> this
+        is JsonElement.Text -> this
+        is JsonElement.Decimal -> this
+        is JsonElement.Array -> normalize()
+        is JsonElement.Struct -> normalize()
     }
 }
 
-internal fun DataElement.Array.normalize(): DataElement? {
-    val builder = DataElement.Array.Builder()
+internal fun JsonElement.Array.normalize(): JsonElement? {
+    val builder = JsonElement.Array.Builder()
     forEach { item ->
         val normalizedItem = item.normalize()
         if (normalizedItem != null) builder.add(normalizedItem)
@@ -22,8 +22,8 @@ internal fun DataElement.Array.normalize(): DataElement? {
     return if (builder.hasItems) builder.build() else null
 }
 
-internal fun DataElement.Struct.normalize(): DataElement? {
-    val builder = DataElement.Struct.Builder()
+internal fun JsonElement.Struct.normalize(): JsonElement? {
+    val builder = JsonElement.Struct.Builder()
     forEach { (key, value) ->
         val normalizedValue = value.normalize()
         if (normalizedValue != null) builder[key] = normalizedValue

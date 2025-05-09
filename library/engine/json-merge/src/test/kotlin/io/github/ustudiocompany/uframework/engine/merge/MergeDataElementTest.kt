@@ -10,8 +10,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
 import io.github.ustudiocompany.uframework.engine.merge.strategy.role.MergeRule
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.module.DataElementModule
+import io.github.ustudiocompany.uframework.json.element.JsonElement
+import io.github.ustudiocompany.uframework.rulesengine.parser.module.JsonElementModule
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 
 @OptIn(AirfluxTypesExperimental::class)
@@ -26,7 +26,7 @@ internal class MergeDataElementTest : UnitTest() {
                 .build()
                 .apply {
                     registerKotlinModule()
-                    registerModules(DataElementModule())
+                    registerModules(JsonElementModule())
                 }
 
             val strategy: MergeStrategy = mapOf(
@@ -36,9 +36,9 @@ internal class MergeDataElementTest : UnitTest() {
                 AttributePath("roles") to MergeRule.WholeListMerge
             )
 
-            val dst = mapper.readValue(DST, DataElement::class.java)
-            val src = mapper.readValue(SRC, DataElement::class.java)
-            val merged = mapper.readValue(MERGED_RESULT, DataElement::class.java)
+            val dst = mapper.readValue(DST, JsonElement::class.java)
+            val src = mapper.readValue(SRC, JsonElement::class.java)
+            val merged = mapper.readValue(MERGED_RESULT, JsonElement::class.java)
 
             val result = dst.merge(src, strategy)
 

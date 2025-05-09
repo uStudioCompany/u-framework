@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
@@ -25,7 +25,7 @@ internal class ArgsBuilderTest : UnitTest() {
                     listOf(
                         Arg(
                             name = ARG_NAME_1,
-                            value = Value.Literal(fact = DataElement.Text(ARG_VALUE_1))
+                            value = Value.Literal(fact = JsonElement.Text(ARG_VALUE_1))
                         )
                     )
                 )
@@ -73,7 +73,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
             override fun evaluate(
                 context: Context
-            ): ResultK<DataElement, FeelExpression.EvaluateError> =
+            ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()
         }
     }

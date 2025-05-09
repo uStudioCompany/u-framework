@@ -12,7 +12,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    implementation(project(":rules-engine-core"))
+    api(project(":json-element"))
     implementation(project(":failure-library"))
 
     /* Libs */
@@ -21,7 +21,7 @@ dependencies {
     }
 
     /* Test */
-    testImplementation(project(":rules-engine-parser-jackson"))
+    testImplementation(project(":json-element-jackson-parser"))
     testImplementation(libs.bundles.jackson)
 
     testImplementation(libs.bundles.kotest)

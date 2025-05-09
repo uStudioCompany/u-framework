@@ -2,13 +2,13 @@ package io.github.ustudiocompany.uframework.rulesengine.core.path
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 public interface Path {
 
     public val text: String
 
-    public fun searchIn(data: DataElement): ResultK<DataElement?, SearchError>
+    public fun searchIn(data: JsonElement): ResultK<JsonElement?, SearchError>
 
     /**
      * Represents an unexpected search error that occurs while attempting to retrieve data using a JSON path.

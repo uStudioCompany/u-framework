@@ -2,7 +2,7 @@ package io.github.ustudiocompany.rulesengine.parser.model.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
@@ -69,9 +69,9 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
                     value shouldBe StepModel.DataBuild(
                         condition = listOf(
                             PredicateModel(
-                                target = ValueModel.Literal(fact = FactModel(DataElement.Text(FACT))),
+                                target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
                                 operator = OPERATOR_EQ,
-                                value = ValueModel.Literal(fact = FactModel(DataElement.Text(FACT)))
+                                value = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
                             )
                         ),
                         dataSchema = DataSchemaModel.Struct(
@@ -79,7 +79,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
                                 DataSchemaModel.StructProperty.Element(
                                     name = PROP_NAME,
                                     value = ValueModel.Literal(
-                                        fact = FactModel(DataElement.Text(PROP_VALUE))
+                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
                                     )
                                 )
                             )
@@ -128,7 +128,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
                                 DataSchemaModel.StructProperty.Element(
                                     name = PROP_NAME,
                                     value = ValueModel.Literal(
-                                        fact = FactModel(DataElement.Text(PROP_VALUE))
+                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
                                     )
                                 )
                             )

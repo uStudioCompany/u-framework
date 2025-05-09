@@ -13,7 +13,7 @@ public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$D
 }
 
 public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$Destination$TypeMismatch : io/github/ustudiocompany/uframework/engine/merge/MergeError$Destination {
-	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/path/AttributePath;Lkotlin/reflect/KClass;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/path/AttributePath;Lkotlin/reflect/KClass;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
@@ -40,7 +40,7 @@ public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$S
 }
 
 public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$Source$TypeMismatch : io/github/ustudiocompany/uframework/engine/merge/MergeError$Source {
-	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/path/AttributePath;Lkotlin/reflect/KClass;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/engine/merge/path/AttributePath;Lkotlin/reflect/KClass;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
@@ -48,7 +48,7 @@ public final class io/github/ustudiocompany/uframework/engine/merge/MergeError$S
 }
 
 public final class io/github/ustudiocompany/uframework/engine/merge/MergeKt {
-	public static final fun merge (Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Lio/github/ustudiocompany/uframework/rulesengine/core/data/DataElement;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public static final fun merge (Lio/github/ustudiocompany/uframework/json/element/JsonElement;Lio/github/ustudiocompany/uframework/json/element/JsonElement;Ljava/util/Map;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/engine/merge/path/AttributeName {

@@ -1,6 +1,6 @@
 package io.github.ustudiocompany.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.IS_PRESENT
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -14,7 +14,7 @@ internal class IsPresentOperatorTest : AbstractOperatorTest() {
                 nameFn = ::testDescription,
                 listOf(
                     TestData(target = null, value = null, expected = false),
-                    TestData(target = DataElement.Null, value = null, expected = true),
+                    TestData(target = JsonElement.Null, value = null, expected = true),
                     TestData(target = bool(true), value = null, expected = true),
                     TestData(target = bool(false), value = null, expected = true),
                     TestData(target = text(TEXT_VALUE_1), value = null, expected = true),

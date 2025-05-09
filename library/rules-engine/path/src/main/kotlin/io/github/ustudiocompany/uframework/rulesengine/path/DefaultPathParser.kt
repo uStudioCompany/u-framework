@@ -8,7 +8,7 @@ import com.jayway.jsonpath.PathNotFoundException
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.SearchError
 
@@ -30,8 +30,8 @@ private class DefaultPathParser(private val config: Configuration) : PathParser 
         private val parsedPath: JsonPath
     ) : Path {
 
-        override fun searchIn(data: DataElement): ResultK<DataElement?, SearchError> = try {
-            parsedPath.read<DataElement>(data, config)
+        override fun searchIn(data: JsonElement): ResultK<JsonElement?, SearchError> = try {
+            parsedPath.read<JsonElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {

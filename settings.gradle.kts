@@ -125,3 +125,9 @@ project(":rules-engine-executor").projectDir = file("./library/rules-engine/exec
 
 include(":json-merge-engine")
 project(":json-merge-engine").projectDir = file("./library/engine/json-merge")
+
+include(":json-element")
+project(":json-element").projectDir = file("./library/json/element")
+
+include(":json-element-jackson-parser")
+project(":json-element-jackson-parser").projectDir = file("./library/json/element/parser/jackson")

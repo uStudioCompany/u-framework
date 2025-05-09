@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
@@ -35,13 +35,13 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     val condition = Condition(
                         listOf(
                             Predicate(
-                                target = Value.Literal(fact = DataElement.Text(VALUE_1)),
-                                value = Value.Literal(fact = DataElement.Text(VALUE_1)),
+                                target = Value.Literal(fact = JsonElement.Text(VALUE_1)),
+                                value = Value.Literal(fact = JsonElement.Text(VALUE_1)),
                                 operator = EQ
                             ),
                             Predicate(
-                                target = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                target = Value.Literal(fact = JsonElement.Text(VALUE_2)),
+                                value = Value.Literal(fact = JsonElement.Text(VALUE_2)),
                                 operator = EQ
                             )
                         )
@@ -57,13 +57,13 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     val condition = Condition(
                         listOf(
                             Predicate(
-                                target = Value.Literal(fact = DataElement.Text(VALUE_1)),
-                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                target = Value.Literal(fact = JsonElement.Text(VALUE_1)),
+                                value = Value.Literal(fact = JsonElement.Text(VALUE_2)),
                                 operator = EQ
                             ),
                             Predicate(
-                                target = Value.Literal(fact = DataElement.Text(VALUE_2)),
-                                value = Value.Literal(fact = DataElement.Text(VALUE_2)),
+                                target = Value.Literal(fact = JsonElement.Text(VALUE_2)),
+                                value = Value.Literal(fact = JsonElement.Text(VALUE_2)),
                                 operator = EQ
                             )
                         )
@@ -80,7 +80,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                         listOf(
                             Predicate(
                                 target = Value.Expression(EXPRESSION),
-                                value = Value.Literal(DataElement.Text(VALUE_1)),
+                                value = Value.Literal(JsonElement.Text(VALUE_1)),
                                 operator = EQ
                             )
                         )
@@ -109,7 +109,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
 
             override fun evaluate(
                 context: Context
-            ): ResultK<DataElement, FeelExpression.EvaluateError> =
+            ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()
         }
     }

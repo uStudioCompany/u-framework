@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -20,7 +20,7 @@ internal class TryAddToContextTest : UnitTest() {
             "when context is empty" - {
                 val context = Context.empty()
 
-                val value = DataElement.Text(ORIGIN_VALUE)
+                val value = JsonElement.Text(ORIGIN_VALUE)
                 val result = context.tryAdd(SOURCE, value)
 
                 "then function should be successful" {
@@ -40,10 +40,10 @@ internal class TryAddToContextTest : UnitTest() {
             "when context is not empty" - {
 
                 "when adding source is present in context" - {
-                    val value = DataElement.Text(ORIGIN_VALUE)
+                    val value = JsonElement.Text(ORIGIN_VALUE)
                     val context = Context(mapOf(SOURCE to value))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.tryAdd(SOURCE, newValue)
 
                     "then function should return an error" {
@@ -62,10 +62,10 @@ internal class TryAddToContextTest : UnitTest() {
                 }
 
                 "when adding source is missing in context" - {
-                    val value = DataElement.Text(ORIGIN_VALUE)
+                    val value = JsonElement.Text(ORIGIN_VALUE)
                     val context = Context(mapOf(SOURCE to value))
 
-                    val newValue = DataElement.Text(NEW_VALUE)
+                    val newValue = JsonElement.Text(NEW_VALUE)
                     val result = context.tryAdd(NEW_SOURCE, newValue)
 
                     "then function should be successful" {

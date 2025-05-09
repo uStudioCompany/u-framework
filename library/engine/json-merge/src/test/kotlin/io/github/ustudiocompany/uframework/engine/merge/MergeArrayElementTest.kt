@@ -11,8 +11,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
 import io.github.ustudiocompany.uframework.engine.merge.strategy.role.MergeRule
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.module.DataElementModule
+import io.github.ustudiocompany.uframework.json.element.JsonElement
+import io.github.ustudiocompany.uframework.rulesengine.parser.module.JsonElementModule
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import java.math.BigDecimal
 
@@ -28,7 +28,7 @@ internal class MergeArrayElementTest : UnitTest() {
                 .build()
                 .apply {
                     registerKotlinModule()
-                    registerModules(DataElementModule())
+                    registerModules(JsonElementModule())
                 }
 
             "when source is a Array type" - {
@@ -55,7 +55,7 @@ internal class MergeArrayElementTest : UnitTest() {
             }
 
             "when source is a Null type" - {
-                val src: DataElement = NULL_VALUE
+                val src: JsonElement = NULL_VALUE
 
                 val result = mergeArray(
                     dst = ARRAY_VALUE,
@@ -89,7 +89,7 @@ internal class MergeArrayElementTest : UnitTest() {
 
                         val expectedError = MergeError.Source.TypeMismatch(
                             path = AttributePath(PATH_ATTRIBUTE),
-                            expected = DataElement.Array::class,
+                            expected = JsonElement.Array::class,
                             actual = src,
                         )
                         result.cause failuresShouldBeEqual expectedError
@@ -99,8 +99,8 @@ internal class MergeArrayElementTest : UnitTest() {
         }
     }
 
-    private fun String.parseToArray(mapper: JsonMapper): DataElement.Array =
-        mapper.readValue(this, DataElement::class.java) as DataElement.Array
+    private fun String.parseToArray(mapper: JsonMapper): JsonElement.Array =
+        mapper.readValue(this, JsonElement::class.java) as JsonElement.Array
 
     private fun testData(): List<TestData> = listOf(
         TestData(
@@ -118,12 +118,12 @@ internal class MergeArrayElementTest : UnitTest() {
     private companion object {
         private const val PATH_ATTRIBUTE = "id"
 
-        private val NULL_VALUE = DataElement.Null
-        private val BOOL_VALUE = DataElement.Bool(true)
-        private val TEXT_VALUE = DataElement.Text("text")
-        private val DECIMAL_VALUE = DataElement.Decimal(BigDecimal(123))
-        private val ARRAY_VALUE = DataElement.Array(NULL_VALUE, BOOL_VALUE)
-        private val STRUCT_VALUE = DataElement.Struct(PATH_ATTRIBUTE to DECIMAL_VALUE)
+        private val NULL_VALUE = JsonElement.Null
+        private val BOOL_VALUE = JsonElement.Bool(true)
+        private val TEXT_VALUE = JsonElement.Text("text")
+        private val DECIMAL_VALUE = JsonElement.Decimal(BigDecimal(123))
+        private val ARRAY_VALUE = JsonElement.Array(NULL_VALUE, BOOL_VALUE)
+        private val STRUCT_VALUE = JsonElement.Struct(PATH_ATTRIBUTE to DECIMAL_VALUE)
         private val EMPTY_MERGE_STRATEGY: MergeStrategy = emptyMap()
     }
 

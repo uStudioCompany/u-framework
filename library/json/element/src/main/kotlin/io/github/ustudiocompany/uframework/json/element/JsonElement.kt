@@ -1,18 +1,18 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.data
+package io.github.ustudiocompany.uframework.json.element
 
 import java.math.BigDecimal
 
-public sealed interface DataElement {
+public sealed interface JsonElement {
 
     public fun toJson(): String
 
     public companion object;
 
-    public data object Null : DataElement {
+    public data object Null : JsonElement {
         override fun toJson(): String = "null"
     }
 
-    public data class Bool(val get: Boolean) : DataElement {
+    public data class Bool(val get: Boolean) : JsonElement {
 
         override fun toJson(): String = get.toString()
 
@@ -25,11 +25,11 @@ public sealed interface DataElement {
         }
     }
 
-    public data class Text(val get: String) : DataElement {
+    public data class Text(val get: String) : JsonElement {
         override fun toJson(): String = "\"$get\""
     }
 
-    public data class Decimal(val get: BigDecimal) : DataElement {
+    public data class Decimal(val get: BigDecimal) : JsonElement {
 
         override fun equals(other: Any?): Boolean =
             this === other || other is Decimal && this.get.compareTo(other.get) == 0
@@ -40,11 +40,11 @@ public sealed interface DataElement {
     }
 
     public class Array private constructor(
-        private val items: MutableList<DataElement>
-    ) : DataElement, MutableList<DataElement> by items {
+        private val items: MutableList<JsonElement>
+    ) : JsonElement, MutableList<JsonElement> by items {
 
-        public constructor(vararg items: DataElement) : this(
-            mutableListOf<DataElement>()
+        public constructor(vararg items: JsonElement) : this(
+            mutableListOf<JsonElement>()
                 .apply {
                     items.forEach { this.add(it) }
                 }
@@ -65,12 +65,12 @@ public sealed interface DataElement {
             this === other || (other is Array && items == other.items)
 
         public class Builder {
-            private val items: MutableList<DataElement> = mutableListOf()
+            private val items: MutableList<JsonElement> = mutableListOf()
 
             public val hasItems: Boolean
                 get() = items.isNotEmpty()
 
-            public fun add(value: DataElement): Builder = apply {
+            public fun add(value: JsonElement): Builder = apply {
                 items.add(value)
             }
 
@@ -79,11 +79,11 @@ public sealed interface DataElement {
     }
 
     public class Struct private constructor(
-        private val properties: MutableMap<String, DataElement>
-    ) : DataElement, MutableMap<String, DataElement> by properties {
+        private val properties: MutableMap<String, JsonElement>
+    ) : JsonElement, MutableMap<String, JsonElement> by properties {
 
-        public constructor(vararg properties: Pair<String, DataElement>) : this(
-            mutableMapOf<String, DataElement>()
+        public constructor(vararg properties: Pair<String, JsonElement>) : this(
+            mutableMapOf<String, JsonElement>()
                 .apply {
                     properties.forEach { (name, value) ->
                         this[name] = value
@@ -115,12 +115,12 @@ public sealed interface DataElement {
             this === other || (other is Struct && properties == other.properties)
 
         public class Builder {
-            private val properties = mutableMapOf<String, DataElement>()
+            private val properties = mutableMapOf<String, JsonElement>()
 
             public val hasProperties: Boolean
                 get() = properties.isNotEmpty()
 
-            public operator fun set(name: String, value: DataElement): Builder = apply {
+            public operator fun set(name: String, value: JsonElement): Builder = apply {
                 properties.put(name, value)
             }
 

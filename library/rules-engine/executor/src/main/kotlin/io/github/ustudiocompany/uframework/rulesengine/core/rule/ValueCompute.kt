@@ -6,17 +6,17 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.filterNotNull
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.GetDataFromContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.tryGet
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.data.DataSearchError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
-internal fun Value.compute(context: Context): ResultK<DataElement, ValueComputeErrors> =
+internal fun Value.compute(context: Context): ResultK<JsonElement, ValueComputeErrors> =
     when (this) {
         is Value.Literal -> fact.asSuccess()
 
@@ -82,7 +82,7 @@ internal sealed interface ValueComputeErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Value.computeOrNull(context: Context): ResultK<DataElement?, OptionalValueComputeErrors> =
+internal fun Value.computeOrNull(context: Context): ResultK<JsonElement?, OptionalValueComputeErrors> =
     when (this) {
         is Value.Literal -> fact.asSuccess()
 

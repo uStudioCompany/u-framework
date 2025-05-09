@@ -6,7 +6,7 @@ import com.jayway.jsonpath.TypeRef
 import com.jayway.jsonpath.spi.mapper.MappingException
 import com.jayway.jsonpath.spi.mapper.MappingProvider
 
-internal class DataElementMappingProvider(private val objectMapper: ObjectMapper) : MappingProvider {
+internal class JsonElementMappingProvider(private val objectMapper: ObjectMapper) : MappingProvider {
 
     override fun <T> map(source: Any?, targetType: Class<T>, configuration: Configuration): T? {
         if (source == null) return null

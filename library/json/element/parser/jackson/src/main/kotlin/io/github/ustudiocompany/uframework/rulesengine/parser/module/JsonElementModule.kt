@@ -5,48 +5,48 @@ import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.ParsingException
 import java.util.*
 
-public class DataElementModule : SimpleModule() {
+public class JsonElementModule : SimpleModule() {
 
     init {
-        addDeserializer(DataElement::class.java, Deserializer())
+        addDeserializer(JsonElement::class.java, Deserializer())
     }
 
-    private class Deserializer : JsonDeserializer<DataElement>() {
+    private class Deserializer : JsonDeserializer<JsonElement>() {
 
-        override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): DataElement =
+        override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): JsonElement =
             deserialize(jp, ctxt, Stack())
 
         @Deprecated("This method is deprecated in Jackson")
-        override fun getNullValue(): DataElement.Null = DataElement.Null
+        override fun getNullValue(): JsonElement.Null = JsonElement.Null
 
         @Suppress("LongMethod", "CyclomaticComplexMethod", "CognitiveComplexMethod", "ThrowsCount")
         private tailrec fun deserialize(
             jp: JsonParser,
             context: DeserializationContext,
             parserContext: Stack<DeserializerContext>
-        ): DataElement {
+        ): JsonElement {
             if (jp.currentToken == null) jp.nextToken()
             val tokenId: JsonToken = jp.currentToken
 
-            val maybeValue: DataElement?
+            val maybeValue: JsonElement?
             val nextContext: Stack<DeserializerContext>
             when (tokenId) {
                 JsonToken.VALUE_TRUE -> {
-                    maybeValue = DataElement.Bool.asTrue
+                    maybeValue = JsonElement.Bool.asTrue
                     nextContext = parserContext
                 }
 
                 JsonToken.VALUE_FALSE -> {
-                    maybeValue = DataElement.Bool.asFalse
+                    maybeValue = JsonElement.Bool.asFalse
                     nextContext = parserContext
                 }
 
                 JsonToken.VALUE_STRING -> {
-                    maybeValue = DataElement.Text(jp.text)
+                    maybeValue = JsonElement.Text(jp.text)
                     nextContext = parserContext
                 }
 
@@ -56,7 +56,7 @@ public class DataElementModule : SimpleModule() {
                 }
 
                 JsonToken.VALUE_NULL -> {
-                    maybeValue = DataElement.Null
+                    maybeValue = JsonElement.Null
                     nextContext = parserContext
                 }
 
@@ -127,33 +127,33 @@ public class DataElementModule : SimpleModule() {
         }
 
         private fun String.toDecimal() = try {
-            DataElement.Decimal(this.toBigDecimal())
+            JsonElement.Decimal(this.toBigDecimal())
         } catch (expected: Exception) {
             throw ParsingException("Invalid number value: $this", expected)
         }
 
         private sealed class DeserializerContext {
 
-            abstract fun addValue(value: DataElement): DeserializerContext
+            abstract fun addValue(value: JsonElement): DeserializerContext
 
             class ReadingList : DeserializerContext() {
-                private val builder = DataElement.Array.Builder()
-                override fun addValue(value: DataElement): DeserializerContext = this.apply { builder.add(value) }
-                fun toDataElement(): DataElement.Array = builder.build()
+                private val builder = JsonElement.Array.Builder()
+                override fun addValue(value: JsonElement): DeserializerContext = this.apply { builder.add(value) }
+                fun toDataElement(): JsonElement.Array = builder.build()
             }
 
             class ReadingObject : DeserializerContext() {
-                private val builder = DataElement.Struct.Builder()
+                private val builder = JsonElement.Struct.Builder()
 
                 fun setField(fieldName: String): KeyRead = KeyRead(fieldName)
 
-                override fun addValue(value: DataElement): DeserializerContext =
+                override fun addValue(value: JsonElement): DeserializerContext =
                     throw ParsingException("Cannot add a value on an object without a key, malformed JSON object!")
 
-                fun toDataElement(): DataElement.Struct = builder.build()
+                fun toDataElement(): JsonElement.Struct = builder.build()
 
                 inner class KeyRead(val fieldName: String) : DeserializerContext() {
-                    override fun addValue(value: DataElement): DeserializerContext =
+                    override fun addValue(value: JsonElement): DeserializerContext =
                         this@ReadingObject.apply { builder[fieldName] = value }
                 }
             }

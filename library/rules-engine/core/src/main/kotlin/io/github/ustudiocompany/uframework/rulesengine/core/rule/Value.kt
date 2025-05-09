@@ -1,13 +1,13 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public sealed interface Value {
 
     public data class Literal(
-        public val fact: DataElement
+        public val fact: JsonElement
     ) : Value
 
     public data class Reference(

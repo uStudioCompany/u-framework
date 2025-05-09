@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -83,14 +83,14 @@ internal class DataBuildStepExecutorTest : UnitTest() {
     }
 
     private companion object {
-        private val TEXT_VALUE_1 = DataElement.Text("value-1")
-        private val TEXT_VALUE_2 = DataElement.Text("value-2")
+        private val TEXT_VALUE_1 = JsonElement.Text("value-1")
+        private val TEXT_VALUE_2 = JsonElement.Text("value-2")
         private const val ID_DATA_KEY = "id"
         private const val ID_DATA_VALUE = "0000-0000-0000-0000"
 
         private val SOURCE = Source("output")
 
-        private val EXPECTED_DATA = DataElement.Struct(ID_DATA_KEY to DataElement.Text(ID_DATA_VALUE))
+        private val EXPECTED_DATA = JsonElement.Struct(ID_DATA_KEY to JsonElement.Text(ID_DATA_VALUE))
 
         private fun satisfiedCondition() = Condition(
             listOf(
@@ -119,7 +119,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     properties = listOf(
                         DataSchema.Property.Element(
                             name = ID_DATA_KEY,
-                            value = Value.Literal(fact = DataElement.Text(ID_DATA_VALUE))
+                            value = Value.Literal(fact = JsonElement.Text(ID_DATA_VALUE))
                         )
                     )
                 ),
@@ -133,9 +133,9 @@ internal class DataBuildStepExecutorTest : UnitTest() {
     private class TestMerger : Merger {
         override fun merge(
             strategyCode: StepResult.Action.Merge.StrategyCode,
-            dst: DataElement,
-            src: DataElement
-        ): ResultK<DataElement, Merger.Error> {
+            dst: JsonElement,
+            src: JsonElement
+        ): ResultK<JsonElement, Merger.Error> {
             error("Not implemented")
         }
     }

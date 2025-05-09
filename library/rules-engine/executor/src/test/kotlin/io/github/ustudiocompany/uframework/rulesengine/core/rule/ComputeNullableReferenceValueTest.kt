@@ -6,8 +6,8 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
@@ -58,7 +58,7 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
                             path = path(result = TEXT_VALUE)
                         )
                         val result = value.computeOrNull(context)
-                        result shouldBeSuccess DataElement.Text(VALUE)
+                        result shouldBeSuccess JsonElement.Text(VALUE)
                     }
                 }
             }
@@ -71,15 +71,15 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
 
         private const val KEY = "id"
         private const val VALUE = "value"
-        private val TEXT_VALUE = DataElement.Text(VALUE)
-        private val DATA = DataElement.Struct(KEY to TEXT_VALUE)
+        private val TEXT_VALUE = JsonElement.Text(VALUE)
+        private val DATA = JsonElement.Struct(KEY to TEXT_VALUE)
 
         private const val PATH_VALUE = "$.id"
-        private fun path(result: DataElement?) =
+        private fun path(result: JsonElement?) =
             object : Path {
                 override val text: String = PATH_VALUE
 
-                override fun searchIn(data: DataElement): ResultK<DataElement?, Path.SearchError> =
+                override fun searchIn(data: JsonElement): ResultK<JsonElement?, Path.SearchError> =
                     result.asSuccess()
             }
     }

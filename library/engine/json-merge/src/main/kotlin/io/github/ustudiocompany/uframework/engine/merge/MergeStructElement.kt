@@ -6,28 +6,28 @@ import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.getOrForward
 import io.github.ustudiocompany.uframework.engine.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.engine.merge.strategy.MergeStrategy
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 internal fun mergeStruct(
-    dst: DataElement.Struct,
-    src: DataElement,
+    dst: JsonElement.Struct,
+    src: JsonElement,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement?, MergeError> =
+): ResultK<JsonElement?, MergeError> =
     when (src) {
-        is DataElement.Null -> ResultK.Success.asNull
-        is DataElement.Struct -> mergeStruct(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
-        else -> MergeError.Source.TypeMismatch(path = currentPath, expected = DataElement.Struct::class, actual = src)
+        is JsonElement.Null -> ResultK.Success.asNull
+        is JsonElement.Struct -> mergeStruct(dst = dst, src = src, strategy = strategy, currentPath = currentPath)
+        else -> MergeError.Source.TypeMismatch(path = currentPath, expected = JsonElement.Struct::class, actual = src)
             .asFailure()
     }
 
 private fun mergeStruct(
-    dst: DataElement.Struct,
-    src: DataElement.Struct,
+    dst: JsonElement.Struct,
+    src: JsonElement.Struct,
     strategy: MergeStrategy,
     currentPath: AttributePath
-): ResultK<DataElement?, MergeError> {
-    val builder = DataElement.Struct.Builder()
+): ResultK<JsonElement?, MergeError> {
+    val builder = JsonElement.Struct.Builder()
 
     //Update
     dst.forEach { (key, oldValue) ->
