@@ -129,5 +129,5 @@ project(":json-element").projectDir = file("./library/json/element")
 include(":json-element-jackson-parser")
 project(":json-element-jackson-parser").projectDir = file("./library/json/element/parser/jackson")
 
-include(":json-element-merge-engine")
-project(":json-element-merge-engine").projectDir = file("./library/json/element/merge-engine")
+include(":json-element-merge")
+project(":json-element-merge").projectDir = file("./library/json/element/merge")

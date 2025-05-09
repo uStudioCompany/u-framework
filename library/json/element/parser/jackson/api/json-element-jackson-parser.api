@@ -1,4 +1,4 @@
-public final class io/github/ustudiocompany/uframework/rulesengine/parser/module/JsonElementModule : com/fasterxml/jackson/databind/module/SimpleModule {
+public final class io/github/ustudiocompany/uframework/json/element/parser/jackson/module/JsonElementModule : com/fasterxml/jackson/databind/module/SimpleModule {
 	public fun <init> ()V
 }
 

@@ -3,7 +3,6 @@ package io.github.ustudiocompany.uframework.json.element.parser.jackson.module
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.module.JsonElementModule
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
