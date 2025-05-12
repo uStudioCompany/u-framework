@@ -1,0 +1,25 @@
+public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathParserConfigurationKt {
+	public static final fun defaultPathParserConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;Ljava/util/Set;)Lcom/jayway/jsonpath/Configuration;
+	public static final fun defaultPathParserConfiguration (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lcom/jayway/jsonpath/Configuration;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/DefaultPathParserKt {
+	public static final fun defaultPathParser (Lcom/fasterxml/jackson/databind/ObjectMapper;[Lcom/jayway/jsonpath/Option;)Lio/github/ustudiocompany/uframework/rulesengine/path/PathParser;
+	public static final fun defaultPathParser (Lcom/jayway/jsonpath/Configuration;)Lio/github/ustudiocompany/uframework/rulesengine/path/PathParser;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/path/PathParser {
+	public abstract fun parse (Ljava/lang/String;)Lio/github/airflux/commons/types/resultk/ResultK;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/path/PathParser$Errors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/path/PathParser$Errors$Parsing : io/github/ustudiocompany/uframework/rulesengine/path/PathParser$Errors {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Exception;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+

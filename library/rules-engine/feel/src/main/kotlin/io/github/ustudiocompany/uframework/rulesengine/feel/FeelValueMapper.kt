@@ -85,7 +85,7 @@ internal class FeelValueMapper : JavaCustomValueMapper() {
     }
 
     private fun JsonElement.Struct.toVal(innerValueMapper: Function<Any, Val>): Val {
-        var properties = `Map$`.`MODULE$`.newBuilder<String, Any>()
+        val properties = `Map$`.`MODULE$`.newBuilder<String, Any>()
         forEach { (key, value) ->
             properties.addOne(Tuple2(key, value.toVal(innerValueMapper)))
         }
