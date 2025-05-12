@@ -1,14 +1,12 @@
 package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
+import io.github.ustudiocompany.uframework.rulesengine.parser.Deserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
 internal class DataSchemaModelDeserializationTest : UnitTest() {
@@ -54,10 +52,7 @@ internal class DataSchemaModelDeserializationTest : UnitTest() {
                 val result = deserializer.deserialize(json, DataSchemaModel::class.java)
 
                 "then should be return a struct" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<DataSchemaModel>()
-
-                    value shouldBe DataSchemaModel.Struct(
+                    result shouldBe DataSchemaModel.Struct(
                         properties = listOf(
                             DataSchemaModel.StructProperty.Element(
                                 name = FIRST_PROP_NAME,
@@ -110,10 +105,7 @@ internal class DataSchemaModelDeserializationTest : UnitTest() {
                 val result = deserializer.deserialize(json, DataSchemaModel::class.java)
 
                 "then should be return an array" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<DataSchemaModel>()
-
-                    value shouldBe DataSchemaModel.Array(
+                    result shouldBe DataSchemaModel.Array(
                         items = listOf(
                             DataSchemaModel.ArrayItem.Element(
                                 value = ValueModel.Reference(source = SOURCE, path = PATH)
@@ -140,6 +132,6 @@ internal class DataSchemaModelDeserializationTest : UnitTest() {
         private const val FACT = "UA"
         private const val EXPRESSION = "1 + 2"
 
-        private val deserializer = JacksonDeserializer()
+        private val deserializer = Deserializer()
     }
 }

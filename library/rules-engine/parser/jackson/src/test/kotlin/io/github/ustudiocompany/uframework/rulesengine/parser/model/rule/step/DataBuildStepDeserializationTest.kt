@@ -1,15 +1,13 @@
 package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
+import io.github.ustudiocompany.uframework.rulesengine.parser.Deserializer
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.ValueModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.condition.PredicateModel
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
 internal class DataBuildStepDeserializationTest : UnitTest() {
@@ -61,9 +59,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
                 )
 
                 "then should be return valid type" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<StepModel.DataBuild>()
-                    value shouldBe StepModel.DataBuild(
+                    result shouldBe StepModel.DataBuild(
                         condition = listOf(
                             PredicateModel(
                                 target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
@@ -116,9 +112,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
                 )
 
                 "then should be return valid type" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<StepModel.DataBuild>()
-                    value shouldBe StepModel.DataBuild(
+                    result shouldBe StepModel.DataBuild(
                         condition = emptyList(),
                         dataSchema = DataSchemaModel.Struct(
                             properties = listOf(
@@ -145,6 +139,6 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
         private const val PROP_VALUE = """SCHEME-1"""
         private const val ACTION = "put"
 
-        private val deserializer = JacksonDeserializer()
+        private val deserializer = Deserializer()
     }
 }

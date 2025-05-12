@@ -1,12 +1,10 @@
 package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.rulesengine.parser.JacksonDeserializer
+import io.github.ustudiocompany.uframework.rulesengine.parser.Deserializer
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
 internal class ValueModelDeserializationTest : UnitTest() {
@@ -26,10 +24,7 @@ internal class ValueModelDeserializationTest : UnitTest() {
                 val result = deserializer.deserialize(json, ValueModel::class.java)
 
                 "then should be return a literal value" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<ValueModel.Literal>()
-
-                    value shouldBe ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
+                    result shouldBe ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT)))
                 }
             }
 
@@ -45,10 +40,7 @@ internal class ValueModelDeserializationTest : UnitTest() {
                 val result = deserializer.deserialize(json, ValueModel::class.java)
 
                 "then should be return a reference value" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<ValueModel.Reference>()
-
-                    value shouldBe ValueModel.Reference(source = SOURCE, path = PATH)
+                    result shouldBe ValueModel.Reference(source = SOURCE, path = PATH)
                 }
             }
 
@@ -63,10 +55,7 @@ internal class ValueModelDeserializationTest : UnitTest() {
                 val result = deserializer.deserialize(json, ValueModel::class.java)
 
                 "then should be return an expression value" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<ValueModel.Expression>()
-
-                    value shouldBe ValueModel.Expression(expression = EXPRESSION)
+                    result shouldBe ValueModel.Expression(expression = EXPRESSION)
                 }
             }
         }
@@ -78,6 +67,6 @@ internal class ValueModelDeserializationTest : UnitTest() {
         private const val FACT = "UA"
         private const val EXPRESSION = "1 + 2"
 
-        private val deserializer = JacksonDeserializer()
+        private val deserializer = Deserializer()
     }
 }

@@ -18,7 +18,7 @@ public class FactModule : SimpleModule() {
         addDeserializer(FactModel::class.java, Deserializer())
     }
 
-    internal class Deserializer : JsonDeserializer<FactModel>() {
+    private class Deserializer : JsonDeserializer<FactModel>() {
 
         @Throws(IOException::class, JsonProcessingException::class)
         override fun deserialize(jsonParser: JsonParser, deserializationContext: DeserializationContext): FactModel {
