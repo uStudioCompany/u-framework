@@ -131,3 +131,6 @@ project(":json-element-jackson-parser").projectDir = file("./library/json/elemen
 
 include(":json-element-merge")
 project(":json-element-merge").projectDir = file("./library/json/element/merge")
+
+include(":json-element-merge-strategy")
+project(":json-element-merge-strategy").projectDir = file("./library/json/element/merge/strategy")

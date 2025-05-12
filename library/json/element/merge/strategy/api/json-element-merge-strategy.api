@@ -1,0 +1,43 @@
+public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributeName {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributeName;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath {
+	public static final field Companion Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$Companion;
+	public fun append (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
+	public fun append-VQtGg3U (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
+	public abstract fun isEmpty ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$Companion {
+	public final fun invoke ([Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$None : io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$None;
+	public fun isEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule {
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule$MergeByAttributes : io/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule {
+	public fun <init> (Ljava/util/List;)V
+	public final fun getAttributes ()Ljava/util/List;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule$WholeListMerge : io/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/json/element/merge/strategy/role/MergeRule$WholeListMerge;
+}
+

@@ -13,7 +13,6 @@ dependencies {
     implementation(kotlin("reflect"))
 
     api(project(":json-element"))
-    api(project(":json-element-merge-strategy"))
     implementation(project(":failure-library"))
 
     /* Libs */
