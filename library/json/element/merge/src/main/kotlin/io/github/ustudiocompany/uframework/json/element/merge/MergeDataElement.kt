@@ -3,8 +3,8 @@ package io.github.ustudiocompany.uframework.json.element.merge
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.MergeStrategy
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 
 internal fun merge(
     dst: JsonElement,

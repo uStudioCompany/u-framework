@@ -16,7 +16,7 @@
 
 package io.github.ustudiocompany.uframework.json.element.merge
 
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FreeSpec

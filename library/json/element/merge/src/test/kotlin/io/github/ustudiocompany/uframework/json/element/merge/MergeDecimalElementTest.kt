@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import java.math.BigDecimal
 

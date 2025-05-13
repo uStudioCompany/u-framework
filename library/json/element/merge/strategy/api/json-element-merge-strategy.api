@@ -1,5 +1,5 @@
-public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributeName {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributeName;
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributeName {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributeName;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -12,19 +12,19 @@ public final class io/github/ustudiocompany/uframework/json/element/merge/path/A
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath {
-	public static final field Companion Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$Companion;
-	public fun append (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
-	public fun append-VQtGg3U (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
+public abstract interface class io/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath {
+	public static final field Companion Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath$Companion;
+	public fun append (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath;
+	public fun append-lpnm60M (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath;
 	public abstract fun isEmpty ()Z
 }
 
-public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$Companion {
-	public final fun invoke ([Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath;
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath$Companion {
+	public final fun invoke ([Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath;
 }
 
-public final class io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$None : io/github/ustudiocompany/uframework/json/element/merge/path/AttributePath {
-	public static final field INSTANCE Lio/github/ustudiocompany/uframework/json/element/merge/path/AttributePath$None;
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath$None : io/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/json/element/merge/strategy/path/AttributePath$None;
 	public fun isEmpty ()Z
 	public fun toString ()Ljava/lang/String;
 }

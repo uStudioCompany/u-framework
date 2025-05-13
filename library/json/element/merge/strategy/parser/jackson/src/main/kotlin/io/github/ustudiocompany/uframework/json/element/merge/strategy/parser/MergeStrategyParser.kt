@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map
 import io.github.airflux.commons.types.resultk.mapFailure
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.MergeStrategy
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.parser.model.PropertyModel
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.parser.model.RuleModel
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.parser.model.StrategyModel
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.role.MergeRule
 
 public fun mergeStrategyParser(mapper: ObjectMapper): MergeStrategyParser = JacksonMergeStrategyParser(mapper)

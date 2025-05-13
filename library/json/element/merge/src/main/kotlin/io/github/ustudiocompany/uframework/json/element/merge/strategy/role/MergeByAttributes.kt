@@ -9,8 +9,8 @@ import io.github.ustudiocompany.uframework.json.element.merge.ID
 import io.github.ustudiocompany.uframework.json.element.merge.MergeError
 import io.github.ustudiocompany.uframework.json.element.merge.merge
 import io.github.ustudiocompany.uframework.json.element.merge.normalize
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.MergeStrategy
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 
 @Suppress("ReturnCount")
 internal fun mergeByAttributes(

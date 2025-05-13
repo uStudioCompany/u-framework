@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.json.element.merge.path
+package io.github.ustudiocompany.uframework.json.element.merge.strategy.path
 
 public sealed interface AttributePath {
 

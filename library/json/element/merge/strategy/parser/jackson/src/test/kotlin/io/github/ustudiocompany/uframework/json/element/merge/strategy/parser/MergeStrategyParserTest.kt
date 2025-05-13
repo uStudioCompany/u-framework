@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.MergeStrategy
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 import io.github.ustudiocompany.uframework.json.element.merge.strategy.role.MergeRule
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 

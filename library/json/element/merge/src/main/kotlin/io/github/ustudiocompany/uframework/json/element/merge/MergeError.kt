@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.json.element.merge
 
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.json.element.merge.path.AttributePath
+import io.github.ustudiocompany.uframework.json.element.merge.strategy.path.AttributePath
 import kotlin.reflect.KClass
 
 public sealed class MergeError : Failure {
