@@ -33,7 +33,7 @@ private class JacksonMergeStrategyParser(mapper: ObjectMapper) : MergeStrategyPa
             val rule = property.rule
             if (rule != null)
                 destination[currentPath] = when (rule) {
-                    is RuleModel.MergeByAttribute -> MergeRule.MergeByAttributes(rule.attributes)
+                    is RuleModel.MergeByAttributes -> MergeRule.MergeByAttributes(rule.attributes)
                     is RuleModel.WholeListMerge -> MergeRule.WholeListMerge
                 }
 

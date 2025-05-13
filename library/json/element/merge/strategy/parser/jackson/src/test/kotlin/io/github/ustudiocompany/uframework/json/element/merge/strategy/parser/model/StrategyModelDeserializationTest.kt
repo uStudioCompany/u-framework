@@ -26,7 +26,7 @@ internal class StrategyModelDeserializationTest : UnitTest() {
                         |     },
                         |     "$DOCUMENTS": {
                         |       "rule": {
-                        |         "name": "mergeByAttribute",
+                        |         "name": "mergeByAttributes",
                         |         "attributes": ["$DOCUMENT_ID"]
                         |       }
                         |     }
@@ -38,7 +38,7 @@ internal class StrategyModelDeserializationTest : UnitTest() {
                         properties = mapOf(
                             ADDITION_CLASSIFICATIONS to PropertyModel(rule = RuleModel.WholeListMerge),
                             DOCUMENTS to PropertyModel(
-                                rule = RuleModel.MergeByAttribute(listOf(DOCUMENT_ID))
+                                rule = RuleModel.MergeByAttributes(listOf(DOCUMENT_ID))
                             )
                         )
                     )

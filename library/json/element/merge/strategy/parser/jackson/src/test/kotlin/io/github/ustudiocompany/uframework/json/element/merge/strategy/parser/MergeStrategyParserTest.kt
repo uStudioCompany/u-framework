@@ -33,7 +33,7 @@ internal class MergeStrategyParserTest : UnitTest() {
                         |     },
                         |     "$PERSONS": {
                         |       "rule": {
-                        |         "name": "mergeByAttribute",
+                        |         "name": "mergeByAttributes",
                         |         "attributes": ["$PERSON_ID"]
                         |       },
                         |       "properties": {

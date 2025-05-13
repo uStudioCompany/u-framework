@@ -19,7 +19,7 @@ internal class MergeDataElementTest : UnitTest() {
 
     init {
 
-        "The MergeByAttribute strategy" - {
+        "The MergeByAttributes strategy" - {
             val mapper: JsonMapper = JsonMapper.builder(JsonFactory())
                 .enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION)
                 .configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, true)

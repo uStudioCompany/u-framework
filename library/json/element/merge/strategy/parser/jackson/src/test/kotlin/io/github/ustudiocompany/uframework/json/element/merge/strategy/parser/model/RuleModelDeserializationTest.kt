@@ -23,14 +23,14 @@ internal class RuleModelDeserializationTest : UnitTest() {
                     expected = RuleModel.WholeListMerge
                 ),
                 TestData(
-                    role = "mergeByAttribute",
+                    role = "mergeByAttributes",
                     json = """
                         | {
-                        |   "name": "mergeByAttribute",
+                        |   "name": "mergeByAttributes",
                         |   "attributes": ["$FIRST_ATTRIBUTE", "$SECOND_ATTRIBUTE"]
                         | }
                     """.trimMargin(),
-                    expected = RuleModel.MergeByAttribute(listOf(FIRST_ATTRIBUTE, SECOND_ATTRIBUTE))
+                    expected = RuleModel.MergeByAttributes(listOf(FIRST_ATTRIBUTE, SECOND_ATTRIBUTE))
                 )
             ).forEach { (role, json, expected) ->
                 "when role name is $role" - {

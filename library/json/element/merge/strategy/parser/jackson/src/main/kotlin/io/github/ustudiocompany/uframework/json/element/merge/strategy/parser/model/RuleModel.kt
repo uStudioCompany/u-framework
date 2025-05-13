@@ -11,11 +11,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 @JsonSubTypes(
     JsonSubTypes.Type(value = RuleModel.WholeListMerge::class, name = "wholeListMerge"),
-    JsonSubTypes.Type(value = RuleModel.MergeByAttribute::class, name = "mergeByAttribute")
+    JsonSubTypes.Type(value = RuleModel.MergeByAttributes::class, name = "mergeByAttributes")
 )
 internal sealed interface RuleModel {
     data object WholeListMerge : RuleModel
-    data class MergeByAttribute(
+    data class MergeByAttributes(
         @JsonProperty("attributes") val attributes: List<String>
     ) : RuleModel
 }
