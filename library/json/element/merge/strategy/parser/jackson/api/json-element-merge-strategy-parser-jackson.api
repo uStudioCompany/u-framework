@@ -1,0 +1,4 @@
+public final class io/github/ustudiocompany/uframework/json/element/merge/strategy/parser/MergeStrategyParserKt {
+	public static final fun mergeStrategyParser (Lcom/fasterxml/jackson/databind/ObjectMapper;)Lio/github/ustudiocompany/uframework/json/element/merge/strategy/parser/MergeStrategyParser;
+}
+
