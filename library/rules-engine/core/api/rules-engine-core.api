@@ -34,21 +34,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/feel/Fee
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/path/Path {
-	public abstract fun getText ()Ljava/lang/String;
-	public abstract fun searchIn (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/airflux/commons/types/resultk/ResultK;
-}
-
-public final class io/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchError : io/github/ustudiocompany/uframework/failure/Failure {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;Ljava/lang/Exception;)V
-	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
-	public fun getCode ()Ljava/lang/String;
-	public fun getDescription ()Ljava/lang/String;
-	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
-	public final fun getException ()Ljava/lang/Exception;
-	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Rule : io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Conditional {
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-x1RwLDY ()Ljava/util/List;
@@ -110,13 +95,13 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Val
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/path/Path;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
-	public final fun component2 ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
-	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
-	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/json/path/Path;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/path/Path;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/path/Path;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Reference;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPath ()Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;
+	public final fun getPath ()Lio/github/ustudiocompany/uframework/json/path/Path;
 	public final fun getSource ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

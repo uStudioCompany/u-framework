@@ -4,8 +4,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
+import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 internal fun JsonElement.search(path: Path): ResultK<JsonElement?, DataSearchError> =
     path.searchIn(this).mapFailure { failure -> DataSearchError(path = path, cause = failure) }

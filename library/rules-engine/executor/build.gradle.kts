@@ -14,6 +14,7 @@ dependencies {
 
     implementation(project(":failure-library"))
     api(project(":json-element"))
+    api(project(":json-path"))
     api(project(":rules-engine-core"))
 
     /* Libs */

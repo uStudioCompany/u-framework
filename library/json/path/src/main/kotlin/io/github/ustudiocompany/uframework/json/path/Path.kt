@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.core.path
+package io.github.ustudiocompany.uframework.json.path
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure

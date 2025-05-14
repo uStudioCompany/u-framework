@@ -1,15 +1,13 @@
-package io.github.ustudiocompany.uframework.rulesengine.path
+package io.github.ustudiocompany.uframework.json.path
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public fun interface PathParser {
 
     public fun parse(path: String): ResultK<Path, Errors.Parsing>
 
-    public sealed interface Errors : BasicRulesEngineError {
+    public sealed interface Errors : Failure {
 
         public class Parsing(path: String, cause: Exception) : Errors {
             override val code: String = PREFIX + "1"

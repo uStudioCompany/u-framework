@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.andThen
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.ustudiocompany.uframework.json.path.PathParser
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.feel.ExpressionParser
-import io.github.ustudiocompany.uframework.rulesengine.path.PathParser
 
 public fun rulesParser(
     mapper: ObjectMapper,

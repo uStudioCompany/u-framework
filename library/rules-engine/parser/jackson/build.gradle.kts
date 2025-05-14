@@ -13,9 +13,9 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":json-element"))
+    implementation(project(":json-path"))
     implementation(project(":rules-engine-core"))
     implementation(project(":rules-engine-feel"))
-    implementation(project(":rules-engine-path"))
     implementation(project(":rules-engine-parser-core"))
     implementation(project(":failure-library"))
 

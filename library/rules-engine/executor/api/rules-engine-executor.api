@@ -1,5 +1,5 @@
 public final class io/github/ustudiocompany/uframework/rulesengine/core/data/DataSearchError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path;Lio/github/ustudiocompany/uframework/rulesengine/core/path/Path$SearchError;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/json/path/Path;Lio/github/ustudiocompany/uframework/json/path/Path$SearchError;)V
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

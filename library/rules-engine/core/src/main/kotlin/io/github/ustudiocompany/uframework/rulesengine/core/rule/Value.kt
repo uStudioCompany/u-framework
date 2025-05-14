@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule
 
 import io.github.ustudiocompany.uframework.json.element.JsonElement
+import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 
 public sealed interface Value {
 

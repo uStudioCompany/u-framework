@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.path
+package io.github.ustudiocompany.uframework.json.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jayway.jsonpath.Configuration
@@ -9,8 +9,6 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path.SearchError
 
 public fun defaultPathParser(mapper: ObjectMapper, vararg options: Option): PathParser =
     defaultPathParser(defaultPathParserConfiguration(mapper, options.toSet()))
@@ -30,14 +28,14 @@ private class DefaultPathParser(private val config: Configuration) : PathParser 
         private val parsedPath: JsonPath
     ) : Path {
 
-        override fun searchIn(data: JsonElement): ResultK<JsonElement?, SearchError> = try {
+        override fun searchIn(data: JsonElement): ResultK<JsonElement?, Path.SearchError> = try {
             parsedPath.read<JsonElement>(data, config)
                 ?.asSuccess()
                 ?: ResultK.Success.asNull
         } catch (_: PathNotFoundException) {
             ResultK.Success.asNull
         } catch (expected: Exception) {
-            SearchError(path = this, exception = expected).asFailure()
+            Path.SearchError(path = this, exception = expected).asFailure()
         }
     }
 }

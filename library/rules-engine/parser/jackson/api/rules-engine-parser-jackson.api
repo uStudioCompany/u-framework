@@ -1,5 +1,5 @@
 public final class io/github/ustudiocompany/uframework/rulesengine/parser/RulesParserKt {
-	public static final fun rulesParser (Lcom/fasterxml/jackson/databind/ObjectMapper;Lio/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser;Lio/github/ustudiocompany/uframework/rulesengine/path/PathParser;)Lio/github/ustudiocompany/uframework/rulesengine/parser/RulesParser;
+	public static final fun rulesParser (Lcom/fasterxml/jackson/databind/ObjectMapper;Lio/github/ustudiocompany/uframework/rulesengine/feel/ExpressionParser;Lio/github/ustudiocompany/uframework/json/path/PathParser;)Lio/github/ustudiocompany/uframework/rulesengine/parser/RulesParser;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/parser/module/FactModule : com/fasterxml/jackson/databind/module/SimpleModule {

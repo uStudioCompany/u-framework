@@ -117,14 +117,14 @@ project(":rules-engine-feel").projectDir = file("./library/rules-engine/feel")
 include(":rules-engine-feel-functions")
 project(":rules-engine-feel-functions").projectDir = file("./library/rules-engine/feel/functions")
 
-include(":rules-engine-path")
-project(":rules-engine-path").projectDir = file("./library/rules-engine/path")
-
 include(":rules-engine-executor")
 project(":rules-engine-executor").projectDir = file("./library/rules-engine/executor")
 
 include(":json-element")
 project(":json-element").projectDir = file("./library/json/element")
+
+include(":json-path")
+project(":json-path").projectDir = file("./library/json/path")
 
 include(":json-element-jackson-parser")
 project(":json-element-jackson-parser").projectDir = file("./library/json/element/parser/jackson")

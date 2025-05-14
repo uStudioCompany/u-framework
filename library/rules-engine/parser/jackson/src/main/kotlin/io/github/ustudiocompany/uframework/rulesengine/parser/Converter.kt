@@ -8,8 +8,9 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.path.Path
+import io.github.ustudiocompany.uframework.json.path.PathParser
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
-import io.github.ustudiocompany.uframework.rulesengine.core.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -46,7 +47,6 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.Re
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StructPropertiesModel
-import io.github.ustudiocompany.uframework.rulesengine.path.PathParser
 
 @Suppress("TooManyFunctions")
 internal class Converter(

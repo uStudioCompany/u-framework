@@ -1,4 +1,4 @@
-package io.github.ustudiocompany.uframework.rulesengine.path
+package io.github.ustudiocompany.uframework.json.path
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
