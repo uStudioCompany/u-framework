@@ -74,7 +74,11 @@ public sealed interface JsonElement {
                 items.add(value)
             }
 
-            public fun build(): Array = Array(items)
+            public fun build(): Array = if (items.isNotEmpty()) Array(items) else EMPTY
+
+            private companion object {
+                private val EMPTY = Array()
+            }
         }
     }
 
@@ -124,7 +128,11 @@ public sealed interface JsonElement {
                 properties.put(name, value)
             }
 
-            public fun build(): Struct = Struct(properties)
+            public fun build(): Struct = if (properties.isNotEmpty()) Struct(properties) else EMPTY
+
+            private companion object {
+                private val EMPTY = Struct()
+            }
         }
     }
 }
