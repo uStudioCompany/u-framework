@@ -1,23 +1,23 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 internal data object IsPresentOperator : AbstractBooleanOperator() {
 
-    override fun compute(target: DataElement?, value: DataElement?): Boolean = when (target) {
+    override fun compute(target: JsonElement?, value: JsonElement?): Boolean = when (target) {
         null -> false
-        is DataElement.Null -> target.compareWith(value)
-        is DataElement.Bool -> target.compareWith(value)
-        is DataElement.Text -> target.compareWith(value)
-        is DataElement.Decimal -> target.compareWith(value)
-        is DataElement.Struct -> target.compareWith(value)
-        is DataElement.Array -> target.compareWith(value)
+        is JsonElement.Null -> target.compareWith(value)
+        is JsonElement.Bool -> target.compareWith(value)
+        is JsonElement.Text -> target.compareWith(value)
+        is JsonElement.Decimal -> target.compareWith(value)
+        is JsonElement.Struct -> target.compareWith(value)
+        is JsonElement.Array -> target.compareWith(value)
     }
 
-    override fun DataElement.Null.compareWith(value: DataElement?): Boolean = true
-    override fun DataElement.Bool.compareWith(value: DataElement?): Boolean = true
-    override fun DataElement.Text.compareWith(value: DataElement?): Boolean = true
-    override fun DataElement.Decimal.compareWith(value: DataElement?): Boolean = true
-    override fun DataElement.Struct.compareWith(value: DataElement?): Boolean = true
-    override fun DataElement.Array.compareWith(value: DataElement?): Boolean = true
+    override fun JsonElement.Null.compareWith(value: JsonElement?): Boolean = true
+    override fun JsonElement.Bool.compareWith(value: JsonElement?): Boolean = true
+    override fun JsonElement.Text.compareWith(value: JsonElement?): Boolean = true
+    override fun JsonElement.Decimal.compareWith(value: JsonElement?): Boolean = true
+    override fun JsonElement.Struct.compareWith(value: JsonElement?): Boolean = true
+    override fun JsonElement.Array.compareWith(value: JsonElement?): Boolean = true
 }

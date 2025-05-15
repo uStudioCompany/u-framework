@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -39,7 +39,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     Arg(
                                         name = ID_PARAM_NAME,
                                         value = Value.Literal(
-                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                            fact = JsonElement.Text(ID_PARAM_VALUE)
                                         )
                                     )
                                 )
@@ -63,7 +63,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     }
 
                     "when an error of merging" - {
-                        val context = Context(mapOf(RESULT_SOURCE to DataElement.Text(ORIGIN_VALUE)))
+                        val context = Context(mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                         val step = DataRetrieveStep(
                             condition = condition,
                             uri = Uri,
@@ -72,7 +72,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     Arg(
                                         name = ID_PARAM_NAME,
                                         value = Value.Literal(
-                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                            fact = JsonElement.Text(ID_PARAM_VALUE)
                                         )
                                     )
                                 )
@@ -107,7 +107,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                 Arg(
                                     name = ID_PARAM_NAME,
                                     value = Value.Literal(
-                                        fact = DataElement.Text(ID_PARAM_VALUE)
+                                        fact = JsonElement.Text(ID_PARAM_VALUE)
                                     )
                                 )
                             )
@@ -150,7 +150,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                                     Arg(
                                         name = ID_PARAM_NAME,
                                         value = Value.Literal(
-                                            fact = DataElement.Text(ID_PARAM_VALUE)
+                                            fact = JsonElement.Text(ID_PARAM_VALUE)
                                         )
                                     )
                                 )
@@ -208,8 +208,8 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"
 
-        private val TEXT_VALUE_1 = DataElement.Text("value-1")
-        private val TEXT_VALUE_2 = DataElement.Text("value-2")
+        private val TEXT_VALUE_1 = JsonElement.Text("value-1")
+        private val TEXT_VALUE_2 = JsonElement.Text("value-2")
 
         private val Uri = Uri("users:id")
 
@@ -218,7 +218,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
         private val RESULT_SOURCE = Source("output")
 
-        private val CALL_RESULT = DataElement.Text("data")
+        private val CALL_RESULT = JsonElement.Text("data")
         private val MERGE_STRATEGY_CODE = StepResult.Action.Merge.StrategyCode("merge-strategy-code")
 
         private fun satisfiedCondition() = Condition(

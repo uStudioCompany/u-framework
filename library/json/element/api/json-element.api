@@ -1,0 +1,147 @@
+public abstract interface class io/github/ustudiocompany/uframework/json/element/JsonElement {
+	public static final field Companion Lio/github/ustudiocompany/uframework/json/element/JsonElement$Companion;
+	public abstract fun toJson ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Array : io/github/ustudiocompany/uframework/json/element/JsonElement, java/util/List, kotlin/jvm/internal/markers/KMutableList {
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ([Lio/github/ustudiocompany/uframework/json/element/JsonElement;)V
+	public fun add (ILio/github/ustudiocompany/uframework/json/element/JsonElement;)V
+	public synthetic fun add (ILjava/lang/Object;)V
+	public fun add (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun addAll (ILjava/util/Collection;)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public fun clear ()V
+	public fun contains (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public fun get (I)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public synthetic fun get (I)Ljava/lang/Object;
+	public fun getSize ()I
+	public fun hashCode ()I
+	public fun indexOf (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)I
+	public final fun indexOf (Ljava/lang/Object;)I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public fun lastIndexOf (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)I
+	public final fun lastIndexOf (Ljava/lang/Object;)I
+	public fun listIterator ()Ljava/util/ListIterator;
+	public fun listIterator (I)Ljava/util/ListIterator;
+	public final fun remove (I)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public synthetic fun remove (I)Ljava/lang/Object;
+	public fun remove (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public final fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun removeAt (I)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun retainAll (Ljava/util/Collection;)Z
+	public fun set (ILio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public synthetic fun set (ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun size ()I
+	public fun subList (II)Ljava/util/List;
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toJson ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Array$Builder {
+	public fun <init> ()V
+	public final fun add (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Array$Builder;
+	public final fun build ()Lio/github/ustudiocompany/uframework/json/element/JsonElement$Array;
+	public final fun getHasItems ()Z
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Bool : io/github/ustudiocompany/uframework/json/element/JsonElement {
+	public static final field Companion Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool$Companion;
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;ZILjava/lang/Object;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGet ()Z
+	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+	public static final fun valueOf (Z)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Bool$Companion {
+	public final fun getAsFalse ()Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+	public final fun getAsTrue ()Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+	public final fun valueOf (Z)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Bool;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Companion {
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Decimal : io/github/ustudiocompany/uframework/json/element/JsonElement {
+	public fun <init> (Ljava/math/BigDecimal;)V
+	public final fun component1 ()Ljava/math/BigDecimal;
+	public final fun copy (Ljava/math/BigDecimal;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Decimal;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/json/element/JsonElement$Decimal;Ljava/math/BigDecimal;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Decimal;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGet ()Ljava/math/BigDecimal;
+	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Null : io/github/ustudiocompany/uframework/json/element/JsonElement {
+	public static final field INSTANCE Lio/github/ustudiocompany/uframework/json/element/JsonElement$Null;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Struct : io/github/ustudiocompany/uframework/json/element/JsonElement, java/util/Map, kotlin/jvm/internal/markers/KMutableMap {
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ([Lkotlin/Pair;)V
+	public fun clear ()V
+	public final fun containsKey (Ljava/lang/Object;)Z
+	public fun containsKey (Ljava/lang/String;)Z
+	public fun containsValue (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public final fun containsValue (Ljava/lang/Object;)Z
+	public final fun entrySet ()Ljava/util/Set;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun get (Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public final synthetic fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun get (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun getEntries ()Ljava/util/Set;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public fun hashCode ()I
+	public fun isEmpty ()Z
+	public final fun keySet ()Ljava/util/Set;
+	public synthetic fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun put (Ljava/lang/String;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun putAll (Ljava/util/Map;)V
+	public final fun remove (Ljava/lang/Object;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public final synthetic fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public final fun size ()I
+	public fun toJson ()Ljava/lang/String;
+	public final fun values ()Ljava/util/Collection;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Struct$Builder {
+	public fun <init> ()V
+	public final fun build ()Lio/github/ustudiocompany/uframework/json/element/JsonElement$Struct;
+	public final fun getHasProperties ()Z
+	public final fun set (Ljava/lang/String;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Struct$Builder;
+}
+
+public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Text : io/github/ustudiocompany/uframework/json/element/JsonElement {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Text;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/json/element/JsonElement$Text;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/json/element/JsonElement$Text;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+

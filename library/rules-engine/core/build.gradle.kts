@@ -12,6 +12,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
+    implementation(project(":json-element"))
+    implementation(project(":json-path"))
     implementation(project(":failure-library"))
 
     /* Libs */

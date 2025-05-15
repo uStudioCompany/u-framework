@@ -12,6 +12,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
+    implementation(project(":json-element"))
     implementation(project(":rules-engine-core"))
     implementation(project(":rules-engine-feel"))
 

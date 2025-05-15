@@ -2,17 +2,17 @@ package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 
 public fun interface Merger {
 
     public fun merge(
         strategyCode: StepResult.Action.Merge.StrategyCode,
-        dst: DataElement,
-        src: DataElement
-    ): ResultK<DataElement, Error>
+        dst: JsonElement,
+        src: JsonElement
+    ): ResultK<JsonElement, Error>
 
     public class Error private constructor(
         message: String = "",

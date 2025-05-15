@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.failure.Failure
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -27,7 +27,7 @@ internal class TryGetFromContextTest : UnitTest() {
             }
 
             "when context is not empty" - {
-                val value = DataElement.Text(ORIGIN_VALUE)
+                val value = JsonElement.Text(ORIGIN_VALUE)
                 val context = Context(mapOf(SOURCE to value))
 
                 "when source is missing" - {

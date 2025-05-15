@@ -5,8 +5,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -28,7 +28,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Struct(properties = mutableMapOf())
+                        result.value shouldBe JsonElement.Struct()
                     }
                 }
 
@@ -37,7 +37,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                         properties = listOf(
                             DataSchema.Property.Element(
                                 name = DATA_KEY_1,
-                                value = Value.Literal(fact = DataElement.Text(DATA_VALUE_1))
+                                value = Value.Literal(fact = JsonElement.Text(DATA_VALUE_1))
                             )
                         )
                     )
@@ -45,10 +45,8 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
-                            )
+                        result.value shouldBe JsonElement.Struct(
+                            DATA_KEY_1 to JsonElement.Text(DATA_VALUE_1)
                         )
                     }
                 }
@@ -60,10 +58,10 @@ internal class DataSchemaBuilderTest : UnitTest() {
                                 name = DATA_KEY_1,
                                 items = mutableListOf(
                                     DataSchema.Item.Element(
-                                        Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
+                                        Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_1))
                                     ),
                                     DataSchema.Item.Element(
-                                        Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
+                                        Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_2))
                                     )
                                 )
                             )
@@ -73,14 +71,10 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_1),
-                                        DataElement.Text(ARRAY_ITEM_2)
-                                    )
-                                )
+                        result.value shouldBe JsonElement.Struct(
+                            DATA_KEY_1 to JsonElement.Array(
+                                JsonElement.Text(ARRAY_ITEM_1),
+                                JsonElement.Text(ARRAY_ITEM_2)
                             )
                         )
                     }
@@ -94,7 +88,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                                 properties = mutableListOf(
                                     DataSchema.Property.Element(
                                         name = DATA_KEY_2,
-                                        value = Value.Literal(fact = DataElement.Text(DATA_VALUE_2))
+                                        value = Value.Literal(fact = JsonElement.Text(DATA_VALUE_2))
                                     )
                                 )
                             )
@@ -104,13 +98,9 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Struct(
-                            properties = mutableMapOf(
-                                DATA_KEY_1 to DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_2 to DataElement.Text(DATA_VALUE_2)
-                                    )
-                                )
+                        result.value shouldBe JsonElement.Struct(
+                            DATA_KEY_1 to JsonElement.Struct(
+                                DATA_KEY_2 to JsonElement.Text(DATA_VALUE_2)
                             )
                         )
                     }
@@ -125,7 +115,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Array(mutableListOf())
+                        result.value shouldBe JsonElement.Array()
                     }
                 }
 
@@ -133,10 +123,10 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     val dataSchema = DataSchema.Array(
                         items = mutableListOf(
                             DataSchema.Item.Element(
-                                Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
+                                Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_1))
                             ),
                             DataSchema.Item.Element(
-                                Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
+                                Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_2))
                             )
                         )
                     )
@@ -144,11 +134,9 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Text(ARRAY_ITEM_1),
-                                DataElement.Text(ARRAY_ITEM_2)
-                            )
+                        result.value shouldBe JsonElement.Array(
+                            JsonElement.Text(ARRAY_ITEM_1),
+                            JsonElement.Text(ARRAY_ITEM_2)
                         )
                     }
                 }
@@ -160,7 +148,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                                 properties = mutableListOf(
                                     DataSchema.Property.Element(
                                         name = DATA_KEY_1,
-                                        value = Value.Literal(fact = DataElement.Text(DATA_VALUE_1))
+                                        value = Value.Literal(fact = JsonElement.Text(DATA_VALUE_1))
                                     )
                                 )
                             ),
@@ -168,7 +156,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                                 properties = mutableListOf(
                                     DataSchema.Property.Element(
                                         name = DATA_KEY_2,
-                                        value = Value.Literal(fact = DataElement.Text(DATA_VALUE_2))
+                                        value = Value.Literal(fact = JsonElement.Text(DATA_VALUE_2))
                                     )
                                 )
                             )
@@ -178,19 +166,9 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_1 to DataElement.Text(DATA_VALUE_1)
-                                    )
-                                ),
-                                DataElement.Struct(
-                                    properties = mutableMapOf(
-                                        DATA_KEY_2 to DataElement.Text(DATA_VALUE_2)
-                                    )
-                                )
-                            )
+                        result.value shouldBe JsonElement.Array(
+                            JsonElement.Struct(DATA_KEY_1 to JsonElement.Text(DATA_VALUE_1)),
+                            JsonElement.Struct(DATA_KEY_2 to JsonElement.Text(DATA_VALUE_2))
                         )
                     }
                 }
@@ -201,20 +179,20 @@ internal class DataSchemaBuilderTest : UnitTest() {
                             DataSchema.Item.Array(
                                 items = mutableListOf(
                                     DataSchema.Item.Element(
-                                        value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_1))
+                                        value = Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_1))
                                     ),
                                     DataSchema.Item.Element(
-                                        value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_2))
+                                        value = Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_2))
                                     )
                                 )
                             ),
                             DataSchema.Item.Array(
                                 items = mutableListOf(
                                     DataSchema.Item.Element(
-                                        value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_3))
+                                        value = Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_3))
                                     ),
                                     DataSchema.Item.Element(
-                                        value = Value.Literal(fact = DataElement.Text(ARRAY_ITEM_4))
+                                        value = Value.Literal(fact = JsonElement.Text(ARRAY_ITEM_4))
                                     )
                                 )
                             )
@@ -224,20 +202,14 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     "then the builder should return a data" {
                         val result = dataSchema.build(CONTEXT)
                         result.shouldBeSuccess()
-                        result.value shouldBe DataElement.Array(
-                            mutableListOf(
-                                DataElement.Array(
-                                    items = mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_1),
-                                        DataElement.Text(ARRAY_ITEM_2)
-                                    )
-                                ),
-                                DataElement.Array(
-                                    items = mutableListOf(
-                                        DataElement.Text(ARRAY_ITEM_3),
-                                        DataElement.Text(ARRAY_ITEM_4)
-                                    )
-                                )
+                        result.value shouldBe JsonElement.Array(
+                            JsonElement.Array(
+                                JsonElement.Text(ARRAY_ITEM_1),
+                                JsonElement.Text(ARRAY_ITEM_2)
+                            ),
+                            JsonElement.Array(
+                                JsonElement.Text(ARRAY_ITEM_3),
+                                JsonElement.Text(ARRAY_ITEM_4)
                             )
                         )
                     }
@@ -284,7 +256,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
 
             override fun evaluate(
                 context: Context
-            ): ResultK<DataElement, FeelExpression.EvaluateError> =
+            ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()
         }
     }

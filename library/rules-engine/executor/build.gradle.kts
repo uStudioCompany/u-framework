@@ -12,8 +12,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    api(project(":rules-engine-core"))
     implementation(project(":failure-library"))
+    api(project(":json-element"))
+    api(project(":json-path"))
+    api(project(":rules-engine-core"))
 
     /* Libs */
     implementation(libs.airflux.commons.types) {

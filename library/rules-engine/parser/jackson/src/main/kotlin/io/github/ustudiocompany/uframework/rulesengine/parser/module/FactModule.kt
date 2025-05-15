@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.ParsingException
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FactModel
 import java.io.IOException
@@ -18,17 +18,17 @@ public class FactModule : SimpleModule() {
         addDeserializer(FactModel::class.java, Deserializer())
     }
 
-    internal class Deserializer : JsonDeserializer<FactModel>() {
+    private class Deserializer : JsonDeserializer<FactModel>() {
 
         @Throws(IOException::class, JsonProcessingException::class)
         override fun deserialize(jsonParser: JsonParser, deserializationContext: DeserializationContext): FactModel {
             val token = jsonParser.currentToken
             return when (token) {
-                JsonToken.VALUE_STRING -> FactModel(DataElement.Text(jsonParser.text))
-                JsonToken.VALUE_FALSE -> FactModel(DataElement.Bool(false))
-                JsonToken.VALUE_TRUE -> FactModel(DataElement.Bool(true))
-                JsonToken.VALUE_NUMBER_INT -> FactModel(DataElement.Decimal(BigDecimal(jsonParser.text)))
-                JsonToken.VALUE_NUMBER_FLOAT -> FactModel(DataElement.Decimal(BigDecimal(jsonParser.text)))
+                JsonToken.VALUE_STRING -> FactModel(JsonElement.Text(jsonParser.text))
+                JsonToken.VALUE_FALSE -> FactModel(JsonElement.Bool(false))
+                JsonToken.VALUE_TRUE -> FactModel(JsonElement.Bool(true))
+                JsonToken.VALUE_NUMBER_INT -> FactModel(JsonElement.Decimal(BigDecimal(jsonParser.text)))
+                JsonToken.VALUE_NUMBER_FLOAT -> FactModel(JsonElement.Decimal(BigDecimal(jsonParser.text)))
                 JsonToken.START_ARRAY -> deserializeArray(jsonParser, deserializationContext)
                 else -> throw ParsingException("Incorrect value of the fact: '${jsonParser.text}'.")
             }
@@ -38,24 +38,24 @@ public class FactModule : SimpleModule() {
         fun deserializeArray(
             jsonParser: JsonParser,
             deserializationContext: DeserializationContext,
-            list: MutableList<DataElement> = mutableListOf()
+            builder: JsonElement.Array.Builder = JsonElement.Array.Builder(),
         ): FactModel {
             jsonParser.nextToken()
             val token = jsonParser.currentToken
-            if (token == JsonToken.END_ARRAY) return FactModel(DataElement.Array(list))
+            if (token == JsonToken.END_ARRAY) return FactModel(builder.build())
             val item = when (token) {
-                JsonToken.VALUE_NULL -> DataElement.Null
-                JsonToken.VALUE_STRING -> DataElement.Text(jsonParser.text)
-                JsonToken.VALUE_FALSE -> DataElement.Bool(false)
-                JsonToken.VALUE_TRUE -> DataElement.Bool(true)
-                JsonToken.VALUE_NUMBER_INT -> DataElement.Decimal(BigDecimal(jsonParser.text))
-                JsonToken.VALUE_NUMBER_FLOAT -> DataElement.Decimal(BigDecimal(jsonParser.text))
+                JsonToken.VALUE_NULL -> JsonElement.Null
+                JsonToken.VALUE_STRING -> JsonElement.Text(jsonParser.text)
+                JsonToken.VALUE_FALSE -> JsonElement.Bool(false)
+                JsonToken.VALUE_TRUE -> JsonElement.Bool(true)
+                JsonToken.VALUE_NUMBER_INT -> JsonElement.Decimal(BigDecimal(jsonParser.text))
+                JsonToken.VALUE_NUMBER_FLOAT -> JsonElement.Decimal(BigDecimal(jsonParser.text))
                 else -> throw ParsingException("Incorrect value of the fact: '${jsonParser.text}'.")
             }
 
-            return deserializeArray(jsonParser, deserializationContext, list.apply { add(item) })
+            return deserializeArray(jsonParser, deserializationContext, builder.apply { add(item) })
         }
 
-        override fun getNullValue(ctxt: DeserializationContext?): FactModel = FactModel(DataElement.Null)
+        override fun getNullValue(ctxt: DeserializationContext?): FactModel = FactModel(JsonElement.Null)
     }
 }

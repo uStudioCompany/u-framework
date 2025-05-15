@@ -4,8 +4,8 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -34,7 +34,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value by Decimal format" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Bool>()
+                                .shouldBeInstanceOf<JsonElement.Bool>()
                             value.get shouldBe true
                         }
                     }
@@ -49,7 +49,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                             "then should be returned a value as Text type" {
                                 val value = result.shouldContainSuccessInstance()
-                                    .shouldBeInstanceOf<DataElement.Text>()
+                                    .shouldBeInstanceOf<JsonElement.Text>()
                                 value.get shouldBe "$TEXT_VALUE_1 $TEXT_VALUE_2"
                             }
                         }
@@ -65,7 +65,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                             "then should be returned a value as Decimal type" {
                                 val value = result.shouldContainSuccessInstance()
-                                    .shouldBeInstanceOf<DataElement.Decimal>()
+                                    .shouldBeInstanceOf<JsonElement.Decimal>()
                                 value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                             }
                         }
@@ -78,8 +78,8 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                             "then should be returned a value as Struct type" {
                                 val struct = result.shouldContainSuccessInstance()
-                                    .shouldBeInstanceOf<DataElement.Struct>()
-                                val value = struct[KEY_A].shouldBeInstanceOf<DataElement.Decimal>()
+                                    .shouldBeInstanceOf<JsonElement.Struct>()
+                                val value = struct[KEY_A].shouldBeInstanceOf<JsonElement.Decimal>()
                                 value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                             }
                         }
@@ -92,9 +92,9 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                             "then should be returned a value as Array type" {
                                 val array = result.shouldContainSuccessInstance()
-                                    .shouldBeInstanceOf<DataElement.Array>()
+                                    .shouldBeInstanceOf<JsonElement.Array>()
                                 array.size shouldBe 1
-                                val value = array[0].shouldBeInstanceOf<DataElement.Decimal>()
+                                val value = array[0].shouldBeInstanceOf<JsonElement.Decimal>()
                                 value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                             }
                         }
@@ -125,23 +125,19 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Array>()
+                                .shouldBeInstanceOf<JsonElement.Array>()
                             array shouldContainExactly listOf(
-                                DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                DataElement.Text(TEXT_VALUE_1),
-                                DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
-                                DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
-                                DataElement.Null,
-                                DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
-                                    )
+                                JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                JsonElement.Text(TEXT_VALUE_1),
+                                JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                JsonElement.Bool.valueOf(BOOL_VALUE_FALSE),
+                                JsonElement.Null,
+                                JsonElement.Array(
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
                                 ),
-                                DataElement.Struct(
-                                    mutableMapOf(
-                                        KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_5))
-                                    )
+                                JsonElement.Struct(
+                                    KEY_A to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_5))
                                 )
                             )
                         }
@@ -169,26 +165,20 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Struct type" {
                             val struct = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Struct>()
-                            struct shouldBe DataElement.Struct(
-                                mutableMapOf(
-                                    KEY_A to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                    KEY_B to DataElement.Text(TEXT_VALUE_1),
-                                    KEY_C to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
-                                    KEY_D to DataElement.Bool.valueOf(BOOL_VALUE_FALSE),
-                                    KEY_E to DataElement.Null,
-                                    KEY_F to DataElement.Array(
-                                        mutableListOf(
-                                            DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
-                                            DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
-                                        )
-                                    ),
-                                    KEY_G to DataElement.Struct(
-                                        mutableMapOf(
-                                            KEY_H to DataElement.Decimal(
-                                                BigDecimal.valueOf(NUMBER_VALUE_5)
-                                            )
-                                        )
+                                .shouldBeInstanceOf<JsonElement.Struct>()
+                            struct shouldBe JsonElement.Struct(
+                                KEY_A to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                KEY_B to JsonElement.Text(TEXT_VALUE_1),
+                                KEY_C to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                KEY_D to JsonElement.Bool.valueOf(BOOL_VALUE_FALSE),
+                                KEY_E to JsonElement.Null,
+                                KEY_F to JsonElement.Array(
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_3)),
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_4))
+                                ),
+                                KEY_G to JsonElement.Struct(
+                                    KEY_H to JsonElement.Decimal(
+                                        BigDecimal.valueOf(NUMBER_VALUE_5)
                                     )
                                 )
                             )
@@ -203,10 +193,10 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Array>()
+                                .shouldBeInstanceOf<JsonElement.Array>()
                             array shouldContainExactly listOf(
-                                DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                DataElement.Null,
+                                JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                JsonElement.Null,
                             )
                         }
                     }
@@ -239,7 +229,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                 "when the expression contains variables" - {
 
                     "when the variable is a null value" - {
-                        val context = Context(mapOf(Source(KEY_A) to DataElement.Null))
+                        val context = Context(mapOf(Source(KEY_A) to JsonElement.Null))
                         val expression = shouldBeSuccess {
                             parser.parse(
                                 """ if $KEY_A = null then $BOOL_VALUE_TRUE else $BOOL_VALUE_FALSE """
@@ -249,7 +239,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Bool>()
+                                .shouldBeInstanceOf<JsonElement.Bool>()
                             value.get shouldBe BOOL_VALUE_TRUE
                         }
                     }
@@ -257,8 +247,8 @@ internal class FeelExpressionParserTest : UnitTest() {
                     "when the variables are a boolean values" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Bool.valueOf(BOOL_VALUE_TRUE),
-                                Source(KEY_B) to DataElement.Bool.valueOf(BOOL_VALUE_FALSE)
+                                Source(KEY_A) to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                                Source(KEY_B) to JsonElement.Bool.valueOf(BOOL_VALUE_FALSE)
                             )
                         )
                         val expression = shouldBeSuccess {
@@ -268,7 +258,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Bool>()
+                                .shouldBeInstanceOf<JsonElement.Bool>()
                             value.get shouldBe false
                         }
                     }
@@ -276,8 +266,8 @@ internal class FeelExpressionParserTest : UnitTest() {
                     "when the variables are a text values" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Text(TEXT_VALUE_1),
-                                Source(KEY_B) to DataElement.Text(TEXT_VALUE_2)
+                                Source(KEY_A) to JsonElement.Text(TEXT_VALUE_1),
+                                Source(KEY_B) to JsonElement.Text(TEXT_VALUE_2)
                             )
                         )
                         val expression = shouldBeSuccess {
@@ -287,7 +277,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Text type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Text>()
+                                .shouldBeInstanceOf<JsonElement.Text>()
                             value.get shouldBe "$TEXT_VALUE_1 $TEXT_VALUE_2"
                         }
                     }
@@ -295,10 +285,10 @@ internal class FeelExpressionParserTest : UnitTest() {
                     "when the variables are a decimal values" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Decimal(
+                                Source(KEY_A) to JsonElement.Decimal(
                                     BigDecimal.valueOf(NUMBER_VALUE_1)
                                 ),
-                                Source(KEY_B) to DataElement.Decimal(
+                                Source(KEY_B) to JsonElement.Decimal(
                                     BigDecimal.valueOf(NUMBER_VALUE_2)
                                 )
                             )
@@ -310,7 +300,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Decimal>()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                         }
                     }
@@ -318,11 +308,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     "when the variable is an array value" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Array(
-                                    mutableListOf(
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
-                                        DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
-                                    )
+                                Source(KEY_A) to JsonElement.Array(
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                    JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
                                 )
                             )
                         )
@@ -333,7 +321,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Decimal>()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                         }
                     }
@@ -341,11 +329,11 @@ internal class FeelExpressionParserTest : UnitTest() {
                     "when the variable is a struct value" - {
                         val context = Context(
                             mapOf(
-                                Source(KEY_A) to DataElement.Struct(
-                                    mutableMapOf(KEY_B to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)))
+                                Source(KEY_A) to JsonElement.Struct(
+                                    KEY_B to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
                                 ),
-                                Source(KEY_C) to DataElement.Struct(
-                                    mutableMapOf(KEY_D to DataElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2)))
+                                Source(KEY_C) to JsonElement.Struct(
+                                    KEY_D to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
                                 )
                             )
                         )
@@ -356,7 +344,7 @@ internal class FeelExpressionParserTest : UnitTest() {
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
-                                .shouldBeInstanceOf<DataElement.Decimal>()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
                             value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
                         }
                     }

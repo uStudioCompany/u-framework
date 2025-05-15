@@ -2,14 +2,14 @@ package io.github.ustudiocompany.uframework.rulesengine.core.feel
 
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
 
 public interface FeelExpression {
 
     public val text: String
 
-    public fun evaluate(context: Context): ResultK<DataElement, EvaluateError>
+    public fun evaluate(context: Context): ResultK<JsonElement, EvaluateError>
 
     /**
      * Represents an evaluation error when processing a FEEL expression.

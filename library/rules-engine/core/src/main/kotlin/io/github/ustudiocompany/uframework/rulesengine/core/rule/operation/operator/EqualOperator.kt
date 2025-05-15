@@ -1,70 +1,70 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator
 
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataElement
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 
 internal data object EqualOperator : AbstractBooleanOperator() {
 
-    override fun DataElement.Null.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Null.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> true
-        is DataElement.Bool -> false
-        is DataElement.Text -> false
-        is DataElement.Decimal -> false
-        is DataElement.Struct -> false
-        is DataElement.Array -> false
+        is JsonElement.Null -> true
+        is JsonElement.Bool -> false
+        is JsonElement.Text -> false
+        is JsonElement.Decimal -> false
+        is JsonElement.Struct -> false
+        is JsonElement.Array -> false
     }
 
-    override fun DataElement.Bool.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Bool.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> false
-        is DataElement.Bool -> this == value
-        is DataElement.Text -> false
-        is DataElement.Decimal -> false
-        is DataElement.Struct -> false
-        is DataElement.Array -> false
+        is JsonElement.Null -> false
+        is JsonElement.Bool -> this == value
+        is JsonElement.Text -> false
+        is JsonElement.Decimal -> false
+        is JsonElement.Struct -> false
+        is JsonElement.Array -> false
     }
 
-    override fun DataElement.Text.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Text.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> false
-        is DataElement.Bool -> false
-        is DataElement.Text -> this == value
-        is DataElement.Decimal -> false
-        is DataElement.Struct -> false
-        is DataElement.Array -> false
+        is JsonElement.Null -> false
+        is JsonElement.Bool -> false
+        is JsonElement.Text -> this == value
+        is JsonElement.Decimal -> false
+        is JsonElement.Struct -> false
+        is JsonElement.Array -> false
     }
 
-    override fun DataElement.Decimal.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Decimal.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> false
-        is DataElement.Bool -> false
-        is DataElement.Text -> false
-        is DataElement.Decimal -> this == value
-        is DataElement.Struct -> false
-        is DataElement.Array -> false
+        is JsonElement.Null -> false
+        is JsonElement.Bool -> false
+        is JsonElement.Text -> false
+        is JsonElement.Decimal -> this == value
+        is JsonElement.Struct -> false
+        is JsonElement.Array -> false
     }
 
-    override fun DataElement.Struct.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Struct.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> false
-        is DataElement.Bool -> false
-        is DataElement.Text -> false
-        is DataElement.Decimal -> false
-        is DataElement.Struct -> compareStructs(this, value)
-        is DataElement.Array -> false
+        is JsonElement.Null -> false
+        is JsonElement.Bool -> false
+        is JsonElement.Text -> false
+        is JsonElement.Decimal -> false
+        is JsonElement.Struct -> compareStructs(this, value)
+        is JsonElement.Array -> false
     }
 
-    override fun DataElement.Array.compareWith(value: DataElement?): Boolean = when (value) {
+    override fun JsonElement.Array.compareWith(value: JsonElement?): Boolean = when (value) {
         null -> false
-        is DataElement.Null -> false
-        is DataElement.Bool -> false
-        is DataElement.Text -> false
-        is DataElement.Decimal -> false
-        is DataElement.Struct -> false
-        is DataElement.Array -> compareArrays(this, value)
+        is JsonElement.Null -> false
+        is JsonElement.Bool -> false
+        is JsonElement.Text -> false
+        is JsonElement.Decimal -> false
+        is JsonElement.Struct -> false
+        is JsonElement.Array -> compareArrays(this, value)
     }
 
-    private fun compareStructs(target: DataElement.Struct, compareWith: DataElement.Struct): Boolean {
+    private fun compareStructs(target: JsonElement.Struct, compareWith: JsonElement.Struct): Boolean {
         if (target.size != compareWith.size) return false
         target.forEach { (key, targetValue) ->
             val compareWithValue = compareWith[key]
@@ -73,7 +73,7 @@ internal data object EqualOperator : AbstractBooleanOperator() {
         return true
     }
 
-    private fun compareArrays(target: DataElement.Array, value: DataElement.Array): Boolean {
+    private fun compareArrays(target: JsonElement.Array, value: JsonElement.Array): Boolean {
         if (target.size != value.size) return false
         val groupedTarget = target.groupBy(keySelector = { it }, valueTransform = { it })
         val groupedValue = value.groupBy(keySelector = { it }, valueTransform = { it })
