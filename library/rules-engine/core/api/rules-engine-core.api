@@ -16,11 +16,6 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/context/
 	public final fun invoke (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Data {
-	public fun <init> (Lio/github/ustudiocompany/uframework/json/element/JsonElement;)V
-	public final fun getGet ()Lio/github/ustudiocompany/uframework/json/element/JsonElement;
-}
-
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
 	public abstract fun evaluate (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getText ()Ljava/lang/String;
