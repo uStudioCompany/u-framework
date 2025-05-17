@@ -5,6 +5,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import org.camunda.feel.api.EvaluationResult
 import org.camunda.feel.api.FeelEngineApi
@@ -34,8 +35,9 @@ private class FeelExpressionParser(configuration: FeelExpressionParserConfigurat
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
 
-        override fun evaluate(context: Context): ResultK<JsonElement, FeelExpression.EvaluateError> {
-            val evaluationResult = engine.evaluate(parsedExpression, context.convert())
+        override fun evaluate(envVars: EnvVars, context: Context): ResultK<JsonElement, FeelExpression.EvaluateError> {
+            val variables = variables(envVars, context)
+            val evaluationResult = engine.evaluate(parsedExpression, variables)
             return if (evaluationResult.isSuccess) {
                 val result = evaluationResult.result() as JsonElement
                 if (result is JsonElement.Null)
@@ -46,10 +48,13 @@ private class FeelExpressionParser(configuration: FeelExpressionParserConfigurat
                 evaluateError(evaluationResult.failure().message())
         }
 
-        private fun Context.convert(): Map<String, JsonElement> {
+        private fun variables(envVars: EnvVars, context: Context): Map<String, JsonElement> {
             val result = mutableMapOf<String, JsonElement>()
-            toMap.forEach { (source, value) ->
+            context.forEach { (source, value) ->
                 result[source.get] = value
+            }
+            envVars.forEach { (envVarName, value) ->
+                result[envVarName.get] = value
             }
             return result
         }

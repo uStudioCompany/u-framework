@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.Operation
@@ -30,7 +31,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 )
 
                 "then the function should return the result" {
-                    val result = operation.calculate(CONTEXT)
+                    val result = operation.calculate(ENV_VARS, CONTEXT)
                     result shouldBeSuccess true
                 }
             }
@@ -43,7 +44,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 )
 
                 "then the function should return an error" {
-                    val result = operation.calculate(CONTEXT)
+                    val result = operation.calculate(ENV_VARS, CONTEXT)
                     result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<CalculateOperationErrors.ComputingTarget>()
                 }
@@ -57,7 +58,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 )
 
                 "then the function should return an error" {
-                    val result = operation.calculate(CONTEXT)
+                    val result = operation.calculate(ENV_VARS, CONTEXT)
                     result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<CalculateOperationErrors.ComputingValue>()
                 }
@@ -66,6 +67,7 @@ internal class OperationCalculatorTest : UnitTest() {
     }
 
     companion object {
+        private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
 
         private const val VALUE_1 = "value-1"
@@ -76,6 +78,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 get() = "a/0"
 
             override fun evaluate(
+                envVars: EnvVars,
                 context: Context
             ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()

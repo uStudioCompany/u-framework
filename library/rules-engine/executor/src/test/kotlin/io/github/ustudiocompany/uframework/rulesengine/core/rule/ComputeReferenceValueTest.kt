@@ -8,6 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -15,9 +16,10 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 internal class ComputeReferenceValueTest : UnitTest() {
 
     init {
-        "when value is reference type" - {
+        "when the value is the Reference type" - {
 
             "when the source is not in the context" - {
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
 
                 "then the compute function should return a failure" {
@@ -25,15 +27,15 @@ internal class ComputeReferenceValueTest : UnitTest() {
                         source = SOURCE,
                         path = path(result = null)
                     )
-                    val result = value.compute(context)
+                    val result = value.compute(envVars, context)
                     result.shouldContainFailureInstance()
-                        //TODO add other error
                         .shouldBeInstanceOf<ValueComputeErrors.GettingDataFromContext>()
                 }
             }
 
             "when the source is in the context" - {
-                val context = Context(mapOf(SOURCE to DATA))
+                val envVars = EnvVars.EMPTY
+                val context = Context(sources = mapOf(SOURCE to DATA))
 
                 "when the data does not contain values by path" - {
 
@@ -42,9 +44,8 @@ internal class ComputeReferenceValueTest : UnitTest() {
                             source = SOURCE,
                             path = path(result = null)
                         )
-                        val result = value.compute(context)
+                        val result = value.compute(envVars, context)
                         result.shouldContainFailureInstance()
-                            //TODO add other error
                             .shouldBeInstanceOf<ValueComputeErrors.DataByPathIsNotFound>()
                     }
                 }
@@ -56,7 +57,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                             source = SOURCE,
                             path = path(result = TEXT_VALUE)
                         )
-                        val result = value.compute(context)
+                        val result = value.compute(envVars, context)
                         result shouldBeSuccess JsonElement.Text(VALUE)
                     }
                 }

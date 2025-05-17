@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInsta
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -30,6 +31,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
 
                 val rules = Rules(
@@ -51,7 +53,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(context, rules)
+                val result = executor.execute(envVars, context, rules)
                 result.shouldBeSuccess()
                 result.value shouldBe null
             }
@@ -61,7 +63,8 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
-                val context = Context(mapOf(Source("test") to JsonElement.Text("test")))
+                val envVars = EnvVars.EMPTY
+                val context = Context(sources = mapOf(Source("test") to JsonElement.Text("test")))
                 val rules = Rules(
                     listOf(
                         Rule(
@@ -81,7 +84,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     )
                 )
 
-                val result = executor.execute(context, rules)
+                val result = executor.execute(envVars, context, rules)
                 val error = result.shouldContainSuccessInstance()
                     .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                 error.get shouldBe "err-1"

@@ -9,23 +9,25 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
 internal fun DataRetrieveStep.executeIfSatisfied(
+    envVars: EnvVars,
     context: Context,
     dataProvider: DataProvider,
     merger: Merger
 ): Maybe<DataRetrieveStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(context)
+        val (isSatisfied) = condition.isSatisfied(envVars, context)
             .mapFailure { failure -> DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
         if (isSatisfied) {
-            val (args) = args.build(context)
+            val (args) = args.build(envVars, context)
                 .mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
             val uri = DataProvider.Uri.from(step.uri.get)
             val (value) = dataProvider.get(uri, args)

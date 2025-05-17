@@ -1,23 +1,60 @@
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context {
+public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion;
 	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun add (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
 	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Z
-	public final fun get (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
-	public final fun getToMap ()Ljava/util/Map;
-	public final fun replace (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public final fun getOrNull (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun iterator ()Ljava/util/Iterator;
+	public final fun putIfAbsent (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+	public final fun putIfPresent (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Z
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context$Builder {
+	public fun <init> ()V
+	public final fun build ()Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+	public final fun set (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Builder;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion {
 	public final fun empty ()Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
 	public final fun invoke (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+	public final fun invoke ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+	public static synthetic fun invoke$default (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion;Ljava/util/Map;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName {
+	public fun <init> (Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Companion;
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun contains (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;)Z
+	public final fun getOrNull (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun iterator ()Ljava/util/Iterator;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Builder {
+	public fun <init> ()V
+	public final fun build ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public final fun set (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Builder;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Companion {
+	public final fun getEMPTY ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public final fun invoke (Ljava/util/Map;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public final fun invoke ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public static synthetic fun invoke$default (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Companion;Ljava/util/Map;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {
-	public abstract fun evaluate (Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public abstract fun evaluate (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;)Lio/github/airflux/commons/types/resultk/ResultK;
 	public abstract fun getText ()Ljava/lang/String;
 }
 
@@ -65,6 +102,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Sou
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$EnvVars : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$EnvVars;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$EnvVars;Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$EnvVars;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$Expression : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {

@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -52,18 +53,18 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             val result = step.executeIfSatisfied(
+                                envVars = ENV_VARS,
                                 context = CONTEXT,
                                 dataProvider = { _, _ -> DataProvider.Error().asFailure() },
                                 merger = { _, origin, _ -> origin.asSuccess() }
                             )
                             result.shouldContainSomeInstance()
-                                //TODO add other error
                                 .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.RetrievingExternalData>()
                         }
                     }
 
                     "when an error of merging" - {
-                        val context = Context(mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                        val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                         val step = DataRetrieveStep(
                             condition = condition,
                             uri = Uri,
@@ -84,6 +85,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            envVars = ENV_VARS,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, _, _ -> Merger.Error().asFailure() }
@@ -91,7 +93,6 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                         "then the executor should return an error result" {
                             result.shouldContainSomeInstance()
-                                //TODO add other error
                                 .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.UpdatingContext>()
                         }
                     }
@@ -119,6 +120,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     )
 
                     val result = step.executeIfSatisfied(
+                        envVars = ENV_VARS,
                         context = context,
                         dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, origin, _ -> origin.asSuccess() }
@@ -129,7 +131,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     }
 
                     "then the context should be updated" {
-                        val result = context[RESULT_SOURCE]
+                        val result = context.getOrNull(RESULT_SOURCE)
                         result shouldBe CALL_RESULT
                     }
                 }
@@ -162,6 +164,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            envVars = ENV_VARS,
                             context = context,
                             dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, origin, _ -> origin.asSuccess() }
@@ -172,7 +175,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         }
 
                         "then the context should be updated" {
-                            val result = context[RESULT_SOURCE]
+                            val result = context.getOrNull(RESULT_SOURCE)
                             result shouldBe CALL_RESULT
                         }
                     }
@@ -193,6 +196,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         )
 
                         val result = step.executeIfSatisfied(
+                            envVars = ENV_VARS,
                             context = CONTEXT,
                             dataProvider = { _, _ -> DataProvider.Error().asFailure() },
                             merger = { _, _, _ -> Merger.Error().asFailure() }
@@ -205,6 +209,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"
 

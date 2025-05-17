@@ -62,6 +62,16 @@
             }
           },
           "required": ["kind", "expression"]
+        },
+        {
+          "properties": {
+            "kind": {"enum": ["envVars"]},
+            "name": {
+              "description": "Імʼя змінної оточення",
+              "type": "string"
+            }
+          },
+          "required": ["kind", "name"]
         }
       ]
     },

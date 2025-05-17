@@ -6,6 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -23,8 +24,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when a function with a valid format is evaluated" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("$SPECIFIC_FORMAT")""") }
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
-                val result = expression.evaluate(context)
+                val result = expression.evaluate(envVars, context)
 
                 "then should be returned a value by format" {
                     val value = result.shouldContainSuccessInstance()
@@ -37,8 +39,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when a function without format is evaluated" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("")""") }
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
-                val result = expression.evaluate(context)
+                val result = expression.evaluate(envVars, context)
 
                 "then should be returned a value by default format" {
                     val value = result.shouldContainSuccessInstance()
@@ -51,8 +54,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when a function without parameter is evaluated" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime()""") }
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
-                val result = expression.evaluate(context)
+                val result = expression.evaluate(envVars, context)
 
                 "then should be returned the evaluation error" {
                     result.shouldContainFailureInstance()
@@ -62,8 +66,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when a function with invalid format is evaluated" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("abc")""") }
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
-                val result = expression.evaluate(context)
+                val result = expression.evaluate(envVars, context)
 
                 "then should be returned the evaluation error" {
                     result.shouldContainFailureInstance()

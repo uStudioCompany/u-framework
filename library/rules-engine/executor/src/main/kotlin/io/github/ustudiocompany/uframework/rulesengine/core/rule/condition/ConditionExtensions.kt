@@ -8,15 +8,19 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateOperationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 
-internal fun Condition.isSatisfied(context: Context): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
+internal fun Condition.isSatisfied(
+    envVars: EnvVars,
+    context: Context
+): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
     if (predicates.isEmpty())
         Success.asTrue
     else {
         val isAllSatisfied = predicates.all { predicate ->
-            predicate.isSatisfied(context)
+            predicate.isSatisfied(envVars, context)
                 .getOrForward {
                     return CheckingConditionSatisfactionErrors(it.cause).asFailure()
                 }
@@ -34,8 +38,11 @@ internal class CheckingConditionSatisfactionErrors(cause: CheckingPredicateSatis
     }
 }
 
-private fun Predicate.isSatisfied(context: Context): ResultK<Boolean, CheckingPredicateSatisfactionErrors> =
-    this.calculate(context)
+private fun Predicate.isSatisfied(
+    envVars: EnvVars,
+    context: Context
+): ResultK<Boolean, CheckingPredicateSatisfactionErrors> =
+    this.calculate(envVars, context)
         .mapFailure { failure -> CheckingPredicateSatisfactionErrors(failure) }
 
 internal class CheckingPredicateSatisfactionErrors(cause: CalculateOperationErrors) : BasicRulesEngineError {

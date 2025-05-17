@@ -58,6 +58,21 @@ internal class ValueModelDeserializationTest : UnitTest() {
                     result shouldBe ValueModel.Expression(expression = EXPRESSION)
                 }
             }
+
+            "when JSON has an EnvVars type value" - {
+                val json = """
+                    | {
+                    |   "kind": "envVars",
+                    |   "name": "$ENV_VAR_NAME"
+                    | }
+                """.trimMargin()
+
+                val result = deserializer.deserialize(json, ValueModel::class.java)
+
+                "then should be return a literal value" {
+                    result shouldBe ValueModel.EnvVars(name = ENV_VAR_NAME)
+                }
+            }
         }
     }
 
@@ -66,6 +81,7 @@ internal class ValueModelDeserializationTest : UnitTest() {
         private const val PATH = "$.scheme"
         private const val FACT = "UA"
         private const val EXPRESSION = "1 + 2"
+        private const val ENV_VAR_NAME = "env_var_1"
 
         private val deserializer = Deserializer()
     }
