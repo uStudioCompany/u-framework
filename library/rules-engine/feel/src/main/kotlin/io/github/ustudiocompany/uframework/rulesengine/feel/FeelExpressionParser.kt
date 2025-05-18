@@ -48,15 +48,28 @@ private class FeelExpressionParser(configuration: FeelExpressionParserConfigurat
                 evaluateError(evaluationResult.failure().message())
         }
 
-        private fun variables(envVars: EnvVars, context: Context): Map<String, JsonElement> {
-            val result = mutableMapOf<String, JsonElement>()
-            context.forEach { (source, value) ->
-                result[source.get] = value
-            }
-            envVars.forEach { (envVarName, value) ->
-                result[envVarName.get] = value
-            }
-            return result
+        private fun variables(envVars: EnvVars, context: Context): Map<String, JsonElement> =
+            if (envVars.isEmpty() && context.isEmpty())
+                emptyMap()
+            else
+                mutableMapOf<String, JsonElement>()
+                    .apply {
+                        context.toMap(this)
+                        envVars.toMap(this)
+                    }
+
+        private fun Context.toMap(destination: MutableMap<String, JsonElement>) {
+            if (isNotEmpty())
+                forEach { (source, value) ->
+                    destination[source.get] = value
+                }
+        }
+
+        private fun EnvVars.toMap(destination: MutableMap<String, JsonElement>) {
+            if (isNotEmpty())
+                forEach { (envVarName, value) ->
+                    destination[envVarName.get] = value
+                }
         }
 
         private fun evaluateError(message: String) =
