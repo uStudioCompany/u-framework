@@ -6,6 +6,10 @@ public class EnvVars private constructor(
     private val variables: MutableMap<EnvVarName, JsonElement>
 ) : Iterable<Pair<EnvVarName, JsonElement>> {
 
+    public fun isEmpty(): Boolean = variables.isEmpty()
+
+    public fun isNotEmpty(): Boolean = !isEmpty()
+
     public fun getOrNull(envVarName: EnvVarName): JsonElement? = variables[envVarName]
 
     public operator fun contains(envVarName: EnvVarName): Boolean = envVarName in variables

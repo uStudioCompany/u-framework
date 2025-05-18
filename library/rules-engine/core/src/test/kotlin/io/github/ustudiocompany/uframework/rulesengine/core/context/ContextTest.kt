@@ -16,6 +16,14 @@ internal class ContextTest : UnitTest() {
             "when the context is empty" - {
                 val context = Context.empty()
 
+                "then the function `isEmpty` source should return true" {
+                    context.isEmpty() shouldBe true
+                }
+
+                "then the function `isNotEmpty` source should return false" {
+                    context.isNotEmpty() shouldBe false
+                }
+
                 "then the function `contains` should return false" {
                     context.contains(SOURCE) shouldBe false
                 }
@@ -30,6 +38,14 @@ internal class ContextTest : UnitTest() {
                 val origin = JsonElement.Text(ORIGIN_VALUE)
                 val source = SOURCE
                 val context = Context(sources = mapOf(source to origin))
+
+                "then the function `isEmpty` source should return false" {
+                    context.isEmpty() shouldBe false
+                }
+
+                "then the function `isNotEmpty` source should return true" {
+                    context.isNotEmpty() shouldBe true
+                }
 
                 "then the function `contains` for existing source should return true" {
                     context.contains(SOURCE) shouldBe true
@@ -133,56 +149,120 @@ internal class ContextTest : UnitTest() {
             }
 
             "when the context created from pairs" - {
-                val origin = JsonElement.Text(ORIGIN_VALUE)
-                val context = Context(SOURCE to origin)
 
-                "then the function `contains` for existing source should return true" {
-                    context.contains(SOURCE) shouldBe true
+                "when any pair is not passed" - {
+                    val context = Context()
+
+                    "then the function `isEmpty` source should return true" {
+                        context.isEmpty() shouldBe true
+                    }
+
+                    "then the function `isNotEmpty` source should return false" {
+                        context.isNotEmpty() shouldBe false
+                    }
+
+                    "then the function `contains` should return false" {
+                        context.contains(SOURCE) shouldBe false
+                    }
+
+                    "then the function `getOrNull` should return null" {
+                        val result = context.getOrNull(SOURCE)
+                        result.shouldBeNull()
+                    }
                 }
 
-                "then the function `contains` for non-existing source should return false" {
-                    context.contains(UNKNOWN_SOURCE) shouldBe false
-                }
+                "when some pair is passed" - {
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
+                    val context = Context(SOURCE to origin)
 
-                "then the function `getOrNull` for existing source should return the value" {
-                    val result = context.getOrNull(SOURCE)
-                    result shouldBe origin
-                }
+                    "then the function `isEmpty` source should return false" {
+                        context.isEmpty() shouldBe false
+                    }
 
-                "then the function `getOrNull` for non-existing source should return the null value" {
-                    val result = context.getOrNull(UNKNOWN_SOURCE)
-                    result.shouldBeNull()
-                }
+                    "then the function `isNotEmpty` source should return true" {
+                        context.isNotEmpty() shouldBe true
+                    }
 
-                "then the variables property should contain the source" {
-                    context shouldContainExactly listOf(SOURCE to origin)
+                    "then the function `contains` for existing source should return true" {
+                        context.contains(SOURCE) shouldBe true
+                    }
+
+                    "then the function `contains` for non-existing source should return false" {
+                        context.contains(UNKNOWN_SOURCE) shouldBe false
+                    }
+
+                    "then the function `getOrNull` for existing source should return the value" {
+                        val result = context.getOrNull(SOURCE)
+                        result shouldBe origin
+                    }
+
+                    "then the function `getOrNull` for non-existing source should return the null value" {
+                        val result = context.getOrNull(UNKNOWN_SOURCE)
+                        result.shouldBeNull()
+                    }
+
+                    "then the variables property should contain the source" {
+                        context shouldContainExactly listOf(SOURCE to origin)
+                    }
                 }
             }
 
             "when the context created from a map" - {
-                val origin = JsonElement.Text(ORIGIN_VALUE)
-                val context = Context(mapOf(SOURCE to origin))
 
-                "then the function `contains` for existing source should return true" {
-                    context.contains(SOURCE) shouldBe true
+                "when the map is empty" - {
+                    val context = Context(emptyMap())
+
+                    "then the function `isEmpty` source should return true" {
+                        context.isEmpty() shouldBe true
+                    }
+
+                    "then the function `isNotEmpty` source should return false" {
+                        context.isNotEmpty() shouldBe false
+                    }
+
+                    "then the function `contains` should return false" {
+                        context.contains(SOURCE) shouldBe false
+                    }
+
+                    "then the function `getOrNull` should return null" {
+                        val result = context.getOrNull(SOURCE)
+                        result.shouldBeNull()
+                    }
                 }
 
-                "then the function `contains` for non-existing source should return false" {
-                    context.contains(UNKNOWN_SOURCE) shouldBe false
-                }
+                "when the map is not empty" - {
+                    val origin = JsonElement.Text(ORIGIN_VALUE)
+                    val context = Context(mapOf(SOURCE to origin))
 
-                "then the function `getOrNull` for existing source should return the value" {
-                    val result = context.getOrNull(SOURCE)
-                    result shouldBe origin
-                }
+                    "then the function `isEmpty` source should return false" {
+                        context.isEmpty() shouldBe false
+                    }
 
-                "then the function `getOrNull` for non-existing source should return the null value" {
-                    val result = context.getOrNull(UNKNOWN_SOURCE)
-                    result.shouldBeNull()
-                }
+                    "then the function `isNotEmpty` source should return true" {
+                        context.isNotEmpty() shouldBe true
+                    }
 
-                "then the variables property should contain the source" {
-                    context shouldContainExactly listOf(SOURCE to origin)
+                    "then the function `contains` for existing source should return true" {
+                        context.contains(SOURCE) shouldBe true
+                    }
+
+                    "then the function `contains` for non-existing source should return false" {
+                        context.contains(UNKNOWN_SOURCE) shouldBe false
+                    }
+
+                    "then the function `getOrNull` for existing source should return the value" {
+                        val result = context.getOrNull(SOURCE)
+                        result shouldBe origin
+                    }
+
+                    "then the function `getOrNull` for non-existing source should return the null value" {
+                        val result = context.getOrNull(UNKNOWN_SOURCE)
+                        result.shouldBeNull()
+                    }
+
+                    "then the variables property should contain the source" {
+                        context shouldContainExactly listOf(SOURCE to origin)
+                    }
                 }
             }
         }

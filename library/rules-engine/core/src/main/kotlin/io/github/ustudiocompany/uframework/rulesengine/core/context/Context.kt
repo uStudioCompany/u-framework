@@ -7,6 +7,10 @@ public class Context private constructor(
     private val data: MutableMap<Source, JsonElement>
 ) : Iterable<Pair<Source, JsonElement>> {
 
+    public fun isEmpty(): Boolean = data.isEmpty()
+
+    public fun isNotEmpty(): Boolean = !isEmpty()
+
     public fun getOrNull(source: Source): JsonElement? = data[source]
 
     public fun putIfAbsent(source: Source, value: JsonElement): Boolean =
