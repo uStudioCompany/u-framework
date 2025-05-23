@@ -11,21 +11,23 @@ import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
-import io.kotest.matchers.comparables.shouldBeLessThan
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class DateTimeGenerationFunctionTest : UnitTest() {
+internal class YearFunctionTest : UnitTest() {
 
     init {
 
-        "The `dateTime` function" - {
+        "The `year` function" - {
 
-            "when the value of the format parameter is specified" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("$SPECIFIC_FORMAT")""") }
+            "when all parameters are specified and valid" - {
+                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$dateTime", "$DEFAULT_DATA_TIME_FORMAT")""") }
+
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
@@ -33,29 +35,16 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 "then should be returned a value by format" {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<JsonElement.Text>()
-                    val actual = LocalDateTime.parse(value.get, SPECIFIC_FORMATTER)
-                    val expected = LocalDateTime.now()
-                    actual shouldBeLessThan expected
+                    val actual = value.get
+                    val expected = DATE_TIME.year.toString()
+                    actual shouldBe expected
                 }
             }
 
-            "when the value of the format parameter is not specified" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("")""") }
-                val envVars = EnvVars.EMPTY
-                val context = Context.empty()
-                val result = expression.evaluate(envVars, context)
+            "when the value parameter is missing" - {
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$DEFAULT_DATA_TIME_FORMAT")""") }
 
-                "then should be returned a value by default format" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<JsonElement.Text>()
-                    val actual = LocalDateTime.parse(value.get, DEFAULT_FORMATTER)
-                    val expected = LocalDateTime.now()
-                    actual shouldBeLessThan expected
-                }
-            }
-
-            "when the format parameter is missing" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime()""") }
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
@@ -66,8 +55,76 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 }
             }
 
-            "when the value of the format parameter is not a valid date-time format" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("abc")""") }
+            "when the value of the value parameter is not a valid date-time" - {
+                val dateTime = "2023"
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$dateTime", "$DEFAULT_DATA_TIME_FORMAT")""") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                }
+            }
+
+            "when the value of the value parameter is not a valid type" - {
+                val expression =
+                    shouldBeSuccess { parser.parse("""year(123, "$DEFAULT_DATA_TIME_FORMAT")""") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    val error = result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                    error.description.shouldContain(
+                        "Invalid type of the parameter 'value'. Expected: ValString, but was: ValNumber"
+                    )
+                }
+            }
+
+            "when the value of the format parameter is not specified" - {
+                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$dateTime", "")""") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned a value by default format" {
+                    val value = result.shouldContainSuccessInstance()
+                        .shouldBeInstanceOf<JsonElement.Text>()
+                    val actual = value.get
+                    val expected = DATE_TIME.year.toString()
+                    actual shouldBe expected
+                }
+            }
+
+            "when the format parameter is missing" - {
+                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$dateTime")""") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                }
+            }
+
+            "when the value of the value parameter is not a valid date-time" - {
+                val dateTime = "2023"
+                val expression =
+                    shouldBeSuccess { parser.parse("""year("$dateTime", "$DEFAULT_DATA_TIME_FORMAT")""") }
+
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
@@ -79,8 +136,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             }
 
             "when the value of the format parameter is not a valid type" - {
+                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
                 val expression =
-                    shouldBeSuccess { parser.parse("""dateTime(true)""") }
+                    shouldBeSuccess { parser.parse("""year("$dateTime", true)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -99,15 +157,12 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
     }
 
     private companion object {
-        private const val SPECIFIC_FORMAT = "uuuu-MM-dd'T'HH'Z'"
-        private val SPECIFIC_FORMATTER = DateTimeFormatter.ofPattern(SPECIFIC_FORMAT)
+        private val DATE_TIME = LocalDateTime.now()
 
         private val parser =
             feelExpressionParser(
                 configuration = FeelExpressionParserConfiguration(
-                    customFunctions = listOf(
-                        DateTimeGenerationFunction(DEFAULT_FORMATTER)
-                    )
+                    customFunctions = listOf(YearFunction(DEFAULT_FORMATTER))
                 )
             )
     }

@@ -20,7 +20,7 @@ public interface FeelExpression {
     public class EvaluateError(expression: FeelExpression, message: String? = null) : Failure {
         override val code: String = PREFIX + "1"
         override val description: String = "The error of evaluating expression: '${expression.text}'" +
-            if (message != null) "($message)." else "."
+            if (message != null) " ($message)." else "."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_EXPRESSION to expression.text
         )

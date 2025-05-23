@@ -34,7 +34,13 @@ internal class UuidGenerationFunctionTest : UnitTest() {
     }
 
     private companion object {
-        private val UUID_PATTERN = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-        private val parser = feelExpressionParser(FeelExpressionParserConfiguration(listOf(UuidGenerationFunction())))
+        private val UUID_PATTERN = Regex(
+            "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        )
+        private val parser = feelExpressionParser(
+            FeelExpressionParserConfiguration(
+                listOf(UuidGenerationFunction())
+            )
+        )
     }
 }

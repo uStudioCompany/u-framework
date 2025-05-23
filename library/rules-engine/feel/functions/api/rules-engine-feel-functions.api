@@ -1,12 +1,25 @@
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/DateTimeGenerationFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
-	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/feel/functions/DateTimeGenerationFunction$Companion;
-	public static final field DEFAULT_FORMAT Ljava/lang/String;
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/Crc32Function : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
 	public fun <init> ()V
 	public fun getBody ()Lorg/camunda/feel/context/JavaFunction;
 	public fun getName ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/DateTimeGenerationFunction$Companion {
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/DateTimeGenerationFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
+	public fun <init> (Ljava/time/format/DateTimeFormatter;)V
+	public fun getBody ()Lorg/camunda/feel/context/JavaFunction;
+	public fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/DayFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
+	public fun <init> (Ljava/time/format/DateTimeFormatter;)V
+	public fun getBody ()Lorg/camunda/feel/context/JavaFunction;
+	public fun getName ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/MonthFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
+	public fun <init> (Ljava/time/format/DateTimeFormatter;)V
+	public fun getBody ()Lorg/camunda/feel/context/JavaFunction;
+	public fun getName ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/UuidGenerationFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
@@ -17,5 +30,11 @@ public final class io/github/ustudiocompany/uframework/rulesengine/feel/function
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/UuidGenerationFunction$Companion {
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/feel/functions/YearFunction : io/github/ustudiocompany/uframework/rulesengine/feel/FeelFunction {
+	public fun <init> (Ljava/time/format/DateTimeFormatter;)V
+	public fun getBody ()Lorg/camunda/feel/context/JavaFunction;
+	public fun getName ()Ljava/lang/String;
 }
 
