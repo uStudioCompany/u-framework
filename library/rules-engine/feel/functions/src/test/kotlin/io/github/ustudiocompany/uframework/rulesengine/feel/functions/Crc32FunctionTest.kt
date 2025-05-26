@@ -14,7 +14,6 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
-import java.util.zip.CRC32
 
 @OptIn(AirfluxTypesExperimental::class)
 internal class Crc32FunctionTest : UnitTest() {
@@ -23,8 +22,10 @@ internal class Crc32FunctionTest : UnitTest() {
 
         "The `crc32` function" - {
 
-            "when the value parameter is specified" - {
-                val expression = shouldBeSuccess { parser.parse("""crc32("$TEXT_VALUE")""") }
+            "when all parameters are specified and valid" - {
+                val value = TEXT_VALUE
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -33,15 +34,28 @@ internal class Crc32FunctionTest : UnitTest() {
                 "then should be returned a hash by input value" {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<JsonElement.Text>()
-                    val crc32 = CRC32()
-                    crc32.update(TEXT_VALUE.toByteArray())
-                    val expected = crc32.value.toString()
-                    value.get shouldBe expected
+                    value.get shouldBe EXPECTED
+                }
+            }
+
+            "when the value parameter is missing" - {
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($format)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                 }
             }
 
             "when the value of the value parameter is not a valid type" - {
-                val expression = shouldBeSuccess { parser.parse("crc32(true)") }
+                val value = BOOL_VALUE
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -55,11 +69,63 @@ internal class Crc32FunctionTest : UnitTest() {
                     )
                 }
             }
+
+            "when the format parameter is missing" - {
+                val value = TEXT_VALUE
+                val expression = shouldBeSuccess { parser.parse("crc32($value)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                }
+            }
+
+            "when the value of the format parameter is not a valid" - {
+                val value = TEXT_VALUE
+                val format = INVALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                }
+            }
+
+            "when the value of the format parameter is not a valid type" - {
+                val value = TEXT_VALUE
+                val format = BOOL_VALUE
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    val error = result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                    error.description.shouldContain(
+                        "Invalid type of the parameter 'format'. Expected: ValString, but was: ValBoolean"
+                    )
+                }
+            }
         }
     }
 
     private companion object {
-        private const val TEXT_VALUE = "Hello"
+        private const val TEXT_VALUE = "\"Hello\""
+        private const val BOOL_VALUE = "true"
+        private const val HEX_FORMAT = "\"%08X\""
+        private const val INVALID_FORMAT = "\"%abc\""
+        private const val EXPECTED = "F7D18982"
+
         private val parser = feelExpressionParser(
             FeelExpressionParserConfiguration(
                 listOf(Crc32Function())

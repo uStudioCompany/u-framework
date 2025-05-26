@@ -12,18 +12,22 @@ public class Crc32Function : FeelFunction {
     override val body: JavaFunction = JavaFunction(parameters) { args ->
         val value = args[0].asType(PARAM_VALUE, ValString::class)
             .getOrForward { return@JavaFunction it.cause }
+        val format = args[1].asType(PARAM_FORMAT, ValString::class)
+            .getOrForward { return@JavaFunction it.cause }
+
         val data = value.value().toByteArray(Charsets.UTF_8)
-        calculate(data)
+        calculate(data, format.value())
     }
 
     private companion object {
         private const val PARAM_VALUE = "value"
-        private val parameters: List<String> = listOf(PARAM_VALUE)
+        private const val PARAM_FORMAT = "format"
+        private val parameters: List<String> = listOf(PARAM_VALUE, PARAM_FORMAT)
 
-        private fun calculate(value: ByteArray): ValString {
+        private fun calculate(value: ByteArray, format: String): ValString {
             val crc32 = CRC32()
             crc32.update(value)
-            val result = crc32.value.toString()
+            val result = String.format(format, crc32.value)
             return ValString(result)
         }
     }
