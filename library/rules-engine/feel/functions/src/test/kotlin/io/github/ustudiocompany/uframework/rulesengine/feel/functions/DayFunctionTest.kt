@@ -28,11 +28,9 @@ internal class DayFunctionTest : UnitTest() {
                 (1..10).forEach { dayOfMonth ->
 
                     "when day is $dayOfMonth" - {
-                        val dateTime = LocalDateTime.of(YEAR, MONTH, dayOfMonth, HOUR, MINUTE)
-                            .format(DEFAULT_FORMATTER)
-
-                        val expression =
-                            shouldBeSuccess { parser.parse("""day("$dateTime", "$DEFAULT_DATA_TIME_FORMAT")""") }
+                        val value = buildValue(dayOfMonth)
+                        val format = VALID_FORMAT
+                        val expression = shouldBeSuccess { parser.parse("""day("$value", $format)""") }
 
                         val envVars = EnvVars.EMPTY
                         val context = Context.empty()
@@ -50,8 +48,8 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the value parameter is missing" - {
-                val expression =
-                    shouldBeSuccess { parser.parse("""day("$DEFAULT_DATA_TIME_FORMAT")""") }
+                val format = VALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("""day($format)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -64,9 +62,9 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the value of the value parameter is not a valid date-time" - {
-                val dateTime = "2023"
-                val expression =
-                    shouldBeSuccess { parser.parse("""day("$dateTime", "$DEFAULT_DATA_TIME_FORMAT")""") }
+                val value = INVALID_VALUE
+                val format = VALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("""day($value, $format)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -79,8 +77,9 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the value of the value parameter is not a valid type" - {
-                val expression =
-                    shouldBeSuccess { parser.parse("""day(123, "$DEFAULT_DATA_TIME_FORMAT")""") }
+                val value = INVALID_VALUE_TYPE
+                val format = VALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("""day($value, $format)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -90,7 +89,7 @@ internal class DayFunctionTest : UnitTest() {
                     val error = result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<FeelExpression.EvaluateError>()
                     error.description.shouldContain(
-                        "Invalid type of the parameter 'value'. Expected: ValString, but was: ValNumber"
+                        "Invalid type of the parameter 'value'. Expected: ValString, but was: ValBoolean"
                     )
                 }
             }
@@ -99,10 +98,8 @@ internal class DayFunctionTest : UnitTest() {
                 (1..10).forEach { dayOfMonth ->
 
                     "when day is $dayOfMonth" - {
-                        val dateTime = LocalDateTime.of(YEAR, MONTH, dayOfMonth, HOUR, MINUTE)
-                            .format(DEFAULT_FORMATTER)
-                        val expression =
-                            shouldBeSuccess { parser.parse("""day("$dateTime", "")""") }
+                        val value = buildValue(dayOfMonth)
+                        val expression = shouldBeSuccess { parser.parse("""day("$value", "")""") }
 
                         val envVars = EnvVars.EMPTY
                         val context = Context.empty()
@@ -120,9 +117,8 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the format parameter is missing" - {
-                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
-                val expression =
-                    shouldBeSuccess { parser.parse("""month("$dateTime")""") }
+                val value = VALID_VALUE
+                val expression = shouldBeSuccess { parser.parse("""month($value)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -135,9 +131,9 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the value of the format parameter is not a valid date-time format" - {
-                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
-                val expression =
-                    shouldBeSuccess { parser.parse("""day("$dateTime", "abc")""") }
+                val value = VALID_VALUE
+                val format = INVALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("""day($value, $format)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -150,9 +146,9 @@ internal class DayFunctionTest : UnitTest() {
             }
 
             "when the value of the format parameter is not a valid type" - {
-                val dateTime = DATE_TIME.format(DEFAULT_FORMATTER)
-                val expression =
-                    shouldBeSuccess { parser.parse("""day("$dateTime", true)""") }
+                val value = VALID_VALUE
+                val format = INVALID_FORMAT_TYPE
+                val expression = shouldBeSuccess { parser.parse("""day($value, $format)""") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -170,12 +166,23 @@ internal class DayFunctionTest : UnitTest() {
         }
     }
 
+    private fun buildValue(dayOfMonth: Int) =
+        LocalDateTime.of(YEAR, MONTH, dayOfMonth, HOUR, MINUTE)
+            .format(DEFAULT_FORMATTER)
+
     private companion object {
         private val DATE_TIME = LocalDateTime.now()
         private const val YEAR = 2025
         private val MONTH = Month.MAY
         private const val HOUR = 10
         private const val MINUTE = 23
+
+        private val VALID_VALUE = """ "${DATE_TIME.format(DEFAULT_FORMATTER)}" """
+        private const val INVALID_VALUE = "\"2025\""
+        private const val INVALID_VALUE_TYPE = "true"
+        private const val VALID_FORMAT = """ "$DEFAULT_DATA_TIME_FORMAT" """
+        private const val INVALID_FORMAT = "\"abc\""
+        private const val INVALID_FORMAT_TYPE = "true"
 
         private val parser =
             feelExpressionParser(
