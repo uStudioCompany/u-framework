@@ -6,6 +6,8 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -24,13 +26,14 @@ internal class FeelExpressionParserTest : UnitTest() {
             "when parsing a valid expression" - {
 
                 "when the expression does not contain variables" - {
+                    val envVars = EnvVars.EMPTY
                     val context = Context.empty()
 
                     "when the expression is the bool" - {
                         val expression = shouldBeSuccess {
                             parser.parse("2 > 1")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value by Decimal format" {
                             val value = result.shouldContainSuccessInstance()
@@ -45,7 +48,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                             val expression = shouldBeSuccess {
                                 parser.parse(""""$TEXT_VALUE_1" + " " + "$TEXT_VALUE_2"""")
                             }
-                            val result = expression.evaluate(context)
+                            val result = expression.evaluate(envVars, context)
 
                             "then should be returned a value as Text type" {
                                 val value = result.shouldContainSuccessInstance()
@@ -61,7 +64,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                             val expression = shouldBeSuccess {
                                 parser.parse("$NUMBER_VALUE_1 + $NUMBER_VALUE_2")
                             }
-                            val result = expression.evaluate(context)
+                            val result = expression.evaluate(envVars, context)
 
                             "then should be returned a value as Decimal type" {
                                 val value = result.shouldContainSuccessInstance()
@@ -74,7 +77,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                             val expression = shouldBeSuccess {
                                 parser.parse("""{ "$KEY_A": $NUMBER_VALUE_1 + $NUMBER_VALUE_2 }""")
                             }
-                            val result = expression.evaluate(context)
+                            val result = expression.evaluate(envVars, context)
 
                             "then should be returned a value as Struct type" {
                                 val struct = result.shouldContainSuccessInstance()
@@ -88,7 +91,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                             val expression = shouldBeSuccess {
                                 parser.parse("""[$NUMBER_VALUE_1 + $NUMBER_VALUE_2]""")
                             }
-                            val result = expression.evaluate(context)
+                            val result = expression.evaluate(envVars, context)
 
                             "then should be returned a value as Array type" {
                                 val array = result.shouldContainSuccessInstance()
@@ -121,7 +124,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                                 """.trimMargin()
                             )
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
@@ -161,7 +164,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                                 """.trimMargin()
                             )
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Struct type" {
                             val struct = result.shouldContainSuccessInstance()
@@ -189,7 +192,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("[{a: 1}, {b: 2}].a")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Array type" {
                             val array = result.shouldContainSuccessInstance()
@@ -205,7 +208,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("1 + abc()")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned the evaluation error" {
                             result.shouldContainFailureInstance()
@@ -217,7 +220,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("assert(a, a != null)")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned the evaluation error" {
                             result.shouldContainFailureInstance()
@@ -226,16 +229,17 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
                 }
 
-                "when the expression contains variables" - {
+                "when the expression contains variables from context" - {
 
                     "when the variable is a null value" - {
-                        val context = Context(mapOf(Source(KEY_A) to JsonElement.Null))
+                        val envVars = EnvVars.EMPTY
+                        val context = Context(sources = mapOf(Source(KEY_A) to JsonElement.Null))
                         val expression = shouldBeSuccess {
                             parser.parse(
                                 """ if $KEY_A = null then $BOOL_VALUE_TRUE else $BOOL_VALUE_FALSE """
                             )
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
@@ -245,8 +249,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a boolean values" - {
+                        val envVars = EnvVars.EMPTY
                         val context = Context(
-                            mapOf(
+                            sources = mapOf(
                                 Source(KEY_A) to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
                                 Source(KEY_B) to JsonElement.Bool.valueOf(BOOL_VALUE_FALSE)
                             )
@@ -254,7 +259,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("$KEY_A and $KEY_B")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Bool type" {
                             val value = result.shouldContainSuccessInstance()
@@ -264,8 +269,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a text values" - {
+                        val envVars = EnvVars.EMPTY
                         val context = Context(
-                            mapOf(
+                            sources = mapOf(
                                 Source(KEY_A) to JsonElement.Text(TEXT_VALUE_1),
                                 Source(KEY_B) to JsonElement.Text(TEXT_VALUE_2)
                             )
@@ -273,7 +279,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("""$KEY_A + " " + $KEY_B""")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Text type" {
                             val value = result.shouldContainSuccessInstance()
@@ -283,8 +289,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a decimal values" - {
+                        val envVars = EnvVars.EMPTY
                         val context = Context(
-                            mapOf(
+                            sources = mapOf(
                                 Source(KEY_A) to JsonElement.Decimal(
                                     BigDecimal.valueOf(NUMBER_VALUE_1)
                                 ),
@@ -296,7 +303,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("$KEY_A + $KEY_B")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
@@ -306,8 +313,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is an array value" - {
+                        val envVars = EnvVars.EMPTY
                         val context = Context(
-                            mapOf(
+                            sources = mapOf(
                                 Source(KEY_A) to JsonElement.Array(
                                     JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
                                     JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
@@ -317,7 +325,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("""sum($KEY_A)""")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
@@ -327,8 +335,9 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is a struct value" - {
+                        val envVars = EnvVars.EMPTY
                         val context = Context(
-                            mapOf(
+                            sources = mapOf(
                                 Source(KEY_A) to JsonElement.Struct(
                                     KEY_B to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
                                 ),
@@ -340,7 +349,123 @@ internal class FeelExpressionParserTest : UnitTest() {
                         val expression = shouldBeSuccess {
                             parser.parse("""$KEY_A.$KEY_B + $KEY_C.$KEY_D""")
                         }
-                        val result = expression.evaluate(context)
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Decimal type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
+                            value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
+                        }
+                    }
+                }
+
+                "when the expression contains variables from environment" - {
+
+                    "when the variable is a null value" - {
+                        val envVars = EnvVars.invoke(ENV_VAR_1 to JsonElement.Null)
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse(
+                                """ if $ENV_VAR_NAME_1 = null then $BOOL_VALUE_TRUE else $BOOL_VALUE_FALSE """
+                            )
+                        }
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Bool type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Bool>()
+                            value.get shouldBe BOOL_VALUE_TRUE
+                        }
+                    }
+
+                    "when the variables are a boolean values" - {
+                        val envVars = EnvVars(
+                            ENV_VAR_1 to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
+                            ENV_VAR_2 to JsonElement.Bool.valueOf(BOOL_VALUE_FALSE)
+                        )
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse("$ENV_VAR_1 and $ENV_VAR_2")
+                        }
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Bool type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Bool>()
+                            value.get shouldBe false
+                        }
+                    }
+
+                    "when the variables are a text values" - {
+                        val envVars = EnvVars(
+                            ENV_VAR_1 to JsonElement.Text(TEXT_VALUE_1),
+                            ENV_VAR_2 to JsonElement.Text(TEXT_VALUE_2)
+                        )
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse("""$ENV_VAR_1 + "-" + $ENV_VAR_2""")
+                        }
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Text type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Text>()
+                            value.get shouldBe "${TEXT_VALUE_1}-${TEXT_VALUE_2}"
+                        }
+                    }
+
+                    "when the variables are a decimal values" - {
+                        val envVars = EnvVars(
+                            ENV_VAR_1 to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                            ENV_VAR_2 to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
+                        )
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse("$ENV_VAR_1 + $ENV_VAR_2")
+                        }
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Decimal type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
+                            value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
+                        }
+                    }
+
+                    "when the variable is an array value" - {
+                        val envVars = EnvVars(
+                            ENV_VAR_1 to JsonElement.Array(
+                                JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
+                                JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
+                            )
+                        )
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse("""sum($ENV_VAR_1)""")
+                        }
+                        val result = expression.evaluate(envVars, context)
+
+                        "then should be returned a value as Decimal type" {
+                            val value = result.shouldContainSuccessInstance()
+                                .shouldBeInstanceOf<JsonElement.Decimal>()
+                            value.get shouldBe (NUMBER_VALUE_1 + NUMBER_VALUE_2).toBigDecimal()
+                        }
+                    }
+
+                    "when the variable is a struct value" - {
+                        val envVars = EnvVars(
+                            ENV_VAR_1 to JsonElement.Struct(
+                                KEY_B to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
+                            ),
+                            ENV_VAR_2 to JsonElement.Struct(
+                                KEY_D to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
+                            )
+                        )
+                        val context = Context.empty()
+                        val expression = shouldBeSuccess {
+                            parser.parse("""$ENV_VAR_1.$KEY_B + $ENV_VAR_2.$KEY_D""")
+                        }
+                        val result = expression.evaluate(envVars, context)
 
                         "then should be returned a value as Decimal type" {
                             val value = result.shouldContainSuccessInstance()
@@ -381,6 +506,10 @@ internal class FeelExpressionParserTest : UnitTest() {
         private const val KEY_F = "Ff"
         private const val KEY_G = "Gg"
         private const val KEY_H = "Hh"
+        private const val ENV_VAR_NAME_1 = "env_var_1"
+        private val ENV_VAR_1 = EnvVarName(ENV_VAR_NAME_1)
+        private const val ENV_VAR_NAME_2 = "env_var_2"
+        private val ENV_VAR_2 = EnvVarName(ENV_VAR_NAME_2)
 
         private val parser = feelExpressionParser(feelExpressionParserConfiguration(customFunctions = emptyList()))
     }

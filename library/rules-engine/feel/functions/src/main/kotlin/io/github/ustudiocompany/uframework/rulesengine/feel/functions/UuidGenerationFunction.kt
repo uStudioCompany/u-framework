@@ -17,7 +17,6 @@ public class UuidGenerationFunction : FeelFunction {
     }
 
     public companion object {
-
         private fun generate(): String = UUID.randomUUID().toString()
     }
 }

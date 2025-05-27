@@ -22,13 +22,13 @@ internal fun Context.update(
     merge: Merger
 ): Maybe<UpdateContextErrors> =
     when (action) {
-        is StepResult.Action.Put -> tryAdd(source = source, value = value)
+        is StepResult.Action.Put -> put(source = source, value = value)
             .map { failure -> UpdateContextErrors.AddingData(source = source, cause = failure) }
 
-        is StepResult.Action.Replace -> tryReplace(source = source, value = value)
+        is StepResult.Action.Replace -> replace(source = source, value = value)
             .map { failure -> UpdateContextErrors.ReplacingData(source = source, cause = failure) }
 
-        is StepResult.Action.Merge -> tryMerge(
+        is StepResult.Action.Merge -> merge(
             source = source,
             value = value,
             strategyCode = action.strategyCode,
@@ -50,7 +50,7 @@ internal sealed interface UpdateContextErrors : BasicRulesEngineError {
 
     class ReplacingData(source: Source, cause: ReplaceDataInContextErrors) : UpdateContextErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "Error replacing data in context by source '${source.get}'."
+        override val description: String = "Error replacing data in the context by source '${source.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
@@ -59,7 +59,7 @@ internal sealed interface UpdateContextErrors : BasicRulesEngineError {
 
     class MergingData(source: Source, cause: MergeDataInContextErrors) : UpdateContextErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error merging data in context by source '${source.get}'."
+        override val description: String = "Error merging data in the context by source '${source.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
@@ -71,17 +71,16 @@ internal sealed interface UpdateContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryGet(source: Source): ResultK<JsonElement, GetDataFromContextErrors> {
-    val value = this[source]
-    return value?.asSuccess()
+internal operator fun Context.get(source: Source): ResultK<JsonElement, GetDataFromContextErrors.SourceMissing> =
+    getOrNull(source)
+        ?.asSuccess()
         ?: GetDataFromContextErrors.SourceMissing(source).asFailure()
-}
 
 internal sealed interface GetDataFromContextErrors : BasicRulesEngineError {
 
     class SourceMissing(source: Source) : GetDataFromContextErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "The source '${source.get}' is not found in context."
+        override val description: String = "The source '${source.get}' is not found in the context."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
@@ -92,8 +91,8 @@ internal sealed interface GetDataFromContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryAdd(source: Source, value: JsonElement): Maybe<AddDataToContextErrors.SourceAlreadyExists> {
-    val isAdded = add(source, value)
+internal fun Context.put(source: Source, value: JsonElement): Maybe<AddDataToContextErrors.SourceAlreadyExists> {
+    val isAdded = putIfAbsent(source, value)
     return if (isAdded)
         Maybe.none()
     else
@@ -104,7 +103,7 @@ internal sealed interface AddDataToContextErrors : BasicRulesEngineError {
 
     class SourceAlreadyExists(source: Source) : AddDataToContextErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "The source '${source.get}' is already exists in context."
+        override val description: String = "The source '${source.get}' is already exists in the context."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
@@ -115,8 +114,11 @@ internal sealed interface AddDataToContextErrors : BasicRulesEngineError {
     }
 }
 
-internal fun Context.tryReplace(source: Source, value: JsonElement): Maybe<ReplaceDataInContextErrors> {
-    val isReplaced = replace(source, value)
+internal fun Context.replace(
+    source: Source,
+    value: JsonElement
+): Maybe<ReplaceDataInContextErrors.SourceMissing> {
+    val isReplaced = putIfPresent(source, value)
     return if (isReplaced)
         Maybe.none()
     else
@@ -127,29 +129,30 @@ internal sealed interface ReplaceDataInContextErrors : BasicRulesEngineError {
 
     class SourceMissing(source: Source) : ReplaceDataInContextErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "The source '${source.get}' is not found in context."
+        override val description: String = "The source '${source.get}' is not found in the context."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
     }
 
     private companion object {
-        private const val PREFIX = "GET-DATA-FROM-CONTEXT-"
+        private const val PREFIX = "REPLACE-DATA-FROM-CONTEXT-"
     }
 }
 
-internal fun Context.tryMerge(
+internal fun Context.merge(
     source: Source,
     value: JsonElement,
     strategyCode: StepResult.Action.Merge.StrategyCode,
     merge: Merger
 ): Maybe<MergeDataInContextErrors> =
     maybeFailure {
-        val (origin) = tryGet(source = source)
+        val context = this@merge
+        val (origin) = context[source]
             .mapFailure { failure -> MergeDataInContextErrors.GettingDataFromContext(source = source, cause = failure) }
         val (updated) = merge.merge(strategyCode, origin, value)
             .mapFailure { failure -> MergeDataInContextErrors.MergingData(cause = failure) }
-        tryReplace(source = source, value = updated)
+        replace(source = source, value = updated)
             .map { failure -> MergeDataInContextErrors.ReplacingDataInContext(source = source, cause = failure) }
     }
 
@@ -173,7 +176,7 @@ internal sealed interface MergeDataInContextErrors : BasicRulesEngineError {
 
     class ReplacingDataInContext(source: Source, cause: ReplaceDataInContextErrors) : MergeDataInContextErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error replacing data in context by source '${source.get}'."
+        override val description: String = "Error replacing data in the context by source '${source.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get

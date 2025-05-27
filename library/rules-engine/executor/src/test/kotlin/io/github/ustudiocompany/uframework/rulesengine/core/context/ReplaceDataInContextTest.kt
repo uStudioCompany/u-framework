@@ -11,17 +11,17 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class TryReplaceInContextTest : UnitTest() {
+internal class ReplaceDataInContextTest : UnitTest() {
 
     init {
 
-        "The extension function `tryReplace` for `Context` type" - {
+        "The extension function `replace` for the `Context` type" - {
 
-            "when context is empty" - {
+            "when the context is empty" - {
                 val context = Context.empty()
 
                 val value = JsonElement.Text(ORIGIN_VALUE)
-                val result = context.tryReplace(SOURCE, value)
+                val result = context.replace(SOURCE, value)
 
                 "then function should return an error" {
                     result.shouldContainSomeInstance()
@@ -29,14 +29,14 @@ internal class TryReplaceInContextTest : UnitTest() {
                 }
             }
 
-            "when context is not empty" - {
+            "when the context is not empty" - {
 
-                "when replacing source is present in context" - {
+                "when the replacing source is present in the context" - {
                     val value = JsonElement.Text(ORIGIN_VALUE)
-                    val context = Context(mapOf(SOURCE to value))
+                    val context = Context(sources = mapOf(SOURCE to value))
 
                     val newValue = JsonElement.Text(NEW_VALUE)
-                    val result = context.tryReplace(SOURCE, newValue)
+                    val result = context.replace(SOURCE, newValue)
 
                     "then function should be successful" {
                         result.shouldBeNone()
@@ -47,17 +47,17 @@ internal class TryReplaceInContextTest : UnitTest() {
                     }
 
                     "then the context should contain the new value" {
-                        val result = context[SOURCE]
+                        val result = context.getOrNull(SOURCE)
                         result shouldBe newValue
                     }
                 }
 
-                "when replacing source is missing in context" - {
+                "when the replacing source is missing in the context" - {
                     val value = JsonElement.Text(ORIGIN_VALUE)
-                    val context = Context(mapOf(SOURCE to value))
+                    val context = Context(sources = mapOf(SOURCE to value))
 
                     val newValue = JsonElement.Text(NEW_VALUE)
-                    val result = context.tryReplace(UNKNOWN_SOURCE, newValue)
+                    val result = context.replace(UNKNOWN_SOURCE, newValue)
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
@@ -69,7 +69,7 @@ internal class TryReplaceInContextTest : UnitTest() {
                     }
 
                     "then the context should not contain the new value" {
-                        val result = context[UNKNOWN_SOURCE]
+                        val result = context.getOrNull(UNKNOWN_SOURCE)
                         result shouldBe null
                     }
                 }

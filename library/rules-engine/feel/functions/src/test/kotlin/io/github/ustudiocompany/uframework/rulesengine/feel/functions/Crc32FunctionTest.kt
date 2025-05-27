@@ -11,51 +11,37 @@ import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
-import io.kotest.matchers.comparables.shouldBeLessThan
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class DateTimeGenerationFunctionTest : UnitTest() {
+internal class Crc32FunctionTest : UnitTest() {
 
     init {
 
-        "The `dateTime` function" - {
+        "The `crc32` function" - {
 
-            "when the value of the format parameter is specified" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("$SPECIFIC_FORMAT")""") }
+            "when all parameters are specified and valid" - {
+                val value = TEXT_VALUE
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
+
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
-                "then should be returned a value by format" {
+                "then should be returned a hash by input value" {
                     val value = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<JsonElement.Text>()
-                    val actual = LocalDateTime.parse(value.get, SPECIFIC_FORMATTER)
-                    val expected = LocalDateTime.now()
-                    actual shouldBeLessThan expected
+                    value.get shouldBe EXPECTED
                 }
             }
 
-            "when the value of the format parameter is not specified" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("")""") }
-                val envVars = EnvVars.EMPTY
-                val context = Context.empty()
-                val result = expression.evaluate(envVars, context)
+            "when the value parameter is missing" - {
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($format)") }
 
-                "then should be returned a value by default format" {
-                    val value = result.shouldContainSuccessInstance()
-                        .shouldBeInstanceOf<JsonElement.Text>()
-                    val actual = LocalDateTime.parse(value.get, DEFAULT_FORMATTER)
-                    val expected = LocalDateTime.now()
-                    actual shouldBeLessThan expected
-                }
-            }
-
-            "when the format parameter is missing" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime()""") }
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
@@ -66,8 +52,43 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 }
             }
 
-            "when the value of the format parameter is not a valid date-time format" - {
-                val expression = shouldBeSuccess { parser.parse("""dateTime("abc")""") }
+            "when the value of the value parameter is not a valid type" - {
+                val value = BOOL_VALUE
+                val format = HEX_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    val error = result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                    error.description.shouldContain(
+                        "Invalid type of the parameter 'value'. Expected: ValString, but was: ValBoolean"
+                    )
+                }
+            }
+
+            "when the format parameter is missing" - {
+                val value = TEXT_VALUE
+                val expression = shouldBeSuccess { parser.parse("crc32($value)") }
+
+                val envVars = EnvVars.EMPTY
+                val context = Context.empty()
+                val result = expression.evaluate(envVars, context)
+
+                "then should be returned the evaluation error" {
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<FeelExpression.EvaluateError>()
+                }
+            }
+
+            "when the value of the format parameter is not a valid" - {
+                val value = TEXT_VALUE
+                val format = INVALID_FORMAT
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
+
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
@@ -79,8 +100,9 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
             }
 
             "when the value of the format parameter is not a valid type" - {
-                val expression =
-                    shouldBeSuccess { parser.parse("""dateTime(true)""") }
+                val value = TEXT_VALUE
+                val format = BOOL_VALUE
+                val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
                 val envVars = EnvVars.EMPTY
                 val context = Context.empty()
@@ -89,7 +111,6 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 "then should be returned the evaluation error" {
                     val error = result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<FeelExpression.EvaluateError>()
-
                     error.description.shouldContain(
                         "Invalid type of the parameter 'format'. Expected: ValString, but was: ValBoolean"
                     )
@@ -99,16 +120,16 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
     }
 
     private companion object {
-        private const val SPECIFIC_FORMAT = "uuuu-MM-dd'T'HH'Z'"
-        private val SPECIFIC_FORMATTER = DateTimeFormatter.ofPattern(SPECIFIC_FORMAT)
+        private const val TEXT_VALUE = "\"Hello\""
+        private const val BOOL_VALUE = "true"
+        private const val HEX_FORMAT = "\"%08X\""
+        private const val INVALID_FORMAT = "\"%abc\""
+        private const val EXPECTED = "F7D18982"
 
-        private val parser =
-            feelExpressionParser(
-                configuration = FeelExpressionParserConfiguration(
-                    customFunctions = listOf(
-                        DateTimeGenerationFunction(DEFAULT_FORMATTER)
-                    )
-                )
+        private val parser = feelExpressionParser(
+            FeelExpressionParserConfiguration(
+                listOf(Crc32Function())
             )
+        )
     }
 }

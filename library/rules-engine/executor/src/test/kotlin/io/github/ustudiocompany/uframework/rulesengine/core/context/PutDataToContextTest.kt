@@ -11,17 +11,17 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class TryAddToContextTest : UnitTest() {
+internal class PutDataToContextTest : UnitTest() {
 
     init {
 
-        "The extension function `tryAdd` for `Context` type" - {
+        "The extension function `put` for the `Context` type" - {
 
-            "when context is empty" - {
+            "when the context is empty" - {
                 val context = Context.empty()
 
                 val value = JsonElement.Text(ORIGIN_VALUE)
-                val result = context.tryAdd(SOURCE, value)
+                val result = context.put(SOURCE, value)
 
                 "then function should be successful" {
                     result.shouldBeNone()
@@ -32,19 +32,19 @@ internal class TryAddToContextTest : UnitTest() {
                 }
 
                 "then the context should contain added value" {
-                    val result = context[SOURCE]
+                    val result = context.getOrNull(SOURCE)
                     result shouldBe value
                 }
             }
 
-            "when context is not empty" - {
+            "when the context is not empty" - {
 
-                "when adding source is present in context" - {
+                "when the adding source is present in the context" - {
                     val value = JsonElement.Text(ORIGIN_VALUE)
-                    val context = Context(mapOf(SOURCE to value))
+                    val context = Context(sources = mapOf(SOURCE to value))
 
                     val newValue = JsonElement.Text(NEW_VALUE)
-                    val result = context.tryAdd(SOURCE, newValue)
+                    val result = context.put(SOURCE, newValue)
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
@@ -56,17 +56,17 @@ internal class TryAddToContextTest : UnitTest() {
                     }
 
                     "then the context should contain the original value" {
-                        val result = context[SOURCE]
+                        val result = context.getOrNull(SOURCE)
                         result shouldBe value
                     }
                 }
 
-                "when adding source is missing in context" - {
+                "when the adding source is missing in the context" - {
                     val value = JsonElement.Text(ORIGIN_VALUE)
-                    val context = Context(mapOf(SOURCE to value))
+                    val context = Context(sources = mapOf(SOURCE to value))
 
                     val newValue = JsonElement.Text(NEW_VALUE)
-                    val result = context.tryAdd(NEW_SOURCE, newValue)
+                    val result = context.put(NEW_SOURCE, newValue)
 
                     "then function should be successful" {
                         result.shouldBeNone()
@@ -77,7 +77,7 @@ internal class TryAddToContextTest : UnitTest() {
                     }
 
                     "then the context should contain the added value" {
-                        val result = context[NEW_SOURCE]
+                        val result = context.getOrNull(NEW_SOURCE)
                         result shouldBe newValue
                     }
                 }

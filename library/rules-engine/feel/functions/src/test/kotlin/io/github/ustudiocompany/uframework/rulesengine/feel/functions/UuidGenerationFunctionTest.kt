@@ -5,6 +5,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -19,8 +20,9 @@ internal class UuidGenerationFunctionTest : UnitTest() {
             val expression = shouldBeSuccess { parser.parse("uuid()") }
 
             "when a function is evaluated" - {
+                val envVars = EnvVars.EMPTY
                 val context = Context.empty()
-                val result = expression.evaluate(context)
+                val result = expression.evaluate(envVars, context)
 
                 "then should be returned a value by UUID format" {
                     val value = result.shouldContainSuccessInstance()
@@ -32,7 +34,13 @@ internal class UuidGenerationFunctionTest : UnitTest() {
     }
 
     private companion object {
-        private val UUID_PATTERN = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-        private val parser = feelExpressionParser(FeelExpressionParserConfiguration(listOf(UuidGenerationFunction())))
+        private val UUID_PATTERN = Regex(
+            "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        )
+        private val parser = feelExpressionParser(
+            FeelExpressionParserConfiguration(
+                listOf(UuidGenerationFunction())
+            )
+        )
     }
 }

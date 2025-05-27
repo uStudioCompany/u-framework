@@ -14,7 +14,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class ContextUpdateTest : UnitTest() {
+internal class UpdateContextTest : UnitTest() {
 
     init {
 
@@ -40,7 +40,7 @@ internal class ContextUpdateTest : UnitTest() {
                 }
 
                 "when the context is contain the source" - {
-                    val context = Context(mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                    val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                     val value = JsonElement.Text(NEW_VALUE)
 
                     val result = context.update(
@@ -73,7 +73,7 @@ internal class ContextUpdateTest : UnitTest() {
                 }
 
                 "when the context is contain the source" - {
-                    val context = Context(mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                    val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                     val value = JsonElement.Text(NEW_VALUE)
 
                     val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
@@ -87,7 +87,7 @@ internal class ContextUpdateTest : UnitTest() {
                     }
 
                     "then the context should return the new value" {
-                        val result = context[SOURCE]
+                        val result = context.getOrNull(SOURCE)
                         result shouldBe JsonElement.Text(NEW_VALUE)
                     }
                 }
@@ -111,7 +111,7 @@ internal class ContextUpdateTest : UnitTest() {
                 "when the context is contain the source" - {
 
                     "when the merge function is successful" - {
-                        val context = Context(mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                        val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
 
                         val newValue = JsonElement.Text(NEW_VALUE)
                         val result = context.update(source = SOURCE, action = action, value = newValue, merge = MERGER)
@@ -125,13 +125,13 @@ internal class ContextUpdateTest : UnitTest() {
                         }
 
                         "then the context should return the merged value" {
-                            val result = context[SOURCE]
+                            val result = context.getOrNull(SOURCE)
                             result shouldBe JsonElement.Text(ORIGIN_VALUE + NEW_VALUE)
                         }
                     }
 
                     "when the merge function is failed" - {
-                        val context = Context(mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                        val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
 
                         val newValue = JsonElement.Text(NEW_VALUE)
                         val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->

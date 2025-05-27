@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -26,7 +27,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     val dataSchema = DataSchema.Struct(properties = emptyList())
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Struct()
                     }
@@ -43,7 +44,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Struct(
                             DATA_KEY_1 to JsonElement.Text(DATA_VALUE_1)
@@ -69,7 +70,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Struct(
                             DATA_KEY_1 to JsonElement.Array(
@@ -96,7 +97,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Struct(
                             DATA_KEY_1 to JsonElement.Struct(
@@ -113,7 +114,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     val dataSchema = DataSchema.Array(items = emptyList())
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Array()
                     }
@@ -132,7 +133,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Array(
                             JsonElement.Text(ARRAY_ITEM_1),
@@ -164,7 +165,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Array(
                             JsonElement.Struct(DATA_KEY_1 to JsonElement.Text(DATA_VALUE_1)),
@@ -200,7 +201,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                     )
 
                     "then the builder should return a data" {
-                        val result = dataSchema.build(CONTEXT)
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
                         result.shouldBeSuccess()
                         result.value shouldBe JsonElement.Array(
                             JsonElement.Array(
@@ -227,7 +228,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                 )
 
                 "then the builder should return a failure" {
-                    val result = dataSchema.build(Context.Companion.empty())
+                    val result = dataSchema.build(ENV_VARS, CONTEXT)
                     result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<DataBuildErrors>()
                 }
@@ -236,7 +237,8 @@ internal class DataSchemaBuilderTest : UnitTest() {
     }
 
     private companion object {
-        private val CONTEXT = Context.Companion.empty()
+        private val ENV_VARS = EnvVars.EMPTY
+        private val CONTEXT = Context.empty()
 
         private const val DATA_KEY_1 = "key-1"
         private const val DATA_VALUE_1 = "data-1"
@@ -255,6 +257,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
                 get() = "a/0"
 
             override fun evaluate(
+                envVars: EnvVars,
                 context: Context
             ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()

@@ -21,7 +21,7 @@ allprojects {
         }
     }
 
-    version = "0.0.1-alpha.7-SNAPSHOT"
+    version = "0.0.1-alpha.8-SNAPSHOT"
     group = "io.github.ustudiocompany"
 
     configurations.all {
@@ -57,6 +57,19 @@ dependencies {
     kover(project(":jdbc-test-library"))
     kover(project(":event-sourcing-modeling-library"))
     kover(project(":event-sourcing-store-library"))
+
     kover(project(":rules-engine-core"))
+    kover(project(":rules-engine-parser-core"))
+    kover(project(":rules-engine-parser-jackson"))
+    kover(project(":rules-engine-feel"))
+    kover(project(":rules-engine-feel-functions"))
     kover(project(":rules-engine-executor"))
+
+    kover(project(":json-element"))
+    kover(project(":json-path"))
+    kover(project(":json-element-jackson-parser"))
+    kover(project(":json-element-merge"))
+    kover(project(":json-element-merge-strategy"))
+    kover(project(":json-element-merge-strategy-parser-core"))
+    kover(project(":json-element-merge-strategy-parser-jackson"))
 }

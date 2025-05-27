@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonSubTypes(
     JsonSubTypes.Type(value = ValueModel.Literal::class, name = "fact"),
     JsonSubTypes.Type(value = ValueModel.Reference::class, name = "reference"),
-    JsonSubTypes.Type(value = ValueModel.Expression::class, name = "expression")
+    JsonSubTypes.Type(value = ValueModel.Expression::class, name = "expression"),
+    JsonSubTypes.Type(value = ValueModel.EnvVars::class, name = "envVars")
 )
 internal sealed interface ValueModel {
 
@@ -27,5 +28,9 @@ internal sealed interface ValueModel {
 
     data class Expression(
         @JsonProperty("expression") val expression: FeelExpressionModel
+    ) : ValueModel
+
+    data class EnvVars(
+        @JsonProperty("name") val name: EnvVarNameModel
     ) : ValueModel
 }

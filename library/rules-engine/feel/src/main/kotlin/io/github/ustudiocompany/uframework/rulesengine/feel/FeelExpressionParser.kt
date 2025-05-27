@@ -5,6 +5,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import org.camunda.feel.api.EvaluationResult
 import org.camunda.feel.api.FeelEngineApi
@@ -34,8 +35,9 @@ private class FeelExpressionParser(configuration: FeelExpressionParserConfigurat
         private val parsedExpression: ParsedExpression
     ) : FeelExpression {
 
-        override fun evaluate(context: Context): ResultK<JsonElement, FeelExpression.EvaluateError> {
-            val evaluationResult = engine.evaluate(parsedExpression, context.convert())
+        override fun evaluate(envVars: EnvVars, context: Context): ResultK<JsonElement, FeelExpression.EvaluateError> {
+            val variables = variables(envVars, context)
+            val evaluationResult = engine.evaluate(parsedExpression, variables)
             return if (evaluationResult.isSuccess) {
                 val result = evaluationResult.result() as JsonElement
                 if (result is JsonElement.Null)
@@ -46,12 +48,28 @@ private class FeelExpressionParser(configuration: FeelExpressionParserConfigurat
                 evaluateError(evaluationResult.failure().message())
         }
 
-        private fun Context.convert(): Map<String, JsonElement> {
-            val result = mutableMapOf<String, JsonElement>()
-            toMap.forEach { (source, value) ->
-                result[source.get] = value
-            }
-            return result
+        private fun variables(envVars: EnvVars, context: Context): Map<String, JsonElement> =
+            if (envVars.isEmpty() && context.isEmpty())
+                emptyMap()
+            else
+                mutableMapOf<String, JsonElement>()
+                    .apply {
+                        context.toMap(this)
+                        envVars.toMap(this)
+                    }
+
+        private fun Context.toMap(destination: MutableMap<String, JsonElement>) {
+            if (isNotEmpty())
+                forEach { (source, value) ->
+                    destination[source.get] = value
+                }
+        }
+
+        private fun EnvVars.toMap(destination: MutableMap<String, JsonElement>) {
+            if (isNotEmpty())
+                forEach { (envVarName, value) ->
+                    destination[envVarName.get] = value
+                }
         }
 
         private fun evaluateError(message: String) =

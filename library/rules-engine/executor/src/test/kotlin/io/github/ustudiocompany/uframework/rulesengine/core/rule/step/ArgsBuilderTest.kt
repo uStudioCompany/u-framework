@@ -7,6 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
@@ -29,7 +30,7 @@ internal class ArgsBuilderTest : UnitTest() {
                         )
                     )
                 )
-                val result = args.build(context = CONTEXT)
+                val result = args.build(envVars = ENV_VARS, context = CONTEXT)
 
                 "then the function should return the build args" {
                     result shouldBeSuccess listOf(
@@ -50,7 +51,7 @@ internal class ArgsBuilderTest : UnitTest() {
                         )
                     )
                 )
-                val result = args.build(context = CONTEXT)
+                val result = args.build(envVars = ENV_VARS, context = CONTEXT)
 
                 "then the function should return the error" {
                     result.shouldContainFailureInstance()
@@ -61,6 +62,7 @@ internal class ArgsBuilderTest : UnitTest() {
     }
 
     private companion object {
+        private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
 
         private const val ARG_NAME_1 = "name-1"
@@ -72,6 +74,7 @@ internal class ArgsBuilderTest : UnitTest() {
                 get() = "a/0"
 
             override fun evaluate(
+                envVars: EnvVars,
                 context: Context
             ): ResultK<JsonElement, FeelExpression.EvaluateError> =
                 FeelExpression.EvaluateError(this).asFailure()

@@ -10,6 +10,7 @@ import io.github.airflux.commons.types.resultk.traverse
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.json.path.PathParser
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
@@ -30,6 +31,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Uri
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.feel.ExpressionParser
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.EnvVarNameModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.FeelExpressionModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.PathModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.RuleModel
@@ -120,13 +122,11 @@ internal class Converter(
     private fun DataSchemaModel.convert(): ResultK<DataSchema, Errors.Conversion> = result {
         val schema = this@convert
         when (schema) {
-            is DataSchemaModel.Struct -> DataSchema.Struct(
-                properties = schema.properties.convertStructProperties().bind()
-            )
+            is DataSchemaModel.Struct ->
+                DataSchema.Struct(properties = schema.properties.convertStructProperties().bind())
 
-            is DataSchemaModel.Array -> DataSchema.Array(
-                items = schema.items.convertArrayItems().bind()
-            )
+            is DataSchemaModel.Array ->
+                DataSchema.Array(items = schema.items.convertArrayItems().bind())
         }
     }
 
@@ -160,11 +160,11 @@ internal class Converter(
     private fun DataSchemaModel.ArrayItem.convertItem(): ResultK<DataSchema.Item, Errors.Conversion> = result {
         val item = this@convertItem
         when (item) {
-            is DataSchemaModel.ArrayItem.Struct -> DataSchema.Item.Struct(
-                properties = item.properties.convertStructProperties().bind()
-            )
+            is DataSchemaModel.ArrayItem.Struct ->
+                DataSchema.Item.Struct(properties = item.properties.convertStructProperties().bind())
 
             is DataSchemaModel.ArrayItem.Array -> DataSchema.Item.Array(items = item.items.convertArrayItems().bind())
+
             is DataSchemaModel.ArrayItem.Element -> DataSchema.Item.Element(value = item.value.convert().bind())
         }
     }
@@ -175,19 +175,13 @@ internal class Converter(
             is ResultModel.Put -> {
                 val source = result.source.convertSource()
                 val action = StepResult.Action.Put
-                StepResult(
-                    source = source,
-                    action = action
-                )
+                StepResult(source = source, action = action)
             }
 
             is ResultModel.Replace -> {
                 val source = result.source.convertSource()
                 val action = StepResult.Action.Replace
-                StepResult(
-                    source = source,
-                    action = action
-                )
+                StepResult(source = source, action = action)
             }
 
             is ResultModel.Merge -> {
@@ -195,16 +189,13 @@ internal class Converter(
                 val action = StepResult.Action.Merge(
                     strategyCode = StepResult.Action.Merge.StrategyCode(result.mergeStrategyCode)
                 )
-                StepResult(
-                    source = source,
-                    action = action
-                )
+                StepResult(source = source, action = action)
             }
         }
     }
 
-    private fun OperatorModel.convertOperator(): ResultK<Operator<Boolean>, Errors.Conversion> {
-        return BooleanOperators.orNull(this)
+    private fun OperatorModel.convertOperator(): ResultK<Operator<Boolean>, Errors.Conversion> =
+        BooleanOperators.orNull(this)
             ?.asSuccess()
             ?: run {
                 val expectedActions = BooleanOperators.entries
@@ -212,21 +203,20 @@ internal class Converter(
                 Errors.Conversion("Unrecognized operator. Expected one of: $expectedActions, but was: '$this'")
                     .asFailure()
             }
-    }
 
     private fun ValueModel.convert(): ResultK<Value, Errors.Conversion> = result {
         val value = this@convert
         when (value) {
-            is ValueModel.Literal -> Value.Literal(fact.get)
+            is ValueModel.Literal -> Value.Literal(fact = fact.get)
 
             is ValueModel.Reference -> Value.Reference(
                 source = source.convertSource(),
-                path = path.convertPath().bind(),
+                path = path.convertPath().bind()
             )
 
-            is ValueModel.Expression -> Value.Expression(
-                expression = expression.convertExpression().bind()
-            )
+            is ValueModel.Expression -> Value.Expression(expression = expression.convertExpression().bind())
+
+            is ValueModel.EnvVars -> Value.EnvVars(name = name.convertEnvVarName())
         }
     }
 
@@ -239,6 +229,8 @@ internal class Converter(
     private fun FeelExpressionModel.convertExpression(): ResultK<FeelExpression, Errors.Conversion> =
         expressionParser.parse(this)
             .mapFailure { error -> Errors.Conversion(error) }
+
+    private fun EnvVarNameModel.convertEnvVarName(): EnvVarName = EnvVarName(this)
 
     sealed class Errors : Failure {
 

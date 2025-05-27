@@ -9,21 +9,23 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
 internal fun DataBuildStep.executeIfSatisfied(
+    envVars: EnvVars,
     context: Context,
     merger: Merger
 ): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(context)
+        val (isSatisfied) = condition.isSatisfied(envVars, context)
             .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
 
         if (isSatisfied) {
-            val (value) = dataSchema.build(context)
+            val (value) = dataSchema.build(envVars, context)
                 .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
             val source = step.result.source
             val action = step.result.action

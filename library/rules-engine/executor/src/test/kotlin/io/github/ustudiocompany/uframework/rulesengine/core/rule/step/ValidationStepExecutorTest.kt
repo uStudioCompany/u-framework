@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
@@ -27,7 +28,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     val step = successfulStep(condition)
 
                     "then the executor should return a success result" {
-                        val result = step.executeIfSatisfied(CONTEXT)
+                        val result = step.executeIfSatisfied(ENV_VARS, CONTEXT)
                         result.shouldContainSuccessInstance()
                             .shouldBeNull()
                     }
@@ -37,7 +38,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     val step = failStep(condition)
 
                     "then the executor should return an error result" {
-                        val result = step.executeIfSatisfied(CONTEXT)
+                        val result = step.executeIfSatisfied(ENV_VARS, CONTEXT)
                         val error = result.shouldContainSuccessInstance()
                             .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                         error shouldBe ERROR_CODE
@@ -54,7 +55,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                         val step = successfulStep(condition)
 
                         "then the executor should return a success result" {
-                            val result = step.executeIfSatisfied(CONTEXT)
+                            val result = step.executeIfSatisfied(ENV_VARS, CONTEXT)
                             result.shouldContainSuccessInstance()
                                 .shouldBeNull()
                         }
@@ -64,7 +65,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                         val step = failStep(condition)
 
                         "then the executor should return an error result" {
-                            val result = step.executeIfSatisfied(CONTEXT)
+                            val result = step.executeIfSatisfied(ENV_VARS, CONTEXT)
                             val error = result.shouldContainSuccessInstance()
                                 .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                             error shouldBe ERROR_CODE
@@ -78,7 +79,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
                     "then the step is not performed" - {
                         val step = failStep(condition)
 
-                        val result = step.executeIfSatisfied(CONTEXT)
+                        val result = step.executeIfSatisfied(ENV_VARS, CONTEXT)
                         result.shouldContainSuccessInstance()
                             .shouldBeNull()
                     }
@@ -88,6 +89,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
         private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")

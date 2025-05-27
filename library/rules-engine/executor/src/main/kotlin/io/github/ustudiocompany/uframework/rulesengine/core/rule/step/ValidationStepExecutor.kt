@@ -8,22 +8,24 @@ import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateOperationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 
 internal fun ValidationStep.executeIfSatisfied(
+    envVars: EnvVars,
     context: Context
 ): ResultK<ValidationStep.ErrorCode?, ValidationStepExecuteError> {
     val operation = this@executeIfSatisfied
-    return condition.isSatisfied(context)
+    return condition.isSatisfied(envVars, context)
         .mapFailure { failure ->
             ValidationStepExecuteError.CheckingConditionSatisfaction(failure)
         }
         .flatMapBoolean(
             ifTrue = {
-                operation.calculate(context)
+                operation.calculate(envVars, context)
                     .mapFailure { failure ->
                         ValidationStepExecuteError.CalculateOperation(failure)
                     }
