@@ -14,6 +14,6 @@ public final class io/github/ustudiocompany/uframework/messaging/listener/Messag
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/listener/MessageListenerKt {
-	public static final fun messageListener (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener$Properties;Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory;Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandler;)Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener;
+	public static final fun messageListener (Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener$Properties;Lio/github/ustudiocompany/uframework/messaging/receiver/MessageReceiverFactory;Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandler;)Lio/github/ustudiocompany/uframework/messaging/listener/MessageListener;
 }
 

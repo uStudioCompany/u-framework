@@ -27,7 +27,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import kotlin.coroutines.CoroutineContext
 
-context (Logging, DiagnosticContext)
 public fun <T> messageListener(
     properties: MessageListener.Properties,
     receiverFactory: MessageReceiverFactory<T>,
