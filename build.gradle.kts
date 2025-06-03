@@ -11,6 +11,9 @@ repositories {
     maven {
         url = URI("https://nexus.fabrica.ustudio.company/repository/maven-snapshots/")
     }
+    maven {
+        url = URI("https://nexus.fabrica.ustudio.company/repository/maven-releases/")
+    }
 }
 
 allprojects {
@@ -18,6 +21,9 @@ allprojects {
         mavenCentral()
         maven {
             url = URI("https://nexus.fabrica.ustudio.company/repository/maven-snapshots/")
+        }
+        maven {
+            url = URI("https://nexus.fabrica.ustudio.company/repository/maven-releases/")
         }
     }
 
