@@ -13,20 +13,15 @@ dependencies {
     implementation(kotlin("reflect"))
 
     implementation(project(":failure-library"))
-    api(project(":json-element"))
-    api(project(":json-path"))
-    api(project(":rules-engine-core"))
+    implementation(project(":json-element"))
+    implementation(project(":json-path"))
+    implementation(project(":rules-engine-core"))
 
-    /* Libs */
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
+    implementation(libs.airflux.commons.types) { isChanging = true }
 
-    /* Test */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.knit.test)
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
     testImplementation(project(":testing-library"))
+
+    testImplementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
+    testImplementation(libs.knit.test)
+    testImplementation(libs.kotest.junit5)
 }

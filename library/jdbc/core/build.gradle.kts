@@ -6,25 +6,21 @@ plugins {
 }
 
 dependencies {
-    api(libs.airflux.commons.types) {
-        isChanging = true
-    }
+    implementation(project(":failure-library"))
 
-    /* Failure libs */
-    api(project(":failure-library"))
-
-    /* Database */
-    api(libs.bundles.database)
+    implementation(libs.airflux.commons.types) { isChanging = true }
+    implementation(libs.postgresql)
 
     /* Tests */
+    testImplementation(project(":jdbc-kotest-matchers-library"))
     testImplementation(project(":jdbc-std-library"))
     testImplementation(project(":jdbc-testcontainers-library"))
-    testImplementation(project(":jdbc-kotest-matchers-library"))
-    testImplementation(libs.bundles.logging)
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
     testImplementation(project(":testing-library"))
+
+    testImplementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
+    testImplementation(libs.kotest.datatest)
+    testImplementation(libs.kotest.junit5)
+    testImplementation(libs.kotest.testcontainers)
 }
 
 configure<PitestPluginExtension> {

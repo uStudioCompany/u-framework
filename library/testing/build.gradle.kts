@@ -3,6 +3,5 @@ plugins {
 }
 
 dependencies {
-    api(libs.bundles.kotest)
-    api(libs.bundles.mockito)
+    implementation(libs.kotest.junit5)
 }

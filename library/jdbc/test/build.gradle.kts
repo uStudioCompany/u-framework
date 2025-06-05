@@ -3,13 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
-
-    /* Database */
     implementation(libs.bundles.database)
-    api(libs.bundles.testcontainers.core)
-    api(libs.bundles.testcontainers.postgresql)
-    implementation(libs.bundles.kotest)
+    implementation(libs.bundles.testcontainers.postgresql)
+    implementation(libs.kotest.junit5)
 }

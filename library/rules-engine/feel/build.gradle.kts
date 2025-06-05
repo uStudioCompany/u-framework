@@ -16,17 +16,12 @@ dependencies {
     implementation(project(":json-element"))
     implementation(project(":rules-engine-core"))
 
-    /* Libs */
-    api(libs.feel.engine)
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
+    implementation(libs.airflux.commons.types) { isChanging = true }
+    implementation(libs.feel.engine)
 
-    /* Test */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.knit.test)
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
     testImplementation(project(":testing-library"))
+
+    testImplementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
+    testImplementation(libs.knit.test)
+    testImplementation(libs.kotest.junit5)
 }

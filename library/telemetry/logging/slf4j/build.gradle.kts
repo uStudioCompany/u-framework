@@ -7,11 +7,9 @@ repositories {
 }
 
 dependencies {
-
-    /* Libs section */
     implementation(project(":diagnostic-context-library"))
-    api(project(":logging-api-library"))
-    implementation(libs.slf4j.api)
-    implementation(libs.logback.core)
+    implementation(project(":logging-api-library"))
+
     implementation(libs.logback.classic)
+    implementation(libs.slf4j.api)
 }

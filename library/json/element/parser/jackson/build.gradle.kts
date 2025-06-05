@@ -14,17 +14,11 @@ dependencies {
 
     implementation(project(":json-element"))
 
-    /* Libs */
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
     implementation(libs.bundles.jackson)
 
-    /* Test */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.knit.test)
     testImplementation(project(":testing-library"))
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
+
+    testImplementation(libs.knit.test)
+    testImplementation(libs.kotest.datatest)
+    testImplementation(libs.kotest.junit5)
 }

@@ -16,19 +16,13 @@ dependencies {
     implementation(project(":rules-engine-core"))
     implementation(project(":rules-engine-feel"))
 
-    implementation(project(":failure-library"))
-
-    /* Libs */
+    implementation(libs.airflux.commons.types) { isChanging = true }
     implementation(libs.feel.engine)
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
 
-    /* Test */
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.knit.test)
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
+    testImplementation(project(":failure-library"))
     testImplementation(project(":testing-library"))
+
+    testImplementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
+    testImplementation(libs.knit.test)
+    testImplementation(libs.kotest.junit5)
 }

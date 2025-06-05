@@ -4,11 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":jdbc-core-library"))
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
-    implementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
-    implementation(libs.bundles.kotest)
+
+    implementation(libs.airflux.commons.types) { isChanging = true }
+    implementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
 }

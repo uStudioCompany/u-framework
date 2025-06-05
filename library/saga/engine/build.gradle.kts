@@ -3,31 +3,14 @@ plugins {
 }
 
 dependencies {
-
-    api(project(":saga-core-library"))
-
-    /* Libs section */
-    implementation(libs.airflux.commons.collections) {
-        isChanging = true
-    }
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
-
-    /* Utils libs */
-    implementation(project(":utils-library"))
-
-    /* Failure lib */
-    implementation(project(":failure-library"))
-
-    /* Logging lib */
     implementation(project(":diagnostic-context-library"))
-    implementation(project(":diagnostic-context-extension-library"))
+    implementation(project(":failure-library"))
     implementation(project(":logging-api-library"))
-    implementation(project(":logging-slf4j-library"))
-
-    /* Messaging lib */
     implementation(project(":messaging-core-library"))
     implementation(project(":messaging-core-types-library"))
-    implementation(project(":messaging-publisher-library"))
+    implementation(project(":saga-core-library"))
+    implementation(project(":utils-library"))
+
+    implementation(libs.airflux.commons.collections) { isChanging = true }
+    implementation(libs.airflux.commons.types) { isChanging = true }
 }

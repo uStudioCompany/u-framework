@@ -12,20 +12,13 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
-    implementation(project(":json-element-merge-strategy"))
     implementation(project(":failure-library"))
+    implementation(project(":json-element-merge-strategy"))
 
     /* Libs */
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
+    implementation(libs.airflux.commons.types) { isChanging = true }
     implementation(libs.bundles.jackson)
 
-    /* Test */
-    testImplementation(libs.bundles.kotest)
     testImplementation(libs.knit.test)
-    testImplementation(project(":testing-library"))
-    testImplementation(libs.airflux.commons.types.kotest.matchers) {
-        isChanging = true
-    }
+    testImplementation(libs.kotest.junit5)
 }

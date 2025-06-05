@@ -3,22 +3,8 @@ plugins {
 }
 
 dependencies {
-
-    /* Libs section */
-    implementation(libs.airflux.commons.types) {
-        isChanging = true
-    }
-
-    /* Utils libs */
-    api(project(":utils-library"))
-
-    /* Failure libs */
     implementation(project(":failure-library"))
+    implementation(project(":utils-library"))
 
-    /* Logging libs */
-    implementation(project(":diagnostic-context-library"))
-    implementation(project(":diagnostic-context-extension-library"))
-    implementation(project(":logging-api-library"))
-    implementation(project(":logging-formatter-json-library"))
-    implementation(project(":logging-slf4j-library"))
+    implementation(libs.airflux.commons.types) { isChanging = true }
 }
