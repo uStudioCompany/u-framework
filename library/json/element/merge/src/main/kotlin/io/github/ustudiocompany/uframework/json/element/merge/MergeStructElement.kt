@@ -37,7 +37,7 @@ private fun mergeStruct(
                 .getOrForward { return it }
                 ?.let { mergedValue -> builder[key] = mergedValue }
         else
-            oldValue
+            builder[key] = oldValue
     }
 
     //Append

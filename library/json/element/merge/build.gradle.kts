@@ -20,6 +20,8 @@ dependencies {
 
     /* Test */
     testImplementation(project(":json-element-jackson-parser"))
+    testImplementation(project(":json-element-merge-strategy-parser-core"))
+    testImplementation(project(":json-element-merge-strategy-parser-jackson"))
     testImplementation(project(":testing-library"))
 
     testImplementation(libs.airflux.commons.types.kotest.matchers) { isChanging = true }
