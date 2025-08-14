@@ -56,6 +56,7 @@ dependencies {
     kover(project(":logging-api-library"))
     kover(project(":logging-formatter-json-library"))
     kover(project(":logging-slf4j-library"))
+    kover(project(":logging-slf4j-extension-library"))
     kover(project(":messaging-core-headers-library"))
     kover(project(":messaging-core-library"))
     kover(project(":messaging-core-types-library"))
