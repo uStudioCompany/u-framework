@@ -7,10 +7,8 @@ import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
 import io.github.ustudiocompany.uframework.messaging.sender.SentMessageMetadata
-import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
-import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
@@ -30,7 +28,6 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         sender: MessageSender<T>
     ) : MessagePublisher<T>(sender) {
 
-        context(Logging, DiagnosticContext)
         public fun publish(message: OutgoingMessage<T>): ResultK<SentMessageMetadata, Errors> =
             tryPublish(channelName, message)
     }
