@@ -17,3 +17,11 @@ public inline fun Logger.warn(msg: () -> String) {
 public inline fun Logger.error(msg: () -> String) {
     if (isErrorEnabled) error(msg())
 }
+
+public inline fun Logger.warn(t: Throwable, msg: () -> String) {
+    if (isWarnEnabled) warn(msg(), t)
+}
+
+public inline fun Logger.error(t: Throwable, msg: () -> String) {
+    if (isErrorEnabled) error(msg(), t)
+}
