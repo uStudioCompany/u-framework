@@ -7,11 +7,12 @@ import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
 import io.github.ustudiocompany.uframework.messaging.sender.SentMessageMetadata
-import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
-import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 import kotlinx.coroutines.runBlocking
 
 public fun <T : Any> publisher(channelName: ChannelName, sender: MessageSender<T>): MessagePublisher.Fixed<T> =
@@ -27,14 +28,12 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         sender: MessageSender<T>
     ) : MessagePublisher<T>(sender) {
 
-        context(Logging, DiagnosticContext)
         public fun publish(message: OutgoingMessage<T>): ResultK<SentMessageMetadata, Errors> =
             tryPublish(channelName, message)
     }
 
     public class Dynamic<T : Any>(sender: MessageSender<T>) : MessagePublisher<T>(sender) {
 
-        context(Logging, DiagnosticContext)
         public fun publish(
             channelName: ChannelName,
             message: OutgoingMessage<T>
@@ -55,11 +54,12 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         }
     }
 
-    context(Logging, DiagnosticContext)
     protected fun tryPublish(
         channelName: ChannelName,
         message: OutgoingMessage<T>
-    ): ResultK<SentMessageMetadata, Errors> {
+    ): ResultK<SentMessageMetadata, Errors> = withLogging(
+        LogbackLogger("uframework.messaging.publisher", JsonFormatter)
+    ) {
         withDiagnosticContext(
             entry(CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY, channelName.get),
             entry(MESSAGE_ROUTING_KEY_DIAGNOSTIC_CONTEXT_KEY, message.routingKey) { it.get }

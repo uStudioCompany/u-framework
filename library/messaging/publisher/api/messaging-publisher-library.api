@@ -1,11 +1,11 @@
 public abstract class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher {
 	public synthetic fun <init> (Lio/github/ustudiocompany/uframework/messaging/sender/MessageSender;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	protected final fun tryPublish-MtdpdQs (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	protected final fun tryPublish-vSX-5XE (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Dynamic : io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/sender/MessageSender;)V
-	public final fun publish-MtdpdQs (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun publish-vSX-5XE (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public abstract class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Errors : io/github/ustudiocompany/uframework/failure/Failure {
@@ -22,7 +22,7 @@ public final class io/github/ustudiocompany/uframework/messaging/publisher/Messa
 public final class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher$Fixed : io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisher {
 	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/sender/MessageSender;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getChannelName-QTL2v0M ()Ljava/lang/String;
-	public final fun publish (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
+	public final fun publish (Lio/github/ustudiocompany/uframework/messaging/message/OutgoingMessage;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/publisher/MessagePublisherKt {

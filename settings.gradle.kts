@@ -31,6 +31,9 @@ project(":logging-formatter-json-library").projectDir = file("./library/telemetr
 include(":logging-slf4j-library")
 project(":logging-slf4j-library").projectDir = file("./library/telemetry/logging/slf4j")
 
+include(":logging-slf4j-extension-library")
+project(":logging-slf4j-extension-library").projectDir = file("./library/telemetry/logging/slf4jextension")
+
 /* Messaging */
 include(":messaging-core-library")
 project(":messaging-core-library").projectDir = file("./library/messaging/core")
