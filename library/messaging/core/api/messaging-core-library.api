@@ -16,9 +16,9 @@ public final class io/github/ustudiocompany/uframework/messaging/handler/Message
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/handler/MessageHandlerExceptionKt {
-	public static final fun toMessageHandlerException (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
-	public static final fun toMessageHandlerException (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Ljava/lang/Exception;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
-	public static synthetic fun toMessageHandlerException$default (Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static final fun toMessageHandlerException (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static final fun toMessageHandlerException (Ljava/lang/Exception;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
+	public static synthetic fun toMessageHandlerException$default (Lio/github/ustudiocompany/uframework/failure/Failure;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException;
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/ChannelName {
