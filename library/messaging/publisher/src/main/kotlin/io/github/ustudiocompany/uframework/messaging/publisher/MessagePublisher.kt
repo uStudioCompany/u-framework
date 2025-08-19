@@ -58,7 +58,7 @@ public sealed class MessagePublisher<T : Any>(private val sender: MessageSender<
         channelName: ChannelName,
         message: OutgoingMessage<T>
     ): ResultK<SentMessageMetadata, Errors> = withLogging(
-        LogbackLogger("uframework.messaging.publisher", JsonFormatter)
+        LogbackLogger("uframework.messaging.publisher.MessagePublisher", JsonFormatter)
     ) {
         withDiagnosticContext(
             entry(CHANNEL_NAME_DIAGNOSTIC_CONTEXT_KEY, channelName.get),
