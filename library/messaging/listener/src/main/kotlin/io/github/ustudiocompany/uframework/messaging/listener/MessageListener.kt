@@ -10,9 +10,12 @@ import io.github.ustudiocompany.uframework.telemetry.logging.api.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
 import io.github.ustudiocompany.uframework.telemetry.logging.api.info
 import io.github.ustudiocompany.uframework.telemetry.logging.api.warn
+import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -41,11 +44,16 @@ public class MessageListener<T>(
 
     public val name: String = listenerName(properties)
 
-    context (Logging, DiagnosticContext)
-    public fun run(coroutineContext: CoroutineContext? = null): Job = scope(coroutineContext, name)
-        .launch {
-            withShutdown { run() }
+    public fun run(coroutineContext: CoroutineContext? = null): Job = withLogging(
+        LogbackLogger("uframework.messaging.listener.MessageListener", JsonFormatter)
+    ) {
+        withDiagnosticContext {
+            scope(coroutineContext, name)
+                .launch {
+                    withShutdown { run() }
+                }
         }
+    }
 
     public class Properties(
         public val topics: List<String>,
