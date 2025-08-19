@@ -6,13 +6,15 @@ import io.github.ustudiocompany.uframework.failure.fullDescription
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
 
-context(DiagnosticContext)
 public fun Failure.toMessageHandlerException(description: String? = null): MessageHandlerException =
-    MessageHandlerException.make(this, description)
+    withDiagnosticContext {
+        MessageHandlerException.make(this@toMessageHandlerException, description)
+    }
 
-context(DiagnosticContext)
 public fun Exception.toMessageHandlerException(description: String): MessageHandlerException =
-    MessageHandlerException.make(this, description)
+    withDiagnosticContext {
+        MessageHandlerException.make(this@toMessageHandlerException, description)
+    }
 
 public class MessageHandlerException private constructor(
     public val description: String,
