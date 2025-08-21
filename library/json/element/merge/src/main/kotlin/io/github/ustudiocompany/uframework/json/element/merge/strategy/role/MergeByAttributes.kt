@@ -59,7 +59,7 @@ internal fun mergeByAttributes(
                 ?.let { builder.add(it) }
     }
 
-    return builder.build().asSuccess()
+    return ResultK.Success(builder.build())
 }
 
 private fun JsonElement.Array.grouping(

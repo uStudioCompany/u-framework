@@ -64,7 +64,7 @@ private fun List<DataSchema.Item>.toArray(
         val value = spec.build(envVars, context).getOrForward { return it }
         builder.add(value)
     }
-    return builder.build().asSuccess()
+    return ResultK.Success(builder.build())
 }
 
 internal sealed interface DataBuildErrors : BasicRulesEngineError {
