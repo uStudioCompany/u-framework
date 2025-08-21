@@ -1,6 +1,6 @@
 public final class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher : io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
 	public fun <init> (Lio/github/ustudiocompany/uframework/messaging/router/Router;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$RouteHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$ResponsePostHandler;Lio/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler;)V
-	public fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
+	public fun handle (Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/dispatcher/Dispatcher$FailureHandler {
