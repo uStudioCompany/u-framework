@@ -7,12 +7,6 @@ import io.github.ustudiocompany.uframework.messaging.message.MessageRoutingKey
 import io.github.ustudiocompany.uframework.messaging.message.header.Headers
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiver
 import io.github.ustudiocompany.uframework.messaging.receiver.MessageReceiverFactory
-import io.github.ustudiocompany.uframework.telemetry.logging.api.Logger
-import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
-import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
-import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
-import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
-import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 import io.github.ustudiocompany.uframework.test.kotest.ComponentTest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -49,13 +43,9 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(LOGGING) {
-                        withDiagnosticContext {
-                            val worker = messageListener(workerProps, factory, messageHandler).run()
-                            delay(1000)
-                            worker.cancel()
-                        }
-                    }
+                    val worker = messageListener(workerProps, factory, messageHandler).run()
+                    delay(1000)
+                    worker.cancel()
                 }
 
                 "then the receiver creates only one time" {
@@ -80,11 +70,7 @@ internal class MessageListenerTest : ComponentTest() {
 
                 "then no messages were handled" {
                     verify(messageHandler, times(0)).apply {
-                        with(any<Logging>()) {
-                            with(any<DiagnosticContext>()) {
-                                handle(any<IncomingMessage<String>>())
-                            }
-                        }
+                        handle(any<IncomingMessage<String>>())
                     }
                 }
             }
@@ -107,13 +93,9 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(LOGGING) {
-                        withDiagnosticContext {
-                            val worker = messageListener(workerProps, factory, messageHandler).run()
-                            delay(1000)
-                            worker.cancel()
-                        }
-                    }
+                    val worker = messageListener(workerProps, factory, messageHandler).run()
+                    delay(1000)
+                    worker.cancel()
                 }
 
                 "then the receiver creates only one time" {
@@ -138,11 +120,7 @@ internal class MessageListenerTest : ComponentTest() {
 
                 "then all messages from the package were handled" {
                     verify(messageHandler, times(2)).apply {
-                        with(any<Logging>()) {
-                            with(any<DiagnosticContext>()) {
-                                handle(any<IncomingMessage<String>>())
-                            }
-                        }
+                        handle(any<IncomingMessage<String>>())
                     }
                 }
             }
@@ -158,11 +136,7 @@ internal class MessageListenerTest : ComponentTest() {
 
                 val messageHandler: MessageHandler<String> = mock {
                     on {
-                        with(any<Logging>()) {
-                            with(any<DiagnosticContext>()) {
-                                handle(any<IncomingMessage<String>>())
-                            }
-                        }
+                        handle(any<IncomingMessage<String>>())
                     }.thenThrow(IllegalArgumentException("Some error."))
                 }
 
@@ -173,14 +147,8 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(LOGGING) {
-                        val worker = withDiagnosticContext {
-                            messageListener(workerProps, factory, messageHandler).run()
-                        }
-
-                        delay(1000)
-                        worker.cancel()
-                    }
+                    messageListener(workerProps, factory, messageHandler).run()
+                    delay(1000)
                 }
 
                 "then the receiver was created after each error" {
@@ -205,11 +173,7 @@ internal class MessageListenerTest : ComponentTest() {
 
                 "then an attempt was made to handle messages" {
                     verify(messageHandler, atLeast(2)).apply {
-                        with(any<Logging>()) {
-                            with(any<DiagnosticContext>()) {
-                                handle(any<IncomingMessage<String>>())
-                            }
-                        }
+                        handle(any<IncomingMessage<String>>())
                     }
                 }
             }
@@ -232,13 +196,9 @@ internal class MessageListenerTest : ComponentTest() {
                 )
 
                 runBlocking {
-                    with(LOGGING) {
-                        withDiagnosticContext {
-                            val worker = messageListener(workerProps, factory, messageHandler).run()
-                            delay(1000)
-                            worker.cancel()
-                        }
-                    }
+                    val worker = messageListener(workerProps, factory, messageHandler).run()
+                    delay(1000)
+                    worker.cancel()
                 }
 
                 "then the receiver was created after each error" {
@@ -263,11 +223,7 @@ internal class MessageListenerTest : ComponentTest() {
 
                 "then no attempts were made to handle messages" {
                     verify(messageHandler, times(0)).apply {
-                        with(any<Logging>()) {
-                            with(any<DiagnosticContext>()) {
-                                handle(any<IncomingMessage<String>>())
-                            }
-                        }
+                        handle(any<IncomingMessage<String>>())
                     }
                 }
             }
@@ -305,10 +261,5 @@ internal class MessageListenerTest : ComponentTest() {
             channel = IncomingMessage.Channel(name = SECOND_TOPIC, partition = SECOND_MESSAGE_PARTITION),
             headers = Headers.EMPTY
         )
-
-        private val LOGGING: Logging = object : Logging {
-            override val logger: Logger
-                get() = LogbackLogger("Test", JsonFormatter)
-        }
     }
 }

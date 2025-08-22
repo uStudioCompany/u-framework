@@ -1,5 +1,5 @@
 public abstract interface class io/github/ustudiocompany/uframework/messaging/handler/MessageHandler {
-	public abstract fun handle (Lio/github/ustudiocompany/uframework/telemetry/logging/api/Logging;Lio/github/ustudiocompany/uframework/telemetry/logging/diagnostic/context/DiagnosticContext;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
+	public abstract fun handle (Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage;)V
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/handler/MessageHandlerException : java/lang/RuntimeException {

@@ -3,7 +3,7 @@
 coroutines = "1.7.3"
 
 #Libs
-airflux-commons = "0.0.1"
+airflux-commons = "0.0.2"
 feel-engine = "1.19.0"
 jackson = "2.19.0"
 json-path = "2.9.0"

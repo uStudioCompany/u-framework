@@ -20,8 +20,11 @@ import io.github.ustudiocompany.uframework.messaging.router.Router
 import io.github.ustudiocompany.uframework.messaging.router.RouterScope
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
+import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 
 context(Logging, DiagnosticContext)
 public fun <BODY, HANDLER, RESPONSE> dispatcher(
@@ -58,14 +61,19 @@ public class Dispatcher<BODY, HANDLER, RESPONSE>(
     private val failureHandler: FailureHandler<BODY>
 ) : MessageHandler<BODY> {
 
-    context(Logging, DiagnosticContext)
-    override fun handle(message: IncomingMessage<BODY>) {
-        val route = router.match(message)
-            .getOrForward { (failure) -> return failureHandler.handle(DispatcherErrors.Route(failure), message) }
-        val response = routeHandler.handle(route, message)
-            .getOrForward { (failure) -> return failureHandler.handle(DispatcherErrors.Handler(failure), message) }
-        responsePostHandler.handle(route, message, response)
-            .getOrForward { (failure) -> return failureHandler.handle(DispatcherErrors.PostHandler(failure), message) }
+    override fun handle(message: IncomingMessage<BODY>): Unit = withLogging(
+        LogbackLogger("uframework.messaging.dispatcher.Dispatcher", JsonFormatter)
+    ) {
+        withDiagnosticContext {
+            val route = router.match(message)
+                .getOrForward { (failure) -> return failureHandler.handle(DispatcherErrors.Route(failure), message) }
+            val response = routeHandler.handle(route, message)
+                .getOrForward { (failure) -> return failureHandler.handle(DispatcherErrors.Handler(failure), message) }
+            responsePostHandler.handle(route, message, response)
+                .getOrForward { (failure) ->
+                    return failureHandler.handle(DispatcherErrors.PostHandler(failure), message)
+                }
+        }
     }
 
     public fun interface RouteHandler<BODY, HANDLER, RESPONSE> {
