@@ -12,18 +12,16 @@ public inline fun Logger.info(msg: () -> String) {
 
 public inline fun Logger.warn(t: Throwable? = null, msg: () -> String) {
     if (isWarnEnabled)
-        if (t != null) {
+        if (t != null)
             warn(msg(), t)
-        } else {
+        else
             warn(msg())
-        }
 }
 
 public inline fun Logger.error(t: Throwable? = null, msg: () -> String) {
     if (isErrorEnabled)
-        if (t != null) {
+        if (t != null)
             error(msg(), t)
-        } else {
+        else
             error(msg())
-        }
 }
