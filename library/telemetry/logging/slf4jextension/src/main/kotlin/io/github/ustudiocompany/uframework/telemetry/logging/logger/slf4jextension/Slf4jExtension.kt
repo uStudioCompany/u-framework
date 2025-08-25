@@ -10,18 +10,18 @@ public inline fun Logger.info(msg: () -> String) {
     if (isInfoEnabled) info(msg())
 }
 
-public inline fun Logger.warn(msg: () -> String) {
-    if (isWarnEnabled) warn(msg())
+public inline fun Logger.warn(t: Throwable? = null, msg: () -> String) {
+    if (isWarnEnabled)
+        if (t != null)
+            warn(msg(), t)
+        else
+            warn(msg())
 }
 
-public inline fun Logger.error(msg: () -> String) {
-    if (isErrorEnabled) error(msg())
-}
-
-public inline fun Logger.warn(t: Throwable, msg: () -> String) {
-    if (isWarnEnabled) warn(msg(), t)
-}
-
-public inline fun Logger.error(t: Throwable, msg: () -> String) {
-    if (isErrorEnabled) error(msg(), t)
+public inline fun Logger.error(t: Throwable? = null, msg: () -> String) {
+    if (isErrorEnabled)
+        if (t != null)
+            error(msg(), t)
+        else
+            error(msg())
 }
