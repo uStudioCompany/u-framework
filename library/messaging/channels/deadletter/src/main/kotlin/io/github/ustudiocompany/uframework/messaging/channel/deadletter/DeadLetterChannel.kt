@@ -11,11 +11,14 @@ import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
 import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
+import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.entry
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.withDiagnosticContext
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.formatter.json.JsonFormatter
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.logback.LogbackLogger
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import java.util.UUID
 
 public fun <T> deadLetterChannel(
     channelName: ChannelName,
@@ -56,15 +59,15 @@ public class DeadLetterChannel<T>(public val name: ChannelName, private val send
     }
 }
 
-context(Logging, DiagnosticContext)
 public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
     channel: DeadLetterChannel<T>,
     description: String? = null,
     cause: Failure
+): Unit = withLogging(
+    LogbackLogger("uframework.messaging.channel.deadletter.DeadLetterChannel", JsonFormatter)
 ) {
-    val stamp = DeadLetterChannel.Stamp.generate(this)
+    val stamp = DeadLetterChannel.Stamp.generate(this@sendToDeadLetterChannel)
     withDiagnosticContext(
-        cause,
         entry(DeadLetterChannel.CHANNEL_NAME_KEY, channel.name),
         entry(DeadLetterChannel.STAMP_KEY, stamp.get)
     ) {
@@ -74,6 +77,6 @@ public fun <T> IncomingMessage<T>.sendToDeadLetterChannel(
             else
                 cause.fullDescription()
         }
+        channel.send(this@sendToDeadLetterChannel, stamp)
     }
-    channel.send(this, stamp)
 }
