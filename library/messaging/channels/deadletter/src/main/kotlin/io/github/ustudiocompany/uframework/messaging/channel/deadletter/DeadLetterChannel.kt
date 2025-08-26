@@ -1,5 +1,6 @@
 package io.github.ustudiocompany.uframework.messaging.channel.deadletter
 
+import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.onFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.failure.exceptionOrNull
@@ -9,7 +10,8 @@ import io.github.ustudiocompany.uframework.messaging.message.ChannelName
 import io.github.ustudiocompany.uframework.messaging.message.IncomingMessage
 import io.github.ustudiocompany.uframework.messaging.message.OutgoingMessage
 import io.github.ustudiocompany.uframework.messaging.sender.MessageSender
-import io.github.ustudiocompany.uframework.telemetry.logging.api.Logging
+import io.github.ustudiocompany.uframework.messaging.sender.SentMessageMetadata
+import io.github.ustudiocompany.uframework.telemetry.logging.api.Logger
 import io.github.ustudiocompany.uframework.telemetry.logging.api.error
 import io.github.ustudiocompany.uframework.telemetry.logging.api.withLogging
 import io.github.ustudiocompany.uframework.telemetry.logging.diagnostic.context.DiagnosticContext
@@ -28,17 +30,23 @@ public fun <T> deadLetterChannel(
 
 public class DeadLetterChannel<T>(public val name: ChannelName, private val sender: MessageSender<T>) {
 
-    context(Logging, DiagnosticContext)
-    public fun send(message: IncomingMessage<T>, stamp: Stamp) {
-        val outgoingMessage = OutgoingMessage(
-            headers = message.headers.add(STAMP_KEY to stamp.get),
-            routingKey = message.routingKey,
-            body = message.body
-        )
+    public fun send(
+        message: IncomingMessage<T>,
+        stamp: Stamp,
+        diagnosticContext: DiagnosticContext = DiagnosticContext.Empty,
+        logger: Logger = LogbackLogger("uframework.messaging.channel.deadletter.DeadLetterChannel", JsonFormatter),
+    ): ResultK<SentMessageMetadata, MessageSender.Errors> = withLogging(logger) {
+        with(diagnosticContext) {
+            val outgoingMessage = OutgoingMessage(
+                headers = message.headers.add(STAMP_KEY to stamp.get),
+                routingKey = message.routingKey,
+                body = message.body
+            )
 
-        //TODO Fixed (runBlocking)
-        runBlocking { sender.send(name, outgoingMessage) }
-            .onFailure { failure -> throw failure.toMessageHandlerException() }
+            //TODO Fixed (runBlocking)
+            runBlocking { sender.send(name, outgoingMessage) }
+                .onFailure { failure -> throw failure.toMessageHandlerException() }
+        }
     }
 
     public class Stamp private constructor(public val get: String) {
