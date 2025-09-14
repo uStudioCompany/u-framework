@@ -21,7 +21,7 @@ internal fun Args.build(envVars: EnvVars, context: Context): ResultK<List<DataPr
                         .mapFailure { failure ->
                             DataProviderArgsErrors.ArgValueBuild(arg = arg, cause = failure)
                         }
-                    val argValue = value.toJson()
+                    val argValue = value.toString()
                     add(DataProvider.Arg(arg.name, argValue))
                 }
             }
