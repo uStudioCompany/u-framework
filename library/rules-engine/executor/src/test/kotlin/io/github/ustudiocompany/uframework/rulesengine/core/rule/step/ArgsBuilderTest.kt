@@ -36,7 +36,7 @@ internal class ArgsBuilderTest : UnitTest() {
                     result shouldBeSuccess listOf(
                         DataProvider.Arg(
                             name = ARG_NAME_1,
-                            value = "\"" + ARG_VALUE_1 + "\""
+                            value = ARG_VALUE_1
                         )
                     )
                 }

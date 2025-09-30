@@ -27,6 +27,7 @@ public sealed interface JsonElement {
 
     public data class Text(val get: String) : JsonElement {
         override fun toJson(): String = "\"$get\""
+        public override fun toString(): String = get
     }
 
     public data class Decimal(val get: BigDecimal) : JsonElement {
