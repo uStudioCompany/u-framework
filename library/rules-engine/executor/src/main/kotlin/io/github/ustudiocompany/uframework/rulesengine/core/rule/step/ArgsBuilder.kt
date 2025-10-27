@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.result
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
@@ -21,7 +22,10 @@ internal fun Args.build(envVars: EnvVars, context: Context): ResultK<List<DataPr
                         .mapFailure { failure ->
                             DataProviderArgsErrors.ArgValueBuild(arg = arg, cause = failure)
                         }
-                    val argValue = value.toString()
+                    val argValue = if (value is JsonElement.Text)
+                        value.toString()
+                    else
+                        value.toJson()
                     add(DataProvider.Arg(arg.name, argValue))
                 }
             }
