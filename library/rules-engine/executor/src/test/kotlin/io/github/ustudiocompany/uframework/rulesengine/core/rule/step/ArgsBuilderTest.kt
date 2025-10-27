@@ -10,7 +10,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
-import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 import java.math.BigDecimal
@@ -53,30 +52,15 @@ internal class ArgsBuilderTest : UnitTest() {
                             )
                         )
                     )
-                    val result = args.build(envVars = ENV_VARS, context = CONTEXT)
+                    val result = args.build(envVars = ENV_VARS, context = CONTEXT) { name, value -> Pair(name, value) }
 
                     "then the function should return the build args" {
                         result shouldBeSuccess listOf(
-                            DataProvider.Arg(
-                                name = ARG_NAME_1,
-                                value = ARG_VALUE_TEXT
-                            ),
-                            DataProvider.Arg(
-                                name = ARG_NAME_2,
-                                value = ARG_VALUE_BOOL.toString()
-                            ),
-                            DataProvider.Arg(
-                                name = ARG_NAME_3,
-                                value = ARG_VALUE_DECIMAL
-                            ),
-                            DataProvider.Arg(
-                                name = ARG_NAME_4,
-                                value = """["$ARG_VALUE_TEXT"]"""
-                            ),
-                            DataProvider.Arg(
-                                name = ARG_NAME_5,
-                                value = """{"$ARG_NAME_1": "$ARG_VALUE_TEXT"}"""
-                            )
+                            Pair(ARG_NAME_1, ARG_VALUE_TEXT),
+                            Pair(ARG_NAME_2, ARG_VALUE_BOOL.toString()),
+                            Pair(ARG_NAME_3, ARG_VALUE_DECIMAL),
+                            Pair(ARG_NAME_4, """["$ARG_VALUE_TEXT"]"""),
+                            Pair(ARG_NAME_5, """{"$ARG_NAME_1": "$ARG_VALUE_TEXT"}""")
                         )
                     }
                 }
@@ -90,11 +74,11 @@ internal class ArgsBuilderTest : UnitTest() {
                             )
                         )
                     )
-                    val result = args.build(envVars = ENV_VARS, context = CONTEXT)
+                    val result = args.build(envVars = ENV_VARS, context = CONTEXT) { name, value -> Pair(name, value) }
 
                     "then the function should return the error" {
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<DataProviderArgsErrors.ArgValueBuild>()
+                            .shouldBeInstanceOf<ArgsBuilderErrors.ArgValueBuilding>()
                     }
                 }
             }
