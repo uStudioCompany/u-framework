@@ -1,6 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
@@ -29,6 +30,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
             "test1" {
                 val executor = RulesEngineExecutor(
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    eventEmitter = { _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val envVars = EnvVars.EMPTY
@@ -61,6 +63,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
             "test2" {
                 val executor = RulesEngineExecutor(
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    eventEmitter = { _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val envVars = EnvVars.EMPTY

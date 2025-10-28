@@ -17,7 +17,8 @@ internal typealias ErrorCode = String
 @JsonSubTypes(
     JsonSubTypes.Type(value = StepModel.Validation::class, name = "validation"),
     JsonSubTypes.Type(value = StepModel.DataRetrieve::class, name = "dataRetrieve"),
-    JsonSubTypes.Type(value = StepModel.DataBuild::class, name = "dataBuild")
+    JsonSubTypes.Type(value = StepModel.DataBuild::class, name = "dataBuild"),
+    JsonSubTypes.Type(value = StepModel.EventEmit::class, name = "eventEmit")
 )
 internal sealed interface StepModel {
 
@@ -40,5 +41,10 @@ internal sealed interface StepModel {
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("dataSchema") val dataSchema: DataSchemaModel,
         @JsonProperty("result") val result: ResultModel
+    ) : StepModel
+
+    data class EventEmit(
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
+        @JsonProperty("args") val args: ArgsModel
     ) : StepModel
 }

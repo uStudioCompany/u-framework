@@ -390,6 +390,19 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/ste
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/EventEmitStep : io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step {
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-x1RwLDY ()Ljava/util/List;
+	public final fun component2-okKJLwA ()Ljava/util/List;
+	public final fun copy-nYcDLcs (Ljava/util/List;Ljava/util/List;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/EventEmitStep;
+	public static synthetic fun copy-nYcDLcs$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/EventEmitStep;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/EventEmitStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArgs-okKJLwA ()Ljava/util/List;
+	public fun getCondition-x1RwLDY ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/step/Step : io/github/ustudiocompany/uframework/rulesengine/core/rule/condition/Conditional {
 }
 

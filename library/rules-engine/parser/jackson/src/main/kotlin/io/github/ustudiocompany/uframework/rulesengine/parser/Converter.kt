@@ -25,6 +25,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.EventEmitStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
@@ -104,6 +105,11 @@ internal class Converter(
                 condition = step.condition.convertCondition().bind(),
                 dataSchema = step.dataSchema.convert().bind(),
                 result = step.result.convert().bind()
+            )
+
+            is StepModel.EventEmit -> EventEmitStep(
+                condition = step.condition.convertCondition().bind(),
+                args = step.args.convertArgs().bind()
             )
         }
     }
