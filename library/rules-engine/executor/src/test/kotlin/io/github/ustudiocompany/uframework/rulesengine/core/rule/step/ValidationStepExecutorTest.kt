@@ -89,6 +89,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val STEP_ID = StepId("step-1")
         private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
         private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
@@ -117,6 +118,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
         private fun successfulStep(condition: Condition) =
             ValidationStep(
+                id = STEP_ID,
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 value = Value.Literal(fact = TEXT_VALUE_1),
@@ -126,6 +128,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
         private fun failStep(condition: Condition) =
             ValidationStep(
+                id = STEP_ID,
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 value = Value.Literal(fact = TEXT_VALUE_2),

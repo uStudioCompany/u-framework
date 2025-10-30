@@ -19,6 +19,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
             "when condition is present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "dataBuild",
                     |   "condition": [
                     |     {
@@ -60,6 +61,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.DataBuild(
+                        id = STEP_ID,
                         condition = listOf(
                             PredicateModel(
                                 target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
@@ -85,6 +87,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
             "when condition is not present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "dataBuild",
                     |   "dataSchema": {
                     |     "type": "struct",
@@ -113,6 +116,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.DataBuild(
+                        id = STEP_ID,
                         condition = emptyList(),
                         dataSchema = DataSchemaModel.Struct(
                             properties = listOf(
@@ -132,6 +136,7 @@ internal class DataBuildStepDeserializationTest : UnitTest() {
     }
 
     private companion object {
+        private const val STEP_ID = "step-1"
         private const val SOURCE_RESULT = "variables"
         private const val FACT = """SCHEME-1"""
         private const val OPERATOR_EQ = "eq"

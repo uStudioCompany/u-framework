@@ -87,6 +87,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val STEP_ID = StepId("step-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")
         private val TEXT_VALUE_2 = JsonElement.Text("value-2")
         private const val ID_DATA_KEY = "id"
@@ -118,6 +119,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
         private fun createStep(condition: Condition) =
             DataBuildStep(
+                id = STEP_ID,
                 condition = condition,
                 dataSchema = DataSchema.Struct(
                     properties = listOf(

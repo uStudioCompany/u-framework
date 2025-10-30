@@ -19,6 +19,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
             "when condition is present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "dataRetrieve",
                     |   "condition": [
                     |     {
@@ -57,6 +58,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.DataRetrieve(
+                        id = STEP_ID,
                         condition = listOf(
                             PredicateModel(
                                 target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
@@ -81,6 +83,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
             "when condition is not present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "dataRetrieve",
                     |   "uri": "$URI",
                     |   "args": [
@@ -106,6 +109,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.DataRetrieve(
+                        id = STEP_ID,
                         condition = emptyList(),
                         uri = URI,
                         args = listOf(
@@ -124,6 +128,7 @@ internal class DataRetrieveStepDeserializationTest : UnitTest() {
     }
 
     private companion object {
+        private const val STEP_ID = "step-1"
         private const val SOURCE_RESULT = "variables"
         private const val FACT = """SCHEME-1"""
         private const val FACT_ARG = """SCHEME-1"""

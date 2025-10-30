@@ -33,6 +33,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                     "when an external call error" - {
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -66,6 +67,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     "when an error of merging" - {
                         val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -101,6 +103,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                 "when execution of the step is successful" - {
                     val context = Context.empty()
                     val step = DataRetrieveStep(
+                        id = STEP_ID,
                         condition = condition,
                         uri = Uri,
                         args = Args(
@@ -145,6 +148,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     "when execution of the step is successful" - {
                         val context = Context.empty()
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -186,6 +190,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                     "then the step is not performed" {
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args.NONE,
@@ -209,6 +214,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val STEP_ID = StepId("step-1")
         private val ENV_VARS = EnvVars.EMPTY
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"

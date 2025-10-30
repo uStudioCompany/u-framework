@@ -19,6 +19,7 @@ internal class EventEmitStepDeserializationTest : UnitTest() {
             "when condition is present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "eventEmit",
                     |   "condition": [
                     |     {
@@ -52,6 +53,7 @@ internal class EventEmitStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.EventEmit(
+                        id = STEP_ID,
                         condition = listOf(
                             PredicateModel(
                                 target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
@@ -74,6 +76,7 @@ internal class EventEmitStepDeserializationTest : UnitTest() {
             "when condition is not present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "eventEmit",
                     |   "args": [
                     |     {
@@ -94,6 +97,7 @@ internal class EventEmitStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.EventEmit(
+                        id = STEP_ID,
                         condition = emptyList(),
                         args = listOf(
                             ArgModel(
@@ -110,6 +114,7 @@ internal class EventEmitStepDeserializationTest : UnitTest() {
     }
 
     private companion object {
+        private const val STEP_ID = "step-1"
         private const val FACT = """SCHEME-1"""
         private const val FACT_ARG = """SCHEME-1"""
         private const val OPERATOR_EQ = "eq"

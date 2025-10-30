@@ -15,6 +15,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -43,6 +44,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
+                                        id = STEP_ID,
                                         condition = Condition.NONE,
                                         target = Value.Literal(fact = JsonElement.Text("test")),
                                         value = Value.Literal(fact = JsonElement.Text("test")),
@@ -75,6 +77,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                             steps = Steps(
                                 listOf(
                                     ValidationStep(
+                                        id = STEP_ID,
                                         condition = Condition.NONE,
                                         target = Value.Literal(fact = JsonElement.Text("test")),
                                         value = Value.Literal(fact = JsonElement.Text("test2")),
@@ -96,6 +99,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val STEP_ID = StepId("step-1")
         private val DATA_RETRIEVE_RESULT = JsonElement.Text("data")
     }
 

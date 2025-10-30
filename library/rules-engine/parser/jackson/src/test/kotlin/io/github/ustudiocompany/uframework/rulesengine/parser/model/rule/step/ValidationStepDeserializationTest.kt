@@ -19,6 +19,7 @@ internal class ValidationStepDeserializationTest : UnitTest() {
             "when condition is present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "validation",
                     |   "condition": [
                     |     {
@@ -55,6 +56,7 @@ internal class ValidationStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.Validation(
+                        id = STEP_ID,
                         condition = listOf(
                             PredicateModel(
                                 target = ValueModel.Literal(fact = FactModel(JsonElement.Text(FACT))),
@@ -73,6 +75,7 @@ internal class ValidationStepDeserializationTest : UnitTest() {
             "when condition is not present" - {
                 val json = """
                     | {
+                    |   "id": "$STEP_ID",
                     |   "type": "validation",
                     |   "target": {
                     |     "kind": "reference",
@@ -96,6 +99,7 @@ internal class ValidationStepDeserializationTest : UnitTest() {
 
                 "then should be return valid type" {
                     result shouldBe StepModel.Validation(
+                        id = STEP_ID,
                         condition = emptyList(),
                         target = ValueModel.Reference(source = SOURCE_INPUT, path = PATH_INPUT),
                         operator = OPERATOR_IN,
@@ -108,6 +112,7 @@ internal class ValidationStepDeserializationTest : UnitTest() {
     }
 
     private companion object {
+        private const val STEP_ID = "step-1"
         private const val SOURCE_INPUT = "input_body"
         private const val SOURCE_VARS = "variables"
         private const val PATH_INPUT = "$.scheme"

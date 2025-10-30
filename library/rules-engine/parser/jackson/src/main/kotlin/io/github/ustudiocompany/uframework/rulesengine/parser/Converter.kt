@@ -27,6 +27,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrie
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.EventEmitStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Uri
@@ -87,6 +88,7 @@ internal class Converter(
         val step = this@convertStep
         when (step) {
             is StepModel.Validation -> ValidationStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 target = step.target.convert().bind(),
                 operator = step.operator.convertOperator().bind(),
@@ -95,6 +97,7 @@ internal class Converter(
             )
 
             is StepModel.DataRetrieve -> DataRetrieveStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 uri = Uri(step.uri),
                 args = step.args.convertArgs().bind(),
@@ -102,12 +105,14 @@ internal class Converter(
             )
 
             is StepModel.DataBuild -> DataBuildStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 dataSchema = step.dataSchema.convert().bind(),
                 result = step.result.convert().bind()
             )
 
             is StepModel.EventEmit -> EventEmitStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 args = step.args.convertArgs().bind()
             )
