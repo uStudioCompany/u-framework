@@ -13,6 +13,7 @@ import io.github.ustudiocompany.uframework.json.path.PathParser
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.RuleId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -63,6 +64,7 @@ internal class Converter(
 
     private fun RuleModel.convert(): ResultK<Rule, Errors.Conversion> = result {
         Rule(
+            id = RuleId(id),
             condition = condition.convertCondition().bind(),
             steps = steps.convertSteps().bind()
         )

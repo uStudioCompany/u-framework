@@ -35,7 +35,8 @@ public class RulesEngineExecutor(
 
     private fun Rules.execute(envVars: EnvVars, context: Context): ExecutionResult {
         for (rule in this.get) {
-            val result = rule.executeIfSatisfied(envVars, context)
+            val vars = envVars.addInternalVars(RULE_ID to JsonElement.Text(rule.id.get))
+            val result = rule.executeIfSatisfied(vars, context)
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
@@ -95,6 +96,7 @@ public class RulesEngineExecutor(
             this
 
     private companion object {
+        private val RULE_ID = EnvVarName("__RULE_ID__")
         private val STEP_ID = EnvVarName("__STEP_ID__")
     }
 }

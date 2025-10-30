@@ -10,6 +10,7 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.RuleId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -40,6 +41,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
+                            id = RULE_ID,
                             condition = Condition.NONE,
                             steps = Steps(
                                 listOf(
@@ -73,6 +75,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                 val rules = Rules(
                     listOf(
                         Rule(
+                            id = RULE_ID,
                             condition = Condition.NONE,
                             steps = Steps(
                                 listOf(
@@ -99,6 +102,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val RULE_ID = RuleId("rule-1")
         private val STEP_ID = StepId("step-1")
         private val DATA_RETRIEVE_RESULT = JsonElement.Text("data")
     }
