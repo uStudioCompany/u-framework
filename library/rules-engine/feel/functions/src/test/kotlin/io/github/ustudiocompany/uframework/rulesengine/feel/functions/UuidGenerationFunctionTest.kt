@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -29,7 +29,7 @@ internal class UuidGenerationFunctionTest : UnitTest() {
 
             "when some parameter is not specified" - {
                 val expression = shouldBeSuccess { parser.parse("uuid()") }
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
 
                 "when a function is called multiple times" - {
                     val results: List<ResultK<JsonElement, FeelExpression.EvaluateError>> = listOf(
@@ -61,7 +61,7 @@ internal class UuidGenerationFunctionTest : UnitTest() {
             }
 
             "when some parameters are specified as environment variables" - {
-                val envVars = EnvVars.invoke(
+                val envVars = envVarsMapOf(
                     EnvVarName(ENV_VAR_FIRST_NAME) to JsonElement.Text(ENV_VAR_FIRST_VALUE),
                     EnvVarName(ENV_VAR_SECOND_NAME) to JsonElement.Text(ENV_VAR_SECOND_VALUE),
                     EnvVarName(ENV_VAR_THIRD_NAME) to JsonElement.Text(ENV_VAR_THIRD_VALUE),
@@ -142,7 +142,7 @@ internal class UuidGenerationFunctionTest : UnitTest() {
             }
 
             "when some parameters are specified as values" - {
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
 
                 "when a function is called multiple times with same parameters" - {
                     val expression =

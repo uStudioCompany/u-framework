@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -26,7 +26,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when the value of the format parameter is specified" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("$SPECIFIC_FORMAT")""") }
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -41,7 +41,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when the value of the format parameter is not specified" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("")""") }
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -56,7 +56,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when the format parameter is missing" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime()""") }
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -68,7 +68,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
 
             "when the value of the format parameter is not a valid date-time format" - {
                 val expression = shouldBeSuccess { parser.parse("""dateTime("abc")""") }
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -82,7 +82,7 @@ internal class DateTimeGenerationFunctionTest : UnitTest() {
                 val expression =
                     shouldBeSuccess { parser.parse("""dateTime(true)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 

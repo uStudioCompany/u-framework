@@ -8,6 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -86,7 +87,7 @@ internal class ArgsBuilderTest : UnitTest() {
     }
 
     private companion object {
-        private val ENV_VARS = EnvVars.EMPTY
+        private val ENV_VARS = envVarsMapOf()
         private val CONTEXT = Context.empty()
 
         private const val ARG_NAME_1 = "name-1"

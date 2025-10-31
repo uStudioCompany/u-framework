@@ -11,6 +11,7 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.append
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
@@ -35,7 +36,7 @@ public class RulesEngineExecutor(
 
     private fun Rules.execute(envVars: EnvVars, context: Context): ExecutionResult {
         for (rule in this.get) {
-            val vars = envVars.addInternalVars(RULE_ID to JsonElement.Text(rule.id.get))
+            val vars = envVars.append(RULE_ID to JsonElement.Text(rule.id.get))
             val result = rule.executeIfSatisfied(vars, context)
             if (result.isFailure() || result.value != null) return result
         }
@@ -54,7 +55,7 @@ public class RulesEngineExecutor(
 
     private fun Steps.execute(envVars: EnvVars, context: Context): ExecutionResult {
         for (step in get) {
-            val vars = envVars.addInternalVars(STEP_ID to JsonElement.Text(step.id.get))
+            val vars = envVars.append(STEP_ID to JsonElement.Text(step.id.get))
             val result = when (step) {
                 is DataRetrieveStep -> step.execute(vars, context)
                 is DataBuildStep -> step.execute(vars, context)
@@ -85,15 +86,6 @@ public class RulesEngineExecutor(
         executeIfSatisfied(envVars, context, eventEmitter)
             .map { failure -> RulesEngineExecutorError.EventEmitStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
-
-    private fun EnvVars.addInternalVars(vararg envVars: Pair<EnvVarName, JsonElement>): EnvVars =
-        if (envVars.isNotEmpty()) {
-            val variables: MutableMap<EnvVarName, JsonElement> = mutableMapOf()
-            variables.putAll(this)
-            variables.putAll(envVars)
-            EnvVars(envVars = variables)
-        } else
-            this
 
     private companion object {
         private val RULE_ID = EnvVarName("__RULE_ID__")

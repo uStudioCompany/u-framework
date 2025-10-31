@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -215,7 +215,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
     private companion object {
         private val STEP_ID = StepId("step-1")
-        private val ENV_VARS = EnvVars.EMPTY
+        private val ENV_VARS = envVarsMapOf()
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"
 

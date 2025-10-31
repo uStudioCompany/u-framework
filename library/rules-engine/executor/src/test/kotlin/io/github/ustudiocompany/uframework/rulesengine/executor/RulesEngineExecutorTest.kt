@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInsta
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.RuleId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
@@ -35,7 +35,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     eventEmitter = { _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
 
                 val rules = Rules(
@@ -70,7 +70,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
                     eventEmitter = { _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context(sources = mapOf(Source("test") to JsonElement.Text("test")))
                 val rules = Rules(
                     listOf(

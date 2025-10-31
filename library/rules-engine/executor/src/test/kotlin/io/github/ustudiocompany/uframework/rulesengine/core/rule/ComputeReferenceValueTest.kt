@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -19,7 +19,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
         "when the value is the Reference type" - {
 
             "when the source is not in the context" - {
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context.empty()
 
                 "then the compute function should return a failure" {
@@ -34,7 +34,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
             }
 
             "when the source is in the context" - {
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsMapOf()
                 val context = Context(sources = mapOf(SOURCE to DATA))
 
                 "when the data does not contain values by path" - {

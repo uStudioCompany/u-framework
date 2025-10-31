@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
@@ -90,7 +90,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
     private companion object {
         private val STEP_ID = StepId("step-1")
-        private val ENV_VARS = EnvVars.EMPTY
+        private val ENV_VARS = envVarsMapOf()
         private val CONTEXT = Context.empty()
         private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")
