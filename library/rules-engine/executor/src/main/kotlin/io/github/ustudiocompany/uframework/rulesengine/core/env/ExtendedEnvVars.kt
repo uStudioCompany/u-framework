@@ -17,9 +17,9 @@ private class ExtendedEnvVars(private val appended: EnvVars, private val origin:
     override fun contains(name: EnvVarName): Boolean =
         name in appended || name in origin
 
-    override fun iterator(): Iterator<Pair<EnvVarName, JsonElement>> = AppendedEnvVarsIterator()
+    override fun iterator(): Iterator<Pair<EnvVarName, JsonElement>> = ExtendedEnvVarsIterator()
 
-    private inner class AppendedEnvVarsIterator : AbstractIterator<Pair<EnvVarName, JsonElement>>() {
+    private inner class ExtendedEnvVarsIterator : AbstractIterator<Pair<EnvVarName, JsonElement>>() {
         var appendedIter = appended.iterator()
         var originIter = origin.iterator()
 
