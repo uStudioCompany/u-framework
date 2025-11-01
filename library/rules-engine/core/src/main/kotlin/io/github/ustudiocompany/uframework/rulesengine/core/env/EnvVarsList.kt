@@ -14,37 +14,37 @@ public fun Array<out Pair<EnvVarName, JsonElement>>.asEnvVarsList(): EnvVars {
 }
 
 private class EnvVarsList private constructor(
-    private val variables: List<Pair<EnvVarName, JsonElement>>
+    private val variables: List<EnvVars.Variable>
 ) : EnvVars {
 
     override fun isEmpty(): Boolean = variables.isEmpty()
 
-    override fun getOrNull(name: EnvVarName): JsonElement? = variables.find { it.first == name }?.second
+    override fun getOrNull(name: EnvVarName): JsonElement? = variables.find { it.name == name }?.value
 
-    override operator fun contains(name: EnvVarName): Boolean = variables.any { it.first == name }
+    override operator fun contains(name: EnvVarName): Boolean = variables.any { it.name == name }
 
-    override fun iterator(): Iterator<Pair<EnvVarName, JsonElement>> = EnvVarsIterator()
+    override fun iterator(): Iterator<EnvVars.Variable> = EnvVarsIterator()
 
     companion object {
         val EMPTY: EnvVars = EnvVarsList(variables = emptyList())
     }
 
     class Builder {
-        private val envVars: MutableList<Pair<EnvVarName, JsonElement>> = mutableListOf()
+        private val envVars: MutableList<EnvVars.Variable> = mutableListOf()
 
         operator fun set(envVarName: EnvVarName, value: JsonElement): Builder {
-            val old = envVars.indexOfFirst { it.first == envVarName }
+            val old = envVars.indexOfFirst { it.name == envVarName }
             if (old >= 0)
-                envVars[old] = Pair(envVarName, value)
+                envVars[old] = EnvVars.Variable(envVarName, value)
             else
-                envVars.add(Pair(envVarName, value))
+                envVars.add(EnvVars.Variable(envVarName, value))
             return this
         }
 
         fun build(): EnvVars = if (envVars.isNotEmpty()) EnvVarsList(envVars) else EMPTY
     }
 
-    private inner class EnvVarsIterator : AbstractIterator<Pair<EnvVarName, JsonElement>>() {
+    private inner class EnvVarsIterator : AbstractIterator<EnvVars.Variable>() {
         val iter = variables.iterator()
         override fun computeNext() {
             if (iter.hasNext())

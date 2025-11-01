@@ -41,6 +41,19 @@ public abstract interface class io/github/ustudiocompany/uframework/rulesengine/
 	public fun isNotEmpty ()Z
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Variable {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;
+	public final fun component2 ()Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Variable;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Variable;Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;Lio/github/ustudiocompany/uframework/json/element/JsonElement;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars$Variable;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;
+	public final fun getValue ()Lio/github/ustudiocompany/uframework/json/element/JsonElement;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarsListKt {
 	public static final fun asEnvVarsList ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
 	public static final fun envVarsListOf ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;

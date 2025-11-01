@@ -22,7 +22,7 @@ private class EnvVarsMap private constructor(
 
     override operator fun contains(name: EnvVarName): Boolean = name in variables
 
-    override fun iterator(): Iterator<Pair<EnvVarName, JsonElement>> = EnvVarsIterator()
+    override fun iterator(): Iterator<EnvVars.Variable> = EnvVarsIterator()
 
     companion object {
         val EMPTY: EnvVars = EnvVarsMap(variables = mapOf())
@@ -39,12 +39,13 @@ private class EnvVarsMap private constructor(
         fun build(): EnvVars = if (envVars.isNotEmpty()) EnvVarsMap(envVars) else EMPTY
     }
 
-    private inner class EnvVarsIterator : AbstractIterator<Pair<EnvVarName, JsonElement>>() {
+    private inner class EnvVarsIterator : AbstractIterator<EnvVars.Variable>() {
         val iter = variables.iterator()
         override fun computeNext() {
-            if (iter.hasNext())
-                setNext(iter.next().toPair())
-            else
+            if (iter.hasNext()) {
+                val item = iter.next()
+                setNext(EnvVars.Variable(name = item.key, value = item.value))
+            } else
                 done()
         }
     }

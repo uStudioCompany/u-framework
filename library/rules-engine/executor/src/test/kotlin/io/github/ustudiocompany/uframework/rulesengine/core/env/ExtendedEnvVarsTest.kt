@@ -72,7 +72,7 @@ internal class ExtendedEnvVarsTest : UnitTest() {
                 }
 
                 "then the variables property should contain the unique environment variables" {
-                    extend shouldContainExactly listOf(APPEND_ENV_VAR_NAME to appendingValue)
+                    extend shouldContainExactly listOf(EnvVars.Variable(APPEND_ENV_VAR_NAME, appendingValue))
                 }
             }
 
@@ -108,7 +108,7 @@ internal class ExtendedEnvVarsTest : UnitTest() {
                 }
 
                 "then the variables property should contain the unique environment variables" {
-                    extend shouldContainExactly listOf(ORIGIN_ENV_VAR_NAME to originValue)
+                    extend shouldContainExactly listOf(EnvVars.Variable(ORIGIN_ENV_VAR_NAME, originValue))
                 }
             }
 
@@ -146,8 +146,8 @@ internal class ExtendedEnvVarsTest : UnitTest() {
 
                 "then the variables property should contain the unique environment variables" {
                     extend.toList() shouldContainExactlyInAnyOrder listOf(
-                        ORIGIN_ENV_VAR_NAME to originValue,
-                        APPEND_ENV_VAR_NAME to appendingValue
+                        EnvVars.Variable(ORIGIN_ENV_VAR_NAME, originValue),
+                        EnvVars.Variable(APPEND_ENV_VAR_NAME, appendingValue)
                     )
                 }
             }

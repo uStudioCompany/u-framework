@@ -38,9 +38,9 @@ internal class EnvVarsMapTest : UnitTest() {
                 }
             }
 
-            "when environment variables created from pairs" - {
+            "when environment variables created from variables" - {
 
-                "when any pair is not passed" - {
+                "when any variable is not passed" - {
                     val envVars = envVarsMapOf()
 
                     "then the function `isEmpty` source should return true" {
@@ -65,9 +65,9 @@ internal class EnvVarsMapTest : UnitTest() {
                     }
                 }
 
-                "when some pair is passed" - {
+                "when some variable is passed" - {
 
-                    "when passing unique pairs" - {
+                    "when passing unique variables" - {
                         val first = JsonElement.Text(FIRST_ENV_VAR_VALUE)
                         val second = JsonElement.Text(SECOND_ENV_VAR_VALUE)
                         val envVars = envVarsMapOf(FIRST_ENV_VAR_NAME to first, SECOND_ENV_VAR_NAME to second)
@@ -100,13 +100,13 @@ internal class EnvVarsMapTest : UnitTest() {
 
                         "then the variables property should contain the unique environment variables" {
                             envVars shouldContainExactly listOf(
-                                FIRST_ENV_VAR_NAME to first,
-                                SECOND_ENV_VAR_NAME to second
+                                EnvVars.Variable(FIRST_ENV_VAR_NAME, first),
+                                EnvVars.Variable(SECOND_ENV_VAR_NAME, second)
                             )
                         }
                     }
 
-                    "when passing non unique pairs" - {
+                    "when passing non unique variables" - {
                         val first = JsonElement.Text(FIRST_ENV_VAR_VALUE)
                         val second = JsonElement.Text(SECOND_ENV_VAR_VALUE)
                         val envVars = envVarsMapOf(FIRST_ENV_VAR_NAME to first, FIRST_ENV_VAR_NAME to second)
@@ -138,7 +138,7 @@ internal class EnvVarsMapTest : UnitTest() {
                         }
 
                         "then the variables property should contain the unique environment variables" {
-                            envVars shouldContainExactly listOf(FIRST_ENV_VAR_NAME to second)
+                            envVars shouldContainExactly listOf(EnvVars.Variable(FIRST_ENV_VAR_NAME, second))
                         }
                     }
                 }
