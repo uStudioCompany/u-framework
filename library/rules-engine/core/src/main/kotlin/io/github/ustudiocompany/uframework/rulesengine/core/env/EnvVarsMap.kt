@@ -2,12 +2,10 @@ package io.github.ustudiocompany.uframework.rulesengine.core.env
 
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 
-public fun envVarsMapOf(vararg envVars: Pair<EnvVarName, JsonElement>): EnvVars = envVars.asEnvVarsMap()
-
-public fun Array<out Pair<EnvVarName, JsonElement>>.asEnvVarsMap(): EnvVars {
-    if (isEmpty()) return EnvVarsMap.EMPTY
+public fun envVarsOf(vararg envVars: Pair<EnvVarName, JsonElement>): EnvVars {
+    if (envVars.isEmpty()) return EnvVarsMap.EMPTY
     val builder = EnvVarsMap.Builder()
-    for ((name, value) in this)
+    for ((name, value) in envVars)
         builder[name] = value
     return builder.build()
 }

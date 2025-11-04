@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -238,7 +238,7 @@ internal class DataSchemaBuilderTest : UnitTest() {
     }
 
     private companion object {
-        private val ENV_VARS = envVarsMapOf()
+        private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
 
         private const val DATA_KEY_1 = "key-1"

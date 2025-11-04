@@ -54,14 +54,8 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvV
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarsListKt {
-	public static final fun asEnvVarsList ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
-	public static final fun envVarsListOf ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
-}
-
 public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarsMapKt {
-	public static final fun asEnvVarsMap ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
-	public static final fun envVarsMapOf ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public static final fun envVarsOf ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/feel/FeelExpression {

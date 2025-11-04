@@ -6,6 +6,11 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/data/Dat
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarsListKt {
+	public static final fun asEnvVarsList ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+	public static final fun envVarsListOf ([Lkotlin/Pair;)Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;
+}
+
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/DataProvider {
 	public abstract fun get-2nBdgHM (Ljava/lang/String;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }

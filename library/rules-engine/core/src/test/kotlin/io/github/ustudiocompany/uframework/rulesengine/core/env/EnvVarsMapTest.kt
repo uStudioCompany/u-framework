@@ -14,7 +14,7 @@ internal class EnvVarsMapTest : UnitTest() {
         "The `EnvVarsMap` type" - {
 
             "when environment variables is empty" - {
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
 
                 "then the function `isEmpty` source should return true" {
                     envVars.isEmpty() shouldBe true
@@ -41,7 +41,7 @@ internal class EnvVarsMapTest : UnitTest() {
             "when environment variables created from variables" - {
 
                 "when any variable is not passed" - {
-                    val envVars = envVarsMapOf()
+                    val envVars = envVarsOf()
 
                     "then the function `isEmpty` source should return true" {
                         envVars.isEmpty() shouldBe true
@@ -70,7 +70,7 @@ internal class EnvVarsMapTest : UnitTest() {
                     "when passing unique variables" - {
                         val first = JsonElement.Text(FIRST_ENV_VAR_VALUE)
                         val second = JsonElement.Text(SECOND_ENV_VAR_VALUE)
-                        val envVars = envVarsMapOf(FIRST_ENV_VAR_NAME to first, SECOND_ENV_VAR_NAME to second)
+                        val envVars = envVarsOf(FIRST_ENV_VAR_NAME to first, SECOND_ENV_VAR_NAME to second)
 
                         "then the function `isEmpty` source should return false" {
                             envVars.isEmpty() shouldBe false
@@ -109,7 +109,7 @@ internal class EnvVarsMapTest : UnitTest() {
                     "when passing non unique variables" - {
                         val first = JsonElement.Text(FIRST_ENV_VAR_VALUE)
                         val second = JsonElement.Text(SECOND_ENV_VAR_VALUE)
-                        val envVars = envVarsMapOf(FIRST_ENV_VAR_NAME to first, FIRST_ENV_VAR_NAME to second)
+                        val envVars = envVarsOf(FIRST_ENV_VAR_NAME to first, FIRST_ENV_VAR_NAME to second)
 
                         "then the function `isEmpty` source should return false" {
                             envVars.isEmpty() shouldBe false

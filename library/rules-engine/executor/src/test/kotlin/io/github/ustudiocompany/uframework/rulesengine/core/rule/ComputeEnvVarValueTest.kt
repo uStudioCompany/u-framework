@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
-import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
@@ -18,7 +18,7 @@ internal class ComputeEnvVarValueTest : UnitTest() {
         "when the value is the EnvVars type" - {
 
             "when the variable is missing from the environment variables" - {
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
 
                 "then the compute function should return a failure" {
                     val value = Value.EnvVars(name = ENV_VAR_NAME)
@@ -29,7 +29,7 @@ internal class ComputeEnvVarValueTest : UnitTest() {
             }
 
             "when the variable is present from the environment variables" - {
-                val envVars = envVarsMapOf(ENV_VAR_NAME to DATA)
+                val envVars = envVarsOf(ENV_VAR_NAME to DATA)
 
                 "then the compute function should return a value" {
                     val value = Value.EnvVars(name = ENV_VAR_NAME)

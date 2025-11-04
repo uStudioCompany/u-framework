@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsMapOf
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -27,7 +27,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val format = HEX_FORMAT
                 val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -42,7 +42,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val format = HEX_FORMAT
                 val expression = shouldBeSuccess { parser.parse("crc32($format)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -57,7 +57,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val format = HEX_FORMAT
                 val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -74,7 +74,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val value = TEXT_VALUE
                 val expression = shouldBeSuccess { parser.parse("crc32($value)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -89,7 +89,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val format = INVALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -104,7 +104,7 @@ internal class Crc32FunctionTest : UnitTest() {
                 val format = BOOL_VALUE
                 val expression = shouldBeSuccess { parser.parse("crc32($value, $format)") }
 
-                val envVars = envVarsMapOf()
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
