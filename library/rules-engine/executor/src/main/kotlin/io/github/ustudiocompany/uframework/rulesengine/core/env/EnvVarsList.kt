@@ -3,9 +3,9 @@ package io.github.ustudiocompany.uframework.rulesengine.core.env
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarsList.Companion.EMPTY
 
-public fun envVarsListOf(vararg envVars: Pair<EnvVarName, JsonElement>): EnvVars = envVars.asEnvVarsList()
+internal fun envVarsListOf(vararg envVars: Pair<EnvVarName, JsonElement>): EnvVars = envVars.asEnvVarsList()
 
-public fun Array<out Pair<EnvVarName, JsonElement>>.asEnvVarsList(): EnvVars {
+internal fun Array<out Pair<EnvVarName, JsonElement>>.asEnvVarsList(): EnvVars {
     if (isEmpty()) return EMPTY
     val builder = EnvVarsList.Builder()
     for ((name, value) in this)
