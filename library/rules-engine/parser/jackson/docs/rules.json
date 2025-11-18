@@ -1,0 +1,270 @@
+{
+  "version": "0.0.1",
+  "rules": [
+    {
+      "id": "rule-1",
+      "when": {
+        "conditions": [
+          {
+            "target": {
+              "kind": "reference",
+              "source": "input.body",
+              "path": "$.scheme"
+            },
+            "comparator": "contains",
+            "compareWith": {
+              "kind": "fact",
+              "fact": "[\"UA-MON\"]"
+            }
+          }
+        ]
+      },
+      "steps": [
+        {
+          "id": "step-1",
+          "type": "dataRetrieve",
+          "when": {
+            "conditions": [
+              {
+                "target": {
+                  "kind": "fact",
+                  "fact": "A"
+                },
+                "operator": "isBoolean",
+                "value": {
+                  "kind": "fact",
+                  "fact": "string/boolean"
+                }
+              }
+            ]
+          },
+          "uri": "mdm://entity/{id}",
+          "args": [
+            {
+              "name": "id",
+              "type": "PathVariable",
+              "value": {
+                "kind": "reference",
+                "source": "input.body",
+                "path": "$.id"
+              }
+            }
+          ],
+          "result": {
+            "name": "variable",
+            "action": "put"
+          }
+        },
+        {
+          "id": "step-2",
+          "type": "validation",
+          "when": {
+            "conditions": [
+              {
+                "target": {
+                  "kind": "fact",
+                  "fact": "A"
+                },
+                "comparator": "eq",
+                "compareWith": {
+                  "kind": "fact",
+                  "fact": "A"
+                }
+              }
+            ]
+          },
+          "target": {
+            "kind": "reference",
+            "source": "input.body",
+            "path": "$.scheme"
+          },
+          "value": {
+            "kind": "reference",
+            "source": "przm_location",
+            "path": "$.[*].scheme"
+          },
+          "operator": "IN",
+          "errorCode": "FR-XXX"
+        },
+        {
+          "id": "step-3",
+          "type": "dataBuild",
+          "when": {
+            "conditions": [
+              {
+                "target": {
+                  "kind": "fact",
+                  "fact": "A"
+                },
+                "comparator": "eq",
+                "compareWith": {
+                  "kind": "fact",
+                  "fact": "A"
+                }
+              }
+            ]
+          },
+          "dataScheme": {
+            "type": "struct",
+            "properties": [
+              {
+                "name": "id",
+                "type": "value",
+                "value": {
+                  "kind": "reference",
+                  "source": "input.body",
+                  "path": "$.id"
+                }
+              },
+              {
+                "name": "date",
+                "type": "value",
+                "value": {
+                  "kind": "expression",
+                  "expression": "now()"
+                }
+              },
+              {
+                "name": "roles",
+                "type": "array",
+                "items": [
+                  {
+                    "type": "value",
+                    "value": {
+                      "kind": "fact",
+                      "fact": "admin"
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "persons",
+                "type": "struct",
+                "properties": [
+                  {
+                    "name": "firstName",
+                    "type": "value",
+                    "value": {
+                      "kind": "fact",
+                      "fact": "Ivan"
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "additionalClassifications",
+                "type": "array",
+                "items": [
+                  {
+                    "type": "struct",
+                    "properties": [
+                      {
+                        "name": "scheme",
+                        "type": "value",
+                        "value": {
+                          "kind": "fact",
+                          "fact": "UA-RDDP"
+                        }
+                      },
+                      {
+                        "name": "id",
+                        "type": "value",
+                        "value": {
+                          "kind": "fact",
+                          "fact": "456"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "struct",
+                    "properties": [
+                      {
+                        "name": "scheme",
+                        "type": "value",
+                        "value": {
+                          "kind": "fact",
+                          "fact": "UA-MON"
+                        }
+                      },
+                      {
+                        "name": "id",
+                        "type": "value",
+                        "value": {
+                          "kind": "fact",
+                          "fact": "123"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "result": {
+            "name": "output",
+            "action": "merge"
+          }
+        },
+        {
+          "id": "relatesToFObject",
+          "type": "messagePublish",
+          "when": {
+            "conditions": [
+              {
+                "target": {
+                  "kind": "fact",
+                  "fact": "A"
+                },
+                "operator": "isBoolean",
+                "value": {
+                  "kind": "fact",
+                  "fact": "boolean"
+                }
+              }
+            ]
+          },
+          "routeKey": {
+            "kind": "envVars",
+            "name": "ENTITY_ID"
+          },
+          "headers": [
+            {
+              "name": "modelCode",
+              "value": {
+                "kind": "fact",
+                "fact": "DM-001"
+              }
+            },
+            {
+              "name": "processCode",
+              "value": {
+                "kind": "fact",
+                "fact": "E-001"
+              }
+            },
+            {
+              "name": "entityId",
+              "value": {
+                "kind": "envVars",
+                "name": "ENTITY_ID"
+              }
+            },
+            {
+              "name": "correlationId",
+              "value": {
+                "kind": "expression",
+                "expression": "uuid(processId, __RULE_ID__, __STEP_ID__)"
+              }
+            }
+          ],
+          "body": {
+            "kind": "reference",
+            "source": "input.body",
+            "path": "$"
+          }
+        }
+      ]
+    }
+  ]
+}

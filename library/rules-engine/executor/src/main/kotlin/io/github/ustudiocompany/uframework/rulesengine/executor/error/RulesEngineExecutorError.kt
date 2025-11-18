@@ -5,7 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStepExecuteError
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStepExecuteErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.EmitEventStepExecuteErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStepExecuteError
 
 public sealed interface RulesEngineExecutorError : BasicRulesEngineError {
@@ -42,11 +42,11 @@ public sealed interface RulesEngineExecutorError : BasicRulesEngineError {
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    public class EventEmitStepExecute internal constructor(
-        cause: EmitEventStepExecuteErrors
+    public class MessagePublishStepExecute internal constructor(
+        cause: MessagePublishStepExecuteErrors
     ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "5"
-        override val description: String = "The error of execution the 'Event Emit' step."
+        override val description: String = "The error of execution the 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

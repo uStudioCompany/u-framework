@@ -4,11 +4,11 @@ import io.github.airflux.commons.types.maybe.Maybe
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 
-public fun interface EventEmitter {
+public fun interface MessagePublisher {
 
-    public fun emit(args: List<Arg>): Maybe<Error>
+    public fun publish(routeKey: String?, headers: List<Header>, body: String?): Maybe<Error>
 
-    public data class Arg(
+    public data class Header(
         public val name: String,
         public val value: String
     )
@@ -44,10 +44,10 @@ public fun interface EventEmitter {
 
         override val code: String = PREFIX + "1"
         override val description: String =
-            "The error of emitting an event." + if (message.isNotEmpty()) " $message" else ""
+            "The error of publishing a message." + if (message.isNotEmpty()) " $message" else ""
 
         private companion object {
-            private const val PREFIX = "EVENT-EMITTER-"
+            private const val PREFIX = "MESSAGE-PUBLISHER-"
         }
     }
 }

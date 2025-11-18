@@ -17,7 +17,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.EventEmitStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.executeIfSatisfied
@@ -27,7 +27,7 @@ public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngin
 
 public class RulesEngineExecutor(
     private val dataProvider: DataProvider,
-    private val eventEmitter: EventEmitter,
+    private val messagePublisher: MessagePublisher,
     private val merger: Merger
 ) {
 
@@ -60,7 +60,7 @@ public class RulesEngineExecutor(
                 is DataRetrieveStep -> step.execute(vars, context)
                 is DataBuildStep -> step.execute(vars, context)
                 is ValidationStep -> step.execute(vars, context)
-                is EventEmitStep -> step.execute(vars, context)
+                is MessagePublishStep -> step.execute(vars, context)
             }
 
             if (result.isFailure() || result.value != null) return result
@@ -82,9 +82,9 @@ public class RulesEngineExecutor(
         executeIfSatisfied(envVars, context)
             .mapFailure { failure -> RulesEngineExecutorError.ValidationStepExecute(failure) }
 
-    private fun EventEmitStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context, eventEmitter)
-            .map { failure -> RulesEngineExecutorError.EventEmitStepExecute(failure) }
+    private fun MessagePublishStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
+        executeIfSatisfied(envVars, context, messagePublisher)
+            .map { failure -> RulesEngineExecutorError.MessagePublishStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
     private companion object {

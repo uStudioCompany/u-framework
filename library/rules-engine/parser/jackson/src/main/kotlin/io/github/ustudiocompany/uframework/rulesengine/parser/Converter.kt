@@ -26,7 +26,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.EventEmitStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeader
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeaders
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
@@ -48,6 +50,10 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.Ar
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArrayItemsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageBodyModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageHeaderModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageHeadersModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageRouteKeyModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ResultModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
@@ -113,13 +119,30 @@ internal class Converter(
                 result = step.result.convert().bind()
             )
 
-            is StepModel.EventEmit -> EventEmitStep(
+            is StepModel.MessagePublish -> MessagePublishStep(
                 id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
-                args = step.args.convertArgs().bind()
+                routeKey = step.routeKey?.convertMessageRouteKey()?.bind(),
+                headers = step.headers.convertMessageHeaders().bind(),
+                body = step.body?.convertMessageBody()?.bind()
             )
         }
     }
+
+    private fun MessageRouteKeyModel.convertMessageRouteKey(): ResultK<Value, Errors.Conversion> = this.convert()
+
+    private fun MessageHeadersModel.convertMessageHeaders(): ResultK<MessageHeaders, Errors.Conversion> =
+        traverse { arg -> arg.convertMessageHeader() }
+            .andThen { headers -> MessageHeaders(headers).asSuccess() }
+
+    private fun MessageHeaderModel.convertMessageHeader(): ResultK<MessageHeader, Errors.Conversion> = result {
+        MessageHeader(
+            name = name,
+            value = value.convert().bind()
+        )
+    }
+
+    private fun MessageBodyModel.convertMessageBody(): ResultK<Value, Errors.Conversion> = this.convert()
 
     private fun ArgsModel.convertArgs(): ResultK<Args, Errors.Conversion> =
         traverse { arg -> arg.convert() }

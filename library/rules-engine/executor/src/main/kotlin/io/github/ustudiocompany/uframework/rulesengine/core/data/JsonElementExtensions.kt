@@ -7,6 +7,9 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 
+internal fun JsonElement.toStringValue() =
+    if (this is JsonElement.Text) this.get else this.toJson()
+
 internal fun JsonElement.search(path: Path): ResultK<JsonElement?, DataSearchError> =
     path.searchIn(this).mapFailure { failure -> DataSearchError(path = path, cause = failure) }
 

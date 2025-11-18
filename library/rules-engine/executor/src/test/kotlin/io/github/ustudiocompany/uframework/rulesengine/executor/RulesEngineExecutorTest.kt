@@ -32,7 +32,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
             "test1" {
                 val executor = RulesEngineExecutor(
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
-                    eventEmitter = { _ -> Maybe.none() },
+                    messagePublisher = { _, _, _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val envVars = envVarsOf()
@@ -67,7 +67,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
             "test2" {
                 val executor = RulesEngineExecutor(
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
-                    eventEmitter = { _ -> Maybe.none() },
+                    messagePublisher = { _, _, _ -> Maybe.none() },
                     merger = { _, origin, _ -> origin.asSuccess() }
                 )
                 val envVars = envVarsOf()

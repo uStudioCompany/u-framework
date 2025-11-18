@@ -11,35 +11,35 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 
-internal fun <T> Args.build(
+internal fun <T> MessageHeaders.build(
     envVars: EnvVars,
     context: Context,
     builder: (name: String, value: String) -> T
 ): ResultK<List<T>, ArgsBuilderErrors> =
     result {
-        val args = this@build
+        val headers = this@build
         mutableListOf<T>()
             .apply {
-                args.get.forEach { arg ->
-                    val (value) = arg.value.compute(envVars, context)
+                headers.get.forEach { header ->
+                    val (value) = header.value.compute(envVars, context)
                         .mapFailure { failure ->
-                            ArgsBuilderErrors.ArgValueBuilding(arg = arg, cause = failure)
+                            HeadersBuilderErrors.MessageHeaderValueBuilding(header = header, cause = failure)
                         }
-                    val argValue = value.toStringValue()
-                    add(builder(arg.name, argValue))
+                    val headerValue = value.toStringValue()
+                    add(builder(header.name, headerValue))
                 }
             }
     }
 
-internal sealed interface ArgsBuilderErrors : BasicRulesEngineError {
+internal sealed interface HeadersBuilderErrors : BasicRulesEngineError {
 
-    class ArgValueBuilding(arg: Arg, cause: ValueComputeErrors) : ArgsBuilderErrors {
+    class MessageHeaderValueBuilding(header: MessageHeader, cause: ValueComputeErrors) : ArgsBuilderErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error building arg '${arg.name}'."
+        override val description: String = "Error building the header '${header.name}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {
-        private const val PREFIX = "ARGS-BUILDER-"
+        private const val PREFIX = "MESSAGE_HEADERS-BUILDER-"
     }
 }
