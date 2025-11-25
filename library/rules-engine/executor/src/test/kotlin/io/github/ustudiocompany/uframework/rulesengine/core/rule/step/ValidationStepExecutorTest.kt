@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
@@ -89,7 +89,8 @@ internal class ValidationStepExecutorTest : UnitTest() {
     }
 
     private companion object {
-        private val ENV_VARS = EnvVars.EMPTY
+        private val STEP_ID = StepId("step-1")
+        private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
         private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")
@@ -117,6 +118,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
         private fun successfulStep(condition: Condition) =
             ValidationStep(
+                id = STEP_ID,
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 value = Value.Literal(fact = TEXT_VALUE_1),
@@ -126,6 +128,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
 
         private fun failStep(condition: Condition) =
             ValidationStep(
+                id = STEP_ID,
                 condition = condition,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 value = Value.Literal(fact = TEXT_VALUE_2),

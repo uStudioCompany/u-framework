@@ -16,7 +16,7 @@ internal class GetValueFromEnvVarsTest : UnitTest() {
         "The extension function `get` for `EnvVars` type" - {
 
             "when environment variables is empty" - {
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
 
                 "then function should return an error" {
                     val result = envVars[ENV_VAR]
@@ -27,7 +27,7 @@ internal class GetValueFromEnvVarsTest : UnitTest() {
 
             "when environment variables is not empty" - {
                 val value = JsonElement.Text(ORIGIN_VALUE)
-                val envVars = EnvVars(envVars = mapOf(ENV_VAR to value))
+                val envVars = envVarsOf(ENV_VAR to value)
 
                 "when the variable is missing from the environment variables" - {
 

@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -33,6 +33,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                     "when an external call error" - {
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -66,6 +67,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     "when an error of merging" - {
                         val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -101,6 +103,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                 "when execution of the step is successful" - {
                     val context = Context.empty()
                     val step = DataRetrieveStep(
+                        id = STEP_ID,
                         condition = condition,
                         uri = Uri,
                         args = Args(
@@ -145,6 +148,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                     "when execution of the step is successful" - {
                         val context = Context.empty()
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args(
@@ -186,6 +190,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                     "then the step is not performed" {
                         val step = DataRetrieveStep(
+                            id = STEP_ID,
                             condition = condition,
                             uri = Uri,
                             args = Args.NONE,
@@ -209,7 +214,8 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
     }
 
     private companion object {
-        private val ENV_VARS = EnvVars.EMPTY
+        private val STEP_ID = StepId("step-1")
+        private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"
 

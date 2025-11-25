@@ -6,7 +6,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInsta
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.feel.FeelExpressionParserConfiguration
 import io.github.ustudiocompany.uframework.rulesengine.feel.feelExpressionParser
@@ -28,7 +28,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = VALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("""year($value, $format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -44,7 +44,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = VALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("""year($format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -59,7 +59,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = VALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("""year($value, $format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -74,7 +74,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = VALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("""year($value, $format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -91,7 +91,7 @@ internal class YearFunctionTest : UnitTest() {
                 val value = VALID_VALUE
                 val expression = shouldBeSuccess { parser.parse("""year($value, "")""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -107,7 +107,7 @@ internal class YearFunctionTest : UnitTest() {
                 val value = VALID_VALUE
                 val expression = shouldBeSuccess { parser.parse("""year($value)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -122,7 +122,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = INVALID_FORMAT
                 val expression = shouldBeSuccess { parser.parse("""year($value, $format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 
@@ -137,7 +137,7 @@ internal class YearFunctionTest : UnitTest() {
                 val format = INVALID_FORMAT_TYPE
                 val expression = shouldBeSuccess { parser.parse("""year($value, $format)""") }
 
-                val envVars = EnvVars.EMPTY
+                val envVars = envVarsOf()
                 val context = Context.empty()
                 val result = expression.evaluate(envVars, context)
 

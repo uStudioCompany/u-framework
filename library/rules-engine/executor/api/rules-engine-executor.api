@@ -67,8 +67,36 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Merg
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher {
+	public abstract fun publish (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lio/github/airflux/commons/types/maybe/Maybe;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher$Error : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+	public fun <init> ()V
+	public fun <init> (Lio/github/ustudiocompany/uframework/failure/Failure;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;Lio/github/ustudiocompany/uframework/failure/Failure$Details;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher$Header {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher$Header;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher$Header;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher$Header;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/RulesEngineExecutor {
-	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/executor/DataProvider;Lio/github/ustudiocompany/uframework/rulesengine/executor/MessagePublisher;Lio/github/ustudiocompany/uframework/rulesengine/executor/Merger;)V
 	public final fun execute-LHWKZ78 (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVars;Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;Ljava/util/List;)Lio/github/airflux/commons/types/resultk/ResultK;
 }
 
@@ -88,6 +116,12 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$DataRetrievingStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
+	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
+	public fun getCode ()Ljava/lang/String;
+	public fun getDescription ()Ljava/lang/String;
+}
+
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError$MessagePublishStepExecute : io/github/ustudiocompany/uframework/rulesengine/executor/error/RulesEngineExecutorError {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

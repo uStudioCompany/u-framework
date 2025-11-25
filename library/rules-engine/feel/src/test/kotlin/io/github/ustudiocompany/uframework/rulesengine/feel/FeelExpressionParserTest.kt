@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInsta
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -26,7 +26,7 @@ internal class FeelExpressionParserTest : UnitTest() {
             "when parsing a valid expression" - {
 
                 "when the expression does not contain variables" - {
-                    val envVars = EnvVars.EMPTY
+                    val envVars = envVarsOf()
                     val context = Context.empty()
 
                     "when the expression is the bool" - {
@@ -232,7 +232,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                 "when the expression contains variables from context" - {
 
                     "when the variable is a null value" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(sources = mapOf(Source(KEY_A) to JsonElement.Null))
                         val expression = shouldBeSuccess {
                             parser.parse(
@@ -249,7 +249,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a boolean values" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(
                             sources = mapOf(
                                 Source(KEY_A) to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
@@ -269,7 +269,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a text values" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(
                             sources = mapOf(
                                 Source(KEY_A) to JsonElement.Text(TEXT_VALUE_1),
@@ -289,7 +289,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a decimal values" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(
                             sources = mapOf(
                                 Source(KEY_A) to JsonElement.Decimal(
@@ -313,7 +313,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is an array value" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(
                             sources = mapOf(
                                 Source(KEY_A) to JsonElement.Array(
@@ -335,7 +335,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is a struct value" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context(
                             sources = mapOf(
                                 Source(KEY_A) to JsonElement.Struct(
@@ -362,7 +362,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                 "when the expression contains variables from environment" - {
 
                     "when the variable is a null value" - {
-                        val envVars = EnvVars.invoke(ENV_VAR_1 to JsonElement.Null)
+                        val envVars = envVarsOf(ENV_VAR_1 to JsonElement.Null)
                         val context = Context.empty()
                         val expression = shouldBeSuccess {
                             parser.parse(
@@ -379,7 +379,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a boolean values" - {
-                        val envVars = EnvVars(
+                        val envVars = envVarsOf(
                             ENV_VAR_1 to JsonElement.Bool.valueOf(BOOL_VALUE_TRUE),
                             ENV_VAR_2 to JsonElement.Bool.valueOf(BOOL_VALUE_FALSE)
                         )
@@ -397,7 +397,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a text values" - {
-                        val envVars = EnvVars(
+                        val envVars = envVarsOf(
                             ENV_VAR_1 to JsonElement.Text(TEXT_VALUE_1),
                             ENV_VAR_2 to JsonElement.Text(TEXT_VALUE_2)
                         )
@@ -415,7 +415,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variables are a decimal values" - {
-                        val envVars = EnvVars(
+                        val envVars = envVarsOf(
                             ENV_VAR_1 to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
                             ENV_VAR_2 to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
                         )
@@ -433,7 +433,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is an array value" - {
-                        val envVars = EnvVars(
+                        val envVars = envVarsOf(
                             ENV_VAR_1 to JsonElement.Array(
                                 JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1)),
                                 JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_2))
@@ -453,7 +453,7 @@ internal class FeelExpressionParserTest : UnitTest() {
                     }
 
                     "when the variable is a struct value" - {
-                        val envVars = EnvVars(
+                        val envVars = envVarsOf(
                             ENV_VAR_1 to JsonElement.Struct(
                                 KEY_B to JsonElement.Decimal(BigDecimal.valueOf(NUMBER_VALUE_1))
                             ),

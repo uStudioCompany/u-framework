@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.feel
 
 import org.camunda.feel.context.JavaFunction
 import org.camunda.feel.context.JavaFunctionProvider
-import java.util.*
+import java.util.Optional
 
 internal class FeelFunctionProvider(list: Iterable<FeelFunction>) : JavaFunctionProvider() {
     private val registry: Map<String, JavaFunction> = registry(list)

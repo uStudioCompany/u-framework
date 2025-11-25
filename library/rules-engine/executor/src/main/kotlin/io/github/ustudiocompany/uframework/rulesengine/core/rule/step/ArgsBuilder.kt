@@ -6,36 +6,40 @@ import io.github.airflux.commons.types.resultk.result
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
 
-internal fun Args.build(envVars: EnvVars, context: Context): ResultK<List<DataProvider.Arg>, DataProviderArgsErrors> =
+internal fun <T> Args.build(
+    envVars: EnvVars,
+    context: Context,
+    builder: (name: String, value: String) -> T
+): ResultK<List<T>, ArgsBuilderErrors> =
     result {
         val args = this@build
-        mutableListOf<DataProvider.Arg>()
+        mutableListOf<T>()
             .apply {
                 args.get.forEach { arg ->
                     val (value) = arg.value.compute(envVars, context)
                         .mapFailure { failure ->
-                            DataProviderArgsErrors.ArgValueBuild(arg = arg, cause = failure)
+                            ArgsBuilderErrors.ArgValueBuilding(arg = arg, cause = failure)
                         }
-                    val argValue = value.toString()
-                    add(DataProvider.Arg(arg.name, argValue))
+                    val argValue = value.toStringValue()
+                    add(builder(arg.name, argValue))
                 }
             }
     }
 
-internal sealed interface DataProviderArgsErrors : BasicRulesEngineError {
+internal sealed interface ArgsBuilderErrors : BasicRulesEngineError {
 
-    class ArgValueBuild(arg: Arg, cause: ValueComputeErrors) : DataProviderArgsErrors {
+    class ArgValueBuilding(arg: Arg, cause: ValueComputeErrors) : ArgsBuilderErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "Error building arg '${arg.name}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {
-        private const val PREFIX = "DATA-PROVIDER-ARGS-"
+        private const val PREFIX = "ARGS-BUILDER-"
     }
 }

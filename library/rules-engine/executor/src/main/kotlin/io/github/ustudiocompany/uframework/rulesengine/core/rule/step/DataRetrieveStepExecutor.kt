@@ -27,8 +27,9 @@ internal fun DataRetrieveStep.executeIfSatisfied(
             .mapFailure { failure -> DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
         if (isSatisfied) {
-            val (args) = args.build(envVars, context)
-                .mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
+            val (args) = args.build(envVars, context) { name, value ->
+                DataProvider.Arg(name, value)
+            }.mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
             val uri = DataProvider.Uri.from(step.uri.get)
             val (value) = dataProvider.get(uri, args)
                 .mapFailure { failure -> DataRetrieveStepExecuteErrors.RetrievingExternalData(failure) }
@@ -49,7 +50,7 @@ internal sealed interface DataRetrieveStepExecuteErrors : BasicRulesEngineError 
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class ArgsBuilding(cause: DataProviderArgsErrors) : DataRetrieveStepExecuteErrors {
+    class ArgsBuilding(cause: ArgsBuilderErrors) : DataRetrieveStepExecuteErrors {
         override val code: String = PREFIX + "2"
         override val description: String = "Error building args for data provider of 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

@@ -17,11 +17,13 @@ internal typealias ErrorCode = String
 @JsonSubTypes(
     JsonSubTypes.Type(value = StepModel.Validation::class, name = "validation"),
     JsonSubTypes.Type(value = StepModel.DataRetrieve::class, name = "dataRetrieve"),
-    JsonSubTypes.Type(value = StepModel.DataBuild::class, name = "dataBuild")
+    JsonSubTypes.Type(value = StepModel.DataBuild::class, name = "dataBuild"),
+    JsonSubTypes.Type(value = StepModel.MessagePublish::class, name = "messagePublish")
 )
 internal sealed interface StepModel {
 
     data class Validation(
+        @JsonProperty("id") val id: StepIdModel,
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("target") val target: ValueModel,
         @JsonProperty("operator") val operator: OperatorModel,
@@ -30,6 +32,7 @@ internal sealed interface StepModel {
     ) : StepModel
 
     data class DataRetrieve(
+        @JsonProperty("id") val id: StepIdModel,
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("uri") val uri: UriModel,
         @JsonProperty("args") val args: ArgsModel,
@@ -37,8 +40,17 @@ internal sealed interface StepModel {
     ) : StepModel
 
     data class DataBuild(
+        @JsonProperty("id") val id: StepIdModel,
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("dataSchema") val dataSchema: DataSchemaModel,
         @JsonProperty("result") val result: ResultModel
+    ) : StepModel
+
+    data class MessagePublish(
+        @JsonProperty("id") val id: StepIdModel,
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
+        @JsonProperty("routeKey") val routeKey: MessageRouteKeyModel?,
+        @JsonProperty("headers") val headers: MessageHeadersModel = emptyList(),
+        @JsonProperty("body") val body: MessageBodyModel?
     ) : StepModel
 }

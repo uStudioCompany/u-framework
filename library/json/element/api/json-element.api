@@ -43,6 +43,7 @@ public final class io/github/ustudiocompany/uframework/json/element/JsonElement$
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/json/element/JsonElement$Array$Builder {
@@ -123,6 +124,7 @@ public final class io/github/ustudiocompany/uframework/json/element/JsonElement$
 	public fun remove (Ljava/lang/String;)Lio/github/ustudiocompany/uframework/json/element/JsonElement;
 	public final fun size ()I
 	public fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
 	public final fun values ()Ljava/util/Collection;
 }
 

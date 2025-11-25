@@ -4,6 +4,8 @@ import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
+import java.net.URLEncoder
+import kotlin.text.Charsets.UTF_8
 
 public fun interface DataProvider {
 
@@ -13,7 +15,7 @@ public fun interface DataProvider {
     public value class Uri private constructor(public val get: String) {
 
         public companion object {
-            public fun from(value: String): Uri = Uri(value)
+            public fun from(value: String): Uri = Uri(URLEncoder.encode(value, UTF_8))
         }
     }
 

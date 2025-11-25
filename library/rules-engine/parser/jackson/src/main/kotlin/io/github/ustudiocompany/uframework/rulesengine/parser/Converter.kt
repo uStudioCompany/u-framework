@@ -13,6 +13,7 @@ import io.github.ustudiocompany.uframework.json.path.PathParser
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.RuleId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -25,7 +26,11 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeader
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeaders
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Uri
@@ -45,6 +50,10 @@ import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.Ar
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArgsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ArrayItemsModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageBodyModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageHeaderModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageHeadersModel
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.MessageRouteKeyModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.ResultModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepModel
 import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.StepsModel
@@ -61,6 +70,7 @@ internal class Converter(
 
     private fun RuleModel.convert(): ResultK<Rule, Errors.Conversion> = result {
         Rule(
+            id = RuleId(id),
             condition = condition.convertCondition().bind(),
             steps = steps.convertSteps().bind()
         )
@@ -86,6 +96,7 @@ internal class Converter(
         val step = this@convertStep
         when (step) {
             is StepModel.Validation -> ValidationStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 target = step.target.convert().bind(),
                 operator = step.operator.convertOperator().bind(),
@@ -94,6 +105,7 @@ internal class Converter(
             )
 
             is StepModel.DataRetrieve -> DataRetrieveStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 uri = Uri(step.uri),
                 args = step.args.convertArgs().bind(),
@@ -101,12 +113,36 @@ internal class Converter(
             )
 
             is StepModel.DataBuild -> DataBuildStep(
+                id = StepId(step.id),
                 condition = step.condition.convertCondition().bind(),
                 dataSchema = step.dataSchema.convert().bind(),
                 result = step.result.convert().bind()
             )
+
+            is StepModel.MessagePublish -> MessagePublishStep(
+                id = StepId(step.id),
+                condition = step.condition.convertCondition().bind(),
+                routeKey = step.routeKey?.convertMessageRouteKey()?.bind(),
+                headers = step.headers.convertMessageHeaders().bind(),
+                body = step.body?.convertMessageBody()?.bind()
+            )
         }
     }
+
+    private fun MessageRouteKeyModel.convertMessageRouteKey(): ResultK<Value, Errors.Conversion> = this.convert()
+
+    private fun MessageHeadersModel.convertMessageHeaders(): ResultK<MessageHeaders, Errors.Conversion> =
+        traverse { arg -> arg.convertMessageHeader() }
+            .andThen { headers -> MessageHeaders(headers).asSuccess() }
+
+    private fun MessageHeaderModel.convertMessageHeader(): ResultK<MessageHeader, Errors.Conversion> = result {
+        MessageHeader(
+            name = name,
+            value = value.convert().bind()
+        )
+    }
+
+    private fun MessageBodyModel.convertMessageBody(): ResultK<Value, Errors.Conversion> = this.convert()
 
     private fun ArgsModel.convertArgs(): ResultK<Args, Errors.Conversion> =
         traverse { arg -> arg.convert() }

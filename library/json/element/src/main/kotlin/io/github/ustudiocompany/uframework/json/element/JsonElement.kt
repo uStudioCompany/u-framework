@@ -10,6 +10,7 @@ public sealed interface JsonElement {
 
     public data object Null : JsonElement {
         override fun toJson(): String = "null"
+        override fun toString(): String = "Null()"
     }
 
     public data class Bool(val get: Boolean) : JsonElement {
@@ -27,7 +28,6 @@ public sealed interface JsonElement {
 
     public data class Text(val get: String) : JsonElement {
         override fun toJson(): String = "\"$get\""
-        public override fun toString(): String = get
     }
 
     public data class Decimal(val get: BigDecimal) : JsonElement {
@@ -64,6 +64,8 @@ public sealed interface JsonElement {
 
         override fun equals(other: Any?): Boolean =
             this === other || (other is Array && items == other.items)
+
+        override fun toString(): String = "Array($items)"
 
         public class Builder {
             private val items: MutableList<JsonElement> = mutableListOf()
@@ -118,6 +120,8 @@ public sealed interface JsonElement {
 
         override fun equals(other: Any?): Boolean =
             this === other || (other is Struct && properties == other.properties)
+
+        override fun toString(): String = "Struct($properties)"
 
         public class Builder {
             private val properties = mutableMapOf<String, JsonElement>()

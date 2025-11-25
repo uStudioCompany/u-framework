@@ -5,7 +5,7 @@ import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -26,7 +26,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                 val condition: Condition = Condition.NONE
 
                 "then the executor should perform the step" - {
-                    val envVars = EnvVars.EMPTY
+                    val envVars = envVarsOf()
                     val context = Context.empty()
                     val step = createStep(condition)
                     val result = step.executeIfSatisfied(envVars, context, TestMerger())
@@ -48,7 +48,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     val condition: Condition = satisfiedCondition()
 
                     "then the executor should perform the step" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context.empty()
                         val step = createStep(condition)
                         val result = step.executeIfSatisfied(envVars, context, TestMerger())
@@ -68,7 +68,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
                     val condition: Condition = notSatisfiedCondition()
 
                     "then the executor should not perform the step" - {
-                        val envVars = EnvVars.EMPTY
+                        val envVars = envVarsOf()
                         val context = Context.empty()
                         val step = createStep(condition)
                         val result = step.executeIfSatisfied(envVars, context, TestMerger())
@@ -87,6 +87,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
     }
 
     private companion object {
+        private val STEP_ID = StepId("step-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")
         private val TEXT_VALUE_2 = JsonElement.Text("value-2")
         private const val ID_DATA_KEY = "id"
@@ -118,6 +119,7 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
         private fun createStep(condition: Condition) =
             DataBuildStep(
+                id = STEP_ID,
                 condition = condition,
                 dataSchema = DataSchema.Struct(
                     properties = listOf(

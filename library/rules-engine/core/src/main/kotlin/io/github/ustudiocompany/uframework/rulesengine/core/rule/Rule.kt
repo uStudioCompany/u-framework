@@ -5,6 +5,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condi
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 
 public data class Rule(
+    public val id: RuleId,
     override val condition: Condition,
     public val steps: Steps
 ) : Conditional

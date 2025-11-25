@@ -4,7 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 
 @OptIn(AirfluxTypesExperimental::class)
@@ -22,7 +22,7 @@ internal class ComputeLiteralValueTest : UnitTest() {
     }
 
     companion object {
-        private val ENV_VARS = EnvVars.EMPTY
+        private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
         private const val VALUE = "value"
     }

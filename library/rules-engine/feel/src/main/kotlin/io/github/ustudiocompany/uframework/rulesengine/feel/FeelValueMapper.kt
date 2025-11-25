@@ -16,7 +16,7 @@ import scala.collection.immutable.List
 import scala.collection.immutable.`List$`
 import scala.collection.immutable.`Map$`
 import scala.math.BigDecimal
-import java.util.*
+import java.util.Optional
 import java.util.function.Function
 
 internal class FeelValueMapper : JavaCustomValueMapper() {
