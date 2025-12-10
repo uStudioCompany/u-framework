@@ -24,6 +24,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.opera
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Arg
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Args
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeader
@@ -33,6 +34,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Uiss
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Uri
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
 import io.github.ustudiocompany.uframework.rulesengine.feel.ExpressionParser
@@ -125,6 +127,13 @@ internal class Converter(
                 routeKey = step.routeKey?.convertMessageRouteKey()?.bind(),
                 headers = step.headers.convertMessageHeaders().bind(),
                 body = step.body?.convertMessageBody()?.bind()
+            )
+
+            is StepModel.DataChangeTracking -> DataChangeTrackingStep(
+                id = StepId(step.id),
+                condition = step.condition.convertCondition().bind(),
+                uri = Uiss(step.uiss),
+                args = step.args.convertArgs().bind()
             )
         }
     }

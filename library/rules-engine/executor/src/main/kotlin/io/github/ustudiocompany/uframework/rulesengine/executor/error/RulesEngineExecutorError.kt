@@ -4,6 +4,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStepExecuteError
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStepExecuteError
@@ -47,6 +48,14 @@ public sealed interface RulesEngineExecutorError : BasicRulesEngineError {
     ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "5"
         override val description: String = "The error of execution the 'Message Publish' step."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    public class DataChangeTrackingStepExecute internal constructor(
+        cause: DataChangeTrackingStepExecuteErrors
+    ) : RulesEngineExecutorError {
+        override val code: String = PREFIX + "5"
+        override val description: String = "The error of execution the 'Data Change Tracking' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

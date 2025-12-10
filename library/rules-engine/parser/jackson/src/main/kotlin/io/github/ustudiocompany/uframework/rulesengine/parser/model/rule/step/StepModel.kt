@@ -18,7 +18,8 @@ internal typealias ErrorCode = String
     JsonSubTypes.Type(value = StepModel.Validation::class, name = "validation"),
     JsonSubTypes.Type(value = StepModel.DataRetrieve::class, name = "dataRetrieve"),
     JsonSubTypes.Type(value = StepModel.DataBuild::class, name = "dataBuild"),
-    JsonSubTypes.Type(value = StepModel.MessagePublish::class, name = "messagePublish")
+    JsonSubTypes.Type(value = StepModel.MessagePublish::class, name = "messagePublish"),
+    JsonSubTypes.Type(value = StepModel.DataChangeTracking::class, name = "dataChangeTracking")
 )
 internal sealed interface StepModel {
 
@@ -52,5 +53,12 @@ internal sealed interface StepModel {
         @JsonProperty("routeKey") val routeKey: MessageRouteKeyModel?,
         @JsonProperty("headers") val headers: MessageHeadersModel = emptyList(),
         @JsonProperty("body") val body: MessageBodyModel?
+    ) : StepModel
+
+    data class DataChangeTracking(
+        @JsonProperty("id") val id: StepIdModel,
+        @JsonProperty("condition") val condition: ConditionModel = emptyList(),
+        @JsonProperty("uiss") val uiss: UissModel,
+        @JsonProperty("args") val args: ArgsModel
     ) : StepModel
 }
