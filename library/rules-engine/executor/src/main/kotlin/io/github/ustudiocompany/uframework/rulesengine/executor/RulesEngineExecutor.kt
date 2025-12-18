@@ -16,6 +16,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
@@ -28,6 +29,7 @@ public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngin
 public class RulesEngineExecutor(
     private val dataProvider: DataProvider,
     private val messagePublisher: MessagePublisher,
+    private val dataChangeTrackerProvider: DataChangeTrackerProvider,
     private val merger: Merger
 ) {
 
@@ -61,6 +63,7 @@ public class RulesEngineExecutor(
                 is DataBuildStep -> step.execute(vars, context)
                 is ValidationStep -> step.execute(vars, context)
                 is MessagePublishStep -> step.execute(vars, context)
+                is DataChangeTrackingStep -> step.execute(vars, context)
             }
 
             if (result.isFailure() || result.value != null) return result
@@ -85,6 +88,11 @@ public class RulesEngineExecutor(
     private fun MessagePublishStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
         executeIfSatisfied(envVars, context, messagePublisher)
             .map { failure -> RulesEngineExecutorError.MessagePublishStepExecute(failure) }
+            .toResultAsFailureOr(ResultK.Success.asNull)
+
+    private fun DataChangeTrackingStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
+        executeIfSatisfied(envVars, context, dataChangeTrackerProvider)
+            .map { failure -> RulesEngineExecutorError.DataChangeTrackingStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
     private companion object {
