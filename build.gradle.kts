@@ -28,7 +28,7 @@ allprojects {
         }
     }
 
-    version = "0.0.3-alpha.3-SNAPSHOT"
+    version = "0.0.3"
     group = "io.github.ustudiocompany"
 
     configurations.all {
