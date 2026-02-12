@@ -2,6 +2,9 @@ package io.github.ustudiocompany.uframework.failure
 
 import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.failure.Failure.Details
+import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_CAUSE
+import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_MESSAGE
+import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_STACKTRACE
 
 public interface Failure {
     /**
@@ -122,12 +125,18 @@ public fun Failure.fullCode(delimiter: String = "."): String =
     }.toString()
 
 /**
- * Returns all details of the failure and its causes.
+ * Returns all details of the failure, its causes, and root exception details if it exists.
  * @return the all details.
  */
 public fun Failure.allDetails(): Details {
     val allDetails = fold(initial = { mutableListOf<Details.Item>().apply { addAll(it.details) } }) { acc, failure ->
         acc.apply { addAll(failure.details) }
+    }
+    val exception = root().exceptionOrNull()
+    if (exception != null) {
+        allDetails.add(Details.Item(key = EXCEPTION_CAUSE, value = exception.cause.toString()))
+        allDetails.add(Details.Item(key = EXCEPTION_MESSAGE, value = exception.message ?: "null"))
+        allDetails.add(Details.Item(key = EXCEPTION_STACKTRACE, value = exception.stackTraceToString()))
     }
     return if (allDetails.isEmpty())
         Details.NONE

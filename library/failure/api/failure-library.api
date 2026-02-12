@@ -119,12 +119,18 @@ public final class io/github/ustudiocompany/uframework/failure/FailureKt {
 public abstract interface class io/github/ustudiocompany/uframework/failure/TypeFailure : io/github/ustudiocompany/uframework/failure/Failure {
 	public static final field ACTUAL_VALUE_DETAIL_KEY Ljava/lang/String;
 	public static final field Companion Lio/github/ustudiocompany/uframework/failure/TypeFailure$Companion;
+	public static final field EXCEPTION_CAUSE Ljava/lang/String;
+	public static final field EXCEPTION_MESSAGE Ljava/lang/String;
+	public static final field EXCEPTION_STACKTRACE Ljava/lang/String;
 	public static final field PATTERN_DETAIL_KEY Ljava/lang/String;
 	public abstract fun getType-uX7CcE4 ()Ljava/lang/Class;
 }
 
 public final class io/github/ustudiocompany/uframework/failure/TypeFailure$Companion {
 	public static final field ACTUAL_VALUE_DETAIL_KEY Ljava/lang/String;
+	public static final field EXCEPTION_CAUSE Ljava/lang/String;
+	public static final field EXCEPTION_MESSAGE Ljava/lang/String;
+	public static final field EXCEPTION_STACKTRACE Ljava/lang/String;
 	public static final field PATTERN_DETAIL_KEY Ljava/lang/String;
 }
 
