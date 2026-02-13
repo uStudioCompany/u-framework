@@ -1,3 +1,5 @@
+@file:Suppress("ImportOrdering")
+
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.maybe.Maybe
@@ -12,28 +14,41 @@ import io.github.ustudiocompany.uframework.jdbc.statement.JDBCNamedPreparedState
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatementInstance
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCStatement
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.error
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.warn
 import java.sql.Connection
 import java.sql.PreparedStatement
+import org.slf4j.LoggerFactory
 
 internal class TransactionInstance(
     private val unwrappedConnection: Connection,
 ) : Transaction, JDBCConnection {
+
+    private val logger = LoggerFactory.getLogger(TransactionInstance::class.java)
 
     override val connection: JDBCConnection
         get() = this
 
     override fun commit(): Maybe<JDBCError> = Maybe.catch(
         catch = { exception ->
-            JDBCError(description = "Error while committing transaction", exception = exception)
+            val errorDescription = "Error while committing transaction."
+            logger.error { errorDescription }
+            JDBCError(description = errorDescription, exception = exception)
         },
         block = { unwrappedConnection.commit() }
     )
 
     override fun rollback(): Maybe<JDBCError> = Maybe.catch(
         catch = { exception ->
-            JDBCError(description = "Error while rolling back transaction", exception = exception)
+            val errorDescription = "Error while rolling back transaction."
+            logger.error { errorDescription }
+            JDBCError(description = errorDescription, exception = exception)
         },
-        block = { unwrappedConnection.rollback() }
+        block = {
+            logger.warn { "Transaction would be rolled back." }
+            unwrappedConnection.rollback()
+        }
     )
 
     override fun close() {
@@ -48,18 +63,22 @@ internal class TransactionInstance(
     override fun preparedStatement(
         sql: String,
         timeout: JDBCStatement.Timeout
-    ): JDBCResult<JDBCPreparedStatement> =
-        prepareStatement(sql, timeout)
+    ): JDBCResult<JDBCPreparedStatement> {
+        logger.debug { "Executing Query: \n $sql" }
+        return prepareStatement(sql, timeout)
             .map { statement -> JDBCPreparedStatementInstance(statement = statement) }
+    }
 
     override fun namedPreparedStatement(
         sql: ParametrizedSql,
         timeout: JDBCStatement.Timeout
-    ): JDBCResult<JDBCNamedPreparedStatement> =
-        prepareStatement(sql.value, timeout)
+    ): JDBCResult<JDBCNamedPreparedStatement> {
+        logger.debug { "Executing ParametrizedSql: \n $sql" }
+        return prepareStatement(sql.value, timeout)
             .map { statement ->
                 JDBCNamedPreparedStatementInstance(parameters = sql.parameters, statement = statement)
             }
+    }
 
     private fun prepareStatement(
         sql: String,
