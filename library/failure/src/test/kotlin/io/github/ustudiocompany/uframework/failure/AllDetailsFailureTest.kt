@@ -2,8 +2,6 @@ package io.github.ustudiocompany.uframework.failure
 
 import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.failure.Failure.Details
-import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_CAUSE
-import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_MESSAGE
 import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_STACKTRACE
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
@@ -22,9 +20,7 @@ internal class AllDetailsFailureTest : UnitTest() {
                     failureRootException(details = Details.of(KEY_1 to VALUE_1)) to
                         Details.of(
                             KEY_1 to VALUE_1,
-                            EXCEPTION_CAUSE to VALUE_3,
-                            EXCEPTION_MESSAGE to VALUE_4,
-                            EXCEPTION_STACKTRACE to VALUE_5
+                            EXCEPTION_STACKTRACE to VALUE_4
                         ),
                     failureChild(code = CODE_2, cause = failureRoot(code = CODE_1)) to
                         Details.NONE,
@@ -75,10 +71,9 @@ internal class AllDetailsFailureTest : UnitTest() {
         private const val KEY_2 = "key-2"
         private const val VALUE_1 = "value-1"
         private const val VALUE_2 = "value-2"
-        private const val VALUE_3 = "null"
-        private const val VALUE_4 = "value-4"
-        private val testException = Exception(VALUE_4)
-        private val VALUE_5 = testException.stackTraceToString()
+        private const val VALUE_3 = "value-3"
+        private val testException = Exception(VALUE_3)
+        private val VALUE_4 = testException.stackTraceToString()
     }
 
     private data class Root(
