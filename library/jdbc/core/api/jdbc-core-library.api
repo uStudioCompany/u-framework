@@ -72,6 +72,7 @@ public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql 
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getParameters ()Ljava/util/Map;
 	public final fun getValue ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/ustudiocompany/uframework/jdbc/sql/ParametrizedSql$Companion {

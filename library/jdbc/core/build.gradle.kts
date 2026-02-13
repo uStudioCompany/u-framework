@@ -7,9 +7,12 @@ plugins {
 
 dependencies {
     implementation(project(":failure-library"))
+    implementation(project(":logging-slf4j-extension-library"))
 
     implementation(libs.airflux.commons.types) { isChanging = true }
     implementation(libs.postgresql)
+    implementation(libs.slf4j.api)
+    implementation(libs.logback.classic)
 
     /* Tests */
     testImplementation(project(":jdbc-kotest-matchers-library"))
