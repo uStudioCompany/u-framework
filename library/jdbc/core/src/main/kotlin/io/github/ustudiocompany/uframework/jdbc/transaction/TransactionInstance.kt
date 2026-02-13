@@ -1,3 +1,5 @@
+@file:Suppress("ImportOrdering")
+
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.maybe.Maybe
@@ -13,6 +15,8 @@ import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatementInstance
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCStatement
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.error
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.warn
 import java.sql.Connection
 import java.sql.PreparedStatement
 import org.slf4j.LoggerFactory
@@ -28,16 +32,23 @@ internal class TransactionInstance(
 
     override fun commit(): Maybe<JDBCError> = Maybe.catch(
         catch = { exception ->
-            JDBCError(description = "Error while committing transaction", exception = exception)
+            val errorDescription = "Error while committing transaction."
+            logger.error { errorDescription }
+            JDBCError(description = errorDescription, exception = exception)
         },
         block = { unwrappedConnection.commit() }
     )
 
     override fun rollback(): Maybe<JDBCError> = Maybe.catch(
         catch = { exception ->
-            JDBCError(description = "Error while rolling back transaction", exception = exception)
+            val errorDescription = "Error while rolling back transaction."
+            logger.error { errorDescription }
+            JDBCError(description = errorDescription, exception = exception)
         },
-        block = { unwrappedConnection.rollback() }
+        block = {
+            logger.warn { "Transaction would be rolled back." }
+            unwrappedConnection.rollback()
+        }
     )
 
     override fun close() {
