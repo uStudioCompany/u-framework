@@ -6,5 +6,6 @@ public interface TypeFailure<T> : Failure {
     public companion object {
         public const val ACTUAL_VALUE_DETAIL_KEY: String = "actual-value"
         public const val PATTERN_DETAIL_KEY: String = "pattern"
+        public const val EXCEPTION_STACKTRACE: String = "exception-stackTrace"
     }
 }
