@@ -10,6 +10,9 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JDBCConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.use
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * A transaction manager that provides a way to start a transaction.
@@ -100,6 +103,8 @@ public interface TransactionManager {
     ): JDBCResult<Transaction>
 }
 
+public val logger: Logger = LoggerFactory.getLogger(TransactionManager::class.java)
+
 public inline fun <ValueT, ErrorT : Any> TransactionManager.useTransaction(
     isolation: TransactionIsolation = TransactionIsolation.READ_COMMITTED,
     block: (JDBCConnection) -> TransactionResult<ValueT, ErrorT, JDBCError>
@@ -114,6 +119,7 @@ public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.us
     startTransaction(isolation)
         .mapFailure { fail -> exceptionBuilder(fail) }
         .use { tx ->
+            logger.debug { "Transaction started." }
             val result = try {
                 block(tx.connection)
             } catch (expected: Exception) {
@@ -127,8 +133,9 @@ public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.us
                         onNone = { result },
                         onSome = { error -> exceptionBuilder(error).asException().asFailure() }
                     )
-            else {
+            else
                 tx.rollback()
-                result
-            }
+
+            logger.debug { "Transaction ended." }
+            result
         }

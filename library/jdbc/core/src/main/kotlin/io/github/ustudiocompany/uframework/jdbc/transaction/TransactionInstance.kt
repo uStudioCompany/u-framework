@@ -3,6 +3,7 @@
 package io.github.ustudiocompany.uframework.jdbc.transaction
 
 import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.onNone
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map
 import io.github.ustudiocompany.uframework.jdbc.JDBCResult
@@ -16,9 +17,9 @@ import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatementI
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCStatement
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.error
-import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.warn
 import java.sql.Connection
 import java.sql.PreparedStatement
+import java.sql.SQLException
 import org.slf4j.LoggerFactory
 
 internal class TransactionInstance(
@@ -30,34 +31,35 @@ internal class TransactionInstance(
     override val connection: JDBCConnection
         get() = this
 
-    override fun commit(): Maybe<JDBCError> = Maybe.catch(
-        catch = { exception ->
-            val errorDescription = "Error while committing transaction."
-            logger.error { errorDescription }
-            JDBCError(description = errorDescription, exception = exception)
-        },
-        block = { unwrappedConnection.commit() }
-    )
+    override fun commit(): Maybe<JDBCError> {
+        logger.debug("Commit transaction started.")
+        return Maybe.catch(
+            block = { unwrappedConnection.commit() },
+            catch = { exception ->
+                JDBCError(description = "Error while committing transaction.", exception = exception)
+            }
+        ).onNone { logger.debug("Commit transaction finished.") }
+    }
 
-    override fun rollback(): Maybe<JDBCError> = Maybe.catch(
-        catch = { exception ->
-            val errorDescription = "Error while rolling back transaction."
-            logger.error { errorDescription }
-            JDBCError(description = errorDescription, exception = exception)
-        },
-        block = {
-            logger.warn { "Transaction would be rolled back." }
-            unwrappedConnection.rollback()
-        }
-    )
+    override fun rollback(): Maybe<JDBCError> {
+        logger.debug("Rollback transaction started.")
+        return Maybe.catch(
+            block = { unwrappedConnection.rollback() },
+            catch = { exception ->
+                JDBCError(description = "Error while rolling back transaction.", exception = exception)
+            }
+        ).onNone { logger.debug("Rollback transaction finished.") }
+    }
 
     override fun close() {
+        logger.debug("Closing transaction connection.")
         try {
             if (!unwrappedConnection.isClosed)
                 unwrappedConnection.close()
-        } catch (_: Exception) {
-            // ignore
+        } catch (e: SQLException) {
+            logger.error(e) { "Error occurred while closing connection." }
         }
+        logger.debug("Transaction connection closed.")
     }
 
     override fun preparedStatement(
