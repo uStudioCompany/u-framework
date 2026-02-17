@@ -2,7 +2,6 @@ package io.github.ustudiocompany.uframework.failure
 
 import io.github.ustudiocompany.uframework.failure.Failure.Cause
 import io.github.ustudiocompany.uframework.failure.Failure.Details
-import io.github.ustudiocompany.uframework.failure.TypeFailure.Companion.EXCEPTION_STACKTRACE
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldContainOnly
@@ -15,38 +14,29 @@ internal class AllDetailsFailureTest : UnitTest() {
             withData(
                 nameFn = { (failure, _) -> failure.toString() },
                 listOf(
-                    failureRoot(code = CODE_1) to
-                        Details.NONE,
-                    failureRootException(details = Details.of(KEY_1 to VALUE_1)) to
-                        Details.of(
-                            KEY_1 to VALUE_1,
-                            EXCEPTION_STACKTRACE to VALUE_4
-                        ),
-                    failureChild(code = CODE_2, cause = failureRoot(code = CODE_1)) to
-                        Details.NONE,
-                    failureChild(
+                    failure(code = CODE_1) to Details.NONE,
+                    failure(code = CODE_1, details = Details.of(KEY_1 to VALUE_1)) to Details.of(KEY_1 to VALUE_1),
+                    failure(code = CODE_2, cause = failure(code = CODE_1)) to Details.NONE,
+                    failure(
                         code = CODE_2,
-                        cause = failureRoot(CODE_1),
+                        cause = failure(CODE_1),
                         details = Details.of(KEY_1 to VALUE_1)
-                    ) to
-                        Details.of(KEY_1 to VALUE_1),
-                    failureChild(
+                    ) to Details.of(KEY_1 to VALUE_1),
+                    failure(
                         code = CODE_2,
-                        cause = failureRoot(
+                        cause = failure(
                             code = CODE_1,
                             details = Details.of(KEY_1 to VALUE_1)
                         )
-                    ) to
-                        Details.of(KEY_1 to VALUE_1),
-                    failureChild(
+                    ) to Details.of(KEY_1 to VALUE_1),
+                    failure(
                         code = CODE_2,
-                        cause = failureRoot(
+                        cause = failure(
                             code = CODE_1,
                             details = Details.of(KEY_1 to VALUE_1)
                         ),
                         details = Details.of(KEY_2 to VALUE_2)
-                    ) to
-                        Details.of(KEY_1 to VALUE_1, KEY_2 to VALUE_2)
+                    ) to Details.of(KEY_1 to VALUE_1, KEY_2 to VALUE_2)
                 )
             ) { (failure, expected) ->
                 failure.allDetails() shouldContainOnly expected
@@ -54,13 +44,8 @@ internal class AllDetailsFailureTest : UnitTest() {
         }
     }
 
-    private fun failureRoot(code: String, details: Details = Details.NONE): Failure =
-        Root(code = code, details = details)
-
-    private fun failureRootException(code: String = CODE_1, details: Details = Details.NONE): Failure =
-        RootException(code = code, details = details)
-
-    private fun failureChild(code: String, cause: Failure, details: Details = Details.NONE): Failure =
+    private fun failure(code: String, details: Details = Details.NONE): Failure = Root(code = code, details = details)
+    private fun failure(code: String, cause: Failure, details: Details = Details.NONE): Failure =
         Child(code = code, cause = Cause.Failure(cause), details = details)
 
     private companion object {
@@ -71,20 +56,11 @@ internal class AllDetailsFailureTest : UnitTest() {
         private const val KEY_2 = "key-2"
         private const val VALUE_1 = "value-1"
         private const val VALUE_2 = "value-2"
-        private const val VALUE_3 = "value-3"
-        private val testException = Exception(VALUE_3)
-        private val VALUE_4 = testException.stackTraceToString()
     }
 
     private data class Root(
         override val code: String,
-        override val details: Details = Details.NONE,
-    ) : Failure
-
-    private data class RootException(
-        override val code: String,
-        override val details: Details = Details.NONE,
-        override val cause: Cause = Cause.Exception(testException)
+        override val details: Details = Details.NONE
     ) : Failure
 
     private data class Child(
