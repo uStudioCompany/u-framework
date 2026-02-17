@@ -19,7 +19,6 @@ import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextensi
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.error
 import java.sql.Connection
 import java.sql.PreparedStatement
-import java.sql.SQLException
 import org.slf4j.LoggerFactory
 
 internal class TransactionInstance(
@@ -56,8 +55,8 @@ internal class TransactionInstance(
         try {
             if (!unwrappedConnection.isClosed)
                 unwrappedConnection.close()
-        } catch (e: SQLException) {
-            logger.error(e) { "Error occurred while closing connection." }
+        } catch (expected: Exception) {
+            logger.error(expected) { "Error occurred while closing connection." }
         }
         logger.debug("Transaction connection closed.")
     }
