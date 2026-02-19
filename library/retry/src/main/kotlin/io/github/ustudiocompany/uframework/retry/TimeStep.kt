@@ -5,17 +5,19 @@ import java.time.Duration
 public sealed class TimeStep {
     public abstract fun computeNext(currentDelayTime: Duration): Duration
 
-    private class Factor(private val value: Double) : TimeStep() {
+    private class Factor(private val value: Double, private val jitter: Jitter = Jitter.None) : TimeStep() {
         override fun computeNext(currentDelayTime: Duration): Duration =
-            Duration.ofMillis((currentDelayTime.toMillis() * value).toLong())
+            Duration.ofMillis((currentDelayTime.toMillis() * value).toLong()).plus(jitter.get(currentDelayTime))
     }
 
-    private class Linear(private val value: Duration) : TimeStep() {
-        override fun computeNext(currentDelayTime: Duration): Duration = currentDelayTime.plus(value)
+    private class Linear(private val value: Duration, private val jitter: Jitter = Jitter.None) : TimeStep() {
+        override fun computeNext(currentDelayTime: Duration): Duration =
+            currentDelayTime.plus(value)
+                .plus(jitter.get(currentDelayTime))
     }
 
     public companion object {
-        public fun factor(value: Double): TimeStep = Factor(value)
-        public fun linear(value: Duration): TimeStep = Linear(value)
+        public fun factor(value: Double, jitter: Jitter = Jitter.None): TimeStep = Factor(value, jitter)
+        public fun linear(value: Duration, jitter: Jitter = Jitter.None): TimeStep = Linear(value, jitter)
     }
 }
