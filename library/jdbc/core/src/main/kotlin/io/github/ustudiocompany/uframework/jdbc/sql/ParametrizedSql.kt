@@ -4,12 +4,6 @@ public class ParametrizedSql private constructor(
     public val value: String,
     public val parameters: Map<String, Int>
 ) {
-
-    override fun toString(): String {
-        return "Sql: '${value.trim()}' \n " +
-            "Parameters: ${parameters.entries.joinToString(", ") { "${it.key}: ${it.value}" }}"
-    }
-
     public companion object {
         private const val PARAMETER_NAME_PLACEHOLDER = "?"
         private const val PREFIX_PARAMETER_NAME = ':'

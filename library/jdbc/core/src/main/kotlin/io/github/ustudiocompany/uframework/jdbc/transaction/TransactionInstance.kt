@@ -15,8 +15,9 @@ import io.github.ustudiocompany.uframework.jdbc.statement.JDBCNamedPreparedState
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatement
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCPreparedStatementInstance
 import io.github.ustudiocompany.uframework.jdbc.statement.JDBCStatement
-import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
 import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.error
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.trace
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.warn
 import java.sql.Connection
 import java.sql.PreparedStatement
 import org.slf4j.LoggerFactory
@@ -31,41 +32,41 @@ internal class TransactionInstance(
         get() = this
 
     override fun commit(): Maybe<JDBCError> {
-        logger.debug("Commit transaction started.")
+        logger.trace { "Commit transaction started." }
         return Maybe.catch(
             block = { unwrappedConnection.commit() },
             catch = { exception ->
                 JDBCError(description = "Error while committing transaction.", exception = exception)
             }
-        ).onNone { logger.debug("Commit transaction finished.") }
+        ).onNone { logger.trace { "Commit transaction finished." } }
     }
 
     override fun rollback(): Maybe<JDBCError> {
-        logger.debug("Rollback transaction started.")
+        logger.warn { "Rollback transaction started." }
         return Maybe.catch(
             block = { unwrappedConnection.rollback() },
             catch = { exception ->
                 JDBCError(description = "Error while rolling back transaction.", exception = exception)
             }
-        ).onNone { logger.debug("Rollback transaction finished.") }
+        ).onNone { logger.trace { "Rollback transaction finished." } }
     }
 
     override fun close() {
-        logger.debug("Closing transaction connection.")
+        logger.trace { "Closing transaction connection." }
         try {
             if (!unwrappedConnection.isClosed)
                 unwrappedConnection.close()
         } catch (expected: Exception) {
             logger.error(expected) { "Error occurred while closing connection." }
         }
-        logger.debug("Transaction connection closed.")
+        logger.trace { "Transaction connection closed." }
     }
 
     override fun preparedStatement(
         sql: String,
         timeout: JDBCStatement.Timeout
     ): JDBCResult<JDBCPreparedStatement> {
-        logger.debug { "Executing Query: \n $sql" }
+        logger.trace { "Executing Query: $sql" }
         return prepareStatement(sql, timeout)
             .map { statement -> JDBCPreparedStatementInstance(statement = statement) }
     }
@@ -74,7 +75,7 @@ internal class TransactionInstance(
         sql: ParametrizedSql,
         timeout: JDBCStatement.Timeout
     ): JDBCResult<JDBCNamedPreparedStatement> {
-        logger.debug { "Executing ParametrizedSql: \n $sql" }
+        logger.trace { "Executing ParametrizedSql: ${sql.value.trim()}" }
         return prepareStatement(sql.value, timeout)
             .map { statement ->
                 JDBCNamedPreparedStatementInstance(parameters = sql.parameters, statement = statement)
