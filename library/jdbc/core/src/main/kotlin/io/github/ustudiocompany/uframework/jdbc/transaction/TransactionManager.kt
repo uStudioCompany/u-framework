@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.jdbc.JDBCResult
 import io.github.ustudiocompany.uframework.jdbc.connection.JDBCConnection
 import io.github.ustudiocompany.uframework.jdbc.error.JDBCError
 import io.github.ustudiocompany.uframework.jdbc.use
-import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.debug
+import io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextension.trace
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -119,7 +119,7 @@ public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.us
     startTransaction(isolation)
         .mapFailure { fail -> exceptionBuilder(fail) }
         .use { tx ->
-            logger.debug { "Transaction started." }
+            logger.trace { "Transaction started." }
             val result = try {
                 block(tx.connection)
             } catch (expected: Exception) {
@@ -136,6 +136,6 @@ public inline fun <ValueT, ErrorT : Any, ExceptionT : Any> TransactionManager.us
             else
                 tx.rollback()
 
-            logger.debug { "Transaction ended." }
+            logger.trace { "Transaction ended." }
             result
         }

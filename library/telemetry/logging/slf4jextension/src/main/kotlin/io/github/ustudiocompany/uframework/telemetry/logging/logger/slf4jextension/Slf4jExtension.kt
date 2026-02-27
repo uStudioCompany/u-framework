@@ -2,6 +2,10 @@ package io.github.ustudiocompany.uframework.telemetry.logging.logger.slf4jextens
 
 import org.slf4j.Logger
 
+public inline fun Logger.trace(msg: () -> String) {
+    if (isTraceEnabled) trace(msg())
+}
+
 public inline fun Logger.debug(msg: () -> String) {
     if (isDebugEnabled) debug(msg())
 }
