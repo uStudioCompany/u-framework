@@ -15,9 +15,10 @@ public class JDBCError(
         Failure.Cause.None
 
     override val details: Failure.Details =
-        if (exception is SQLException)
-            Failure.Details.of(SQL_STATE_DETAILS_KEY to exception.sqlState)
-        else
+        if (exception is SQLException) {
+            val sqlState = exception.sqlState ?: "unknown"
+            Failure.Details.of(SQL_STATE_DETAILS_KEY to sqlState)
+        } else
             Failure.Details.NONE
 
     private companion object {
