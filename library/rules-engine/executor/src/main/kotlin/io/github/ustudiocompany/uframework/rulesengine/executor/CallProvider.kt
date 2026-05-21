@@ -32,7 +32,7 @@ public fun interface CallProvider {
 
     public class Error private constructor(
         message: String = "",
-        override val cause: Failure.Cause,
+        override val cause: Failure.Cause = Failure.Cause.None,
         override val details: Failure.Details = Failure.Details.NONE
     ) : BasicRulesEngineError {
 
@@ -42,24 +42,25 @@ public fun interface CallProvider {
             details = Failure.Details.NONE
         )
 
-        public constructor(cause: Failure) :
-            this(
-                cause = Failure.Cause.Failure(cause)
-            )
+        public constructor(
+            message: String = "",
+            cause: Failure,
+            details: Failure.Details = Failure.Details.NONE
+        ) : this(
+            message = message,
+            cause = Failure.Cause.Failure(cause),
+            details = details
+        )
 
         public constructor(
-            message: String,
+            message: String = "",
             exception: Throwable? = null,
             details: Failure.Details = Failure.Details.NONE
-        ) :
-            this(
-                message = message,
-                cause = if (exception != null)
-                    Failure.Cause.Exception(exception)
-                else
-                    Failure.Cause.None,
-                details = details
-            )
+        ) : this(
+            message = message,
+            cause = exception.toFailureCause(),
+            details = details
+        )
 
         override val code: String = PREFIX + "1"
         override val description: String =
@@ -67,6 +68,9 @@ public fun interface CallProvider {
 
         private companion object {
             private const val PREFIX = "CALL-PROVIDER-"
+
+            private fun Throwable?.toFailureCause(): Failure.Cause =
+                this?.let { Failure.Cause.Exception(it) } ?: Failure.Cause.None
         }
     }
 }
