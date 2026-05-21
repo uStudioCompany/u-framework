@@ -354,26 +354,9 @@ internal class HttpCallStepExecutorTest : UnitTest() {
         )
     )
 
-    private fun createBody() = DataSchema.Struct(
-        properties = listOf(
-            DataSchema.Property.Element(
-                name = ID_DATA_KEY,
-                value = Value.Literal(fact = JsonElement.Text(ID_DATA_VALUE))
-            )
-        )
-    )
+    private fun createBody() = Value.Literal(fact = JsonElement.Text(ID_DATA_VALUE))
 
-    private fun createInvalidBody() = DataSchema.Struct(
-        properties = listOf(
-            DataSchema.Property.Element(
-                name = ID_DATA_KEY,
-                value = Value.Reference(
-                    source = INVALID_ARG_SOURCE,
-                    path = path()
-                )
-            )
-        )
-    )
+    private fun createInvalidBody() = Value.Reference(source = INVALID_ARG_SOURCE, path = path())
 
     private fun createResult() = StepResult(
         source = RESULT_SOURCE,
@@ -394,7 +377,6 @@ internal class HttpCallStepExecutorTest : UnitTest() {
         private const val ID_PARAM_NAME = "id"
         private const val ID_PARAM_VALUE = "1"
 
-        private const val ID_DATA_KEY = "id"
         private const val ID_DATA_VALUE = "0000-0000-0000-0000"
 
         private val INVALID_ARG_SOURCE = Source("INVALID_SOURCE")

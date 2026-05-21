@@ -68,7 +68,7 @@ internal sealed interface StepModel {
         @JsonProperty("condition") val condition: ConditionModel = emptyList(),
         @JsonProperty("uri") val uri: UriModel,
         @JsonProperty("args") val args: ArgsModel = emptyList(),
-        @JsonProperty("body") val body: DataSchemaModel?,
+        @JsonProperty("body") val body: ValueModel?,
         @JsonProperty("result") val result: ResultModel?
     ) : StepModel
 }

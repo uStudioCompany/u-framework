@@ -13,6 +13,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
@@ -45,8 +48,8 @@ private fun buildArgs(args: Args, envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> CallProvider.Arg(name, value) }
         .mapFailure { failure -> HttpCallStepExecuteErrors.ArgsBuilding(failure) }
 
-private fun buildBody(data: DataSchema?, envVars: EnvVars, context: Context) =
-    data?.build(envVars, context)
+private fun buildBody(data: Value?, envVars: EnvVars, context: Context) =
+    data?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> CallProvider.Body(value) },
             onFailure = { failure -> HttpCallStepExecuteErrors.BodyBuilding(failure) }
@@ -73,7 +76,7 @@ internal sealed interface HttpCallStepExecuteErrors : BasicRulesEngineError {
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class BodyBuilding(cause: DataBuildErrors) : HttpCallStepExecuteErrors {
+    class BodyBuilding(cause: ValueComputeErrors) : HttpCallStepExecuteErrors {
         override val code: String = PREFIX + "3"
         override val description: String = "Error building call body of 'HTTP Call' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

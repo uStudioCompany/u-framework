@@ -45,17 +45,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                     |     }
                     |   ],
                     |   "body": {
-                    |     "type": "struct",
-                    |     "properties": [
-                    |       {
-                    |         "type": "value",
-                    |         "name": "$PROP_NAME",
-                    |         "value": {
-                    |           "kind": "fact",
-                    |           "fact": "$PROP_VALUE"
-                    |         }
-                    |       }
-                    |     ]
+                    |     "kind": "fact",
+                    |     "fact": "$FACT_BODY"
                     |   },
                     |   "result": {
                     |     "source" : "$SOURCE_RESULT",
@@ -88,15 +79,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                                 )
                             )
                         ),
-                        body = DataSchemaModel.Struct(
-                            properties = listOf(
-                                DataSchemaModel.StructProperty.Element(
-                                    name = PROP_NAME,
-                                    value = ValueModel.Literal(
-                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
-                                    )
-                                )
-                            )
+                        body = ValueModel.Literal(
+                            fact = FactModel(JsonElement.Text(FACT_BODY))
                         ),
                         result = ResultModel.Put(source = SOURCE_RESULT)
                     )
@@ -119,17 +103,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                     |     }
                     |   ],
                     |   "body": {
-                    |     "type": "struct",
-                    |     "properties": [
-                    |       {
-                    |         "type": "value",
-                    |         "name": "$PROP_NAME",
-                    |         "value": {
-                    |           "kind": "fact",
-                    |           "fact": "$PROP_VALUE"
-                    |         }
-                    |       }
-                    |     ]
+                    |     "kind": "fact",
+                    |     "fact": "$FACT_BODY"
                     |   },
                     |   "result": {
                     |     "source" : "$SOURCE_RESULT",
@@ -156,15 +131,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                                 )
                             )
                         ),
-                        body = DataSchemaModel.Struct(
-                            properties = listOf(
-                                DataSchemaModel.StructProperty.Element(
-                                    name = PROP_NAME,
-                                    value = ValueModel.Literal(
-                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
-                                    )
-                                )
-                            )
+                        body = ValueModel.Literal(
+                            fact = FactModel(JsonElement.Text(FACT_BODY))
                         ),
                         result = ResultModel.Put(source = SOURCE_RESULT)
                     )
@@ -178,17 +146,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                     |   "type": "httpCall",
                     |   "uri": "$URI",
                     |   "body": {
-                    |     "type": "struct",
-                    |     "properties": [
-                    |       {
-                    |         "type": "value",
-                    |         "name": "$PROP_NAME",
-                    |         "value": {
-                    |           "kind": "fact",
-                    |           "fact": "$PROP_VALUE"
-                    |         }
-                    |       }
-                    |     ]
+                    |     "kind": "fact",
+                    |     "fact": "$FACT_BODY"
                     |   },
                     |   "result": {
                     |     "source" : "$SOURCE_RESULT",
@@ -208,15 +167,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                         condition = emptyList(),
                         uri = URI,
                         args = emptyList(),
-                        body = DataSchemaModel.Struct(
-                            properties = listOf(
-                                DataSchemaModel.StructProperty.Element(
-                                    name = PROP_NAME,
-                                    value = ValueModel.Literal(
-                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
-                                    )
-                                )
-                            )
+                        body = ValueModel.Literal(
+                            fact = FactModel(JsonElement.Text(FACT_BODY))
                         ),
                         result = ResultModel.Put(source = SOURCE_RESULT)
                     )
@@ -285,17 +237,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                     |     }
                     |   ],
                     |   "body": {
-                    |     "type": "struct",
-                    |     "properties": [
-                    |       {
-                    |         "type": "value",
-                    |         "name": "$PROP_NAME",
-                    |         "value": {
-                    |           "kind": "fact",
-                    |           "fact": "$PROP_VALUE"
-                    |         }
-                    |       }
-                    |     ]
+                    |     "kind": "fact",
+                    |     "fact": "$FACT_BODY"
                     |   }
                     | }
                 """.trimMargin()
@@ -318,15 +261,8 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
                                 )
                             )
                         ),
-                        body = DataSchemaModel.Struct(
-                            properties = listOf(
-                                DataSchemaModel.StructProperty.Element(
-                                    name = PROP_NAME,
-                                    value = ValueModel.Literal(
-                                        fact = FactModel(JsonElement.Text(PROP_VALUE))
-                                    )
-                                )
-                            )
+                        body = ValueModel.Literal(
+                            fact = FactModel(JsonElement.Text(FACT_BODY))
                         ),
                         result = null
                     )
@@ -339,13 +275,12 @@ internal class HttpCallStepDeserializationTest : UnitTest() {
         private const val STEP_ID = "step-1"
         private const val SOURCE_RESULT = "variables"
         private const val FACT = """SCHEME-1"""
-        private const val FACT_ARG = """SCHEME-1"""
+        private const val FACT_ARG = """SCHEME-2"""
+        private const val FACT_BODY = """BODY"""
         private const val OPERATOR_EQ = "eq"
         private const val URI = "mdm:entity"
         private const val ARG_NAME = "arg-1"
         private const val ACTION = "put"
-        private const val PROP_NAME = "prop-1"
-        private const val PROP_VALUE = """SCHEME-1"""
 
         private val deserializer = Deserializer()
     }
