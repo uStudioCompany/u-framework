@@ -178,6 +178,28 @@
       },
       "required": ["type", "uri", "result"]
     },
+    "HttpCallStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["dataRetrieve"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "uri": {"type": "string"},
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "value": {"$ref": "#/$defs/Value"}
+            },
+            "required": ["name", "value"]
+          }
+        },
+        "body": {"$ref": "#/$defs/Value"},
+        "result": {"$ref": "#/$defs/Result"}
+      },
+      "required": ["type", "uri", "result"]
+    },
     "ValidationStep": {
       "type": "object",
       "properties": {

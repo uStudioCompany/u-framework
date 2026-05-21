@@ -1,0 +1,12 @@
+package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
+
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
+
+public data class HttpCallStep(
+    public override val id: StepId,
+    public override val condition: Condition,
+    public val uri: Uri,
+    public val args: Args,
+    public val body: DataSchema?,
+    public val result: StepResult?
+) : Step

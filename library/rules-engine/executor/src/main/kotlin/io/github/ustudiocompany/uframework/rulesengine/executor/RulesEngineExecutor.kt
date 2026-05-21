@@ -18,6 +18,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSat
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.HttpCallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
@@ -27,6 +28,7 @@ import io.github.ustudiocompany.uframework.rulesengine.executor.error.RulesEngin
 public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngineExecutorError>
 
 public class RulesEngineExecutor(
+    private val callProvider: CallProvider,
     private val dataProvider: DataProvider,
     private val messagePublisher: MessagePublisher,
     private val dataChangeTrackerProvider: DataChangeTrackerProvider,
@@ -64,6 +66,7 @@ public class RulesEngineExecutor(
                 is ValidationStep -> step.execute(vars, context)
                 is MessagePublishStep -> step.execute(vars, context)
                 is DataChangeTrackingStep -> step.execute(vars, context)
+                is HttpCallStep -> step.execute(vars, context)
             }
 
             if (result.isFailure() || result.value != null) return result
@@ -93,6 +96,11 @@ public class RulesEngineExecutor(
     private fun DataChangeTrackingStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
         executeIfSatisfied(envVars, context, dataChangeTrackerProvider)
             .map { failure -> RulesEngineExecutorError.DataChangeTrackingStepExecute(failure) }
+            .toResultAsFailureOr(ResultK.Success.asNull)
+
+    private fun HttpCallStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
+        executeIfSatisfied(envVars, context, callProvider, merger)
+            .map { failure -> RulesEngineExecutorError.HttpCallStepExecute(failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
     private companion object {

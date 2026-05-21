@@ -6,6 +6,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Check
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStepExecuteError
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStepExecuteErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.HttpCallStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStepExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStepExecuteError
 
@@ -56,6 +57,14 @@ public sealed interface RulesEngineExecutorError : BasicRulesEngineError {
     ) : RulesEngineExecutorError {
         override val code: String = PREFIX + "5"
         override val description: String = "The error of execution the 'Data Change Tracking' step."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    public class HttpCallStepExecute internal constructor(
+        cause: HttpCallStepExecuteErrors
+    ) : RulesEngineExecutorError {
+        override val code: String = PREFIX + "6"
+        override val description: String = "The error of execution the 'HTTP Call' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
