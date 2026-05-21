@@ -22,7 +22,7 @@ public sealed interface RuleExecuteErrors : BasicRulesEngineError {
 
     public class ExecutionRule internal constructor(
         ruleId: RuleId,
-        cause: StepExecuteError
+        cause: StepExecuteErrors
     ) : RuleExecuteErrors {
         override val code: String = PREFIX + "2"
         override val description: String = "The error of execution the rule '$ruleId'."

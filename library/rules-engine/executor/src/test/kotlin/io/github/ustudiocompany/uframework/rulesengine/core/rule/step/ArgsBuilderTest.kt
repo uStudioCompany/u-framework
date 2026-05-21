@@ -79,7 +79,7 @@ internal class ArgsBuilderTest : UnitTest() {
 
                     "then the function should return the error" {
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<ArgsBuilderErrors.ArgValueBuilding>()
+                            .shouldBeInstanceOf<ArgsBuilderErrors.ValueBuilding>()
                     }
                 }
             }

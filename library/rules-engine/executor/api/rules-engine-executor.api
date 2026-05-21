@@ -224,45 +224,45 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/erro
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$DataBuilding : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$DataBuilding : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$DataChangeTracking : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$DataChangeTracking : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$DataRetrieving : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$DataRetrieving : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$HttpCalling : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$HttpCalling : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$MessagePublishing : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$MessagePublishing : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError$Validation : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteError {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors$Validation : io/github/ustudiocompany/uframework/rulesengine/executor/error/StepExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;

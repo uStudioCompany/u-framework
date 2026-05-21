@@ -13,11 +13,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
@@ -30,29 +28,29 @@ internal fun HttpCallStep.executeIfSatisfied(
 ): Maybe<HttpCallStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = checkCondition(condition, envVars, context)
+        val (isSatisfied) = step.checkCondition(envVars, context)
         if (isSatisfied) {
             val uri = CallProvider.Uri.from(step.uri.get)
-            val (args) = buildArgs(args, envVars, context)
-            val (body) = buildBody(body, envVars, context)
+            val (args) = step.buildArgs(envVars, context)
+            val (body) = step.buildBody(envVars, context)
             val (value) = callProvider.call(uri, args, body)
                 .mapFailure { failure -> HttpCallStepExecuteErrors.Call(failure) }
-            context.update(value, result, merger)
+            context.update(value, step.result, merger)
         } else
             Maybe.none()
     }
 }
 
-private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+private fun Step.checkCondition(envVars: EnvVars, context: Context) =
     condition.isSatisfied(envVars, context)
         .mapFailure { failure -> HttpCallStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
-private fun buildArgs(args: Args, envVars: EnvVars, context: Context) =
+private fun HttpCallStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> CallProvider.Arg(name, value) }
         .mapFailure { failure -> HttpCallStepExecuteErrors.ArgsBuilding(failure) }
 
-private fun buildBody(data: Value?, envVars: EnvVars, context: Context) =
-    data?.compute(envVars, context)
+private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
+    body?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> CallProvider.Body(value) },
             onFailure = { failure -> HttpCallStepExecuteErrors.BodyBuilding(failure) }

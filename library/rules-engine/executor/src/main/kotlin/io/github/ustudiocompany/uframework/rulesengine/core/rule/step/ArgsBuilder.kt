@@ -23,7 +23,7 @@ internal fun <T> Args.build(
                 args.get.forEach { arg ->
                     val (value) = arg.value.compute(envVars, context)
                         .mapFailure { failure ->
-                            ArgsBuilderErrors.ArgValueBuilding(arg = arg, cause = failure)
+                            ArgsBuilderErrors.ValueBuilding(arg = arg, cause = failure)
                         }
                     val argValue = value.toStringValue()
                     add(builder(arg.name, argValue))
@@ -33,7 +33,7 @@ internal fun <T> Args.build(
 
 internal sealed interface ArgsBuilderErrors : BasicRulesEngineError {
 
-    class ArgValueBuilding(arg: Arg, cause: ValueComputeErrors) : ArgsBuilderErrors {
+    class ValueBuilding(arg: Arg, cause: ValueComputeErrors) : ArgsBuilderErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "Error building arg '${arg.name}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

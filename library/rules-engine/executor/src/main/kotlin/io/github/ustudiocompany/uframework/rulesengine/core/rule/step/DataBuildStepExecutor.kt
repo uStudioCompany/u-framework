@@ -12,7 +12,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContex
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
@@ -23,20 +22,20 @@ internal fun DataBuildStep.executeIfSatisfied(
 ): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = checkCondition(step.condition, envVars, context)
+        val (isSatisfied) = step.checkCondition(envVars, context)
         if (isSatisfied) {
-            val (value) = buildData(step.dataSchema, envVars, context)
-            context.update(value, result, merger)
+            val (value) = step.buildData(envVars, context)
+            context.update(value, step.result, merger)
         } else
             Maybe.none()
     }
 }
 
-private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+private fun Step.checkCondition(envVars: EnvVars, context: Context) =
     condition.isSatisfied(envVars, context)
         .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
 
-private fun buildData(dataSchema: DataSchema, envVars: EnvVars, context: Context) =
+private fun DataBuildStep.buildData(envVars: EnvVars, context: Context) =
     dataSchema.build(envVars, context)
         .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
 

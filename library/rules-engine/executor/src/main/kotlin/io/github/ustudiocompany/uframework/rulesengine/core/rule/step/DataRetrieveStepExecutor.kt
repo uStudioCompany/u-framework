@@ -5,6 +5,7 @@ import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
@@ -23,24 +24,29 @@ internal fun DataRetrieveStep.executeIfSatisfied(
 ): Maybe<DataRetrieveStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(envVars, context)
-            .mapFailure { failure -> DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure) }
-
+        val (isSatisfied) = step.checkCondition(envVars, context)
         if (isSatisfied) {
-            val (args) = args.build(envVars, context) { name, value ->
-                DataProvider.Arg(name, value)
-            }.mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
+            val (args) = step.buildArgs(envVars, context)
             val uri = DataProvider.Uri.from(step.uri.get)
             val (value) = dataProvider.get(uri, args)
                 .mapFailure { failure -> DataRetrieveStepExecuteErrors.RetrievingExternalData(failure) }
-            val source = step.result.source
-            val action = step.result.action
-            context.update(source, action, value, merger)
-                .map { failure -> DataRetrieveStepExecuteErrors.UpdatingContext(failure) }
+            context.update(value, step.result, merger)
         } else
             Maybe.none()
     }
 }
+
+private fun Step.checkCondition(envVars: EnvVars, context: Context) =
+    condition.isSatisfied(envVars, context)
+        .mapFailure { failure -> DataRetrieveStepExecuteErrors.CheckingConditionSatisfaction(failure) }
+
+private fun DataRetrieveStep.buildArgs(envVars: EnvVars, context: Context) =
+    args.build(envVars, context) { name, value -> DataProvider.Arg(name, value) }
+        .mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
+
+private fun Context.update(value: JsonElement, result: StepResult, merger: Merger) =
+    update(result.source, result.action, value, merger)
+        .map { failure -> DataRetrieveStepExecuteErrors.UpdatingContext(failure) }
 
 internal sealed interface DataRetrieveStepExecuteErrors : BasicRulesEngineError {
 

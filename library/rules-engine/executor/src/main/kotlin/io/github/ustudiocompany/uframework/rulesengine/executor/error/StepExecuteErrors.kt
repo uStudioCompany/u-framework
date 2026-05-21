@@ -10,12 +10,12 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePub
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepId
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStepExecuteError
 
-public sealed interface StepExecuteError : BasicRulesEngineError {
+public sealed interface StepExecuteErrors : BasicRulesEngineError {
 
     public class DataRetrieving internal constructor(
         stepId: StepId,
         cause: DataRetrieveStepExecuteErrors
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
             "The error of execution the 'Data Retrieve' step '$stepId'."
@@ -28,7 +28,7 @@ public sealed interface StepExecuteError : BasicRulesEngineError {
     public class DataBuilding internal constructor(
         stepId: StepId,
         cause: DataBuildStepExecuteError
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "2"
         override val description: String =
             "The error of execution the 'Data Build' step '$stepId'."
@@ -41,7 +41,7 @@ public sealed interface StepExecuteError : BasicRulesEngineError {
     public class Validation internal constructor(
         stepId: StepId,
         cause: ValidationStepExecuteError
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "3"
         override val description: String =
             "The error of execution the 'Validation' step '$stepId'."
@@ -54,7 +54,7 @@ public sealed interface StepExecuteError : BasicRulesEngineError {
     public class MessagePublishing internal constructor(
         stepId: StepId,
         cause: MessagePublishStepExecuteErrors
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "4"
         override val description: String =
             "The error of execution the 'Message Publish' step '$stepId'."
@@ -67,7 +67,7 @@ public sealed interface StepExecuteError : BasicRulesEngineError {
     public class DataChangeTracking internal constructor(
         stepId: StepId,
         cause: DataChangeTrackingStepExecuteErrors
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "5"
         override val description: String =
             "The error of execution the 'Data Change Tracking' step '$stepId'."
@@ -80,7 +80,7 @@ public sealed interface StepExecuteError : BasicRulesEngineError {
     public class HttpCalling internal constructor(
         stepId: StepId,
         cause: HttpCallStepExecuteErrors
-    ) : StepExecuteError {
+    ) : StepExecuteErrors {
         override val code: String = PREFIX + "6"
         override val description: String =
             "The error of execution the 'HTTP Call' step '$stepId'."

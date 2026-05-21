@@ -11,11 +11,9 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.MessagePublisher
 
@@ -26,11 +24,11 @@ internal fun MessagePublishStep.executeIfSatisfied(
 ): Maybe<MessagePublishStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = checkCondition(step.condition, envVars, context)
+        val (isSatisfied) = checkCondition(envVars, context)
         if (isSatisfied) {
-            val (routeKey) = buildRouteKey(step.routeKey, envVars, context)
-            val (headers) = buildHeaders(step.headers, envVars, context)
-            val (body) = buildBody(step.body, envVars, context)
+            val (routeKey) = step.buildRouteKey(envVars, context)
+            val (headers) = step.buildHeaders(envVars, context)
+            val (body) = step.buildBody(envVars, context)
             messagePublisher.publish(routeKey, headers, body)
                 .map { failure -> MessagePublishStepExecuteErrors.Publish(failure) }
         } else
@@ -38,11 +36,11 @@ internal fun MessagePublishStep.executeIfSatisfied(
     }
 }
 
-private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+private fun Step.checkCondition(envVars: EnvVars, context: Context) =
     condition.isSatisfied(envVars, context)
         .mapFailure { failure -> MessagePublishStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
-private fun buildRouteKey(routeKey: Value?, envVars: EnvVars, context: Context) =
+private fun MessagePublishStep.buildRouteKey(envVars: EnvVars, context: Context) =
     routeKey?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> value.toStringValue() },
@@ -50,11 +48,11 @@ private fun buildRouteKey(routeKey: Value?, envVars: EnvVars, context: Context) 
         )
         ?: ResultK.Success.asNull
 
-private fun buildHeaders(headers: MessageHeaders, envVars: EnvVars, context: Context) =
+private fun MessagePublishStep.buildHeaders(envVars: EnvVars, context: Context) =
     headers.build(envVars, context) { name, value -> MessagePublisher.Header(name, value) }
         .mapFailure { failure -> MessagePublishStepExecuteErrors.HeadersBuilding(cause = failure) }
 
-private fun buildBody(body: Value?, envVars: EnvVars, context: Context) =
+private fun MessagePublishStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> value.toStringValue() },
