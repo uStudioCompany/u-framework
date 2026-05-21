@@ -9,6 +9,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataChangeTrackerProvider
 
@@ -19,13 +20,9 @@ internal fun DataChangeTrackingStep.executeIfSatisfied(
 ): Maybe<DataChangeTrackingStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(envVars, context)
-            .mapFailure { failure -> DataChangeTrackingStepExecuteErrors.CheckingConditionSatisfaction(failure) }
-
+        val (isSatisfied) = checkCondition(step.condition, envVars, context)
         if (isSatisfied) {
-            val (args) = args.build(envVars, context) { name, value ->
-                DataChangeTrackerProvider.Arg(name, value)
-            }.mapFailure { failure -> DataChangeTrackingStepExecuteErrors.ArgsBuilding(failure) }
+            val (args) = buildArgs(step.args, envVars, context)
             val uri = DataChangeTrackerProvider.Uiss.from(step.uri.get)
             dataChangeTrackerProvider.prepare(uri, args)
                 .map { failure -> DataChangeTrackingStepExecuteErrors.Preparing(failure) }
@@ -33,6 +30,14 @@ internal fun DataChangeTrackingStep.executeIfSatisfied(
             Maybe.none()
     }
 }
+
+private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+    condition.isSatisfied(envVars, context)
+        .mapFailure { failure -> DataChangeTrackingStepExecuteErrors.CheckingConditionSatisfaction(failure) }
+
+private fun buildArgs(args: Args, envVars: EnvVars, context: Context) =
+    args.build(envVars, context) { name, value -> DataChangeTrackerProvider.Arg(name, value) }
+        .mapFailure { failure -> DataChangeTrackingStepExecuteErrors.ArgsBuilding(failure) }
 
 internal sealed interface DataChangeTrackingStepExecuteErrors : BasicRulesEngineError {
 

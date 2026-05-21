@@ -17,6 +17,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
@@ -29,9 +30,7 @@ internal fun HttpCallStep.executeIfSatisfied(
 ): Maybe<HttpCallStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(envVars, context)
-            .mapFailure { failure -> HttpCallStepExecuteErrors.CheckingConditionSatisfaction(failure) }
-
+        val (isSatisfied) = checkCondition(condition, envVars, context)
         if (isSatisfied) {
             val uri = CallProvider.Uri.from(step.uri.get)
             val (args) = buildArgs(args, envVars, context)
@@ -43,6 +42,10 @@ internal fun HttpCallStep.executeIfSatisfied(
             Maybe.none()
     }
 }
+
+private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+    condition.isSatisfied(envVars, context)
+        .mapFailure { failure -> HttpCallStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
 private fun buildArgs(args: Args, envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> CallProvider.Arg(name, value) }

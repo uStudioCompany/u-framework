@@ -5,12 +5,14 @@ import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
@@ -21,20 +23,28 @@ internal fun DataBuildStep.executeIfSatisfied(
 ): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(envVars, context)
-            .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
-
+        val (isSatisfied) = checkCondition(step.condition, envVars, context)
         if (isSatisfied) {
-            val (value) = dataSchema.build(envVars, context)
-                .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
-            val source = step.result.source
-            val action = step.result.action
-            context.update(source, action, value, merger)
-                .map { failure -> DataBuildStepExecuteError.UpdatingContext(failure) }
+            val (value) = buildData(step.dataSchema, envVars, context)
+            context.update(value, result, merger)
         } else
             Maybe.none()
     }
 }
+
+private fun checkCondition(condition: Condition, envVars: EnvVars, context: Context) =
+    condition.isSatisfied(envVars, context)
+        .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
+
+private fun buildData(dataSchema: DataSchema, envVars: EnvVars, context: Context) =
+    dataSchema.build(envVars, context)
+        .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
+
+private fun Context.update(value: JsonElement, result: StepResult?, merger: Merger) =
+    result?.let { result ->
+        update(result.source, result.action, value, merger)
+            .map { failure -> DataBuildStepExecuteError.UpdatingContext(failure) }
+    } ?: Maybe.none()
 
 internal sealed interface DataBuildStepExecuteError : BasicRulesEngineError {
 
