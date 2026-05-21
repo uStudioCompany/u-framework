@@ -7,7 +7,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Check
 
 public sealed interface RuleExecuteErrors : BasicRulesEngineError {
 
-    public class CheckingConditionSatisfactionRule internal constructor(
+    public class CheckingConditionSatisfaction internal constructor(
         ruleId: RuleId,
         cause: CheckingConditionSatisfactionErrors
     ) : RuleExecuteErrors {
@@ -20,10 +20,7 @@ public sealed interface RuleExecuteErrors : BasicRulesEngineError {
         )
     }
 
-    public class ExecutionRule internal constructor(
-        ruleId: RuleId,
-        cause: StepExecuteErrors
-    ) : RuleExecuteErrors {
+    public class Execution internal constructor(ruleId: RuleId, cause: StepExecuteErrors) : RuleExecuteErrors {
         override val code: String = PREFIX + "2"
         override val description: String = "The error of execution the rule '$ruleId'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

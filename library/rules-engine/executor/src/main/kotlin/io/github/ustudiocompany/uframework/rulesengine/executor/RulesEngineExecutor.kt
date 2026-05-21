@@ -56,7 +56,7 @@ public class RulesEngineExecutor(
         val (isSatisfied) = checkCondition(envVars, context)
         if (isSatisfied)
             steps.execute(envVars, context)
-                .mapFailure { failure -> RuleExecuteErrors.ExecutionRule(ruleId = id, cause = failure) }
+                .mapFailure { failure -> RuleExecuteErrors.Execution(ruleId = id, cause = failure) }
         else
             Success.asNull
     }
@@ -64,7 +64,7 @@ public class RulesEngineExecutor(
     private fun Rule.checkCondition(envVars: EnvVars, context: Context) =
         condition.isSatisfied(envVars, context)
             .mapFailure { failure ->
-                RuleExecuteErrors.CheckingConditionSatisfactionRule(ruleId = id, cause = failure)
+                RuleExecuteErrors.CheckingConditionSatisfaction(ruleId = id, cause = failure)
             }
 
     private fun Steps.execute(

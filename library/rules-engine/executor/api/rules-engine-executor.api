@@ -210,14 +210,14 @@ public final class io/github/ustudiocompany/uframework/rulesengine/executor/Rule
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors : io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError {
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors$CheckingConditionSatisfactionRule : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors$CheckingConditionSatisfaction : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
 	public fun getDetails ()Lio/github/ustudiocompany/uframework/failure/Failure$Details;
 }
 
-public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors$ExecutionRule : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors {
+public final class io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors$Execution : io/github/ustudiocompany/uframework/rulesengine/executor/error/RuleExecuteErrors {
 	public fun getCause ()Lio/github/ustudiocompany/uframework/failure/Failure$Cause;
 	public fun getCode ()Ljava/lang/String;
 	public fun getDescription ()Ljava/lang/String;
