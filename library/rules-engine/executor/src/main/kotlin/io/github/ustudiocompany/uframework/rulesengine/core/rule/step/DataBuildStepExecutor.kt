@@ -11,29 +11,19 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
-internal fun DataBuildStep.executeIfSatisfied(
+internal fun DataBuildStep.execute(
     envVars: EnvVars,
     context: Context,
     merger: Merger
 ): Maybe<DataBuildStepExecuteError> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = step.checkCondition(envVars, context)
-        if (isSatisfied) {
-            val (value) = step.buildData(envVars, context)
-            context.update(value, step.result, merger)
-        } else
-            Maybe.none()
+        val (value) = step.buildData(envVars, context)
+        context.update(value, step.result, merger)
     }
 }
-
-private fun Step.checkCondition(envVars: EnvVars, context: Context) =
-    condition.isSatisfied(envVars, context)
-        .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
 
 private fun DataBuildStep.buildData(envVars: EnvVars, context: Context) =
     dataSchema.build(envVars, context)
@@ -47,20 +37,14 @@ private fun Context.update(value: JsonElement, result: StepResult?, merger: Merg
 
 internal sealed interface DataBuildStepExecuteError : BasicRulesEngineError {
 
-    class CheckingConditionSatisfaction(cause: CheckingConditionSatisfactionErrors) : DataBuildStepExecuteError {
-        override val code: String = PREFIX + "1"
-        override val description: String = "Error check condition satisfaction of 'Data Build' step."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-    }
-
     class DataBuilding(cause: DataBuildErrors) : DataBuildStepExecuteError {
-        override val code: String = PREFIX + "2"
+        override val code: String = PREFIX + "1"
         override val description: String = "Error building data of 'Data Build' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     class UpdatingContext(cause: UpdateContextErrors) : DataBuildStepExecuteError {
-        override val code: String = PREFIX + "3"
+        override val code: String = PREFIX + "2"
         override val description: String = "Error updating context of 'Data Build' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }

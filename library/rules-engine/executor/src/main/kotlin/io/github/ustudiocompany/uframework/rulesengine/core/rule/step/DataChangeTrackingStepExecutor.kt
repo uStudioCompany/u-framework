@@ -8,31 +8,21 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataChangeTrackerProvider
 
-internal fun DataChangeTrackingStep.executeIfSatisfied(
+internal fun DataChangeTrackingStep.execute(
     envVars: EnvVars,
     context: Context,
     dataChangeTrackerProvider: DataChangeTrackerProvider,
 ): Maybe<DataChangeTrackingStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = step.checkCondition(envVars, context)
-        if (isSatisfied) {
-            val (args) = step.buildArgs(envVars, context)
-            val uri = DataChangeTrackerProvider.Uiss.from(step.uri.get)
-            dataChangeTrackerProvider.prepare(uri, args)
-                .map { failure -> DataChangeTrackingStepExecuteErrors.Preparing(failure) }
-        } else
-            Maybe.none()
+        val (args) = step.buildArgs(envVars, context)
+        val uri = DataChangeTrackerProvider.Uiss.from(step.uri.get)
+        dataChangeTrackerProvider.prepare(uri, args)
+            .map { failure -> DataChangeTrackingStepExecuteErrors.Preparing(failure) }
     }
 }
-
-private fun Step.checkCondition(envVars: EnvVars, context: Context) =
-    condition.isSatisfied(envVars, context)
-        .mapFailure { failure -> DataChangeTrackingStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
 private fun DataChangeTrackingStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataChangeTrackerProvider.Arg(name, value) }
@@ -40,21 +30,14 @@ private fun DataChangeTrackingStep.buildArgs(envVars: EnvVars, context: Context)
 
 internal sealed interface DataChangeTrackingStepExecuteErrors : BasicRulesEngineError {
 
-    class CheckingConditionSatisfaction(cause: CheckingConditionSatisfactionErrors) :
-        DataChangeTrackingStepExecuteErrors {
-        override val code: String = PREFIX + "1"
-        override val description: String = "Error checking condition satisfaction of 'Data Change Tracking' step."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-    }
-
     class ArgsBuilding(cause: ArgsBuilderErrors) : DataChangeTrackingStepExecuteErrors {
-        override val code: String = PREFIX + "2"
+        override val code: String = PREFIX + "1"
         override val description: String = "Error building args for data provider of 'Data Change Tracking' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     class Preparing(cause: DataChangeTrackerProvider.Error) : DataChangeTrackingStepExecuteErrors {
-        override val code: String = PREFIX + "3"
+        override val code: String = PREFIX + "2"
         override val description: String = "Error preparing to track data changes."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }

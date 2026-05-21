@@ -20,9 +20,10 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChange
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.HttpCallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.executeIfSatisfied
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleExecuteErrors
 import io.github.ustudiocompany.uframework.rulesengine.executor.error.StepExecuteErrors
 
@@ -70,49 +71,56 @@ public class RulesEngineExecutor(
     private fun Steps.execute(
         envVars: EnvVars,
         context: Context
-    ): ResultK<ValidationStep.ErrorCode?, StepExecuteErrors> {
+    ): ResultK<ValidationStep.ErrorCode?, StepExecuteErrors> = resultWith {
         for (step in get) {
-            val vars = envVars.append(STEP_ID to JsonElement.Text(step.id.get))
-            val result = when (step) {
-                is DataRetrieveStep -> step.execute(vars, context)
-                is DataBuildStep -> step.execute(vars, context)
-                is ValidationStep -> step.execute(vars, context)
-                is MessagePublishStep -> step.execute(vars, context)
-                is DataChangeTrackingStep -> step.execute(vars, context)
-                is HttpCallStep -> step.execute(vars, context)
-            }
+            val (isSatisfied) = step.checkCondition(envVars, context)
+            if (isSatisfied) {
+                val vars = envVars.append(STEP_ID to JsonElement.Text(step.id.get))
+                val result = when (step) {
+                    is DataRetrieveStep -> step.tryExecute(vars, context)
+                    is DataBuildStep -> step.tryExecute(vars, context)
+                    is ValidationStep -> step.tryExecute(vars, context)
+                    is MessagePublishStep -> step.tryExecute(vars, context)
+                    is DataChangeTrackingStep -> step.tryExecute(vars, context)
+                    is HttpCallStep -> step.tryExecute(vars, context)
+                }
 
-            if (result.isFailure() || result.value != null) return result
+                if (result.isFailure() || result.value != null) return result
+            }
         }
         return Success.asNull
     }
 
-    private fun DataRetrieveStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context, dataProvider, merger)
+    private fun Step.checkCondition(envVars: EnvVars, context: Context) =
+        condition.isSatisfied(envVars, context)
+            .mapFailure { failure -> StepExecuteErrors.CheckingConditionSatisfaction(stepId = id, cause = failure) }
+
+    private fun DataRetrieveStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, dataProvider, merger)
             .map { failure -> StepExecuteErrors.DataRetrieving(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun DataBuildStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context, merger)
+    private fun DataBuildStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, merger)
             .map { failure -> StepExecuteErrors.DataBuilding(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun ValidationStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context)
+    private fun ValidationStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context)
             .mapFailure { failure -> StepExecuteErrors.Validation(stepId = id, cause = failure) }
 
-    private fun MessagePublishStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context, messagePublisher)
+    private fun MessagePublishStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, messagePublisher)
             .map { failure -> StepExecuteErrors.MessagePublishing(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun DataChangeTrackingStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context, dataChangeTrackerProvider)
+    private fun DataChangeTrackingStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, dataChangeTrackerProvider)
             .map { failure -> StepExecuteErrors.DataChangeTracking(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun HttpCallStep.execute(envVars: EnvVars, context: Context) =
-        executeIfSatisfied(envVars, context, callProvider, merger)
+    private fun HttpCallStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, callProvider, merger)
             .map { failure -> StepExecuteErrors.HttpCalling(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 

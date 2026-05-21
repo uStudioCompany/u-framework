@@ -13,8 +13,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -29,83 +27,13 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
         "The HTTP Call step executor" - {
 
-            "when condition is missing" - {
-                val condition: Condition = Condition.NONE
-
-                "when execution of the step is successful" - {
-                    val context = Context.empty()
-                    val step = createStepFull(condition)
-
-                    val result = step.executeIfSatisfied(
-                        envVars = ENV_VARS,
-                        context = context,
-                        callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
-                        merger = { _, origin, _ -> origin.asSuccess() }
-                    )
-
-                    "then the executor should return a success result" {
-                        result.shouldBeNone()
-                    }
-
-                    "then the context should be updated" {
-                        val result = context.getOrNull(RESULT_SOURCE)
-                        result shouldBe CALL_RESULT
-                    }
-                }
-            }
-
-            "when condition is present" - {
-
-                "when condition is satisfied" - {
-                    val condition: Condition = satisfiedCondition()
-
-                    "when execution of the step is successful" - {
-                        val context = Context.empty()
-                        val step = createStepFull(condition)
-
-                        val result = step.executeIfSatisfied(
-                            envVars = ENV_VARS,
-                            context = context,
-                            callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
-                            merger = { _, origin, _ -> origin.asSuccess() }
-                        )
-
-                        "then the executor should return a success result" {
-                            result.shouldBeNone()
-                        }
-
-                        "then the context should be updated" {
-                            val result = context.getOrNull(RESULT_SOURCE)
-                            result shouldBe CALL_RESULT
-                        }
-                    }
-                }
-
-                "when condition is not satisfied" - {
-                    val condition: Condition = notSatisfiedCondition()
-
-                    "then the step is not performed" {
-                        val step = createStepFull(condition)
-
-                        val result = step.executeIfSatisfied(
-                            envVars = ENV_VARS,
-                            context = CONTEXT,
-                            callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
-                            merger = { _, _, _ -> Merger.Error().asFailure() }
-                        )
-                        result.shouldBeNone()
-                    }
-                }
-            }
-
             "when execution of the step is successful" - {
-                val condition: Condition = Condition.NONE
 
                 "when args is missing" - {
                     val context = Context.empty()
-                    val step = createStepWithoutArgs(condition)
+                    val step = createStepWithoutArgs()
 
-                    val result = step.executeIfSatisfied(
+                    val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
@@ -124,9 +52,9 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                 "when body is missing" - {
                     val context = Context.empty()
-                    val step = createStepWithoutBody(condition)
+                    val step = createStepWithoutBody()
 
-                    val result = step.executeIfSatisfied(
+                    val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
@@ -145,9 +73,9 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                 "when result is missing" - {
                     val context = Context.empty()
-                    val step = createStepWithoutResult(condition)
+                    val step = createStepWithoutResult()
 
-                    val result = step.executeIfSatisfied(
+                    val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
@@ -166,28 +94,12 @@ internal class HttpCallStepExecutorTest : UnitTest() {
             }
 
             "when execution of the step is fail" - {
-                val condition: Condition = Condition.NONE
-
-                "when the condition check failed" - {
-                    val step = createStepWithInvalidCondition()
-
-                    "then the executor should return an error result" - {
-                        val result = step.executeIfSatisfied(
-                            envVars = ENV_VARS,
-                            context = CONTEXT,
-                            callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
-                            merger = { _, origin, _ -> origin.asSuccess() }
-                        )
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecuteErrors.CheckingConditionSatisfaction>()
-                    }
-                }
 
                 "when building the args is fail" - {
-                    val step = createStepWithInvalidArgs(condition)
+                    val step = createStepWithInvalidArgs()
 
                     "then the executor should return an error result" - {
-                        val result = step.executeIfSatisfied(
+                        val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
                             callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
@@ -199,10 +111,10 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                 }
 
                 "when building the body is fail" - {
-                    val step = createStepWithInvalidBody(condition)
+                    val step = createStepWithInvalidBody()
 
                     "then the executor should return an error result" - {
-                        val result = step.executeIfSatisfied(
+                        val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
                             callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
@@ -214,10 +126,10 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                 }
 
                 "when an external call error" - {
-                    val step = createStepFull(condition)
+                    val step = createSuccessStepWithFullInfo()
 
                     "then the executor should return an error result" {
-                        val result = step.executeIfSatisfied(
+                        val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
                             callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
@@ -230,9 +142,9 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                 "when an error of merging" - {
                     val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
-                    val step = createStepFull(condition)
+                    val step = createSuccessStepWithFullInfo()
 
-                    val result = step.executeIfSatisfied(
+                    val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
@@ -248,87 +160,58 @@ internal class HttpCallStepExecutorTest : UnitTest() {
         }
     }
 
-    private fun createStepFull(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = createArgs(),
-            body = createBody(),
-            result = createResult()
-        )
+    private fun createSuccessStepWithFullInfo() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = createArgs(),
+        body = createBody(),
+        result = createResult()
+    )
 
-    private fun createStepWithInvalidCondition() =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = createInvalidCondition(),
-            uri = Uri,
-            args = createInvalidArgs(),
-            body = createBody(),
-            result = createResult()
-        )
+    private fun createStepWithInvalidArgs() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = createInvalidArgs(),
+        body = createBody(),
+        result = createResult()
+    )
 
-    private fun createStepWithInvalidArgs(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = createInvalidArgs(),
-            body = createBody(),
-            result = createResult()
-        )
+    private fun createStepWithInvalidBody() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = createArgs(),
+        body = createInvalidBody(),
+        result = createResult()
+    )
 
-    private fun createStepWithInvalidBody(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = createArgs(),
-            body = createInvalidBody(),
-            result = createResult()
-        )
+    private fun createStepWithoutArgs() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = Args.NONE,
+        body = createBody(),
+        result = createResult()
+    )
 
-    private fun createStepWithoutArgs(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = Args.NONE,
-            body = createBody(),
-            result = createResult()
-        )
+    private fun createStepWithoutBody() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = createArgs(),
+        body = null,
+        result = createResult()
+    )
 
-    private fun createStepWithoutBody(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = createArgs(),
-            body = null,
-            result = createResult()
-        )
-
-    private fun createStepWithoutResult(condition: Condition) =
-        HttpCallStep(
-            id = STEP_ID,
-            condition = condition,
-            uri = Uri,
-            args = createArgs(),
-            body = createBody(),
-            result = null
-        )
-
-    private fun createInvalidCondition() = Condition(
-        listOf(
-            Predicate(
-                target = Value.Literal(fact = TEXT_VALUE_1),
-                value = Value.Reference(
-                    source = INVALID_ARG_SOURCE,
-                    path = path()
-                ),
-                operator = EQ
-            )
-        )
+    private fun createStepWithoutResult() = HttpCallStep(
+        id = STEP_ID,
+        condition = Condition.NONE,
+        uri = Uri,
+        args = createArgs(),
+        body = createBody(),
+        result = null
     )
 
     private fun createArgs() = Args(
@@ -368,10 +251,6 @@ internal class HttpCallStepExecutorTest : UnitTest() {
         private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
         private const val ORIGIN_VALUE = "origin"
-
-        private val TEXT_VALUE_1 = JsonElement.Text("value-1")
-        private val TEXT_VALUE_2 = JsonElement.Text("value-2")
-
         private val Uri = Uri("users:id")
 
         private const val ID_PARAM_NAME = "id"
@@ -384,26 +263,6 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
         private val CALL_RESULT = JsonElement.Text("data")
         private const val PATH_VALUE = "$.id"
-
-        private fun satisfiedCondition() = Condition(
-            listOf(
-                Predicate(
-                    target = Value.Literal(fact = TEXT_VALUE_1),
-                    value = Value.Literal(fact = TEXT_VALUE_1),
-                    operator = EQ
-                )
-            )
-        )
-
-        private fun notSatisfiedCondition() = Condition(
-            listOf(
-                Predicate(
-                    target = Value.Literal(fact = TEXT_VALUE_1),
-                    value = Value.Literal(fact = TEXT_VALUE_2),
-                    operator = EQ
-                )
-            )
-        )
 
         private fun path() =
             object : Path {

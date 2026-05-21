@@ -9,8 +9,6 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Predicate
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.operation.operator.BooleanOperators.EQ
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -22,65 +20,19 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
         "The data step executor" - {
 
-            "when condition is missing" - {
-                val condition: Condition = Condition.NONE
+            "then the executor should perform the step" - {
+                val envVars = envVarsOf()
+                val context = Context.empty()
+                val step = createStep()
+                val result = step.execute(envVars, context, TestMerger())
 
-                "then the executor should perform the step" - {
-                    val envVars = envVarsOf()
-                    val context = Context.empty()
-                    val step = createStep(condition)
-                    val result = step.executeIfSatisfied(envVars, context, TestMerger())
-
-                    "then the executor should return a success result" {
-                        result.shouldBeNone()
-                    }
-
-                    "then the context should contain the generated data" {
-                        val result = context.getOrNull(SOURCE)
-                        result shouldBe EXPECTED_DATA
-                    }
-                }
-            }
-
-            "when condition is present" - {
-
-                "when condition is satisfied" - {
-                    val condition: Condition = satisfiedCondition()
-
-                    "then the executor should perform the step" - {
-                        val envVars = envVarsOf()
-                        val context = Context.empty()
-                        val step = createStep(condition)
-                        val result = step.executeIfSatisfied(envVars, context, TestMerger())
-
-                        "then the executor should return a success result" {
-                            result.shouldBeNone()
-                        }
-
-                        "then the context should contain the generated data" {
-                            val result = context.getOrNull(SOURCE)
-                            result shouldBe EXPECTED_DATA
-                        }
-                    }
+                "then the executor should return a success result" {
+                    result.shouldBeNone()
                 }
 
-                "when condition is not satisfied" - {
-                    val condition: Condition = notSatisfiedCondition()
-
-                    "then the executor should not perform the step" - {
-                        val envVars = envVarsOf()
-                        val context = Context.empty()
-                        val step = createStep(condition)
-                        val result = step.executeIfSatisfied(envVars, context, TestMerger())
-
-                        "then the executor should return a success result" {
-                            result.shouldBeNone()
-                        }
-
-                        "then the context should not contain the generated data" {
-                            context.contains(SOURCE) shouldBe false
-                        }
-                    }
+                "then the context should contain the generated data" {
+                    val result = context.getOrNull(SOURCE)
+                    result shouldBe EXPECTED_DATA
                 }
             }
         }
@@ -88,8 +40,6 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
     private companion object {
         private val STEP_ID = StepId("step-1")
-        private val TEXT_VALUE_1 = JsonElement.Text("value-1")
-        private val TEXT_VALUE_2 = JsonElement.Text("value-2")
         private const val ID_DATA_KEY = "id"
         private const val ID_DATA_VALUE = "0000-0000-0000-0000"
 
@@ -97,30 +47,10 @@ internal class DataBuildStepExecutorTest : UnitTest() {
 
         private val EXPECTED_DATA = JsonElement.Struct(ID_DATA_KEY to JsonElement.Text(ID_DATA_VALUE))
 
-        private fun satisfiedCondition() = Condition(
-            listOf(
-                Predicate(
-                    target = Value.Literal(fact = TEXT_VALUE_1),
-                    value = Value.Literal(fact = TEXT_VALUE_1),
-                    operator = EQ
-                )
-            )
-        )
-
-        private fun notSatisfiedCondition() = Condition(
-            listOf(
-                Predicate(
-                    target = Value.Literal(fact = TEXT_VALUE_1),
-                    value = Value.Literal(fact = TEXT_VALUE_2),
-                    operator = EQ
-                )
-            )
-        )
-
-        private fun createStep(condition: Condition) =
+        private fun createStep() =
             DataBuildStep(
                 id = STEP_ID,
-                condition = condition,
+                condition = Condition.NONE,
                 dataSchema = DataSchema.Struct(
                     properties = listOf(
                         DataSchema.Property.Element(

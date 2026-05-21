@@ -13,32 +13,22 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.MessagePublisher
 
-internal fun MessagePublishStep.executeIfSatisfied(
+internal fun MessagePublishStep.execute(
     envVars: EnvVars,
     context: Context,
     messagePublisher: MessagePublisher
 ): Maybe<MessagePublishStepExecuteErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = checkCondition(envVars, context)
-        if (isSatisfied) {
-            val (routeKey) = step.buildRouteKey(envVars, context)
-            val (headers) = step.buildHeaders(envVars, context)
-            val (body) = step.buildBody(envVars, context)
-            messagePublisher.publish(routeKey, headers, body)
-                .map { failure -> MessagePublishStepExecuteErrors.Publish(failure) }
-        } else
-            Maybe.none()
+        val (routeKey) = step.buildRouteKey(envVars, context)
+        val (headers) = step.buildHeaders(envVars, context)
+        val (body) = step.buildBody(envVars, context)
+        messagePublisher.publish(routeKey, headers, body)
+            .map { failure -> MessagePublishStepExecuteErrors.Publish(failure) }
     }
 }
-
-private fun Step.checkCondition(envVars: EnvVars, context: Context) =
-    condition.isSatisfied(envVars, context)
-        .mapFailure { failure -> MessagePublishStepExecuteErrors.CheckingConditionSatisfaction(failure) }
 
 private fun MessagePublishStep.buildRouteKey(envVars: EnvVars, context: Context) =
     routeKey?.compute(envVars, context)
@@ -62,32 +52,26 @@ private fun MessagePublishStep.buildBody(envVars: EnvVars, context: Context) =
 
 internal sealed interface MessagePublishStepExecuteErrors : BasicRulesEngineError {
 
-    class CheckingConditionSatisfaction(cause: CheckingConditionSatisfactionErrors) : MessagePublishStepExecuteErrors {
-        override val code: String = PREFIX + "1"
-        override val description: String = "Error checking condition satisfaction of 'Message Publish' step."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-    }
-
     class RouteKeyBuilding(cause: ValueComputeErrors) : MessagePublishStepExecuteErrors {
-        override val code: String = PREFIX + "2"
+        override val code: String = PREFIX + "1"
         override val description: String = "Error building the route key for the message of 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     class HeadersBuilding(cause: ArgsBuilderErrors) : MessagePublishStepExecuteErrors {
-        override val code: String = PREFIX + "3"
+        override val code: String = PREFIX + "2"
         override val description: String = "Error building headers for the message of 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     class BodyBuilding(cause: ValueComputeErrors) : MessagePublishStepExecuteErrors {
-        override val code: String = PREFIX + "4"
+        override val code: String = PREFIX + "3"
         override val description: String = "Error building the body for the message of 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     class Publish(cause: MessagePublisher.Error) : MessagePublishStepExecuteErrors {
-        override val code: String = PREFIX + "5"
+        override val code: String = PREFIX + "4"
         override val description: String = "Error publishing message of 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
