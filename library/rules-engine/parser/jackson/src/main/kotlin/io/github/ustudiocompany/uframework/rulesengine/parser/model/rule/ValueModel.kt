@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -13,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = ValueModel.Literal::class, name = "fact"),
     JsonSubTypes.Type(value = ValueModel.Reference::class, name = "reference"),
     JsonSubTypes.Type(value = ValueModel.Expression::class, name = "expression"),
-    JsonSubTypes.Type(value = ValueModel.EnvVars::class, name = "envVars")
+    JsonSubTypes.Type(value = ValueModel.EnvVars::class, name = "envVars"),
+    JsonSubTypes.Type(value = ValueModel.DataStruct::class, name = "dataStruct")
 )
 internal sealed interface ValueModel {
 
@@ -32,5 +34,9 @@ internal sealed interface ValueModel {
 
     data class EnvVars(
         @JsonProperty("name") val name: EnvVarNameModel
+    ) : ValueModel
+
+    data class DataStruct(
+        @JsonProperty("scheme") val scheme: DataSchemaModel
     ) : ValueModel
 }

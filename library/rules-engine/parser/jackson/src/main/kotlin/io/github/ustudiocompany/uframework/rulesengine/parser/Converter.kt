@@ -272,6 +272,8 @@ internal class Converter(
             is ValueModel.Expression -> Value.Expression(expression = expression.convertExpression().bind())
 
             is ValueModel.EnvVars -> Value.EnvVars(name = name.convertEnvVarName())
+
+            is ValueModel.DataStruct -> Value.DataStruct(scheme = scheme.convert().bind())
         }
     }
 

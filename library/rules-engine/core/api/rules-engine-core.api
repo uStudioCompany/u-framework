@@ -125,6 +125,17 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Sou
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
 }
 
+public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$DataStruct : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
+	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataSchema;)V
+	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataSchema;
+	public final fun copy (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataSchema;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$DataStruct;
+	public static synthetic fun copy$default (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$DataStruct;Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataSchema;ILjava/lang/Object;)Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Value$DataStruct;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getScheme ()Lio/github/ustudiocompany/uframework/rulesengine/core/rule/step/DataSchema;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/rule/Value$EnvVars : io/github/ustudiocompany/uframework/rulesengine/core/rule/Value {
 	public fun <init> (Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;)V
 	public final fun component1 ()Lio/github/ustudiocompany/uframework/rulesengine/core/env/EnvVarName;
