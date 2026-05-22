@@ -21,7 +21,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "1"
         override val description: String =
-            "Error checking condition satisfaction of the step '$stepId'."
+            "Error checking condition satisfaction of the step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -31,7 +31,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "2"
         override val description: String =
-            "The error of execution the 'Data Retrieve' step '$stepId'."
+            "The error of execution the 'Data Retrieve' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -41,7 +41,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "3"
         override val description: String =
-            "The error of execution the 'Data Build' step '$stepId'."
+            "The error of execution the 'Data Build' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -51,7 +51,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "4"
         override val description: String =
-            "The error of execution the 'Validation' step '$stepId'."
+            "The error of execution the 'Validation' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -61,7 +61,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "5"
         override val description: String =
-            "The error of execution the 'Message Publish' step '$stepId'."
+            "The error of execution the 'Message Publish' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -71,7 +71,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "6"
         override val description: String =
-            "The error of execution the 'Data Change Tracking' step '$stepId'."
+            "The error of execution the 'Data Change Tracking' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -81,7 +81,7 @@ public sealed class StepExecuteErrors(stepId: StepId) : BasicRulesEngineError {
     ) : StepExecuteErrors(stepId) {
         override val code: String = PREFIX + "7"
         override val description: String =
-            "The error of execution the 'HTTP Call' step '$stepId'."
+            "The error of execution the 'HTTP Call' step '${stepId.get}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

@@ -4,9 +4,9 @@ import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.toResultAsFailureOr
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
+import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.isFailure
 import io.github.airflux.commons.types.resultk.mapFailure
-import io.github.airflux.commons.types.resultk.resultWith
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
@@ -45,51 +45,55 @@ public class RulesEngineExecutor(
         envVars: EnvVars,
         context: Context
     ): ResultK<ValidationStep.ErrorCode?, RuleExecuteErrors> {
-        for (rule in this.get) {
-            val vars = envVars.append(RULE_ID to JsonElement.Text(rule.id.get))
-            val result = rule.executeIfSatisfied(vars, context)
+        for (rule in get) {
+            val result = rule.executeIfConditionSatisfied(envVars, context)
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
 
-    private fun Rule.executeIfSatisfied(envVars: EnvVars, context: Context): ExecutionResult = resultWith {
-        val (isSatisfied) = checkCondition(envVars, context)
-        if (isSatisfied)
-            steps.execute(envVars, context)
-                .mapFailure { failure -> RuleExecuteErrors.Execution(ruleId = id, cause = failure) }
-        else
-            Success.asNull
-    }
+    private fun Rule.executeIfConditionSatisfied(envVars: EnvVars, context: Context): ExecutionResult =
+        checkCondition(envVars, context)
+            .flatMapBoolean(
+                ifTrue = {
+                    val vars = envVars.append(RULE_ID to JsonElement.Text(id.get))
+                    steps.execute(vars, context)
+                        .mapFailure { failure -> RuleExecuteErrors.Execution(ruleId = id, cause = failure) }
+                },
+                ifFalse = { Success.asNull }
+            )
 
     private fun Rule.checkCondition(envVars: EnvVars, context: Context) =
         condition.isSatisfied(envVars, context)
-            .mapFailure { failure ->
-                RuleExecuteErrors.CheckingConditionSatisfaction(ruleId = id, cause = failure)
-            }
+            .mapFailure { failure -> RuleExecuteErrors.CheckingConditionSatisfaction(ruleId = id, cause = failure) }
 
     private fun Steps.execute(
         envVars: EnvVars,
         context: Context
-    ): ResultK<ValidationStep.ErrorCode?, StepExecuteErrors> = resultWith {
+    ): ResultK<ValidationStep.ErrorCode?, StepExecuteErrors> {
         for (step in get) {
-            val (isSatisfied) = step.checkCondition(envVars, context)
-            if (isSatisfied) {
-                val vars = envVars.append(STEP_ID to JsonElement.Text(step.id.get))
-                val result = when (step) {
-                    is DataRetrieveStep -> step.tryExecute(vars, context)
-                    is DataBuildStep -> step.tryExecute(vars, context)
-                    is ValidationStep -> step.tryExecute(vars, context)
-                    is MessagePublishStep -> step.tryExecute(vars, context)
-                    is DataChangeTrackingStep -> step.tryExecute(vars, context)
-                    is HttpCallStep -> step.tryExecute(vars, context)
-                }
-
-                if (result.isFailure() || result.value != null) return result
-            }
+            val result = step.executeIfConditionSatisfied(envVars, context)
+            if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
+
+    private fun Step.executeIfConditionSatisfied(envVars: EnvVars, context: Context) =
+        checkCondition(envVars, context)
+            .flatMapBoolean(
+                ifTrue = {
+                    val vars = envVars.append(STEP_ID to JsonElement.Text(id.get))
+                    when (this) {
+                        is DataRetrieveStep -> tryExecute(vars, context)
+                        is DataBuildStep -> tryExecute(vars, context)
+                        is ValidationStep -> tryExecute(vars, context)
+                        is MessagePublishStep -> tryExecute(vars, context)
+                        is DataChangeTrackingStep -> tryExecute(vars, context)
+                        is HttpCallStep -> tryExecute(vars, context)
+                    }
+                },
+                ifFalse = { Success.asNull }
+            )
 
     private fun Step.checkCondition(envVars: EnvVars, context: Context) =
         condition.isSatisfied(envVars, context)
