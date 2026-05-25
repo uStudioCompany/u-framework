@@ -47,11 +47,19 @@ private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
         )
         ?: ResultK.Success.asNull
 
-private fun Context.update(value: JsonElement, result: StepResult?, merger: Merger) =
-    result?.let { result ->
-        update(result.source, result.action, value, merger)
+private fun Context.update(
+    value: JsonElement?,
+    result: StepResult?,
+    merger: Merger
+): Maybe<HttpCallStepExecutionErrors> =
+    when {
+        result != null && value != null -> update(result.source, result.action, value, merger)
             .map { failure -> HttpCallStepExecutionErrors.ContextUpdate(failure) }
-    } ?: Maybe.none()
+
+        result != null && value == null -> Maybe.some(HttpCallStepExecutionErrors.ExpectedResponseMissing())
+        result == null && value != null -> Maybe.none()
+        else -> Maybe.none()
+    }
 
 internal sealed interface HttpCallStepExecutionErrors : BasicRulesEngineError {
 
@@ -73,8 +81,14 @@ internal sealed interface HttpCallStepExecutionErrors : BasicRulesEngineError {
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class ContextUpdate(cause: ContextUpdateErrors) : HttpCallStepExecutionErrors {
+    class ExpectedResponseMissing : HttpCallStepExecutionErrors {
         override val code: String = PREFIX + "4"
+        override val description: String = "Expected response is missing in the 'HTTP Call' step."
+        override val cause: Failure.Cause = Failure.Cause.None
+    }
+
+    class ContextUpdate(cause: ContextUpdateErrors) : HttpCallStepExecutionErrors {
+        override val code: String = PREFIX + "5"
         override val description: String = "Error updating context in the 'HTTP Call' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }

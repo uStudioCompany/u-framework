@@ -4,6 +4,7 @@ import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
 import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
 import io.github.airflux.commons.types.resultk.ResultK
+import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
@@ -50,7 +51,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     }
                 }
 
-                "when body is missing" - {
+                "when a body is missing" - {
                     val context = Context.empty()
                     val step = createStepWithoutBody()
 
@@ -71,7 +72,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     }
                 }
 
-                "when result is missing" - {
+                "when a result is missing but response is present" - {
                     val context = Context.empty()
                     val step = createStepWithoutResult()
 
@@ -79,6 +80,27 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                         envVars = ENV_VARS,
                         context = context,
                         httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        merger = { _, origin, _ -> origin.asSuccess() }
+                    )
+
+                    "then the executor should return a success result" {
+                        result.shouldBeNone()
+                    }
+
+                    "then the context should mot be updated" {
+                        val result = context.getOrNull(RESULT_SOURCE)
+                        result.shouldBeNull()
+                    }
+                }
+
+                "when a result and a response is missing" - {
+                    val context = Context.empty()
+                    val step = createStepWithoutResult()
+
+                    val result = step.execute(
+                        envVars = ENV_VARS,
+                        context = context,
+                        httpCallProvider = { _, _, _ -> Success.asNull },
                         merger = { _, origin, _ -> origin.asSuccess() }
                     )
 
@@ -137,6 +159,21 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                         )
                         result.shouldContainSomeInstance()
                             .shouldBeInstanceOf<HttpCallStepExecutionErrors.Call>()
+                    }
+                }
+
+                "when a result is present but a response missing " - {
+                    val step = createSuccessStepWithFullInfo()
+
+                    "then the executor should return an error result" {
+                        val result = step.execute(
+                            envVars = ENV_VARS,
+                            context = CONTEXT,
+                            httpCallProvider = { _, _, _ -> Success.asNull },
+                            merger = { _, origin, _ -> origin.asSuccess() }
+                        )
+                        result.shouldContainSomeInstance()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.ExpectedResponseMissing>()
                     }
                 }
 

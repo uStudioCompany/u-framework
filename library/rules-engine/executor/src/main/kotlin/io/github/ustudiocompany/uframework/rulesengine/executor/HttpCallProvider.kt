@@ -10,7 +10,7 @@ import kotlin.text.Charsets.UTF_8
 
 public fun interface HttpCallProvider {
 
-    public fun call(uri: Uri, args: List<Arg>, body: Body?): ResultK<JsonElement, Error>
+    public fun call(uri: Uri, args: List<Arg>, body: Body?): ResultK<JsonElement?, Error>
 
     @JvmInline
     public value class Uri private constructor(public val get: String) {
