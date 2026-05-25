@@ -15,34 +15,34 @@ import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
-import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.HttpCallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
 internal fun HttpCallStep.execute(
     envVars: EnvVars,
     context: Context,
-    callProvider: CallProvider,
+    httpCallProvider: HttpCallProvider,
     merger: Merger
 ): Maybe<HttpCallStepExecutionErrors> {
     val step = this
     return maybeFailure {
-        val uri = CallProvider.Uri.from(step.uri.get)
+        val uri = HttpCallProvider.Uri.from(step.uri.get)
         val (args) = step.buildArgs(envVars, context)
         val (body) = step.buildBody(envVars, context)
-        val (value) = callProvider.call(uri, args, body)
+        val (value) = httpCallProvider.call(uri, args, body)
             .mapFailure { failure -> HttpCallStepExecutionErrors.Call(failure) }
         context.update(value, step.result, merger)
     }
 }
 
 private fun HttpCallStep.buildArgs(envVars: EnvVars, context: Context) =
-    args.build(envVars, context) { name, value -> CallProvider.Arg(name, value) }
+    args.build(envVars, context) { name, value -> HttpCallProvider.Arg(name, value) }
         .mapFailure { failure -> HttpCallStepExecutionErrors.ArgBuild(failure) }
 
 private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
         ?.map2(
-            onSuccess = { value -> CallProvider.Body(value) },
+            onSuccess = { value -> HttpCallProvider.Body(value) },
             onFailure = { failure -> HttpCallStepExecutionErrors.BodyBuild(failure) }
         )
         ?: ResultK.Success.asNull
@@ -67,7 +67,7 @@ internal sealed interface HttpCallStepExecutionErrors : BasicRulesEngineError {
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class Call(cause: CallProvider.Error) : HttpCallStepExecutionErrors {
+    class Call(cause: HttpCallProvider.Error) : HttpCallStepExecutionErrors {
         override val code: String = PREFIX + "3"
         override val description: String = "Error HTTP calling the 'HTTP Call' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

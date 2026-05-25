@@ -31,7 +31,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
             "test1" {
                 val executor = RulesEngineExecutor(
-                    callProvider = { _, _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    httpCallProvider = { _, _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     messagePublisher = { _, _, _ -> Maybe.none() },
                     dataChangeTrackerProvider = { _, _ -> Maybe.none() },
@@ -68,7 +68,7 @@ internal class RulesEngineExecutorTest : UnitTest() {
 
             "test2" {
                 val executor = RulesEngineExecutor(
-                    callProvider = { _, _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
+                    httpCallProvider = { _, _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     dataProvider = { _, _ -> DATA_RETRIEVE_RESULT.asSuccess() },
                     messagePublisher = { _, _, _ -> Maybe.none() },
                     dataChangeTrackerProvider = { _, _ -> Maybe.none() },

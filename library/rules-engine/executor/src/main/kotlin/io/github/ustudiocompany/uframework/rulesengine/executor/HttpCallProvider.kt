@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
 
-public fun interface CallProvider {
+public fun interface HttpCallProvider {
 
     public fun call(uri: Uri, args: List<Arg>, body: Body?): ResultK<JsonElement, Error>
 

@@ -32,7 +32,7 @@ public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RuleExecut
 
 @Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
-    private val callProvider: CallProvider,
+    private val httpCallProvider: HttpCallProvider,
     private val dataProvider: DataProvider,
     private val messagePublisher: MessagePublisher,
     private val dataChangeTrackerProvider: DataChangeTrackerProvider,
@@ -117,7 +117,7 @@ public class RulesEngineExecutor(
             .toResultAsFailureOr(ResultK.Success.asNull)
 
     private fun HttpCallStep.tryExecute(envVars: EnvVars, context: Context) =
-        execute(envVars, context, callProvider, merger)
+        execute(envVars, context, httpCallProvider, merger)
             .map { failure -> StepExecutionErrors.HttpCall(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 

@@ -13,7 +13,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
-import io.github.ustudiocompany.uframework.rulesengine.executor.CallProvider
+import io.github.ustudiocompany.uframework.rulesengine.executor.HttpCallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.nulls.shouldBeNull
@@ -36,7 +36,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
-                        callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, origin, _ -> origin.asSuccess() }
                     )
 
@@ -57,7 +57,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
-                        callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, origin, _ -> origin.asSuccess() }
                     )
 
@@ -78,7 +78,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
-                        callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, origin, _ -> origin.asSuccess() }
                     )
 
@@ -102,7 +102,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
@@ -117,7 +117,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
@@ -132,7 +132,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            callProvider = { _, _, _ -> CallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
@@ -147,7 +147,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
-                        callProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
                         merger = { _, _, _ -> Merger.Error().asFailure() }
                     )
 
