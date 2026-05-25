@@ -9,23 +9,23 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateOperationErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.operation.OperationCalculationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 
 internal fun ValidationStep.execute(
     envVars: EnvVars,
     context: Context
-): ResultK<ValidationStep.ErrorCode?, ValidationStepExecuteError> =
+): ResultK<ValidationStep.ErrorCode?, ValidationStepExecutingError> =
     calculate(envVars, context)
-        .mapFailure { failure -> ValidationStepExecuteError.CalculateOperation(failure) }
+        .mapFailure { failure -> ValidationStepExecutingError.OperationCalculation(failure) }
         .flatMapBoolean(
             ifTrue = { Success.asNull },
             ifFalse = { errorCode.asSuccess() }
         )
 
-internal sealed interface ValidationStepExecuteError : BasicRulesEngineError {
+internal sealed interface ValidationStepExecutingError : BasicRulesEngineError {
 
-    class CalculateOperation(cause: CalculateOperationErrors) : ValidationStepExecuteError {
+    class OperationCalculation(cause: OperationCalculationErrors) : ValidationStepExecutingError {
         override val code: String = PREFIX + "1"
         override val description: String = "An error occurred while performing the validation operation."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

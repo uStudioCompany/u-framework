@@ -14,29 +14,29 @@ internal fun DataChangeTrackingStep.execute(
     envVars: EnvVars,
     context: Context,
     dataChangeTrackerProvider: DataChangeTrackerProvider,
-): Maybe<DataChangeTrackingStepExecuteErrors> {
+): Maybe<DataChangeTrackingStepExecutionErrors> {
     val step = this
     return maybeFailure {
         val (args) = step.buildArgs(envVars, context)
         val uri = DataChangeTrackerProvider.Uiss.from(step.uri.get)
         dataChangeTrackerProvider.prepare(uri, args)
-            .map { failure -> DataChangeTrackingStepExecuteErrors.Preparing(failure) }
+            .map { failure -> DataChangeTrackingStepExecutionErrors.Preparing(failure) }
     }
 }
 
 private fun DataChangeTrackingStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataChangeTrackerProvider.Arg(name, value) }
-        .mapFailure { failure -> DataChangeTrackingStepExecuteErrors.ArgsBuilding(failure) }
+        .mapFailure { failure -> DataChangeTrackingStepExecutionErrors.ArgBuild(failure) }
 
-internal sealed interface DataChangeTrackingStepExecuteErrors : BasicRulesEngineError {
+internal sealed interface DataChangeTrackingStepExecutionErrors : BasicRulesEngineError {
 
-    class ArgsBuilding(cause: ArgsBuilderErrors) : DataChangeTrackingStepExecuteErrors {
+    class ArgBuild(cause: ArgBuildErrors) : DataChangeTrackingStepExecutionErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error building args for data provider of 'Data Change Tracking' step."
+        override val description: String = "Error building args in the 'Data Change Tracking' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class Preparing(cause: DataChangeTrackerProvider.Error) : DataChangeTrackingStepExecuteErrors {
+    class Preparing(cause: DataChangeTrackerProvider.Error) : DataChangeTrackingStepExecutionErrors {
         override val code: String = PREFIX + "2"
         override val description: String = "Error preparing to track data changes."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

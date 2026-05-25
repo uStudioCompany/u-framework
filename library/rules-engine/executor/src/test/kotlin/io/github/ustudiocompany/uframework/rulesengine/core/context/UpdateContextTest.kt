@@ -52,7 +52,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<UpdateContextErrors.AddingData>()
+                            .shouldBeInstanceOf<ContextUpdateErrors.DataAddition>()
                     }
                 }
             }
@@ -68,7 +68,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<UpdateContextErrors.ReplacingData>()
+                            .shouldBeInstanceOf<ContextUpdateErrors.DataReplacement>()
                     }
                 }
 
@@ -104,7 +104,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<UpdateContextErrors.MergingData>()
+                            .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
                     }
                 }
 
@@ -140,7 +140,7 @@ internal class UpdateContextTest : UnitTest() {
 
                         "then call the function should be failed" {
                             result.shouldContainSomeInstance()
-                                .shouldBeInstanceOf<UpdateContextErrors.MergingData>()
+                                .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
                         }
                     }
                 }
@@ -153,7 +153,7 @@ internal class UpdateContextTest : UnitTest() {
         private const val ORIGIN_VALUE = "value-1"
         private const val NEW_VALUE = "value-2"
         private val MERGE_STRATEGY_CODE = StepResult.Action.Merge.StrategyCode("merge-strategy-code")
-        private val MERGER = { c: StepResult.Action.Merge.StrategyCode, o: JsonElement, n: JsonElement ->
+        private val MERGER = { _: StepResult.Action.Merge.StrategyCode, o: JsonElement, n: JsonElement ->
             JsonElement.Text((o as JsonElement.Text).get + (n as JsonElement.Text).get)
                 .asSuccess()
         }

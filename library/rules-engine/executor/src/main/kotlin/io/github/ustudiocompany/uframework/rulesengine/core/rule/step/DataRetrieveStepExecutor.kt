@@ -8,7 +8,7 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextUpdateErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
@@ -19,42 +19,42 @@ internal fun DataRetrieveStep.execute(
     context: Context,
     dataProvider: DataProvider,
     merger: Merger
-): Maybe<DataRetrieveStepExecuteErrors> {
+): Maybe<DataRetrieveStepExecutionErrors> {
     val step = this
     return maybeFailure {
         val (args) = step.buildArgs(envVars, context)
         val uri = DataProvider.Uri.from(step.uri.get)
         val (value) = dataProvider.get(uri, args)
-            .mapFailure { failure -> DataRetrieveStepExecuteErrors.RetrievingExternalData(failure) }
+            .mapFailure { failure -> DataRetrieveStepExecutionErrors.ExternalDataRetrieval(failure) }
         context.update(value, step.result, merger)
     }
 }
 
 private fun DataRetrieveStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataProvider.Arg(name, value) }
-        .mapFailure { failure -> DataRetrieveStepExecuteErrors.ArgsBuilding(failure) }
+        .mapFailure { failure -> DataRetrieveStepExecutionErrors.ArgBuild(failure) }
 
 private fun Context.update(value: JsonElement, result: StepResult, merger: Merger) =
     update(result.source, result.action, value, merger)
-        .map { failure -> DataRetrieveStepExecuteErrors.UpdatingContext(failure) }
+        .map { failure -> DataRetrieveStepExecutionErrors.ContextUpdate(failure) }
 
-internal sealed interface DataRetrieveStepExecuteErrors : BasicRulesEngineError {
+internal sealed interface DataRetrieveStepExecutionErrors : BasicRulesEngineError {
 
-    class ArgsBuilding(cause: ArgsBuilderErrors) : DataRetrieveStepExecuteErrors {
+    class ArgBuild(cause: ArgBuildErrors) : DataRetrieveStepExecutionErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error building args for data provider of 'Data Retrieve' step."
+        override val description: String = "Error building args in the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class RetrievingExternalData(cause: DataProvider.Error) : DataRetrieveStepExecuteErrors {
+    class ExternalDataRetrieval(cause: DataProvider.Error) : DataRetrieveStepExecutionErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "Error retrieving external data of 'Data Retrieve' step."
+        override val description: String = "Error retrieving external data in the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class UpdatingContext(cause: UpdateContextErrors) : DataRetrieveStepExecuteErrors {
+    class ContextUpdate(cause: ContextUpdateErrors) : DataRetrieveStepExecutionErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error updating context of 'Data Retrieve' step."
+        override val description: String = "Error updating context in the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

@@ -25,7 +25,7 @@ internal class ReplaceDataInContextTest : UnitTest() {
 
                 "then function should return an error" {
                     result.shouldContainSomeInstance()
-                        .shouldBeInstanceOf<ReplaceDataInContextErrors.SourceMissing>()
+                        .shouldBeInstanceOf<ContextDataReplacementErrors.SourceMissing>()
                 }
             }
 
@@ -61,7 +61,7 @@ internal class ReplaceDataInContextTest : UnitTest() {
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ReplaceDataInContextErrors.SourceMissing>()
+                            .shouldBeInstanceOf<ContextDataReplacementErrors.SourceMissing>()
                     }
 
                     "then the context should not contain the source" {

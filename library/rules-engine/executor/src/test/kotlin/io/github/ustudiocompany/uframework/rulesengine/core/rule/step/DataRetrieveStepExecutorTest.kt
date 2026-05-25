@@ -94,7 +94,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.RetrievingExternalData>()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ExternalDataRetrieval>()
                     }
                 }
 
@@ -129,7 +129,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
                     "then the executor should return an error result" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<DataRetrieveStepExecuteErrors.UpdatingContext>()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ContextUpdate>()
                     }
                 }
             }

@@ -22,7 +22,7 @@ internal class GetDataFromContextTest : UnitTest() {
                 "then function should return an error" {
                     val result = context[SOURCE]
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<GetDataFromContextErrors.SourceMissing>()
+                        .shouldBeInstanceOf<ContextDataRetrievalErrors.SourceMissing>()
                 }
             }
 
@@ -35,7 +35,7 @@ internal class GetDataFromContextTest : UnitTest() {
                     "then function should return an error" {
                         val result = context[UNKNOWN_SOURCE]
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<GetDataFromContextErrors.SourceMissing>()
+                            .shouldBeInstanceOf<ContextDataRetrievalErrors.SourceMissing>()
                     }
                 }
 

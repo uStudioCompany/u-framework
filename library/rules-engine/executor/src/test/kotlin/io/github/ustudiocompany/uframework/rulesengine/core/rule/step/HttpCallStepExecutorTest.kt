@@ -106,7 +106,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecuteErrors.ArgsBuilding>()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.ArgBuild>()
                     }
                 }
 
@@ -121,7 +121,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecuteErrors.BodyBuilding>()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.BodyBuild>()
                     }
                 }
 
@@ -136,7 +136,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecuteErrors.Call>()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.Call>()
                     }
                 }
 
@@ -153,7 +153,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                     "then the executor should return an error result" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecuteErrors.UpdatingContext>()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.ContextUpdate>()
                     }
                 }
             }

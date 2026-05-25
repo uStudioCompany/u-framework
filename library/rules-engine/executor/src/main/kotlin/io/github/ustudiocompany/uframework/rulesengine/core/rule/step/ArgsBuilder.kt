@@ -8,14 +8,14 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 
 internal fun <T> Args.build(
     envVars: EnvVars,
     context: Context,
     builder: (name: String, value: String) -> T
-): ResultK<List<T>, ArgsBuilderErrors> =
+): ResultK<List<T>, ArgBuildErrors> =
     result {
         val args = this@build
         mutableListOf<T>()
@@ -23,7 +23,7 @@ internal fun <T> Args.build(
                 args.get.forEach { arg ->
                     val (value) = arg.value.compute(envVars, context)
                         .mapFailure { failure ->
-                            ArgsBuilderErrors.ValueBuilding(arg = arg, cause = failure)
+                            ArgBuildErrors.ValueComputation(arg = arg, cause = failure)
                         }
                     val argValue = value.toStringValue()
                     add(builder(arg.name, argValue))
@@ -31,15 +31,15 @@ internal fun <T> Args.build(
             }
     }
 
-internal sealed interface ArgsBuilderErrors : BasicRulesEngineError {
+internal sealed interface ArgBuildErrors : BasicRulesEngineError {
 
-    class ValueBuilding(arg: Arg, cause: ValueComputeErrors) : ArgsBuilderErrors {
+    class ValueComputation(arg: Arg, cause: ValueComputationErrors) : ArgBuildErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error building arg '${arg.name}'."
+        override val description: String = "Error in computation the argument value '${arg.name}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {
-        private const val PREFIX = "ARGS-BUILDER-"
+        private const val PREFIX = "ARG-BUILD-"
     }
 }

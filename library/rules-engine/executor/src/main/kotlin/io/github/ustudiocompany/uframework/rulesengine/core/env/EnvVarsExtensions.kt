@@ -9,15 +9,15 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 
 internal operator fun EnvVars.get(
     envVarName: EnvVarName
-): ResultK<JsonElement, GetValueFromEnvVarsErrors.EnvVarMissing> {
+): ResultK<JsonElement, EnvVarReadingErrors.EnvVarMissing> {
     val value = this.getOrNull(envVarName)
     return value?.asSuccess()
-        ?: GetValueFromEnvVarsErrors.EnvVarMissing(envVarName).asFailure()
+        ?: EnvVarReadingErrors.EnvVarMissing(envVarName).asFailure()
 }
 
-internal sealed interface GetValueFromEnvVarsErrors : BasicRulesEngineError {
+internal sealed interface EnvVarReadingErrors : BasicRulesEngineError {
 
-    class EnvVarMissing(envVarName: EnvVarName) : GetValueFromEnvVarsErrors {
+    class EnvVarMissing(envVarName: EnvVarName) : EnvVarReadingErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "The variable '${envVarName.get}' is not found in environment variables."
         override val details: Failure.Details = Failure.Details.of(

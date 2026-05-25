@@ -29,7 +29,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                     )
                     val result = value.compute(envVars, context)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<ValueComputeErrors.GettingDataFromContext>()
+                        .shouldBeInstanceOf<ValueComputationErrors.ContextDataRetrieval>()
                 }
             }
 
@@ -46,7 +46,7 @@ internal class ComputeReferenceValueTest : UnitTest() {
                         )
                         val result = value.compute(envVars, context)
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<ValueComputeErrors.DataByPathIsNotFound>()
+                            .shouldBeInstanceOf<ValueComputationErrors.DataNotFoundAtPath>()
                     }
                 }
 

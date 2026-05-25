@@ -24,7 +24,7 @@ internal class ComputeEnvVarValueTest : UnitTest() {
                     val value = Value.EnvVars(name = ENV_VAR_NAME)
                     val result = value.compute(envVars, CONTEXT)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<ValueComputeErrors.GettingValueFromEnvVars>()
+                        .shouldBeInstanceOf<ValueComputationErrors.EnvVarReading>()
                 }
             }
 

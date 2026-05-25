@@ -31,7 +31,7 @@ internal class ComputeNullableReferenceValueTest : UnitTest() {
                     )
                     val result = value.computeOrNull(envVars, context)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<OptionalValueComputeErrors.GettingDataFromContext>()
+                        .shouldBeInstanceOf<OptionalValueComputationErrors.ContextDataRetrieval>()
                 }
             }
 

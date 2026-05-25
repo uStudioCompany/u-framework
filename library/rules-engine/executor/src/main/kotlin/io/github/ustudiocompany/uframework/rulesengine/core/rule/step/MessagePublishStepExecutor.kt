@@ -11,7 +11,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 import io.github.ustudiocompany.uframework.rulesengine.executor.MessagePublisher
 
@@ -19,14 +19,14 @@ internal fun MessagePublishStep.execute(
     envVars: EnvVars,
     context: Context,
     messagePublisher: MessagePublisher
-): Maybe<MessagePublishStepExecuteErrors> {
+): Maybe<MessagePublishStepExecutionErrors> {
     val step = this
     return maybeFailure {
         val (routeKey) = step.buildRouteKey(envVars, context)
         val (headers) = step.buildHeaders(envVars, context)
         val (body) = step.buildBody(envVars, context)
         messagePublisher.publish(routeKey, headers, body)
-            .map { failure -> MessagePublishStepExecuteErrors.Publish(failure) }
+            .map { failure -> MessagePublishStepExecutionErrors.Publish(failure) }
     }
 }
 
@@ -34,45 +34,45 @@ private fun MessagePublishStep.buildRouteKey(envVars: EnvVars, context: Context)
     routeKey?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> value.toStringValue() },
-            onFailure = { failure -> MessagePublishStepExecuteErrors.RouteKeyBuilding(failure) }
+            onFailure = { failure -> MessagePublishStepExecutionErrors.RouteKeyBuild(failure) }
         )
         ?: ResultK.Success.asNull
 
 private fun MessagePublishStep.buildHeaders(envVars: EnvVars, context: Context) =
     headers.build(envVars, context) { name, value -> MessagePublisher.Header(name, value) }
-        .mapFailure { failure -> MessagePublishStepExecuteErrors.HeadersBuilding(cause = failure) }
+        .mapFailure { failure -> MessagePublishStepExecutionErrors.HeadersBuild(cause = failure) }
 
 private fun MessagePublishStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> value.toStringValue() },
-            onFailure = { failure -> MessagePublishStepExecuteErrors.BodyBuilding(failure) }
+            onFailure = { failure -> MessagePublishStepExecutionErrors.BodyBuild(failure) }
         )
         ?: ResultK.Success.asNull
 
-internal sealed interface MessagePublishStepExecuteErrors : BasicRulesEngineError {
+internal sealed interface MessagePublishStepExecutionErrors : BasicRulesEngineError {
 
-    class RouteKeyBuilding(cause: ValueComputeErrors) : MessagePublishStepExecuteErrors {
+    class RouteKeyBuild(cause: ValueComputationErrors) : MessagePublishStepExecutionErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error building the route key for the message of 'Message Publish' step."
+        override val description: String = "Error building the route key for the message in the 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class HeadersBuilding(cause: ArgsBuilderErrors) : MessagePublishStepExecuteErrors {
+    class HeadersBuild(cause: ArgBuildErrors) : MessagePublishStepExecutionErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "Error building headers for the message of 'Message Publish' step."
+        override val description: String = "Error building headers for the message in the 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class BodyBuilding(cause: ValueComputeErrors) : MessagePublishStepExecuteErrors {
+    class BodyBuild(cause: ValueComputationErrors) : MessagePublishStepExecutionErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error building the body for the message of 'Message Publish' step."
+        override val description: String = "Error building the body for the message in the 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class Publish(cause: MessagePublisher.Error) : MessagePublishStepExecuteErrors {
+    class Publish(cause: MessagePublisher.Error) : MessagePublishStepExecutionErrors {
         override val code: String = PREFIX + "4"
-        override val description: String = "Error publishing message of 'Message Publish' step."
+        override val description: String = "Error publishing message in the 'Message Publish' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
