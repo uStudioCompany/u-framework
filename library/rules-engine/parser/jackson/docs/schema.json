@@ -15,7 +15,10 @@
               "anyOf": [
                 {"$ref": "#/$defs/DataRetrieveStep"},
                 {"$ref": "#/$defs/ValidationStep"},
-                {"$ref": "#/$defs/DataBuildStep"}
+                {"$ref": "#/$defs/DataBuildStep"},
+                {"$ref": "#/$defs/DataChangeTrackingStep"},
+                {"$ref": "#/$defs/MessagePublishStep"},
+                {"$ref": "#/$defs/HttpCallStep"}
               ]
             }
           }
@@ -72,6 +75,13 @@
             }
           },
           "required": ["kind", "name"]
+        },
+        {
+          "properties": {
+            "kind": {"enum": ["dataStruct"]},
+            "scheme": {"$ref": "#/$defs/DataSchemaElement"}
+          },
+          "required": ["kind", "scheme"]
         }
       ]
     },
@@ -178,6 +188,28 @@
       },
       "required": ["type", "uri", "result"]
     },
+    "HttpCallStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["dataRetrieve"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "uri": {"type": "string"},
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "value": {"$ref": "#/$defs/Value"}
+            },
+            "required": ["name", "value"]
+          }
+        },
+        "body": {"$ref": "#/$defs/Value"},
+        "result": {"$ref": "#/$defs/Result"}
+      },
+      "required": ["type", "uri", "result"]
+    },
     "ValidationStep": {
       "type": "object",
       "properties": {
@@ -192,6 +224,46 @@
         }
       },
       "required": ["type", "target", "operator", "errorCode"]
+    },
+    "DataChangeTrackingStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["dataChangeTracking"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "uiss": {"type": "string"},
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "value": {"$ref": "#/$defs/Value"}
+            },
+            "required": ["name", "value"]
+          }
+        }
+      },
+      "required": ["type", "uiss"]
+    },
+    "MessagePublishStep": {
+      "type": "object",
+      "properties": {
+        "type": {"enum": ["messagePublish"]},
+        "condition": {"$ref": "#/$defs/Condition"},
+        "routeKey": {"$ref": "#/$defs/Value"},
+        "headers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "value": {"$ref": "#/$defs/Value"}
+            },
+            "required": ["name", "value"]
+          }
+        },
+        "body": {"$ref": "#/$defs/Value"}
+      }
     },
     "DataBuildStep": {
       "type": "object",

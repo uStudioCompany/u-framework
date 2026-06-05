@@ -8,14 +8,14 @@ import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineErro
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.data.toStringValue
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputeErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.compute
 
 internal fun <T> MessageHeaders.build(
     envVars: EnvVars,
     context: Context,
     builder: (name: String, value: String) -> T
-): ResultK<List<T>, ArgsBuilderErrors> =
+): ResultK<List<T>, ArgBuildErrors> =
     result {
         val headers = this@build
         mutableListOf<T>()
@@ -23,7 +23,7 @@ internal fun <T> MessageHeaders.build(
                 headers.get.forEach { header ->
                     val (value) = header.value.compute(envVars, context)
                         .mapFailure { failure ->
-                            HeadersBuilderErrors.MessageHeaderValueBuilding(header = header, cause = failure)
+                            MessageHeaderBuildErrors.MessageHeaderValueBuild(header = header, cause = failure)
                         }
                     val headerValue = value.toStringValue()
                     add(builder(header.name, headerValue))
@@ -31,15 +31,15 @@ internal fun <T> MessageHeaders.build(
             }
     }
 
-internal sealed interface HeadersBuilderErrors : BasicRulesEngineError {
+internal sealed interface MessageHeaderBuildErrors : BasicRulesEngineError {
 
-    class MessageHeaderValueBuilding(header: MessageHeader, cause: ValueComputeErrors) : ArgsBuilderErrors {
+    class MessageHeaderValueBuild(header: MessageHeader, cause: ValueComputationErrors) : ArgBuildErrors {
         override val code: String = PREFIX + "1"
         override val description: String = "Error building the header '${header.name}'."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {
-        private const val PREFIX = "MESSAGE_HEADERS-BUILDER-"
+        private const val PREFIX = "MESSAGE-HEADER-BUILD-"
     }
 }

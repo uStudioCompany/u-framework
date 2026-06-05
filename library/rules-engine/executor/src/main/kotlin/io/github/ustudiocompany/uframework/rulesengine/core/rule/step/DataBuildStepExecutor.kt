@@ -5,54 +5,47 @@ import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
+import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.UpdateContextErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextUpdateErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.CheckingConditionSatisfactionErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
-internal fun DataBuildStep.executeIfSatisfied(
+internal fun DataBuildStep.execute(
     envVars: EnvVars,
     context: Context,
     merger: Merger
-): Maybe<DataBuildStepExecuteError> {
+): Maybe<DataBuildStepExecutionErrors> {
     val step = this
     return maybeFailure {
-        val (isSatisfied) = condition.isSatisfied(envVars, context)
-            .mapFailure { failure -> DataBuildStepExecuteError.CheckingConditionSatisfaction(failure) }
-
-        if (isSatisfied) {
-            val (value) = dataSchema.build(envVars, context)
-                .mapFailure { failure -> DataBuildStepExecuteError.DataBuilding(failure) }
-            val source = step.result.source
-            val action = step.result.action
-            context.update(source, action, value, merger)
-                .map { failure -> DataBuildStepExecuteError.UpdatingContext(failure) }
-        } else
-            Maybe.none()
+        val (value) = step.buildData(envVars, context)
+        context.update(value, step.result, merger)
     }
 }
 
-internal sealed interface DataBuildStepExecuteError : BasicRulesEngineError {
+private fun DataBuildStep.buildData(envVars: EnvVars, context: Context) =
+    dataSchema.build(envVars, context)
+        .mapFailure { failure -> DataBuildStepExecutionErrors.DataBuild(failure) }
 
-    class CheckingConditionSatisfaction(cause: CheckingConditionSatisfactionErrors) : DataBuildStepExecuteError {
+private fun Context.update(value: JsonElement, result: StepResult?, merger: Merger) =
+    result?.let { result ->
+        update(result.source, result.action, value, merger)
+            .map { failure -> DataBuildStepExecutionErrors.ContextUpdate(failure) }
+    } ?: Maybe.none()
+
+internal sealed interface DataBuildStepExecutionErrors : BasicRulesEngineError {
+
+    class DataBuild(cause: DataBuildErrors) : DataBuildStepExecutionErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "Error check condition satisfaction of 'Data Build' step."
+        override val description: String = "Error building data in the 'Data Build' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class DataBuilding(cause: DataBuildErrors) : DataBuildStepExecuteError {
+    class ContextUpdate(cause: ContextUpdateErrors) : DataBuildStepExecutionErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "Error building data of 'Data Build' step."
-        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
-    }
-
-    class UpdatingContext(cause: UpdateContextErrors) : DataBuildStepExecuteError {
-        override val code: String = PREFIX + "3"
-        override val description: String = "Error updating context of 'Data Build' step."
+        override val description: String = "Error updating context in the 'Data Build' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

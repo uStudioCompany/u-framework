@@ -47,7 +47,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 "then the function should return an error" {
                     val result = operation.calculate(ENV_VARS, CONTEXT)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<CalculateOperationErrors.ComputingTarget>()
+                        .shouldBeInstanceOf<OperationCalculationErrors.TargetComputation>()
                 }
             }
 
@@ -61,7 +61,7 @@ internal class OperationCalculatorTest : UnitTest() {
                 "then the function should return an error" {
                     val result = operation.calculate(ENV_VARS, CONTEXT)
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<CalculateOperationErrors.ComputingValue>()
+                        .shouldBeInstanceOf<OperationCalculationErrors.ValueComputation>()
                 }
             }
         }

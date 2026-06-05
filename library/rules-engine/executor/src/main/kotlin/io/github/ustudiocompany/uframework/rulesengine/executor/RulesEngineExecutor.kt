@@ -14,19 +14,25 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.env.append
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rule
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Rules
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.isSatisfied
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.HttpCallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Step
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.Steps
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.ValidationStep
-import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.executeIfSatisfied
-import io.github.ustudiocompany.uframework.rulesengine.executor.error.RulesEngineExecutorError
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.execute
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.RuleExecutionErrors
+import io.github.ustudiocompany.uframework.rulesengine.executor.error.StepExecutionErrors
+import io.github.ustudiocompany.uframework.rulesengine.executor.rule.isApplicable
+import io.github.ustudiocompany.uframework.rulesengine.executor.rule.step.isApplicable
 
-public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RulesEngineExecutorError>
+public typealias ExecutionResult = ResultK<ValidationStep.ErrorCode?, RuleExecutionErrors>
 
+@Suppress("TooManyFunctions")
 public class RulesEngineExecutor(
+    private val httpCallProvider: HttpCallProvider,
     private val dataProvider: DataProvider,
     private val messagePublisher: MessagePublisher,
     private val dataChangeTrackerProvider: DataChangeTrackerProvider,
@@ -36,63 +42,83 @@ public class RulesEngineExecutor(
     public fun execute(envVars: EnvVars, context: Context, rules: Rules): ExecutionResult =
         rules.execute(envVars, context)
 
-    private fun Rules.execute(envVars: EnvVars, context: Context): ExecutionResult {
-        for (rule in this.get) {
-            val vars = envVars.append(RULE_ID to JsonElement.Text(rule.id.get))
-            val result = rule.executeIfSatisfied(vars, context)
+    private fun Rules.execute(
+        envVars: EnvVars,
+        context: Context
+    ): ResultK<ValidationStep.ErrorCode?, RuleExecutionErrors> {
+        for (rule in get) {
+            val result = rule.executeIfApplicable(envVars, context)
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
 
-    private fun Rule.executeIfSatisfied(envVars: EnvVars, context: Context): ExecutionResult =
-        condition.isSatisfied(envVars, context)
-            .mapFailure { failure ->
-                RulesEngineExecutorError.CheckingConditionSatisfactionRule(failure)
-            }
+    private fun Rule.executeIfApplicable(envVars: EnvVars, context: Context): ExecutionResult =
+        isApplicable(envVars, context)
             .flatMapBoolean(
-                ifTrue = { this.steps.execute(envVars, context) },
+                ifTrue = {
+                    val vars = envVars.append(RULE_ID to JsonElement.Text(id.get))
+                    steps.execute(vars, context)
+                        .mapFailure { failure -> RuleExecutionErrors.Execution(ruleId = id, cause = failure) }
+                },
                 ifFalse = { Success.asNull }
             )
 
-    private fun Steps.execute(envVars: EnvVars, context: Context): ExecutionResult {
+    private fun Steps.execute(
+        envVars: EnvVars,
+        context: Context
+    ): ResultK<ValidationStep.ErrorCode?, StepExecutionErrors> {
         for (step in get) {
-            val vars = envVars.append(STEP_ID to JsonElement.Text(step.id.get))
-            val result = when (step) {
-                is DataRetrieveStep -> step.execute(vars, context)
-                is DataBuildStep -> step.execute(vars, context)
-                is ValidationStep -> step.execute(vars, context)
-                is MessagePublishStep -> step.execute(vars, context)
-                is DataChangeTrackingStep -> step.execute(vars, context)
-            }
-
+            val result = step.executeIfApplicable(envVars, context)
             if (result.isFailure() || result.value != null) return result
         }
         return Success.asNull
     }
 
-    private fun DataRetrieveStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context, dataProvider, merger)
-            .map { failure -> RulesEngineExecutorError.DataRetrievingStepExecute(failure) }
+    private fun Step.executeIfApplicable(envVars: EnvVars, context: Context) =
+        isApplicable(envVars, context)
+            .flatMapBoolean(
+                ifTrue = {
+                    val vars = envVars.append(STEP_ID to JsonElement.Text(id.get))
+                    when (this) {
+                        is DataRetrieveStep -> tryExecute(vars, context)
+                        is DataBuildStep -> tryExecute(vars, context)
+                        is ValidationStep -> tryExecute(vars, context)
+                        is MessagePublishStep -> tryExecute(vars, context)
+                        is DataChangeTrackingStep -> tryExecute(vars, context)
+                        is HttpCallStep -> tryExecute(vars, context)
+                    }
+                },
+                ifFalse = { Success.asNull }
+            )
+
+    private fun DataRetrieveStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, dataProvider, merger)
+            .map { failure -> StepExecutionErrors.DataRetrieve(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun DataBuildStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context, merger)
-            .map { failure -> RulesEngineExecutorError.DataBuildStepExecute(failure) }
+    private fun DataBuildStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, merger)
+            .map { failure -> StepExecutionErrors.DataBuild(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun ValidationStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context)
-            .mapFailure { failure -> RulesEngineExecutorError.ValidationStepExecute(failure) }
+    private fun ValidationStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context)
+            .mapFailure { failure -> StepExecutionErrors.Validation(stepId = id, cause = failure) }
 
-    private fun MessagePublishStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context, messagePublisher)
-            .map { failure -> RulesEngineExecutorError.MessagePublishStepExecute(failure) }
+    private fun MessagePublishStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, messagePublisher)
+            .map { failure -> StepExecutionErrors.MessagePublish(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
-    private fun DataChangeTrackingStep.execute(envVars: EnvVars, context: Context): ExecutionResult =
-        executeIfSatisfied(envVars, context, dataChangeTrackerProvider)
-            .map { failure -> RulesEngineExecutorError.DataChangeTrackingStepExecute(failure) }
+    private fun DataChangeTrackingStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, dataChangeTrackerProvider)
+            .map { failure -> StepExecutionErrors.DataChangeTracking(stepId = id, cause = failure) }
+            .toResultAsFailureOr(ResultK.Success.asNull)
+
+    private fun HttpCallStep.tryExecute(envVars: EnvVars, context: Context) =
+        execute(envVars, context, httpCallProvider, merger)
+            .map { failure -> StepExecutionErrors.HttpCall(stepId = id, cause = failure) }
             .toResultAsFailureOr(ResultK.Success.asNull)
 
     private companion object {

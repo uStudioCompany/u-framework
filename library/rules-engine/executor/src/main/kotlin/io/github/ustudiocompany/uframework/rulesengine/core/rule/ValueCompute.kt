@@ -10,90 +10,93 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.GetDataFromContextErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextDataRetrievalErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.get
-import io.github.ustudiocompany.uframework.rulesengine.core.data.DataSearchError
+import io.github.ustudiocompany.uframework.rulesengine.core.data.PathLookupError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarReadingErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.env.GetValueFromEnvVarsErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.env.get
 import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.build
 
-internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElement, ValueComputeErrors> =
+internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElement, ValueComputationErrors> =
     when (this) {
         is Value.Literal -> fact.asSuccess()
 
         is Value.Reference -> context[source]
-            .mapFailure { failure ->
-                ValueComputeErrors.GettingDataFromContext(source = source, cause = failure)
-            }
+            .mapFailure { failure -> ValueComputationErrors.ContextDataRetrieval(source = source, cause = failure) }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { failure ->
-                        ValueComputeErrors.SearchingDataByPath(path = path, cause = failure)
-                    }
-                    .filterNotNull { ValueComputeErrors.DataByPathIsNotFound(source = source, path = path) }
+                    .mapFailure { failure -> ValueComputationErrors.PathLookup(path = path, cause = failure) }
+                    .filterNotNull { ValueComputationErrors.DataNotFoundAtPath(source = source, path = path) }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
-            .mapFailure { failure ->
-                ValueComputeErrors.EvaluatingFeelExpression(cause = failure)
-            }
+            .mapFailure { failure -> ValueComputationErrors.FeelExpressionEvaluate(cause = failure) }
 
         is Value.EnvVars -> envVars[name]
-            .mapFailure { failure ->
-                ValueComputeErrors.GettingValueFromEnvVars(name = name, cause = failure)
-            }
+            .mapFailure { failure -> ValueComputationErrors.EnvVarReading(name = name, cause = failure) }
+
+        is Value.DataStruct -> this.scheme.build(envVars, context)
+            .mapFailure { failure -> ValueComputationErrors.DataStructBuild(cause = failure) }
     }
 
-internal sealed interface ValueComputeErrors : BasicRulesEngineError {
+internal sealed interface ValueComputationErrors : BasicRulesEngineError {
 
-    class GettingDataFromContext(source: Source, cause: GetDataFromContextErrors) : ValueComputeErrors {
+    class ContextDataRetrieval(source: Source, cause: ContextDataRetrievalErrors) : ValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
-            "Error getting data from context by source '${source.get}' for computing value."
+            "Error retrieving a data from context by source '${source.get}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
     }
 
-    class GettingValueFromEnvVars(
+    class EnvVarReading(
         name: EnvVarName,
-        cause: GetValueFromEnvVarsErrors.EnvVarMissing
-    ) : ValueComputeErrors {
+        cause: EnvVarReadingErrors.EnvVarMissing
+    ) : ValueComputationErrors {
         override val code: String = PREFIX + "2"
         override val description: String =
-            "Error getting value from environment variables by name '${name.get}' for computing value."
+            "Error reading a value from environment variables by name '${name.get}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_ENV_VAR to name.get
         )
     }
 
-    class SearchingDataByPath(path: Path, cause: DataSearchError) : ValueComputeErrors {
+    class PathLookup(path: Path, cause: PathLookupError) : ValueComputationErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error searching data by path '${path.text}' for computing value."
+        override val description: String =
+            "Error searching within data at the specified path '${path.text}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_PATH to path.text
         )
     }
 
-    class DataByPathIsNotFound(source: Source, path: Path) : ValueComputeErrors {
+    class DataNotFoundAtPath(source: Source, path: Path) : ValueComputationErrors {
         override val code: String = PREFIX + "4"
-        override val description: String =
-            "Error computing value, data in source '${source.get}' and path '${path.text}' is missing."
+        override val description: String = "Data in source '${source.get}' by path '${path.text}' is missing."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get,
             DETAILS_KEY_PATH to path.text
         )
     }
 
-    class EvaluatingFeelExpression(cause: FeelExpression.EvaluateError) : ValueComputeErrors {
+    class FeelExpressionEvaluate(cause: FeelExpression.EvaluateError) : ValueComputationErrors {
         override val code: String = PREFIX + "5"
         override val description: String = "Error evaluating a FEEL expression for computing value."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    class DataStructBuild(cause: DataBuildErrors) : ValueComputationErrors {
+        override val code: String = PREFIX + "6"
+        override val description: String = "Error building a data struct for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -108,72 +111,79 @@ internal sealed interface ValueComputeErrors : BasicRulesEngineError {
 internal fun Value.computeOrNull(
     envVars: EnvVars,
     context: Context
-): ResultK<JsonElement?, OptionalValueComputeErrors> =
+): ResultK<JsonElement?, OptionalValueComputationErrors> =
     when (this) {
         is Value.Literal -> fact.asSuccess()
 
         is Value.Reference -> context[source]
             .mapFailure { failure ->
-                OptionalValueComputeErrors.GettingDataFromContext(source = source, cause = failure)
+                OptionalValueComputationErrors.ContextDataRetrieval(source = source, cause = failure)
             }
             .andThen { element ->
                 element.search(path)
                     .mapFailure { failure ->
-                        OptionalValueComputeErrors.SearchingDataByPath(path = path, cause = failure)
+                        OptionalValueComputationErrors.PathSearch(path = path, cause = failure)
                     }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
-            .mapFailure { failure ->
-                OptionalValueComputeErrors.EvaluatingFeelExpression(cause = failure)
-            }
+            .mapFailure { failure -> OptionalValueComputationErrors.FeelExpressionEvaluate(cause = failure) }
 
         is Value.EnvVars -> envVars[name]
             .mapFailure { failure ->
-                OptionalValueComputeErrors.GettingValueFromEnvVars(name = name, cause = failure)
+                OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure)
             }
+
+        is Value.DataStruct -> this.scheme.build(envVars, context)
+            .mapFailure { failure -> OptionalValueComputationErrors.DataStructBuild(cause = failure) }
     }
 
-internal sealed interface OptionalValueComputeErrors : BasicRulesEngineError {
+internal sealed interface OptionalValueComputationErrors : BasicRulesEngineError {
 
-    class GettingDataFromContext(
+    class ContextDataRetrieval(
         source: Source,
-        cause: GetDataFromContextErrors.SourceMissing
-    ) : OptionalValueComputeErrors {
+        cause: ContextDataRetrievalErrors.SourceMissing
+    ) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
-            "Error getting data from context by source '${source.get}' for computing value."
+            "Error retrieving a data from context by source '${source.get}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
     }
 
-    class GettingValueFromEnvVars(
+    class EnvVarReading(
         name: EnvVarName,
-        cause: GetValueFromEnvVarsErrors.EnvVarMissing
-    ) : OptionalValueComputeErrors {
+        cause: EnvVarReadingErrors.EnvVarMissing
+    ) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "2"
         override val description: String =
-            "Error getting value from environment variables by name '${name.get}' for computing value."
+            "Error reading a value from environment variables by name '${name.get}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_ENV_VAR to name.get
         )
     }
 
-    class SearchingDataByPath(path: Path, cause: DataSearchError) : OptionalValueComputeErrors {
+    class PathSearch(path: Path, cause: PathLookupError) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error searching data by path '${path.text}' for computing value."
+        override val description: String = "Error searching a data by path '${path.text}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_PATH to path.text
         )
     }
 
-    class EvaluatingFeelExpression(cause: FeelExpression.EvaluateError) : OptionalValueComputeErrors {
+    class FeelExpressionEvaluate(cause: FeelExpression.EvaluateError) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "4"
-        override val description: String = "Error evaluating an expression for computing optional value."
+        override val description: String = "Error evaluating a FEEL expression for computing value."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    class DataStructBuild(cause: DataBuildErrors) : OptionalValueComputationErrors {
+        override val code: String = PREFIX + "5"
+        override val description: String = "Error building a data struct for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 

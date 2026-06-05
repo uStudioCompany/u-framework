@@ -3,6 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.parser.model.rule
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.parser.Deserializer
+import io.github.ustudiocompany.uframework.rulesengine.parser.model.rule.step.DataSchemaModel
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
 
@@ -59,7 +60,7 @@ internal class ValueModelDeserializationTest : UnitTest() {
                 }
             }
 
-            "when JSON has an EnvVars type value" - {
+            "when JSON has an envVars type value" - {
                 val json = """
                     | {
                     |   "kind": "envVars",
@@ -73,6 +74,42 @@ internal class ValueModelDeserializationTest : UnitTest() {
                     result shouldBe ValueModel.EnvVars(name = ENV_VAR_NAME)
                 }
             }
+
+            "when JSON has a dataStruct type value" - {
+                val json = """
+                    | {
+                    |   "kind": "dataStruct",
+                    |   "scheme": {
+                    |     "type": "struct",
+                    |     "properties": [
+                    |       {
+                    |         "type": "value",
+                    |         "name": "$ATTR_NAME",
+                    |         "value": {
+                    |           "kind": "fact",
+                    |           "fact": "$ATTR_VALUE"
+                    |         }
+                    |       }
+                    |     ]
+                    |   }
+                    | }
+                """.trimMargin()
+
+                val result = deserializer.deserialize(json, ValueModel::class.java)
+
+                "then should be return a literal value" {
+                    result shouldBe ValueModel.DataStruct(
+                        scheme = DataSchemaModel.Struct(
+                            properties = listOf(
+                                DataSchemaModel.StructProperty.Element(
+                                    name = ATTR_NAME,
+                                    value = ValueModel.Literal(fact = FactModel(JsonElement.Text(ATTR_VALUE)))
+                                )
+                            )
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -82,6 +119,8 @@ internal class ValueModelDeserializationTest : UnitTest() {
         private const val FACT = "UA"
         private const val EXPRESSION = "1 + 2"
         private const val ENV_VAR_NAME = "env_var_1"
+        private const val ATTR_NAME = "attr_1"
+        private const val ATTR_VALUE = "attr_value"
 
         private val deserializer = Deserializer()
     }

@@ -48,7 +48,7 @@ internal class PutDataToContextTest : UnitTest() {
 
                     "then function should return an error" {
                         result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<AddDataToContextErrors.SourceAlreadyExists>()
+                            .shouldBeInstanceOf<ContextDataAdditionErrors.SourceAlreadyExists>()
                     }
 
                     "then the context should contain the source" {

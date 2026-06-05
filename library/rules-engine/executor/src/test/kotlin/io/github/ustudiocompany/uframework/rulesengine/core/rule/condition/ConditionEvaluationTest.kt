@@ -16,17 +16,17 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.types.shouldBeInstanceOf
 
 @OptIn(AirfluxTypesExperimental::class)
-internal class ConditionSatisfiedTest : UnitTest() {
+internal class ConditionEvaluationTest : UnitTest() {
 
     init {
 
-        "The extension function `isSatisfied` for the `Condition` type" - {
+        "The extension function `isMet` for the `Condition` type" - {
 
             "when the condition is missing" - {
                 val condition = Condition.NONE
 
                 "then the function should return the value true" {
-                    val result = condition.isSatisfied(ENV_VARS, CONTEXT)
+                    val result = condition.isMet(ENV_VARS, CONTEXT)
                     result shouldBeSuccess true
                 }
             }
@@ -50,7 +50,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     )
 
                     "then the function should return the value true" {
-                        val result = condition.isSatisfied(ENV_VARS, CONTEXT)
+                        val result = condition.isMet(ENV_VARS, CONTEXT)
                         result shouldBeSuccess true
                     }
                 }
@@ -72,7 +72,7 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     )
 
                     "then the function should return the value false" {
-                        val result = condition.isSatisfied(ENV_VARS, CONTEXT)
+                        val result = condition.isMet(ENV_VARS, CONTEXT)
                         result shouldBeSuccess false
                     }
                 }
@@ -89,9 +89,9 @@ internal class ConditionSatisfiedTest : UnitTest() {
                     )
 
                     "then function should return an error" {
-                        val result = condition.isSatisfied(ENV_VARS, CONTEXT)
+                        val result = condition.isMet(ENV_VARS, CONTEXT)
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<CheckingConditionSatisfactionErrors>()
+                            .shouldBeInstanceOf<ConditionEvaluationErrors>()
                     }
                 }
             }

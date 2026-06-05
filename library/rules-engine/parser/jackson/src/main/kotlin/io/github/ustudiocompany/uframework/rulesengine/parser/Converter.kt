@@ -27,6 +27,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataBuildS
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataChangeTrackingStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataRetrieveStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.DataSchema
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.HttpCallStep
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeader
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessageHeaders
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.MessagePublishStep
@@ -134,6 +135,15 @@ internal class Converter(
                 condition = step.condition.convertCondition().bind(),
                 uri = Uiss(step.uiss),
                 args = step.args.convertArgs().bind()
+            )
+
+            is StepModel.HttpCall -> HttpCallStep(
+                id = StepId(step.id),
+                condition = step.condition.convertCondition().bind(),
+                uri = Uri(step.uri),
+                args = step.args.convertArgs().bind(),
+                body = step.body?.convert()?.bind(),
+                result = step.result?.convert()?.bind()
             )
         }
     }
@@ -262,6 +272,8 @@ internal class Converter(
             is ValueModel.Expression -> Value.Expression(expression = expression.convertExpression().bind())
 
             is ValueModel.EnvVars -> Value.EnvVars(name = name.convertEnvVarName())
+
+            is ValueModel.DataStruct -> Value.DataStruct(scheme = scheme.convert().bind())
         }
     }
 

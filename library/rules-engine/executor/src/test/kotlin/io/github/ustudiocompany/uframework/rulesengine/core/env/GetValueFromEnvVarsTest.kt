@@ -21,7 +21,7 @@ internal class GetValueFromEnvVarsTest : UnitTest() {
                 "then function should return an error" {
                     val result = envVars[ENV_VAR]
                     result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<GetValueFromEnvVarsErrors.EnvVarMissing>()
+                        .shouldBeInstanceOf<EnvVarReadingErrors.EnvVarMissing>()
                 }
             }
 
@@ -34,7 +34,7 @@ internal class GetValueFromEnvVarsTest : UnitTest() {
                     "then function should return an error" {
                         val result = envVars[UNKNOWN_ENV_VAR]
                         result.shouldContainFailureInstance()
-                            .shouldBeInstanceOf<GetValueFromEnvVarsErrors.EnvVarMissing>()
+                            .shouldBeInstanceOf<EnvVarReadingErrors.EnvVarMissing>()
                     }
                 }
 

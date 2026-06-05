@@ -9,48 +9,48 @@ import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
-import io.github.ustudiocompany.uframework.rulesengine.core.operation.CalculateOperationErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.operation.OperationCalculationErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.operation.calculate
 
-internal fun Condition.isSatisfied(
+internal fun Condition.isMet(
     envVars: EnvVars,
     context: Context
-): ResultK<Boolean, CheckingConditionSatisfactionErrors> =
+): ResultK<Boolean, ConditionEvaluationErrors> =
     if (predicates.isEmpty())
         Success.asTrue
     else {
         val isAllSatisfied = predicates.all { predicate ->
-            predicate.isSatisfied(envVars, context)
+            predicate.evaluate(envVars, context)
                 .getOrForward {
-                    return CheckingConditionSatisfactionErrors(it.cause).asFailure()
+                    return ConditionEvaluationErrors(it.cause).asFailure()
                 }
         }
         if (isAllSatisfied) Success.asTrue else Success.asFalse
     }
 
-internal class CheckingConditionSatisfactionErrors(cause: CheckingPredicateSatisfactionErrors) : BasicRulesEngineError {
+internal class ConditionEvaluationErrors(cause: PredicateEvaluationErrors) : BasicRulesEngineError {
     override val code: String = PREFIX + "1"
-    override val description: String = "Checking condition satisfaction error."
+    override val description: String = "Condition evaluation errors."
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "CHECK-CONDITION-SATISFACTION-"
+        private const val PREFIX = "CONDITION-EVALUATION-"
     }
 }
 
-private fun Predicate.isSatisfied(
+private fun Predicate.evaluate(
     envVars: EnvVars,
     context: Context
-): ResultK<Boolean, CheckingPredicateSatisfactionErrors> =
+): ResultK<Boolean, PredicateEvaluationErrors> =
     this.calculate(envVars, context)
-        .mapFailure { failure -> CheckingPredicateSatisfactionErrors(failure) }
+        .mapFailure { failure -> PredicateEvaluationErrors(failure) }
 
-internal class CheckingPredicateSatisfactionErrors(cause: CalculateOperationErrors) : BasicRulesEngineError {
+internal class PredicateEvaluationErrors(cause: OperationCalculationErrors) : BasicRulesEngineError {
     override val code: String = PREFIX + "1"
-    override val description: String = "Checking predicate satisfaction error."
+    override val description: String = "Predicate evaluation errors."
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "CHECK-PREDICATE-SATISFACTION-"
+        private const val PREFIX = "PREDICATE-EVALUATION-"
     }
 }
