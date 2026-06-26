@@ -121,18 +121,14 @@ internal fun Value.computeOrNull(
             }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { failure ->
-                        OptionalValueComputationErrors.PathSearch(path = path, cause = failure)
-                    }
+                    .mapFailure { failure -> OptionalValueComputationErrors.PathSearch(path = path, cause = failure) }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
             .mapFailure { failure -> OptionalValueComputationErrors.FeelExpressionEvaluate(cause = failure) }
 
         is Value.EnvVars -> envVars[name]
-            .mapFailure { failure ->
-                OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure)
-            }
+            .mapFailure { failure -> OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure) }
 
         is Value.DataStruct -> this.scheme.build(envVars, context)
             .mapFailure { failure -> OptionalValueComputationErrors.DataStructBuild(cause = failure) }

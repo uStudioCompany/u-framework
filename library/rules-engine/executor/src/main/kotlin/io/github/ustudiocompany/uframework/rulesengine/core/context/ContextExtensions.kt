@@ -1,16 +1,21 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.context
 
+import io.github.airflux.commons.types.fail.Fail
+import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.asSome
 import io.github.airflux.commons.types.maybe.map
+import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
+import io.github.airflux.commons.types.resultk.mapFail
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
+import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
@@ -20,20 +25,23 @@ internal fun Context.update(
     action: StepResult.Action,
     value: JsonElement,
     merge: Merger
-): Maybe<ContextUpdateErrors> =
+): Maybe<Fail<ContextUpdateErrors, ContextUpdateIncident>> =
     when (action) {
         is StepResult.Action.Put -> put(source = source, value = value)
-            .map { failure -> ContextUpdateErrors.DataAddition(source = source, cause = failure) }
+            .map { failure -> ContextUpdateErrors.DataAddition(source = source, cause = failure).asError() }
 
         is StepResult.Action.Replace -> replace(source = source, value = value)
-            .map { failure -> ContextUpdateErrors.DataReplacement(source = source, cause = failure) }
+            .map { failure -> ContextUpdateErrors.DataReplacement(source = source, cause = failure).asError() }
 
         is StepResult.Action.Merge -> merge(
             source = source,
             value = value,
             strategyCode = action.strategyCode,
             merge = merge
-        ).map { failure -> ContextUpdateErrors.DataMerge(source = source, cause = failure) }
+        ).mapFail(
+            onError = { error -> ContextUpdateErrors.DataMerge(source = source, cause = error) },
+            onException = { incident -> ContextUpdateIncident.DataMerge(source = source, cause = incident) }
+        )
     }
 
 internal sealed interface ContextUpdateErrors : BasicRulesEngineError {
@@ -67,7 +75,23 @@ internal sealed interface ContextUpdateErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "UPDATE-DATA-IN-CONTEXT-"
+        private const val PREFIX = "UPDATE-DATA-IN-CONTEXT-ERROR-"
+    }
+}
+
+internal sealed interface ContextUpdateIncident : BasicRulesEngineIncident {
+
+    class DataMerge(source: Source, cause: ContextDataMergeIncident) : ContextUpdateIncident {
+        override val code: String = PREFIX + "1"
+        override val description: String = "Incident updating data in the context by source '${source.get}'."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+        override val details: Failure.Details = Failure.Details.of(
+            DETAILS_KEY_SOURCE to source.get
+        )
+    }
+
+    private companion object {
+        private const val PREFIX = "UPDATE-DATA-IN-CONTEXT-INCIDENT-"
     }
 }
 
@@ -110,7 +134,7 @@ internal sealed interface ContextDataAdditionErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "ADD-DATA-TO-CONTEXT-"
+        private const val PREFIX = "ADD-DATA-TO-CONTEXT-ERROR-"
     }
 }
 
@@ -136,7 +160,7 @@ internal sealed interface ContextDataReplacementErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "REPLACE-DATA-FROM-CONTEXT-"
+        private const val PREFIX = "REPLACE-DATA-FROM-CONTEXT-ERROR-"
     }
 }
 
@@ -145,17 +169,19 @@ internal fun Context.merge(
     value: JsonElement,
     strategyCode: StepResult.Action.Merge.StrategyCode,
     merge: Merger
-): Maybe<ContextDataMergeErrors> =
+): Maybe<Fail<ContextDataMergeErrors, ContextDataMergeIncident>> =
     maybeFailure {
         val context = this@merge
         val (origin) = context[source]
-            .mapFailure { failure ->
-                ContextDataMergeErrors.DataRetrieval(source = source, cause = failure)
-            }
+            .mapFailure { failure -> ContextDataMergeErrors.DataRetrieval(source = source, cause = failure).asError() }
         val (updated) = merge.merge(strategyCode, origin, value)
-            .mapFailure { failure -> ContextDataMergeErrors.DataMerge(cause = failure) }
+            .mapFail(
+                onError = { failure -> ContextDataMergeErrors.DataMerge(cause = failure) },
+                onException = { failure -> ContextDataMergeIncident.DataMerge(cause = failure) }
+            )
+
         replace(source = source, value = updated)
-            .map { failure -> ContextDataMergeErrors.DataReplacement(source = source, cause = failure) }
+            .map { failure -> ContextDataMergeErrors.DataReplacement(source = source, cause = failure).asError() }
     }
 
 internal sealed interface ContextDataMergeErrors : BasicRulesEngineError {
@@ -172,7 +198,7 @@ internal sealed interface ContextDataMergeErrors : BasicRulesEngineError {
 
     class DataMerge(cause: Failure) : ContextDataMergeErrors {
         override val code: String = PREFIX + "2"
-        override val description: String = "Error merging data."
+        override val description: String = "Merging data error."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
@@ -186,7 +212,20 @@ internal sealed interface ContextDataMergeErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "MERGE-DATA-IN-CONTEXT-"
+        private const val PREFIX = "MERGE-DATA-IN-CONTEXT-ERROR-"
+    }
+}
+
+internal sealed interface ContextDataMergeIncident : BasicRulesEngineIncident {
+
+    class DataMerge(cause: Failure) : ContextDataMergeIncident {
+        override val code: String = PREFIX + "1"
+        override val description: String = "Merging data incident."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    private companion object {
+        private const val PREFIX = "MERGE-DATA-IN-CONTEXT-INCIDENT-"
     }
 }
 

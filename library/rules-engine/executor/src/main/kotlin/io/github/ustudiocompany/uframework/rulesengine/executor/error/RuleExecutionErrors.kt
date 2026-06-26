@@ -28,7 +28,7 @@ public sealed class RuleExecutionErrors(ruleId: RuleId) : BasicRulesEngineError 
     }
 
     private companion object {
-        private const val PREFIX = "RULE-EXECUTION-"
+        private const val PREFIX = "RULE-EXECUTION-ERROR-"
         private const val RULE_ID = "rule-id"
     }
 }

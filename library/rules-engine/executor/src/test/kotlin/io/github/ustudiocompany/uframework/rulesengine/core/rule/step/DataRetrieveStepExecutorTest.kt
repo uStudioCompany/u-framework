@@ -1,12 +1,16 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.fail.asError
+import io.github.airflux.commons.types.fail.asException
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainErrorInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainExceptionInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
@@ -26,25 +30,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
             "when execution of the step is successful" - {
                 val context = Context.empty()
-                val step = DataRetrieveStep(
-                    id = STEP_ID,
-                    condition = Condition.NONE,
-                    uri = Uri,
-                    args = Args(
-                        listOf(
-                            Arg(
-                                name = ID_PARAM_NAME,
-                                value = Value.Literal(
-                                    fact = JsonElement.Text(ID_PARAM_VALUE)
-                                )
-                            )
-                        )
-                    ),
-                    result = StepResult(
-                        source = RESULT_SOURCE,
-                        action = StepResult.Action.Put
-                    )
-                )
+                val step = createStep(StepResult.Action.Put)
 
                 val result = step.execute(
                     envVars = ENV_VARS,
@@ -65,7 +51,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
             "when execution of the step is fail" - {
 
-                "when an external call error" - {
+                "when an error of build args" - {
                     val step = DataRetrieveStep(
                         id = STEP_ID,
                         condition = Condition.NONE,
@@ -74,8 +60,8 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                             listOf(
                                 Arg(
                                     name = ID_PARAM_NAME,
-                                    value = Value.Literal(
-                                        fact = JsonElement.Text(ID_PARAM_VALUE)
+                                    value = Value.EnvVars(
+                                        name = UNKNOW_ENV_VAR
                                     )
                                 )
                             )
@@ -90,51 +76,101 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            dataProvider = { _, _ -> DataProvider.Error().asFailure() },
+                            dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                        result.shouldContainSomeInstance()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ArgBuild>()
+                    }
+                }
+
+                "when an external call error" - {
+                    val step = createStep(StepResult.Action.Put)
+
+                    "then the executor should return an error result" {
+                        val result = step.execute(
+                            envVars = ENV_VARS,
+                            context = CONTEXT,
+                            dataProvider = { _, _ -> DataProvider.Error().asError().asFailure() },
+                            merger = { _, origin, _ -> origin.asSuccess() }
+                        )
+                        result.shouldContainErrorInstance()
                             .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ExternalDataRetrieval>()
                     }
                 }
 
-                "when an error of merging" - {
-                    val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
-                    val step = DataRetrieveStep(
-                        id = STEP_ID,
-                        condition = Condition.NONE,
-                        uri = Uri,
-                        args = Args(
-                            listOf(
-                                Arg(
-                                    name = ID_PARAM_NAME,
-                                    value = Value.Literal(
-                                        fact = JsonElement.Text(ID_PARAM_VALUE)
-                                    )
-                                )
-                            )
-                        ),
-                        result = StepResult(
-                            source = RESULT_SOURCE,
-                            action = StepResult.Action.Merge(strategyCode = MERGE_STRATEGY_CODE)
+                "when an external call incident" - {
+                    val step = createStep(StepResult.Action.Put)
+
+                    "then the executor should return an error result" {
+                        val result = step.execute(
+                            envVars = ENV_VARS,
+                            context = CONTEXT,
+                            dataProvider = { _, _ -> DataProvider.Incident().asException().asFailure() },
+                            merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                    )
+                        result.shouldContainExceptionInstance()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionIncident.ExternalDataRetrieval>()
+                    }
+                }
+
+                "when an error of merging result" - {
+                    val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                    val step = createStep(StepResult.Action.Merge(strategyCode = MERGE_STRATEGY_CODE))
 
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
-                        merger = { _, _, _ -> Merger.Error().asFailure() }
+                        merger = { _, _, _ -> Merger.Error().asError().asFailure() }
                     )
 
                     "then the executor should return an error result" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ContextUpdate>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionErrors.ResultApply>()
+                    }
+                }
+
+                "when an incident of merging result" - {
+                    val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                    val step = createStep(StepResult.Action.Merge(strategyCode = MERGE_STRATEGY_CODE))
+
+                    val result = step.execute(
+                        envVars = ENV_VARS,
+                        context = context,
+                        dataProvider = { _, _ -> CALL_RESULT.asSuccess() },
+                        merger = { _, _, _ -> Merger.Incident().asException().asFailure() }
+                    )
+
+                    "then the executor should return an error result" {
+                        result.shouldContainExceptionInstance()
+                            .shouldBeInstanceOf<DataRetrieveStepExecutionIncident.ResultApply>()
                     }
                 }
             }
         }
     }
+
+    private fun createStep(action: StepResult.Action) =
+        DataRetrieveStep(
+            id = STEP_ID,
+            condition = Condition.NONE,
+            uri = Uri,
+            args = Args(
+                listOf(
+                    Arg(
+                        name = ID_PARAM_NAME,
+                        value = Value.Literal(
+                            fact = JsonElement.Text(ID_PARAM_VALUE)
+                        )
+                    )
+                )
+            ),
+            result = StepResult(
+                source = RESULT_SOURCE,
+                action = action
+            )
+        )
 
     private companion object {
         private val STEP_ID = StepId("step-1")
@@ -146,7 +182,7 @@ internal class DataRetrieveStepExecutorTest : UnitTest() {
 
         private const val ID_PARAM_NAME = "id"
         private const val ID_PARAM_VALUE = "1"
-
+        private val UNKNOW_ENV_VAR = EnvVarName("unknow")
         private val RESULT_SOURCE = Source("output")
 
         private val CALL_RESULT = JsonElement.Text("data")

@@ -1,15 +1,12 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
-import io.github.airflux.commons.types.resultk.ResultK
-import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.matcher.shouldBeSuccess
 import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
-import io.github.ustudiocompany.uframework.rulesengine.core.feel.FeelExpression
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 import io.kotest.matchers.shouldBe
@@ -219,19 +216,38 @@ internal class DataSchemaBuilderTest : UnitTest() {
             }
 
             "when occurs an error" - {
-                val dataSchema = DataSchema.Struct(
-                    properties = listOf(
-                        DataSchema.Property.Element(
-                            name = DATA_KEY_1,
-                            value = Value.Expression(EXPRESSION)
+
+                "when error of build a property" - {
+                    val dataSchema = DataSchema.Struct(
+                        properties = listOf(
+                            DataSchema.Property.Element(
+                                name = DATA_KEY_1,
+                                value = Value.EnvVars(name = UNKNOW_ENV_VAR)
+                            )
                         )
                     )
-                )
 
-                "then the builder should return a failure" {
-                    val result = dataSchema.build(ENV_VARS, CONTEXT)
-                    result.shouldContainFailureInstance()
-                        .shouldBeInstanceOf<DataBuildErrors>()
+                    "then the builder should return a failure" {
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
+                        result.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<DataBuildErrors.StructPropertyBuild>()
+                    }
+                }
+
+                "when error of build an array" - {
+                    val dataSchema = DataSchema.Array(
+                        items = listOf(
+                            DataSchema.Item.Element(
+                                value = Value.EnvVars(name = UNKNOW_ENV_VAR)
+                            )
+                        )
+                    )
+
+                    "then the builder should return a failure" {
+                        val result = dataSchema.build(ENV_VARS, CONTEXT)
+                        result.shouldContainFailureInstance()
+                            .shouldBeInstanceOf<DataBuildErrors.ArrayItemBuild>()
+                    }
                 }
             }
         }
@@ -251,17 +267,6 @@ internal class DataSchemaBuilderTest : UnitTest() {
         private const val ARRAY_ITEM_2 = "item-2"
         private const val ARRAY_ITEM_3 = "item-3"
         private const val ARRAY_ITEM_4 = "item-4"
-
-        private val EXPRESSION = object : FeelExpression {
-
-            override val text: String
-                get() = "a/0"
-
-            override fun evaluate(
-                envVars: EnvVars,
-                context: Context
-            ): ResultK<JsonElement, FeelExpression.EvaluateError> =
-                FeelExpression.EvaluateError(this).asFailure()
-        }
+        private val UNKNOW_ENV_VAR = EnvVarName("unknow")
     }
 }

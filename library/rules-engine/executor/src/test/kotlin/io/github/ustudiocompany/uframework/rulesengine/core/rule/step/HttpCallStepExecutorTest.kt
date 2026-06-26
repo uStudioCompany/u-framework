@@ -1,8 +1,11 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.fail.asError
+import io.github.airflux.commons.types.fail.asException
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainErrorInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainExceptionInstance
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.asFailure
@@ -14,6 +17,7 @@ import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
+import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult.Action.Merge.StrategyCode
 import io.github.ustudiocompany.uframework.rulesengine.executor.HttpCallProvider
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 import io.github.ustudiocompany.uframework.test.kotest.UnitTest
@@ -32,7 +36,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                 "when args is missing" - {
                     val context = Context.empty()
-                    val step = createStepWithoutArgs()
+                    val step = createStepWithoutArgs(StepResult.Action.Put)
 
                     val result = step.execute(
                         envVars = ENV_VARS,
@@ -53,7 +57,7 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
                 "when a body is missing" - {
                     val context = Context.empty()
-                    val step = createStepWithoutBody()
+                    val step = createStepWithoutBody(StepResult.Action.Put)
 
                     val result = step.execute(
                         envVars = ENV_VARS,
@@ -118,52 +122,67 @@ internal class HttpCallStepExecutorTest : UnitTest() {
             "when execution of the step is fail" - {
 
                 "when building the args is fail" - {
-                    val step = createStepWithInvalidArgs()
+                    val step = createStepWithInvalidArgs(StepResult.Action.Put)
 
                     "then the executor should return an error result" - {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asError().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                        result.shouldContainSomeInstance()
+                        result.shouldContainErrorInstance()
                             .shouldBeInstanceOf<HttpCallStepExecutionErrors.ArgBuild>()
                     }
                 }
 
                 "when building the body is fail" - {
-                    val step = createStepWithInvalidBody()
+                    val step = createStepWithInvalidBody(StepResult.Action.Put)
 
                     "then the executor should return an error result" - {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asError().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                        result.shouldContainSomeInstance()
+                        result.shouldContainErrorInstance()
                             .shouldBeInstanceOf<HttpCallStepExecutionErrors.BodyBuild>()
                     }
                 }
 
                 "when an external call error" - {
-                    val step = createSuccessStepWithFullInfo()
+                    val step = createSuccessStepWithFullInfo(StepResult.Action.Put)
 
                     "then the executor should return an error result" {
                         val result = step.execute(
                             envVars = ENV_VARS,
                             context = CONTEXT,
-                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asFailure() },
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Error().asError().asFailure() },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                        result.shouldContainSomeInstance()
+                        result.shouldContainErrorInstance()
                             .shouldBeInstanceOf<HttpCallStepExecutionErrors.Call>()
                     }
                 }
 
+                "when an external call incident" - {
+                    val step = createSuccessStepWithFullInfo(StepResult.Action.Put)
+
+                    "then the executor should return an incident" {
+                        val result = step.execute(
+                            envVars = ENV_VARS,
+                            context = CONTEXT,
+                            httpCallProvider = { _, _, _ -> HttpCallProvider.Incident().asException().asFailure() },
+                            merger = { _, origin, _ -> origin.asSuccess() }
+                        )
+                        result.shouldContainExceptionInstance()
+                            .shouldBeInstanceOf<HttpCallStepExecutionIncident.Call>()
+                    }
+                }
+
                 "when a result is present but a response missing " - {
-                    val step = createSuccessStepWithFullInfo()
+                    val step = createSuccessStepWithFullInfo(StepResult.Action.Put)
 
                     "then the executor should return an error result" {
                         val result = step.execute(
@@ -172,74 +191,91 @@ internal class HttpCallStepExecutorTest : UnitTest() {
                             httpCallProvider = { _, _, _ -> Success.asNull },
                             merger = { _, origin, _ -> origin.asSuccess() }
                         )
-                        result.shouldContainSomeInstance()
+                        result.shouldContainErrorInstance()
                             .shouldBeInstanceOf<HttpCallStepExecutionErrors.ExpectedResponseMissing>()
                     }
                 }
 
-                "when an error of merging" - {
+                "when an error of merging result" - {
                     val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
-                    val step = createSuccessStepWithFullInfo()
+                    val step = createSuccessStepWithFullInfo(StepResult.Action.Merge(StrategyCode("")))
 
                     val result = step.execute(
                         envVars = ENV_VARS,
                         context = context,
                         httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
-                        merger = { _, _, _ -> Merger.Error().asFailure() }
+                        merger = { _, _, _ -> Merger.Error().asError().asFailure() }
                     )
 
                     "then the executor should return an error result" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.ContextUpdate>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<HttpCallStepExecutionErrors.ResultApply>()
+                    }
+                }
+
+                "when an incident of merging result" - {
+                    val context = Context(sources = mapOf(RESULT_SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+                    val step = createSuccessStepWithFullInfo(StepResult.Action.Merge(MERGE_STRATEGY_CODE))
+
+                    val result = step.execute(
+                        envVars = ENV_VARS,
+                        context = context,
+                        httpCallProvider = { _, _, _ -> CALL_RESULT.asSuccess() },
+                        merger = { _, _, _ -> Merger.Incident().asException().asFailure() }
+                    )
+
+                    "then the executor should return an error result" {
+                        result.shouldContainExceptionInstance()
+                            .shouldBeInstanceOf<HttpCallStepExecutionIncident.ResultApply>()
                     }
                 }
             }
         }
     }
 
-    private fun createSuccessStepWithFullInfo() = HttpCallStep(
+    private fun createSuccessStepWithFullInfo(action: StepResult.Action) = HttpCallStep(
         id = STEP_ID,
         condition = Condition.NONE,
         uri = Uri,
         args = createArgs(),
         body = createBody(),
-        result = createResult()
+        result = createResult(action)
     )
 
-    private fun createStepWithInvalidArgs() = HttpCallStep(
+    private fun createStepWithInvalidArgs(action: StepResult.Action) = HttpCallStep(
         id = STEP_ID,
         condition = Condition.NONE,
         uri = Uri,
         args = createInvalidArgs(),
         body = createBody(),
-        result = createResult()
+        result = createResult(action)
     )
 
-    private fun createStepWithInvalidBody() = HttpCallStep(
+    private fun createStepWithInvalidBody(action: StepResult.Action) = HttpCallStep(
         id = STEP_ID,
         condition = Condition.NONE,
         uri = Uri,
         args = createArgs(),
         body = createInvalidBody(),
-        result = createResult()
+        result = createResult(action)
     )
 
-    private fun createStepWithoutArgs() = HttpCallStep(
+    private fun createStepWithoutArgs(action: StepResult.Action) = HttpCallStep(
         id = STEP_ID,
         condition = Condition.NONE,
         uri = Uri,
         args = Args.NONE,
         body = createBody(),
-        result = createResult()
+        result = createResult(action)
     )
 
-    private fun createStepWithoutBody() = HttpCallStep(
+    private fun createStepWithoutBody(action: StepResult.Action) = HttpCallStep(
         id = STEP_ID,
         condition = Condition.NONE,
         uri = Uri,
         args = createArgs(),
         body = null,
-        result = createResult()
+        result = createResult(action)
     )
 
     private fun createStepWithoutResult() = HttpCallStep(
@@ -278,9 +314,9 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
     private fun createInvalidBody() = Value.Reference(source = INVALID_ARG_SOURCE, path = path())
 
-    private fun createResult() = StepResult(
+    private fun createResult(action: StepResult.Action) = StepResult(
         source = RESULT_SOURCE,
-        action = StepResult.Action.Put
+        action = action
     )
 
     private companion object {
@@ -300,6 +336,8 @@ internal class HttpCallStepExecutorTest : UnitTest() {
 
         private val CALL_RESULT = JsonElement.Text("data")
         private const val PATH_VALUE = "$.id"
+
+        private val MERGE_STRATEGY_CODE = StrategyCode("merge-strategy-code")
 
         private fun path() =
             object : Path {
