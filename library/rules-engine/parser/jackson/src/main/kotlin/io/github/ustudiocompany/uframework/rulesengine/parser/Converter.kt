@@ -302,7 +302,7 @@ internal class Converter(
         }
 
         private companion object {
-            private const val PREFIX = "RULES-CONVERTER-"
+            private const val PREFIX = "RULES-CONVERTER-ERROR-"
         }
     }
 }

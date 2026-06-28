@@ -26,7 +26,7 @@ public interface FeelExpression {
         )
 
         private companion object {
-            private const val PREFIX = "EVALUATE-FEEL-EXPRESSION-"
+            private const val PREFIX = "EVALUATE-FEEL-EXPRESSION-ERROR-"
             private const val DETAILS_KEY_EXPRESSION = "feel-expression"
         }
     }

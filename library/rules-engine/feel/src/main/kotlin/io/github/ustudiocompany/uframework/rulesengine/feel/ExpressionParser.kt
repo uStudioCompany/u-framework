@@ -19,7 +19,7 @@ public fun interface ExpressionParser {
         }
 
         private companion object {
-            private const val PREFIX = "EXPRESSION-PARSER-"
+            private const val PREFIX = "EXPRESSION-PARSER-ERROR-"
             private const val DETAILS_KEY_PATH = "expression"
         }
     }

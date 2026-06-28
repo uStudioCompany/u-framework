@@ -32,6 +32,6 @@ internal sealed interface ValidationStepExecutingError : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "VALIDATION-STEP-EXECUTION-"
+        private const val PREFIX = "VALIDATION-STEP-EXECUTION-ERROR-"
     }
 }

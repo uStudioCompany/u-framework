@@ -82,6 +82,6 @@ internal sealed interface DataBuildErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "DATA-BUILD-"
+        private const val PREFIX = "DATA-BUILD-ERROR-"
     }
 }

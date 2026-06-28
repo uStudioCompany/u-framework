@@ -34,7 +34,7 @@ internal class ConditionEvaluationErrors(cause: PredicateEvaluationErrors) : Bas
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "CONDITION-EVALUATION-"
+        private const val PREFIX = "CONDITION-EVALUATION-ERROR-"
     }
 }
 
@@ -51,6 +51,6 @@ internal class PredicateEvaluationErrors(cause: OperationCalculationErrors) : Ba
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "PREDICATE-EVALUATION-"
+        private const val PREFIX = "PREDICATE-EVALUATION-ERROR-"
     }
 }

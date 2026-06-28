@@ -40,6 +40,6 @@ internal sealed interface MessageHeaderBuildErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "MESSAGE-HEADER-BUILD-"
+        private const val PREFIX = "MESSAGE-HEADER-BUILD-ERROR-"
     }
 }

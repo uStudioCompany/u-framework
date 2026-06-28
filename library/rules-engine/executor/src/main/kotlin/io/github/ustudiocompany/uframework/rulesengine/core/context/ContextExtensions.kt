@@ -111,7 +111,7 @@ internal sealed interface ContextDataRetrievalErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "RETRIEVE-DATA-FROM-CONTEXT-"
+        private const val PREFIX = "RETRIEVE-DATA-FROM-CONTEXT-ERROR-"
     }
 }
 

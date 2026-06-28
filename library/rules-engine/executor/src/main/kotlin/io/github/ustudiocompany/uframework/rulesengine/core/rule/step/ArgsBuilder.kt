@@ -40,6 +40,6 @@ internal sealed interface ArgBuildErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "ARG-BUILD-"
+        private const val PREFIX = "ARG-BUILD-ERROR-"
     }
 }
