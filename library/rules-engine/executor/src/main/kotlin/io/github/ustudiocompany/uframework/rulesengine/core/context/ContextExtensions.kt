@@ -126,7 +126,7 @@ internal fun Context.put(source: Source, value: JsonElement): Maybe<ContextDataA
 internal sealed interface ContextDataAdditionErrors : BasicRulesEngineError {
 
     class SourceAlreadyExists(source: Source) : ContextDataAdditionErrors {
-        override val code: String = PREFIX + "2"
+        override val code: String = PREFIX + "1"
         override val description: String = "The source '${source.get}' is already exists in the context."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
@@ -153,7 +153,7 @@ internal sealed interface ContextDataReplacementErrors : BasicRulesEngineError {
 
     class SourceMissing(source: Source) : ContextDataReplacementErrors {
         override val code: String = PREFIX + "1"
-        override val description: String = "The source '${source.get}' is not found in the context."
+        override val description: String = "The source '${source.get}' is not found in the context for replacement."
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_SOURCE to source.get
         )
