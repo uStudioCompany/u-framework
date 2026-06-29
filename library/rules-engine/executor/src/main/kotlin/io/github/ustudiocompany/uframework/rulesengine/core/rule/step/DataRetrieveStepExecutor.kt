@@ -1,12 +1,11 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
-import io.github.airflux.commons.types.resultk.mapFail
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
@@ -30,7 +29,7 @@ internal fun DataRetrieveStep.execute(
         val (args: List<DataProvider.Arg>) = step.buildArgs(envVars, context)
         val uri: DataProvider.Uri = DataProvider.Uri.from(step.uri.get)
         val (value) = dataProvider.get(uri, args)
-            .mapFail(
+            .mapFailure(
                 onError = { error -> DataRetrieveStepExecutionErrors.ExternalDataRetrieval(error) },
                 onException = { incident -> DataRetrieveStepExecutionIncident.ExternalDataRetrieval(incident) }
             )
@@ -40,7 +39,7 @@ internal fun DataRetrieveStep.execute(
 
 private fun DataRetrieveStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataProvider.Arg(name, value) }
-        .mapFailure { error -> DataRetrieveStepExecutionErrors.ArgBuild(error).asError() }
+        .mapFailureToError { failure -> DataRetrieveStepExecutionErrors.ArgBuild(failure) }
 
 private fun Context.update(value: JsonElement, result: StepResult, merger: Merger) =
     update(result.source, result.action, value, merger)

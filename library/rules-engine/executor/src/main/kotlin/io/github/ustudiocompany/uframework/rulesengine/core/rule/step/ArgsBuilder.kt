@@ -22,9 +22,7 @@ internal fun <T> Args.build(
             .apply {
                 args.get.forEach { arg ->
                     val (value) = arg.value.compute(envVars, context)
-                        .mapFailure { failure ->
-                            ArgBuildErrors.ValueComputation(arg = arg, cause = failure)
-                        }
+                        .mapFailure { failure -> ArgBuildErrors.ValueComputation(arg = arg, cause = failure) }
                     val argValue = value.toStringValue()
                     add(builder(arg.name, argValue))
                 }

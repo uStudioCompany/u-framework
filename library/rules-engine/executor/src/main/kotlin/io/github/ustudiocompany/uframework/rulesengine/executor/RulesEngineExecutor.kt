@@ -1,15 +1,14 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.toResultAsFailureOr
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
 import io.github.airflux.commons.types.resultk.flatMapBoolean
 import io.github.airflux.commons.types.resultk.isFailure
-import io.github.airflux.commons.types.resultk.mapFail
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
@@ -64,7 +63,7 @@ public class RulesEngineExecutor(
                 ifTrue = {
                     val vars = envVars.append(RULE_ID to JsonElement.Text(id.get))
                     steps.execute(vars, context)
-                        .mapFail(
+                        .mapFailure(
                             onError = { error -> RuleExecutionErrors.Execution(ruleId = id, cause = error) },
                             onException = { incident -> RuleExecutionIncident.Execution(ruleId = id, cause = incident) }
                         )
@@ -121,7 +120,7 @@ public class RulesEngineExecutor(
 
     private fun ValidationStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context)
-            .mapFailure { error -> StepExecutionErrors.Validation(stepId = id, cause = error).asError() }
+            .mapFailureToError { failure -> StepExecutionErrors.Validation(stepId = id, cause = failure) }
 
     private fun MessagePublishStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, messagePublisher)

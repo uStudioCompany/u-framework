@@ -7,7 +7,7 @@ import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map2
-import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
@@ -46,7 +46,7 @@ private fun MessagePublishStep.buildRouteKey(envVars: EnvVars, context: Context)
 
 private fun MessagePublishStep.buildHeaders(envVars: EnvVars, context: Context) =
     headers.build(envVars, context) { name, value -> MessagePublisher.Header(name, value) }
-        .mapFailure { failure -> MessagePublishStepExecutionErrors.HeadersBuild(cause = failure).asError() }
+        .mapFailureToError { failure -> MessagePublishStepExecutionErrors.HeadersBuild(cause = failure) }
 
 private fun MessagePublishStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)

@@ -1,11 +1,10 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
-import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
@@ -32,7 +31,7 @@ internal fun DataChangeTrackingStep.execute(
 
 private fun DataChangeTrackingStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataChangeTrackerProvider.Arg(name, value) }
-        .mapFailure { error -> DataChangeTrackingStepExecutionErrors.ArgBuild(error).asError() }
+        .mapFailureToError { failure -> DataChangeTrackingStepExecutionErrors.ArgBuild(failure) }
 
 internal sealed interface DataChangeTrackingStepExecutionErrors : BasicRulesEngineError {
 

@@ -39,7 +39,7 @@ internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElem
         is Value.EnvVars -> envVars[name]
             .mapFailure { failure -> ValueComputationErrors.EnvVarReading(name = name, cause = failure) }
 
-        is Value.DataStruct -> this.scheme.build(envVars, context)
+        is Value.DataStruct -> scheme.build(envVars, context)
             .mapFailure { failure -> ValueComputationErrors.DataStructBuild(cause = failure) }
     }
 
@@ -115,10 +115,12 @@ internal fun Value.computeOrNull(
         is Value.Literal -> fact.asSuccess()
 
         is Value.Reference -> context[source]
-            .mapFailure { error -> OptionalValueComputationErrors.ContextDataRetrieval(source = source, cause = error) }
+            .mapFailure { failure ->
+                OptionalValueComputationErrors.ContextDataRetrieval(source = source, cause = failure)
+            }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { error -> OptionalValueComputationErrors.PathSearch(path = path, cause = error) }
+                    .mapFailure { failure -> OptionalValueComputationErrors.PathSearch(path = path, cause = failure) }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
@@ -127,7 +129,7 @@ internal fun Value.computeOrNull(
         is Value.EnvVars -> envVars[name]
             .mapFailure { failure -> OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure) }
 
-        is Value.DataStruct -> this.scheme.build(envVars, context)
+        is Value.DataStruct -> scheme.build(envVars, context)
             .mapFailure { failure -> OptionalValueComputationErrors.DataStructBuild(cause = failure) }
     }
 

@@ -7,8 +7,8 @@ import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map2
-import io.github.airflux.commons.types.resultk.mapFail
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
@@ -35,7 +35,7 @@ internal fun HttpCallStep.execute(
         val (args) = step.buildArgs(envVars, context)
         val (body) = step.buildBody(envVars, context)
         val (value) = httpCallProvider.call(uri, args, body)
-            .mapFail(
+            .mapFailure(
                 onError = { error -> HttpCallStepExecutionErrors.Call(error) },
                 onException = { incident -> HttpCallStepExecutionIncident.Call(incident) }
             )
@@ -45,7 +45,7 @@ internal fun HttpCallStep.execute(
 
 private fun HttpCallStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> HttpCallProvider.Arg(name, value) }
-        .mapFailure { failure -> HttpCallStepExecutionErrors.ArgBuild(failure).asError() }
+        .mapFailureToError { failure -> HttpCallStepExecutionErrors.ArgBuild(failure) }
 
 private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)

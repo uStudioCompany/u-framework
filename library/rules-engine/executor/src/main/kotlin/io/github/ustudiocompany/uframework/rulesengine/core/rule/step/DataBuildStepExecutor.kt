@@ -1,11 +1,10 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
-import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
@@ -31,7 +30,7 @@ internal fun DataBuildStep.execute(
 
 private fun DataBuildStep.buildData(envVars: EnvVars, context: Context) =
     dataSchema.build(envVars, context)
-        .mapFailure { failure -> DataBuildStepExecutionErrors.DataBuild(failure).asError() }
+        .mapFailureToError { failure -> DataBuildStepExecutionErrors.DataBuild(failure) }
 
 private fun Context.update(value: JsonElement, result: StepResult?, merger: Merger) =
     result?.let { result ->

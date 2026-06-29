@@ -281,11 +281,11 @@ internal class Converter(
 
     private fun PathModel.convertPath(): ResultK<Path, Errors.Conversion> =
         pathParser.parse(this)
-            .mapFailure { error -> Errors.Conversion(error) }
+            .mapFailure { failure -> Errors.Conversion(failure) }
 
     private fun FeelExpressionModel.convertExpression(): ResultK<FeelExpression, Errors.Conversion> =
         expressionParser.parse(this)
-            .mapFailure { error -> Errors.Conversion(error) }
+            .mapFailure { failure -> Errors.Conversion(failure) }
 
     private fun EnvVarNameModel.convertEnvVarName(): EnvVarName = EnvVarName(this)
 

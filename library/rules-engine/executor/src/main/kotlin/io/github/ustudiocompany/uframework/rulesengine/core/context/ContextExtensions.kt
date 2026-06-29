@@ -8,7 +8,7 @@ import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
-import io.github.airflux.commons.types.resultk.mapFail
+import io.github.airflux.commons.types.resultk.liftToError
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
@@ -64,9 +64,9 @@ internal fun Context.merge(
 ): Maybe<Fail<ContextErrors, ContextIncident>> =
     maybeFailure {
         val context = this@merge
-        val (origin) = context[source].mapFailure { it.asError() }
+        val (origin) = context[source].liftToError()
         val (updated) = merge.merge(strategyCode, origin, value)
-            .mapFail(
+            .mapFailure(
                 onError = { error -> ContextErrors.DataMerge(source = source, cause = error) },
                 onException = { incident -> ContextIncident.DataMerge(source = source, cause = incident) }
             )
