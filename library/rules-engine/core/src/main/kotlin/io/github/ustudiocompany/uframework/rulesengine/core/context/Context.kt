@@ -27,16 +27,26 @@ public class Context private constructor(
         public fun empty(): Context = Context(data = mutableMapOf())
 
         public operator fun invoke(vararg sources: Pair<Source, JsonElement>): Context =
-            Context(data = sources.toMap(mutableMapOf()))
+            Builder()
+                .apply {
+                    for ((source, value) in sources)
+                        put(source, value)
+                }
+                .build()
 
         public operator fun invoke(sources: Map<Source, JsonElement> = emptyMap()): Context =
-            Context(data = sources.toMutableMap())
+            Builder()
+                .apply {
+                    for ((source, value) in sources)
+                        put(source, value)
+                }
+                .build()
     }
 
     public class Builder {
         private val sources: MutableMap<Source, JsonElement> = mutableMapOf()
 
-        public operator fun set(source: Source, value: JsonElement): Builder {
+        public fun put(source: Source, value: JsonElement): Builder {
             sources[source] = value
             return this
         }
