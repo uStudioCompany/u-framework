@@ -55,7 +55,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainErrorInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataAddition>()
+                            .shouldBeInstanceOf<ContextErrors.SourceAlreadyExists>()
                     }
                 }
             }
@@ -71,7 +71,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainErrorInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataReplacement>()
+                            .shouldBeInstanceOf<ContextErrors.DataReplacement>()
                     }
                 }
 
@@ -107,7 +107,7 @@ internal class UpdateContextTest : UnitTest() {
 
                     "then call the function should be failed" {
                         result.shouldContainErrorInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
+                            .shouldBeInstanceOf<ContextErrors.SourceMissing>()
                     }
                 }
 
@@ -143,7 +143,7 @@ internal class UpdateContextTest : UnitTest() {
 
                         "then the function call should fail with an error" {
                             result.shouldContainErrorInstance()
-                                .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
+                                .shouldBeInstanceOf<ContextErrors.DataMerge>()
                         }
                     }
 
@@ -157,7 +157,7 @@ internal class UpdateContextTest : UnitTest() {
 
                         "then the function call should fail with an incident" {
                             result.shouldContainExceptionInstance()
-                                .shouldBeInstanceOf<ContextUpdateIncident.DataMerge>()
+                                .shouldBeInstanceOf<ContextIncident.DataMerge>()
                         }
                     }
                 }

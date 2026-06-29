@@ -12,8 +12,8 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextUpdateErrors
-import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextUpdateIncident
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextIncident
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.executor.DataProvider
@@ -63,7 +63,7 @@ internal sealed interface DataRetrieveStepExecutionErrors : BasicRulesEngineErro
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class ResultApply(cause: ContextUpdateErrors) : DataRetrieveStepExecutionErrors {
+    class ResultApply(cause: ContextErrors) : DataRetrieveStepExecutionErrors {
         override val code: String = PREFIX + "3"
         override val description: String = "Error of processing the result of the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
@@ -82,7 +82,7 @@ internal sealed interface DataRetrieveStepExecutionIncident : BasicRulesEngineIn
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
-    class ResultApply(cause: ContextUpdateIncident) : DataRetrieveStepExecutionIncident {
+    class ResultApply(cause: ContextIncident) : DataRetrieveStepExecutionIncident {
         override val code: String = PREFIX + "2"
         override val description: String = "Incident of processing the result of the 'Data Retrieve' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)

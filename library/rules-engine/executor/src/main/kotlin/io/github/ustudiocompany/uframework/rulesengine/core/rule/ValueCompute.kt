@@ -10,7 +10,7 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextDataRetrievalErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.get
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
@@ -45,7 +45,7 @@ internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElem
 
 internal sealed interface ValueComputationErrors : BasicRulesEngineError {
 
-    class ContextDataRetrieval(source: Source, cause: ContextDataRetrievalErrors) : ValueComputationErrors {
+    class ContextDataRetrieval(source: Source, cause: ContextErrors.SourceMissing) : ValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
             "Error retrieving a data from context by source '${source.get}' for computing value."
@@ -115,12 +115,10 @@ internal fun Value.computeOrNull(
         is Value.Literal -> fact.asSuccess()
 
         is Value.Reference -> context[source]
-            .mapFailure { failure ->
-                OptionalValueComputationErrors.ContextDataRetrieval(source = source, cause = failure)
-            }
+            .mapFailure { error -> OptionalValueComputationErrors.ContextDataRetrieval(source = source, cause = error) }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { failure -> OptionalValueComputationErrors.PathSearch(path = path, cause = failure) }
+                    .mapFailure { error -> OptionalValueComputationErrors.PathSearch(path = path, cause = error) }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
@@ -137,7 +135,7 @@ internal sealed interface OptionalValueComputationErrors : BasicRulesEngineError
 
     class ContextDataRetrieval(
         source: Source,
-        cause: ContextDataRetrievalErrors.SourceMissing
+        cause: ContextErrors.SourceMissing
     ) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
