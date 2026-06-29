@@ -18,6 +18,11 @@ import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.step.StepResult
 import io.github.ustudiocompany.uframework.rulesengine.executor.Merger
 
+internal operator fun Context.get(source: Source): ResultK<JsonElement, ContextErrors.SourceMissing> =
+    getOrNull(source)
+        ?.asSuccess()
+        ?: ContextErrors.SourceMissing(source).asFailure()
+
 internal fun Context.update(
     source: Source,
     action: StepResult.Action,
@@ -50,11 +55,6 @@ internal fun Context.replace(source: Source, value: JsonElement): Maybe<Fail.Err
     else
         ContextErrors.DataReplacement(source).asError().asSome()
 }
-
-internal operator fun Context.get(source: Source): ResultK<JsonElement, ContextErrors.SourceMissing> =
-    getOrNull(source)
-        ?.asSuccess()
-        ?: ContextErrors.SourceMissing(source).asFailure()
 
 internal fun Context.merge(
     source: Source,
