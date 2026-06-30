@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.MaybeBiFailure
-import io.github.airflux.commons.types.maybe.mapFail
+import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map2
@@ -28,7 +28,7 @@ internal fun MessagePublishStep.execute(
         val (headers) = step.buildHeaders(envVars, context)
         val (body) = step.buildBody(envVars, context)
         messagePublisher.publish(routeKey, headers, body)
-            .mapFail(
+            .map(
                 onError = { error -> MessagePublishStepExecutionErrors.Publish(error) },
                 onException = { incident -> MessagePublishStepExecutionIncident.Publish(cause = incident) }
             )

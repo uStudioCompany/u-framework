@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.maybe.mapFail
+import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.toResultAsFailureOr
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.Success
@@ -104,7 +104,7 @@ public class RulesEngineExecutor(
 
     private fun DataRetrieveStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, dataProvider, merger)
-            .mapFail(
+            .map(
                 onError = { error -> StepExecutionErrors.DataRetrieve(stepId = id, cause = error) },
                 onException = { incident -> StepExecutionIncident.DataRetrieve(stepId = id, cause = incident) }
             )
@@ -112,7 +112,7 @@ public class RulesEngineExecutor(
 
     private fun DataBuildStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, merger)
-            .mapFail(
+            .map(
                 onError = { error -> StepExecutionErrors.DataBuild(stepId = id, cause = error) },
                 onException = { incident -> StepExecutionIncident.DataBuild(stepId = id, cause = incident) }
             )
@@ -124,7 +124,7 @@ public class RulesEngineExecutor(
 
     private fun MessagePublishStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, messagePublisher)
-            .mapFail(
+            .map(
                 onError = { error -> StepExecutionErrors.MessagePublish(stepId = id, cause = error) },
                 onException = { incident -> StepExecutionIncident.MessagePublish(stepId = id, cause = incident) }
             )
@@ -132,7 +132,7 @@ public class RulesEngineExecutor(
 
     private fun DataChangeTrackingStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, dataChangeTrackerProvider)
-            .mapFail(
+            .map(
                 onError = { error -> StepExecutionErrors.DataChangeTracking(stepId = id, cause = error) },
                 onException = { incident -> StepExecutionIncident.DataChangeTracking(stepId = id, cause = incident) }
             )
@@ -140,7 +140,7 @@ public class RulesEngineExecutor(
 
     private fun HttpCallStep.tryExecute(envVars: EnvVars, context: Context) =
         execute(envVars, context, httpCallProvider, merger)
-            .mapFail(
+            .map(
                 onError = { error -> StepExecutionErrors.HttpCall(stepId = id, cause = error) },
                 onException = { incident -> StepExecutionIncident.HttpCall(stepId = id, cause = incident) }
             )

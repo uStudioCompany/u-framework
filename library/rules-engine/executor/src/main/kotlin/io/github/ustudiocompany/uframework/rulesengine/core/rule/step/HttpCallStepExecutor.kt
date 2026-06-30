@@ -3,7 +3,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
 import io.github.airflux.commons.types.maybe.MaybeBiFailure
-import io.github.airflux.commons.types.maybe.mapFail
+import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map2
@@ -62,7 +62,7 @@ private fun Context.update(
 ): MaybeBiFailure<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident> =
     when {
         result != null && value != null -> update(result.source, result.action, value, merger)
-            .mapFail(
+            .map(
                 onError = { error -> HttpCallStepExecutionErrors.ResultApply(error) },
                 onException = { incident -> HttpCallStepExecutionIncident.ResultApply(cause = incident) }
             )

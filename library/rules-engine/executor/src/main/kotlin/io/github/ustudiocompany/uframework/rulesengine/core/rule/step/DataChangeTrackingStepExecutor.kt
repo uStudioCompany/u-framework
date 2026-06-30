@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.maybe.MaybeBiFailure
-import io.github.airflux.commons.types.maybe.mapFail
+import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
@@ -21,7 +21,7 @@ internal fun DataChangeTrackingStep.execute(
         val (args) = step.buildArgs(envVars, context)
         val uri = DataChangeTrackerProvider.Uiss.from(step.uri.get)
         dataChangeTrackerProvider.prepare(uri, args)
-            .mapFail(
+            .map(
                 onError = { error -> DataChangeTrackingStepExecutionErrors.Preparing(error) },
                 onException = { incident -> DataChangeTrackingStepExecutionIncident.Preparing(cause = incident) }
             )

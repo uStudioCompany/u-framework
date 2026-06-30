@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.maybe.MaybeBiFailure
-import io.github.airflux.commons.types.maybe.mapFail
+import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailure
 import io.github.airflux.commons.types.resultk.mapFailureToError
@@ -42,7 +42,7 @@ private fun DataRetrieveStep.buildArgs(envVars: EnvVars, context: Context) =
 
 private fun Context.update(value: JsonElement, result: StepResult, merger: Merger) =
     update(result.source, result.action, value, merger)
-        .mapFail(
+        .map(
             onError = { error -> DataRetrieveStepExecutionErrors.ResultApply(error) },
             onException = { incident -> DataRetrieveStepExecutionIncident.ResultApply(cause = incident) }
         )
