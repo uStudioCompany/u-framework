@@ -71,11 +71,7 @@ internal fun Context.merge(
                 onException = { incident -> ContextIncident.DataMerge(source = source, cause = incident) }
             )
 
-        val isReplaced = putIfPresent(source, updated)
-        return if (isReplaced)
-            Maybe.none()
-        else
-            ContextErrors.DataReplacement(source).asError().asSome()
+        context.replace(source, updated)
     }
 
 private const val DETAILS_KEY_SOURCE = "source-name"
