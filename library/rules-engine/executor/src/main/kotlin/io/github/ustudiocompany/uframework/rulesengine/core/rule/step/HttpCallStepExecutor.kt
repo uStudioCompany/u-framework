@@ -1,8 +1,8 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
@@ -28,7 +28,7 @@ internal fun HttpCallStep.execute(
     context: Context,
     httpCallProvider: HttpCallProvider,
     merger: Merger
-): Maybe<Fail<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident>> {
+): MaybeBiFailure<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident> {
     val step = this
     return maybeFailure {
         val uri = HttpCallProvider.Uri.from(step.uri.get)
@@ -59,7 +59,7 @@ private fun Context.update(
     value: JsonElement?,
     result: StepResult?,
     merger: Merger
-): Maybe<Fail<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident>> =
+): MaybeBiFailure<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident> =
     when {
         result != null && value != null -> update(result.source, result.action, value, merger)
             .mapFail(

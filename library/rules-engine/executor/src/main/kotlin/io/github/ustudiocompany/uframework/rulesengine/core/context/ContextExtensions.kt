@@ -1,9 +1,9 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
-import io.github.airflux.commons.types.maybe.asSome
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
+import io.github.airflux.commons.types.maybe.maybeError
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.asFailure
@@ -28,7 +28,7 @@ internal fun Context.update(
     action: StepResult.Action,
     value: JsonElement,
     merge: Merger
-): Maybe<Fail<ContextErrors, ContextIncident>> =
+): MaybeBiFailure<ContextErrors, ContextIncident> =
     when (action) {
         is StepResult.Action.Put -> put(source = source, value = value)
         is StepResult.Action.Replace -> replace(source = source, value = value)
@@ -45,7 +45,7 @@ internal fun Context.put(source: Source, value: JsonElement): Maybe<Fail.Error<C
     return if (isAdded)
         Maybe.none()
     else
-        ContextErrors.SourceAlreadyExists(source).asError().asSome()
+        maybeError(ContextErrors.SourceAlreadyExists(source))
 }
 
 internal fun Context.replace(source: Source, value: JsonElement): Maybe<Fail.Error<ContextErrors.DataReplacement>> {
@@ -53,7 +53,7 @@ internal fun Context.replace(source: Source, value: JsonElement): Maybe<Fail.Err
     return if (isReplaced)
         Maybe.none()
     else
-        ContextErrors.DataReplacement(source).asError().asSome()
+        maybeError(ContextErrors.DataReplacement(source))
 }
 
 internal fun Context.merge(
@@ -61,7 +61,7 @@ internal fun Context.merge(
     value: JsonElement,
     strategyCode: StepResult.Action.Merge.StrategyCode,
     merge: Merger
-): Maybe<Fail<ContextErrors, ContextIncident>> =
+): MaybeBiFailure<ContextErrors, ContextIncident> =
     maybeFailure {
         val context = this@merge
         val (origin) = context[source].liftToError()

@@ -1,7 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailureToError
@@ -20,7 +20,7 @@ internal fun DataBuildStep.execute(
     envVars: EnvVars,
     context: Context,
     merger: Merger
-): Maybe<Fail<DataBuildStepExecutionErrors, DataBuildStepExecutionIncident>> {
+): MaybeBiFailure<DataBuildStepExecutionErrors, DataBuildStepExecutionIncident> {
     val step = this
     return maybeFailure {
         val (value) = step.buildData(envVars, context)

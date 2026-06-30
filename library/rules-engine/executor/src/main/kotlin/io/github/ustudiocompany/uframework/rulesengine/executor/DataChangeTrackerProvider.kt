@@ -1,7 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.executor
 
-import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
@@ -10,7 +9,7 @@ import kotlin.text.Charsets.UTF_8
 
 public fun interface DataChangeTrackerProvider {
 
-    public fun prepare(uiss: Uiss, args: List<Arg>): Maybe<Fail<Error, Incident>>
+    public fun prepare(uiss: Uiss, args: List<Arg>): MaybeBiFailure<Error, Incident>
 
     @JvmInline
     public value class Uiss private constructor(public val get: String) {

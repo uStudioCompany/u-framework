@@ -1,7 +1,6 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import io.github.airflux.commons.types.fail.Fail
-import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.mapFailureToError
@@ -16,7 +15,7 @@ internal fun DataChangeTrackingStep.execute(
     envVars: EnvVars,
     context: Context,
     dataChangeTrackerProvider: DataChangeTrackerProvider,
-): Maybe<Fail<DataChangeTrackingStepExecutionErrors, DataChangeTrackingStepExecutionIncident>> {
+): MaybeBiFailure<DataChangeTrackingStepExecutionErrors, DataChangeTrackingStepExecutionIncident> {
     val step = this
     return maybeFailure {
         val (args) = step.buildArgs(envVars, context)

@@ -1,8 +1,7 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
-import io.github.airflux.commons.types.fail.Fail
 import io.github.airflux.commons.types.fail.asError
-import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.airflux.commons.types.maybe.mapFail
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
@@ -22,7 +21,7 @@ internal fun MessagePublishStep.execute(
     envVars: EnvVars,
     context: Context,
     messagePublisher: MessagePublisher
-): Maybe<Fail<MessagePublishStepExecutionErrors, MessagePublishStepExecutionIncident>> {
+): MaybeBiFailure<MessagePublishStepExecutionErrors, MessagePublishStepExecutionIncident> {
     val step = this
     return maybeFailure {
         val (routeKey) = step.buildRouteKey(envVars, context)
