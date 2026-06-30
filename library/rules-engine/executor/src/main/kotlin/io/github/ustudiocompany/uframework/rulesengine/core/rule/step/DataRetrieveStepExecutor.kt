@@ -30,7 +30,7 @@ internal fun DataRetrieveStep.execute(
         val (value) = dataProvider.get(uri, args)
             .mapFailure(
                 onError = { error -> DataRetrieveStepExecutionErrors.ExternalDataRetrieval(error) },
-                onException = { incident -> DataRetrieveStepExecutionIncident.ExternalDataRetrieval(incident) }
+                onException = { incident -> DataRetrieveStepExecutionIncident.ExternalDataRetrieval(cause = incident) }
             )
         context.update(value, step.result, merger)
     }
@@ -38,13 +38,13 @@ internal fun DataRetrieveStep.execute(
 
 private fun DataRetrieveStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataProvider.Arg(name, value) }
-        .mapFailureToError { failure -> DataRetrieveStepExecutionErrors.ArgBuild(failure) }
+        .mapFailureToError { failure -> DataRetrieveStepExecutionErrors.ArgBuild(cause = failure) }
 
 private fun Context.update(value: JsonElement, result: StepResult, merger: Merger) =
     update(result.source, result.action, value, merger)
         .mapFail(
             onError = { error -> DataRetrieveStepExecutionErrors.ResultApply(error) },
-            onException = { incident -> DataRetrieveStepExecutionIncident.ResultApply(incident) }
+            onException = { incident -> DataRetrieveStepExecutionIncident.ResultApply(cause = incident) }
         )
 
 internal sealed interface DataRetrieveStepExecutionErrors : BasicRulesEngineError {

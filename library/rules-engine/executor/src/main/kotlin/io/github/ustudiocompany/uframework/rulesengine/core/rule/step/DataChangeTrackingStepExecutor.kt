@@ -23,14 +23,14 @@ internal fun DataChangeTrackingStep.execute(
         dataChangeTrackerProvider.prepare(uri, args)
             .mapFail(
                 onError = { error -> DataChangeTrackingStepExecutionErrors.Preparing(error) },
-                onException = { incident -> DataChangeTrackingStepExecutionIncident.Preparing(incident) }
+                onException = { incident -> DataChangeTrackingStepExecutionIncident.Preparing(cause = incident) }
             )
     }
 }
 
 private fun DataChangeTrackingStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> DataChangeTrackerProvider.Arg(name, value) }
-        .mapFailureToError { failure -> DataChangeTrackingStepExecutionErrors.ArgBuild(failure) }
+        .mapFailureToError { failure -> DataChangeTrackingStepExecutionErrors.ArgBuild(cause = failure) }
 
 internal sealed interface DataChangeTrackingStepExecutionErrors : BasicRulesEngineError {
 

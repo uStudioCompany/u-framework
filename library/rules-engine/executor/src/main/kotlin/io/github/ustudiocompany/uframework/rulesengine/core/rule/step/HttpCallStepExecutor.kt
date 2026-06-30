@@ -37,7 +37,7 @@ internal fun HttpCallStep.execute(
         val (value) = httpCallProvider.call(uri, args, body)
             .mapFailure(
                 onError = { error -> HttpCallStepExecutionErrors.Call(error) },
-                onException = { incident -> HttpCallStepExecutionIncident.Call(incident) }
+                onException = { incident -> HttpCallStepExecutionIncident.Call(cause = incident) }
             )
         context.update(value, step.result, merger)
     }
@@ -45,7 +45,7 @@ internal fun HttpCallStep.execute(
 
 private fun HttpCallStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> HttpCallProvider.Arg(name, value) }
-        .mapFailureToError { failure -> HttpCallStepExecutionErrors.ArgBuild(failure) }
+        .mapFailureToError { failure -> HttpCallStepExecutionErrors.ArgBuild(cause = failure) }
 
 private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
@@ -64,7 +64,7 @@ private fun Context.update(
         result != null && value != null -> update(result.source, result.action, value, merger)
             .mapFail(
                 onError = { error -> HttpCallStepExecutionErrors.ResultApply(error) },
-                onException = { incident -> HttpCallStepExecutionIncident.ResultApply(incident) }
+                onException = { incident -> HttpCallStepExecutionIncident.ResultApply(cause = incident) }
             )
 
         result != null && value == null -> Maybe.some(HttpCallStepExecutionErrors.ExpectedResponseMissing().asError())

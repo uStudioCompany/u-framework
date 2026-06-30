@@ -17,7 +17,7 @@ internal fun ValidationStep.execute(
     context: Context
 ): ResultK<ValidationStep.ErrorCode?, ValidationStepExecutingError> =
     calculate(envVars, context)
-        .mapFailure { failure -> ValidationStepExecutingError.OperationCalculation(failure) }
+        .mapFailure { failure -> ValidationStepExecutingError.OperationCalculation(cause = failure) }
         .flatMapBoolean(
             ifTrue = { Success.asNull },
             ifFalse = { errorCode.asSuccess() }

@@ -43,7 +43,7 @@ private fun Predicate.evaluate(
     context: Context
 ): ResultK<Boolean, PredicateEvaluationErrors> =
     this.calculate(envVars, context)
-        .mapFailure { failure -> PredicateEvaluationErrors(failure) }
+        .mapFailure { failure -> PredicateEvaluationErrors(cause = failure) }
 
 internal class PredicateEvaluationErrors(cause: OperationCalculationErrors) : BasicRulesEngineError {
     override val code: String = PREFIX + "1"

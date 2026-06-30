@@ -30,14 +30,14 @@ internal fun DataBuildStep.execute(
 
 private fun DataBuildStep.buildData(envVars: EnvVars, context: Context) =
     dataSchema.build(envVars, context)
-        .mapFailureToError { failure -> DataBuildStepExecutionErrors.DataBuild(failure) }
+        .mapFailureToError { failure -> DataBuildStepExecutionErrors.DataBuild(cause = failure) }
 
 private fun Context.update(value: JsonElement, result: StepResult?, merger: Merger) =
     result?.let { result ->
         update(result.source, result.action, value, merger)
             .mapFail(
                 onError = { error -> DataBuildStepExecutionErrors.ResultApply(error) },
-                onException = { incident -> DataBuildStepExecutionIncident.ResultApply(incident) }
+                onException = { incident -> DataBuildStepExecutionIncident.ResultApply(cause = incident) }
             )
     } ?: Maybe.none()
 

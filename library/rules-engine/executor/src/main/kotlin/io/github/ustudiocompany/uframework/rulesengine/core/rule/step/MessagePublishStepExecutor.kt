@@ -30,7 +30,7 @@ internal fun MessagePublishStep.execute(
         messagePublisher.publish(routeKey, headers, body)
             .mapFail(
                 onError = { error -> MessagePublishStepExecutionErrors.Publish(error) },
-                onException = { incident -> MessagePublishStepExecutionIncident.Publish(incident) }
+                onException = { incident -> MessagePublishStepExecutionIncident.Publish(cause = incident) }
             )
     }
 }
@@ -51,7 +51,7 @@ private fun MessagePublishStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> value.toStringValue() },
-            onFailure = { failure -> MessagePublishStepExecutionErrors.BodyBuild(failure).asError() }
+            onFailure = { failure -> MessagePublishStepExecutionErrors.BodyBuild(cause = failure).asError() }
         )
         ?: ResultK.Success.asNull
 
