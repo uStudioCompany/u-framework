@@ -1,6 +1,9 @@
 public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineError : io/github/ustudiocompany/uframework/failure/Failure {
 }
 
+public abstract interface class io/github/ustudiocompany/uframework/rulesengine/core/BasicRulesEngineIncident : io/github/ustudiocompany/uframework/failure/Failure {
+}
+
 public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion;
 	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -16,7 +19,7 @@ public final class io/github/ustudiocompany/uframework/rulesengine/core/context/
 public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context$Builder {
 	public fun <init> ()V
 	public final fun build ()Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context;
-	public final fun set (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Builder;
+	public final fun put (Lio/github/ustudiocompany/uframework/rulesengine/core/rule/Source;Lio/github/ustudiocompany/uframework/json/element/JsonElement;)Lio/github/ustudiocompany/uframework/rulesengine/core/context/Context$Builder;
 }
 
 public final class io/github/ustudiocompany/uframework/rulesengine/core/context/Context$Companion {

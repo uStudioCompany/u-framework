@@ -10,9 +10,8 @@ import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.json.path.Path
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextDataRetrievalErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextErrors
 import io.github.ustudiocompany.uframework.rulesengine.core.context.get
-import io.github.ustudiocompany.uframework.rulesengine.core.data.PathLookupError
 import io.github.ustudiocompany.uframework.rulesengine.core.data.search
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarReadingErrors
@@ -30,7 +29,7 @@ internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElem
             .mapFailure { failure -> ValueComputationErrors.ContextDataRetrieval(source = source, cause = failure) }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { failure -> ValueComputationErrors.PathLookup(path = path, cause = failure) }
+                    .mapFailure { failure -> ValueComputationErrors.PathSearch(path = path, cause = failure) }
                     .filterNotNull { ValueComputationErrors.DataNotFoundAtPath(source = source, path = path) }
             }
 
@@ -40,13 +39,13 @@ internal fun Value.compute(envVars: EnvVars, context: Context): ResultK<JsonElem
         is Value.EnvVars -> envVars[name]
             .mapFailure { failure -> ValueComputationErrors.EnvVarReading(name = name, cause = failure) }
 
-        is Value.DataStruct -> this.scheme.build(envVars, context)
+        is Value.DataStruct -> scheme.build(envVars, context)
             .mapFailure { failure -> ValueComputationErrors.DataStructBuild(cause = failure) }
     }
 
 internal sealed interface ValueComputationErrors : BasicRulesEngineError {
 
-    class ContextDataRetrieval(source: Source, cause: ContextDataRetrievalErrors) : ValueComputationErrors {
+    class ContextDataRetrieval(source: Source, cause: ContextErrors.SourceMissing) : ValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
             "Error retrieving a data from context by source '${source.get}' for computing value."
@@ -69,7 +68,7 @@ internal sealed interface ValueComputationErrors : BasicRulesEngineError {
         )
     }
 
-    class PathLookup(path: Path, cause: PathLookupError) : ValueComputationErrors {
+    class PathSearch(path: Path, cause: Path.SearchError) : ValueComputationErrors {
         override val code: String = PREFIX + "3"
         override val description: String =
             "Error searching within data at the specified path '${path.text}' for computing value."
@@ -101,7 +100,7 @@ internal sealed interface ValueComputationErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "VALUE-COMPUTE-"
+        private const val PREFIX = "VALUE-COMPUTE-ERROR-"
         private const val DETAILS_KEY_PATH = "json-path"
         private const val DETAILS_KEY_SOURCE = "source-name"
         private const val DETAILS_KEY_ENV_VAR = "env-var-name"
@@ -121,20 +120,16 @@ internal fun Value.computeOrNull(
             }
             .andThen { element ->
                 element.search(path)
-                    .mapFailure { failure ->
-                        OptionalValueComputationErrors.PathSearch(path = path, cause = failure)
-                    }
+                    .mapFailure { failure -> OptionalValueComputationErrors.PathSearch(path = path, cause = failure) }
             }
 
         is Value.Expression -> expression.evaluate(envVars, context)
             .mapFailure { failure -> OptionalValueComputationErrors.FeelExpressionEvaluate(cause = failure) }
 
         is Value.EnvVars -> envVars[name]
-            .mapFailure { failure ->
-                OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure)
-            }
+            .mapFailure { failure -> OptionalValueComputationErrors.EnvVarReading(name = name, cause = failure) }
 
-        is Value.DataStruct -> this.scheme.build(envVars, context)
+        is Value.DataStruct -> scheme.build(envVars, context)
             .mapFailure { failure -> OptionalValueComputationErrors.DataStructBuild(cause = failure) }
     }
 
@@ -142,7 +137,7 @@ internal sealed interface OptionalValueComputationErrors : BasicRulesEngineError
 
     class ContextDataRetrieval(
         source: Source,
-        cause: ContextDataRetrievalErrors.SourceMissing
+        cause: ContextErrors.SourceMissing
     ) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "1"
         override val description: String =
@@ -166,9 +161,10 @@ internal sealed interface OptionalValueComputationErrors : BasicRulesEngineError
         )
     }
 
-    class PathSearch(path: Path, cause: PathLookupError) : OptionalValueComputationErrors {
+    class PathSearch(path: Path, cause: Path.SearchError) : OptionalValueComputationErrors {
         override val code: String = PREFIX + "3"
-        override val description: String = "Error searching a data by path '${path.text}' for computing value."
+        override val description: String =
+            "Error searching within data at the specified path '${path.text}' for computing value."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
         override val details: Failure.Details = Failure.Details.of(
             DETAILS_KEY_PATH to path.text
@@ -188,7 +184,7 @@ internal sealed interface OptionalValueComputationErrors : BasicRulesEngineError
     }
 
     private companion object {
-        private const val PREFIX = "OPTIONAL-VALUE-COMPUTE-"
+        private const val PREFIX = "OPTIONAL-VALUE-COMPUTE-ERROR-"
         private const val DETAILS_KEY_PATH = "json-path"
         private const val DETAILS_KEY_SOURCE = "source-name"
         private const val DETAILS_KEY_ENV_VAR = "env-var-name"

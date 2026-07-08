@@ -36,6 +36,6 @@ internal sealed interface OperationCalculationErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "CALCULATE-OPERATION-"
+        private const val PREFIX = "CALCULATE-OPERATION-ERROR-"
     }
 }

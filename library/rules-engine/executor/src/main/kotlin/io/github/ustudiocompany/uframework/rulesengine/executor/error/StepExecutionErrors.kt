@@ -80,7 +80,7 @@ public sealed class StepExecutionErrors(stepId: StepId) : BasicRulesEngineError 
     }
 
     private companion object {
-        private const val PREFIX = "STEP-EXECUTION-"
+        private const val PREFIX = "STEP-EXECUTION-ERROR-"
         private const val STEP_ID = "step-id"
     }
 }

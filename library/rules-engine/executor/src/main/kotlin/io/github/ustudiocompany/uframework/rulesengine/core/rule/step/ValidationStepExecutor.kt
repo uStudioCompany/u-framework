@@ -17,7 +17,7 @@ internal fun ValidationStep.execute(
     context: Context
 ): ResultK<ValidationStep.ErrorCode?, ValidationStepExecutingError> =
     calculate(envVars, context)
-        .mapFailure { failure -> ValidationStepExecutingError.OperationCalculation(failure) }
+        .mapFailure { failure -> ValidationStepExecutingError.OperationCalculation(cause = failure) }
         .flatMapBoolean(
             ifTrue = { Success.asNull },
             ifFalse = { errorCode.asSuccess() }
@@ -32,6 +32,6 @@ internal sealed interface ValidationStepExecutingError : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "VALIDATION-STEP-EXECUTION-"
+        private const val PREFIX = "VALIDATION-STEP-EXECUTION-ERROR-"
     }
 }

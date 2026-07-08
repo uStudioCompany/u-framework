@@ -1,8 +1,11 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.fail.asError
+import io.github.airflux.commons.types.fail.asException
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainErrorInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainExceptionInstance
 import io.github.airflux.commons.types.resultk.asFailure
 import io.github.airflux.commons.types.resultk.asSuccess
 import io.github.ustudiocompany.uframework.json.element.JsonElement
@@ -31,7 +34,7 @@ internal class UpdateContextTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Merger.Error().asFailure() }
+                        merge = { _, _, _ -> Merger.Error().asError().asFailure() }
                     )
 
                     "then call the function should be successful" {
@@ -47,12 +50,12 @@ internal class UpdateContextTest : UnitTest() {
                         source = SOURCE,
                         action = action,
                         value = value,
-                        merge = { _, _, _ -> Merger.Error().asFailure() }
+                        merge = { _, _, _ -> Merger.Error().asError().asFailure() }
                     )
 
                     "then call the function should be failed" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataAddition>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<ContextErrors.SourceAlreadyExists>()
                     }
                 }
             }
@@ -67,8 +70,8 @@ internal class UpdateContextTest : UnitTest() {
                     val result = context.update(source = SOURCE, action = action, value = value, merge = MERGER)
 
                     "then call the function should be failed" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataReplacement>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<ContextErrors.DataReplacement>()
                     }
                 }
 
@@ -103,8 +106,8 @@ internal class UpdateContextTest : UnitTest() {
                     val result = context.update(source = SOURCE, action = action, value = newValue, merge = MERGER)
 
                     "then call the function should be failed" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<ContextErrors.SourceMissing>()
                     }
                 }
 
@@ -130,17 +133,31 @@ internal class UpdateContextTest : UnitTest() {
                         }
                     }
 
-                    "when the merge function is failed" - {
+                    "when the merge function returns an error" - {
                         val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
 
                         val newValue = JsonElement.Text(NEW_VALUE)
                         val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->
-                            Merger.Error().asFailure()
+                            Merger.Error().asError().asFailure()
                         }
 
-                        "then call the function should be failed" {
-                            result.shouldContainSomeInstance()
-                                .shouldBeInstanceOf<ContextUpdateErrors.DataMerge>()
+                        "then the function call should fail with an error" {
+                            result.shouldContainErrorInstance()
+                                .shouldBeInstanceOf<ContextErrors.DataMerge>()
+                        }
+                    }
+
+                    "when the merge function returns an incident" - {
+                        val context = Context(sources = mapOf(SOURCE to JsonElement.Text(ORIGIN_VALUE)))
+
+                        val newValue = JsonElement.Text(NEW_VALUE)
+                        val result = context.update(source = SOURCE, action = action, value = newValue) { _, _, _ ->
+                            Merger.Incident().asException().asFailure()
+                        }
+
+                        "then the function call should fail with an incident" {
+                            result.shouldContainExceptionInstance()
+                                .shouldBeInstanceOf<ContextIncident.DataMerge>()
                         }
                     }
                 }

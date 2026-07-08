@@ -30,7 +30,7 @@ public fun interface RulesParser {
         }
 
         private companion object {
-            private const val PREFIX = "RULES-PARSER-"
+            private const val PREFIX = "RULES-PARSER-ERROR-"
         }
     }
 }

@@ -26,5 +26,5 @@ private class JacksonRulesParser(
     override fun parse(input: String): ResultK<Rules, RulesParser.Errors> =
         deserializer.deserialize(input)
             .andThen { model -> converter.convert(model.rules) }
-            .mapFailure { error -> RulesParser.Errors.Parsing(error) }
+            .mapFailure { failure -> RulesParser.Errors.Parsing(cause = failure) }
 }

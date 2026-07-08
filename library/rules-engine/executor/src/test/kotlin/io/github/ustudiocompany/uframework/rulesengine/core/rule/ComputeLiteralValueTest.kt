@@ -11,12 +11,13 @@ import io.github.ustudiocompany.uframework.test.kotest.UnitTest
 internal class ComputeLiteralValueTest : UnitTest() {
 
     init {
-        "when the value is the Literal type" - {
-            val value = Value.Literal(JsonElement.Text(VALUE))
+
+        "Compute a value of the Literal type" - {
+            val value = Value.Literal(JsonElement.Text(FACT_VALUE))
 
             "then the compute function should return the fact-value" {
                 val result = value.compute(ENV_VARS, CONTEXT)
-                result shouldBeSuccess JsonElement.Text(VALUE)
+                result shouldBeSuccess JsonElement.Text(FACT_VALUE)
             }
         }
     }
@@ -24,6 +25,6 @@ internal class ComputeLiteralValueTest : UnitTest() {
     companion object {
         private val ENV_VARS = envVarsOf()
         private val CONTEXT = Context.empty()
-        private const val VALUE = "value"
+        private const val FACT_VALUE = "value"
     }
 }

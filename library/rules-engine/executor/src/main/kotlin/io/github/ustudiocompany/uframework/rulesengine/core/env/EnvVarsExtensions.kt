@@ -26,7 +26,7 @@ internal sealed interface EnvVarReadingErrors : BasicRulesEngineError {
     }
 
     private companion object {
-        private const val PREFIX = "GET-VALUE-FROM-ENV-VARS-"
+        private const val PREFIX = "GET-VALUE-FROM-ENV-VARS-ERROR-"
     }
 }
 

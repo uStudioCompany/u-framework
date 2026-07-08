@@ -15,7 +15,7 @@ internal class ComputeEnvVarValueTest : UnitTest() {
 
     init {
 
-        "when the value is the EnvVars type" - {
+        "Compute a value of the EnvVars type" - {
 
             "when the variable is missing from the environment variables" - {
                 val envVars = envVarsOf()
@@ -25,6 +25,13 @@ internal class ComputeEnvVarValueTest : UnitTest() {
                     val result = value.compute(envVars, CONTEXT)
                     result.shouldContainFailureInstance()
                         .shouldBeInstanceOf<ValueComputationErrors.EnvVarReading>()
+                }
+
+                "then the computeOrNull function should return a failure" {
+                    val value = Value.EnvVars(name = ENV_VAR_NAME)
+                    val result = value.computeOrNull(envVars, CONTEXT)
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<OptionalValueComputationErrors.EnvVarReading>()
                 }
             }
 

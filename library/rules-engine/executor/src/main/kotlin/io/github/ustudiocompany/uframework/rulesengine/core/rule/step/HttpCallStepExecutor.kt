@@ -1,16 +1,21 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
+import io.github.airflux.commons.types.fail.asError
 import io.github.airflux.commons.types.maybe.Maybe
+import io.github.airflux.commons.types.maybe.MaybeBiFailure
 import io.github.airflux.commons.types.maybe.map
 import io.github.airflux.commons.types.maybe.maybeFailure
 import io.github.airflux.commons.types.resultk.ResultK
 import io.github.airflux.commons.types.resultk.map2
 import io.github.airflux.commons.types.resultk.mapFailure
+import io.github.airflux.commons.types.resultk.mapFailureToError
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineError
+import io.github.ustudiocompany.uframework.rulesengine.core.BasicRulesEngineIncident
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
-import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextUpdateErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextErrors
+import io.github.ustudiocompany.uframework.rulesengine.core.context.ContextIncident
 import io.github.ustudiocompany.uframework.rulesengine.core.context.update
 import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVars
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.ValueComputationErrors
@@ -23,27 +28,30 @@ internal fun HttpCallStep.execute(
     context: Context,
     httpCallProvider: HttpCallProvider,
     merger: Merger
-): Maybe<HttpCallStepExecutionErrors> {
+): MaybeBiFailure<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident> {
     val step = this
     return maybeFailure {
         val uri = HttpCallProvider.Uri.from(step.uri.get)
         val (args) = step.buildArgs(envVars, context)
         val (body) = step.buildBody(envVars, context)
         val (value) = httpCallProvider.call(uri, args, body)
-            .mapFailure { failure -> HttpCallStepExecutionErrors.Call(failure) }
+            .mapFailure(
+                onError = { error -> HttpCallStepExecutionErrors.Call(error) },
+                onException = { incident -> HttpCallStepExecutionIncident.Call(cause = incident) }
+            )
         context.update(value, step.result, merger)
     }
 }
 
 private fun HttpCallStep.buildArgs(envVars: EnvVars, context: Context) =
     args.build(envVars, context) { name, value -> HttpCallProvider.Arg(name, value) }
-        .mapFailure { failure -> HttpCallStepExecutionErrors.ArgBuild(failure) }
+        .mapFailureToError { failure -> HttpCallStepExecutionErrors.ArgBuild(cause = failure) }
 
 private fun HttpCallStep.buildBody(envVars: EnvVars, context: Context) =
     body?.compute(envVars, context)
         ?.map2(
             onSuccess = { value -> HttpCallProvider.Body(value) },
-            onFailure = { failure -> HttpCallStepExecutionErrors.BodyBuild(failure) }
+            onFailure = { error -> HttpCallStepExecutionErrors.BodyBuild(error).asError() }
         )
         ?: ResultK.Success.asNull
 
@@ -51,12 +59,15 @@ private fun Context.update(
     value: JsonElement?,
     result: StepResult?,
     merger: Merger
-): Maybe<HttpCallStepExecutionErrors> =
+): MaybeBiFailure<HttpCallStepExecutionErrors, HttpCallStepExecutionIncident> =
     when {
         result != null && value != null -> update(result.source, result.action, value, merger)
-            .map { failure -> HttpCallStepExecutionErrors.ContextUpdate(failure) }
+            .map(
+                onError = { error -> HttpCallStepExecutionErrors.ResultApply(error) },
+                onException = { incident -> HttpCallStepExecutionIncident.ResultApply(cause = incident) }
+            )
 
-        result != null && value == null -> Maybe.some(HttpCallStepExecutionErrors.ExpectedResponseMissing())
+        result != null && value == null -> Maybe.some(HttpCallStepExecutionErrors.ExpectedResponseMissing().asError())
         result == null && value != null -> Maybe.none()
         else -> Maybe.none()
     }
@@ -87,13 +98,32 @@ internal sealed interface HttpCallStepExecutionErrors : BasicRulesEngineError {
         override val cause: Failure.Cause = Failure.Cause.None
     }
 
-    class ContextUpdate(cause: ContextUpdateErrors) : HttpCallStepExecutionErrors {
+    class ResultApply(cause: ContextErrors) : HttpCallStepExecutionErrors {
         override val code: String = PREFIX + "5"
-        override val description: String = "Error updating context in the 'HTTP Call' step."
+        override val description: String = "Error of processing the result of the 'HTTP Call' step."
         override val cause: Failure.Cause = Failure.Cause.Failure(cause)
     }
 
     private companion object {
-        private const val PREFIX = "HTTP-CALL-STEP-EXECUTION-"
+        private const val PREFIX = "HTTP-CALL-STEP-EXECUTION-ERROR-"
+    }
+}
+
+internal sealed interface HttpCallStepExecutionIncident : BasicRulesEngineIncident {
+
+    class Call(cause: HttpCallProvider.Incident) : HttpCallStepExecutionIncident {
+        override val code: String = PREFIX + "1"
+        override val description: String = "Incident HTTP calling the 'HTTP Call' step."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    class ResultApply(cause: ContextIncident) : HttpCallStepExecutionIncident {
+        override val code: String = PREFIX + "2"
+        override val description: String = "Incident of processing the result of the 'HTTP Call' step."
+        override val cause: Failure.Cause = Failure.Cause.Failure(cause)
+    }
+
+    private companion object {
+        private const val PREFIX = "HTTP-CALL-STEP-EXECUTION-INCIDENT-"
     }
 }

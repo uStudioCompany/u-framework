@@ -25,7 +25,7 @@ internal class RulesDeserializer(private val mapper: ObjectMapper) {
         }
 
         private companion object {
-            private const val PREFIX = "RULES-DESERIALIZER-"
+            private const val PREFIX = "RULES-DESERIALIZER-ERROR-"
         }
     }
 }

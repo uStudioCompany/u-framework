@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainErrorInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -24,8 +24,8 @@ internal class ReplaceDataInContextTest : UnitTest() {
                 val result = context.replace(SOURCE, value)
 
                 "then function should return an error" {
-                    result.shouldContainSomeInstance()
-                        .shouldBeInstanceOf<ContextDataReplacementErrors.SourceMissing>()
+                    result.shouldContainErrorInstance()
+                        .shouldBeInstanceOf<ContextErrors.DataReplacement>()
                 }
             }
 
@@ -60,8 +60,8 @@ internal class ReplaceDataInContextTest : UnitTest() {
                     val result = context.replace(UNKNOWN_SOURCE, newValue)
 
                     "then function should return an error" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextDataReplacementErrors.SourceMissing>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<ContextErrors.DataReplacement>()
                     }
 
                     "then the context should not contain the source" {
@@ -87,7 +87,7 @@ internal class ReplaceDataInContextTest : UnitTest() {
     private sealed interface Errors : Failure {
 
         data object TestMergerError : Errors {
-            override val code: String = "MERGER_ERROR"
+            override val code: String = "MERGER-ERROR"
         }
     }
 }

@@ -2,7 +2,7 @@ package io.github.ustudiocompany.uframework.rulesengine.core.context
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
 import io.github.airflux.commons.types.maybe.matcher.shouldBeNone
-import io.github.airflux.commons.types.maybe.matcher.shouldContainSomeInstance
+import io.github.airflux.commons.types.maybe.matcher.shouldContainErrorInstance
 import io.github.ustudiocompany.uframework.failure.Failure
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Source
@@ -47,8 +47,8 @@ internal class PutDataToContextTest : UnitTest() {
                     val result = context.put(SOURCE, newValue)
 
                     "then function should return an error" {
-                        result.shouldContainSomeInstance()
-                            .shouldBeInstanceOf<ContextDataAdditionErrors.SourceAlreadyExists>()
+                        result.shouldContainErrorInstance()
+                            .shouldBeInstanceOf<ContextErrors.SourceAlreadyExists>()
                     }
 
                     "then the context should contain the source" {
@@ -95,7 +95,7 @@ internal class PutDataToContextTest : UnitTest() {
     private sealed interface Errors : Failure {
 
         data object TestMergerError : Errors {
-            override val code: String = "MERGER_ERROR"
+            override val code: String = "MERGER-ERROR"
         }
     }
 }

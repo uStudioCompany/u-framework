@@ -34,7 +34,7 @@ internal class ConditionEvaluationErrors(cause: PredicateEvaluationErrors) : Bas
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "CONDITION-EVALUATION-"
+        private const val PREFIX = "CONDITION-EVALUATION-ERROR-"
     }
 }
 
@@ -43,7 +43,7 @@ private fun Predicate.evaluate(
     context: Context
 ): ResultK<Boolean, PredicateEvaluationErrors> =
     this.calculate(envVars, context)
-        .mapFailure { failure -> PredicateEvaluationErrors(failure) }
+        .mapFailure { failure -> PredicateEvaluationErrors(cause = failure) }
 
 internal class PredicateEvaluationErrors(cause: OperationCalculationErrors) : BasicRulesEngineError {
     override val code: String = PREFIX + "1"
@@ -51,6 +51,6 @@ internal class PredicateEvaluationErrors(cause: OperationCalculationErrors) : Ba
     override val cause: Failure.Cause = Failure.Cause.Failure(cause)
 
     private companion object {
-        private const val PREFIX = "PREDICATE-EVALUATION-"
+        private const val PREFIX = "PREDICATE-EVALUATION-ERROR-"
     }
 }

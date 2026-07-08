@@ -1,9 +1,11 @@
 package io.github.ustudiocompany.uframework.rulesengine.core.rule.step
 
 import io.github.airflux.commons.types.AirfluxTypesExperimental
+import io.github.airflux.commons.types.resultk.matcher.shouldContainFailureInstance
 import io.github.airflux.commons.types.resultk.matcher.shouldContainSuccessInstance
 import io.github.ustudiocompany.uframework.json.element.JsonElement
 import io.github.ustudiocompany.uframework.rulesengine.core.context.Context
+import io.github.ustudiocompany.uframework.rulesengine.core.env.EnvVarName
 import io.github.ustudiocompany.uframework.rulesengine.core.env.envVarsOf
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.Value
 import io.github.ustudiocompany.uframework.rulesengine.core.rule.condition.Condition
@@ -30,14 +32,38 @@ internal class ValidationStepExecutorTest : UnitTest() {
                 }
             }
 
-            "when execution of the step is fail" - {
-                val step = failStep()
+            "when the validation is failed" - {
+                val step = ValidationStep(
+                    id = STEP_ID,
+                    condition = Condition.NONE,
+                    target = Value.Literal(fact = TEXT_VALUE_1),
+                    value = Value.Literal(fact = TEXT_VALUE_2),
+                    operator = EQ,
+                    errorCode = ERROR_CODE
+                )
 
                 "then the executor should return an error result" {
                     val result = step.execute(ENV_VARS, CONTEXT)
                     val error = result.shouldContainSuccessInstance()
                         .shouldBeInstanceOf<ValidationStep.ErrorCode>()
                     error shouldBe ERROR_CODE
+                }
+            }
+
+            "when an operand calculation error" - {
+                val step = ValidationStep(
+                    id = STEP_ID,
+                    condition = Condition.NONE,
+                    target = Value.Literal(fact = TEXT_VALUE_1),
+                    value = Value.EnvVars(name = UNKNOW_ENV_VAR),
+                    operator = EQ,
+                    errorCode = ERROR_CODE
+                )
+
+                "then the executor should return an error result" {
+                    val result = step.execute(ENV_VARS, CONTEXT)
+                    result.shouldContainFailureInstance()
+                        .shouldBeInstanceOf<ValidationStepExecutingError.OperationCalculation>()
                 }
             }
         }
@@ -50,6 +76,7 @@ internal class ValidationStepExecutorTest : UnitTest() {
         private val ERROR_CODE = ValidationStep.ErrorCode("err-1")
         private val TEXT_VALUE_1 = JsonElement.Text("value-1")
         private val TEXT_VALUE_2 = JsonElement.Text("value-2")
+        private val UNKNOW_ENV_VAR = EnvVarName("unknow")
 
         private fun successfulStep() =
             ValidationStep(
@@ -57,16 +84,6 @@ internal class ValidationStepExecutorTest : UnitTest() {
                 condition = Condition.NONE,
                 target = Value.Literal(fact = TEXT_VALUE_1),
                 value = Value.Literal(fact = TEXT_VALUE_1),
-                operator = EQ,
-                errorCode = ERROR_CODE
-            )
-
-        private fun failStep() =
-            ValidationStep(
-                id = STEP_ID,
-                condition = Condition.NONE,
-                target = Value.Literal(fact = TEXT_VALUE_1),
-                value = Value.Literal(fact = TEXT_VALUE_2),
                 operator = EQ,
                 errorCode = ERROR_CODE
             )
