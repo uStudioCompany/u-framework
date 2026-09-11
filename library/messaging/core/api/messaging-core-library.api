@@ -53,10 +53,11 @@ public final class io/github/ustudiocompany/uframework/messaging/message/Channel
 }
 
 public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessage {
-	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel;Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel;Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Metadata;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getBody ()Ljava/lang/Object;
 	public final fun getChannel ()Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Channel;
 	public final fun getHeaders ()Lio/github/ustudiocompany/uframework/messaging/message/header/Headers;
+	public final fun getMetadata ()Lio/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Metadata;
 	public final fun getRoutingKey-N3_JE24 ()Ljava/lang/String;
 }
 
@@ -64,6 +65,12 @@ public final class io/github/ustudiocompany/uframework/messaging/message/Incomin
 	public fun <init> (Ljava/lang/String;I)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun getPartition ()I
+}
+
+public final class io/github/ustudiocompany/uframework/messaging/message/IncomingMessage$Metadata {
+	public fun <init> (JJ)V
+	public final fun getOffset ()J
+	public final fun getTimestamp ()J
 }
 
 public abstract interface class io/github/ustudiocompany/uframework/messaging/message/IncomingMessages : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
