@@ -242,24 +242,30 @@ internal class MessageListenerTest : ComponentTest() {
         private val FIRST_MESSAGE_KEY = MessageRoutingKey.of("key-1")
         private const val FIRST_MESSAGE_BODY = "message-1"
         private const val FIRST_MESSAGE_PARTITION = 1
+        private const val FIRST_MESSAGE_OFFSET = 0L
+        private const val FIRST_MESSAGE_TIMESTAMP = 1789127970L
 
         private const val SECOND_TOPIC = "topic-2"
         private val SECOND_MESSAGE_KEY = MessageRoutingKey.of("key-2")
         private const val SECOND_MESSAGE_BODY = "message-1"
         private const val SECOND_MESSAGE_PARTITION = 2
+        private const val SECOND_MESSAGE_OFFSET = 1L
+        private const val SECOND_MESSAGE_TIMESTAMP = 1789127971L
 
         private val FIRST_MESSAGE = IncomingMessage(
             routingKey = FIRST_MESSAGE_KEY,
             body = FIRST_MESSAGE_BODY,
             channel = IncomingMessage.Channel(name = FIRST_TOPIC, partition = FIRST_MESSAGE_PARTITION),
-            headers = Headers.EMPTY
+            headers = Headers.EMPTY,
+            metadata = IncomingMessage.Metadata(FIRST_MESSAGE_OFFSET, FIRST_MESSAGE_TIMESTAMP)
         )
 
         private val SECOND_MESSAGE = IncomingMessage(
             routingKey = SECOND_MESSAGE_KEY,
             body = SECOND_MESSAGE_BODY,
             channel = IncomingMessage.Channel(name = SECOND_TOPIC, partition = SECOND_MESSAGE_PARTITION),
-            headers = Headers.EMPTY
+            headers = Headers.EMPTY,
+            metadata = IncomingMessage.Metadata(SECOND_MESSAGE_OFFSET, SECOND_MESSAGE_TIMESTAMP)
         )
     }
 }

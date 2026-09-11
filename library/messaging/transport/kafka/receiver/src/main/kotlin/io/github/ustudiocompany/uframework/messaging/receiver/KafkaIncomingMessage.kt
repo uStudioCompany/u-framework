@@ -11,6 +11,10 @@ public fun <T> ConsumerRecord<String?, T>.toInboxMessage(): IncomingMessage<T> =
         channel = IncomingMessage.Channel(name = topic(), partition = partition()),
         routingKey = MessageRoutingKey.of(key()),
         body = value(),
+        metadata = IncomingMessage.Metadata(
+            offset = offset(),
+            timestamp = timestamp(),
+        ),
         headers = headers()
             .map { header -> Header(name = header.key(), value = header.value()) }
             .let { Headers(it) }
