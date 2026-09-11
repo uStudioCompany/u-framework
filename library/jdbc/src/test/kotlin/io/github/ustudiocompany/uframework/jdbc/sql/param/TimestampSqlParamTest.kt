@@ -8,7 +8,7 @@ internal class TimestampSqlParamTest : AbstractSqlParamTest() {
 
     init {
 
-        "The TimestampSqlParam type".config(enabled = false) - {
+        "The TimestampSqlParam type" - {
             container.executeSql(CREATE_TABLE)
 
             "when inserting a non-null value" - {

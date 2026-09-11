@@ -15,7 +15,7 @@ internal class TimestampSqlParameterTest : AbstractSqlParameterTest() {
 
     init {
 
-        "The TimestampSqlParameter type".config(enabled = false) - {
+        "The TimestampSqlParameter type" - {
             val dataSource = install(postgresContainer())
             val tm: TransactionManager = transactionManager(dataSource = dataSource)
             dataSource.executeSql(CREATE_TABLE)
